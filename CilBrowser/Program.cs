@@ -1,6 +1,6 @@
 ﻿using System;
-using System.IO;
 using System.Reflection;
+using CilTools.Metadata;
 
 namespace CilBrowser
 {
@@ -8,9 +8,13 @@ namespace CilBrowser
     {
         static void Main(string[] args)
         {
-            MethodBase mb = MethodBase.GetCurrentMethod();
-            string html = HtmlGenerator.VisualizeMethod(mb);
-            File.WriteAllText("il.html", html);
+            AssemblyReader reader = new AssemblyReader();
+
+            using (reader)
+            {
+                Assembly ass = reader.LoadFrom(typeof(Program).Assembly.Location);
+                HtmlGenerator.GenerateWebsite(ass);
+            }
 
             Console.WriteLine("Generated!");
             Console.ReadLine();
