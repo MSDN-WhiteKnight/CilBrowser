@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using CilTools.BytecodeAnalysis;
@@ -108,6 +109,45 @@ namespace CilBrowser
             CilGraph gr = CilGraph.Create(mb);
             SyntaxNode[] nodes = new SyntaxNode[] { gr.ToSyntaxTree() };
             return VisualizeSyntaxNodes(nodes, mb.Name);
+        }
+
+        public static string VisualizeType(Type t)
+        {
+            SyntaxNode[] nodes = SyntaxNode.GetTypeDefSyntax(t, true, new DisassemblerParams()).ToArray();
+
+            if (nodes.Length == 0) return string.Empty;
+
+            if (nodes.Length == 1)
+            {
+                if (string.IsNullOrWhiteSpace(nodes[0].ToString())) return string.Empty;
+            }
+
+            return VisualizeSyntaxNodes(nodes, t.Name);
+        }
+
+        public static string VisualizeAssemblyManifest(Assembly ass)
+        {
+            IEnumerable<SyntaxNode> nodes = Disassembler.GetAssemblyManifestSyntaxNodes(ass);
+            return VisualizeSyntaxNodes(nodes, ass.GetName().Name);
+        }
+
+        public static void GenerateWebsite(Assembly ass)
+        {
+            string html = VisualizeAssemblyManifest(ass);
+            File.WriteAllText("assembly.html", html);
+
+            Type[] types = ass.GetTypes();
+
+            for (int i = 0; i < types.Length; i++)
+            {
+                Console.WriteLine(types[i].FullName);
+                html = VisualizeType(types[i]);
+
+                if (string.IsNullOrWhiteSpace(html)) continue;
+
+                string fname = ((uint)types[i].MetadataToken).ToString() + ".html";
+                File.WriteAllText(fname, html);
+            }
         }
     }
 }
