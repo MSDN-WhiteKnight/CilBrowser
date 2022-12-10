@@ -124,6 +124,20 @@ namespace CilBrowser.Core
             this.WriteTag("a", text, new HtmlAttribute[] { new HtmlAttribute("href", url) });
         }
 
+        /// <summary>
+        /// Writes hyperlink with the specified URL, text and additional attributes 
+        /// (<c>href</c> attribute does not need to be included in <paramref name="attrs"/>).
+        /// </summary>        
+        public void WriteHyperlink(string url, string text, IEnumerable<HtmlAttribute> attrs)
+        {
+            List<HtmlAttribute> attrs2 = new List<HtmlAttribute>();
+            attrs2.Add(new HtmlAttribute("href", url));
+
+            foreach (HtmlAttribute ha in attrs) attrs2.Add(ha);
+
+            this.WriteTag("a", text, attrs2.ToArray());
+        }
+
         public void StartParagraph()
         {
             this.WriteTagStart("p", NoAttributes);
@@ -160,22 +174,5 @@ namespace CilBrowser.Core
             this.WriteTagEnd("body");
             this.WriteTagEnd("html");
         }
-    }
-
-    public class HtmlAttribute
-    {
-        public HtmlAttribute()
-        {
-            this.Value = string.Empty;
-        }
-
-        public HtmlAttribute(string name, string val)
-        {
-            this.Name = name;
-            this.Value = val;
-        }
-
-        public string Name { get; set; }
-        public string Value { get; set; }
     }
 }
