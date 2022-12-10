@@ -16,7 +16,7 @@ namespace CilBrowser
 
             using (reader)
             {
-                Assembly ass = reader.LoadFrom(typeof(Program).Assembly.Location);
+                Assembly ass = reader.LoadFrom(typeof(HtmlGenerator).Assembly.Location);
                 HtmlGenerator.GenerateWebsite(ass);
             }
 

@@ -25,6 +25,13 @@ namespace CilBrowser.Core
 
         static readonly HtmlAttribute[] NoAttributes = new HtmlAttribute[0];
 
+        public static HtmlAttribute[] OneAttribute(string name, string val)
+        {
+            HtmlAttribute[] ret = new HtmlAttribute[1];
+            ret[0] = new HtmlAttribute(name, val);
+            return ret;
+        }
+
         public void WriteRaw(string s)
         {
             wr.Write(s);
@@ -127,9 +134,31 @@ namespace CilBrowser.Core
             this.WriteTagEnd("p");
         }
 
+        public void WriteParagraph(string text)
+        {
+            this.WriteTagStart("p", NoAttributes);
+            this.WriteEscaped(text);
+            this.WriteTagEnd("p");
+        }
+
         public void WriteLineBreak()
         {
             this.WriteTag("br", string.Empty, NoAttributes);
+        }
+
+        public void StartDocument(string title)
+        {
+            this.WriteTagStart("html");
+            this.WriteTagStart("head");
+            this.WriteTag("title", title);
+            this.WriteTagEnd("head");
+            this.WriteTagStart("body");
+        }
+
+        public void EndDocument()
+        {
+            this.WriteTagEnd("body");
+            this.WriteTagEnd("html");
         }
     }
 
