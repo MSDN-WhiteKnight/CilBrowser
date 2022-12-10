@@ -1,5 +1,5 @@
-/* CIL Browser
- * Copyright (c) 2022,  MSDN.WhiteKnight (https://github.com/MSDN-WhiteKnight) 
+/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
+ * Copyright (c) 2022,  MSDN.WhiteKnight 
  * License: BSD 3-Clause */
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 
-namespace CilBrowser
+namespace CilBrowser.Core
 {
     public class HtmlBuilder
     {

@@ -1,5 +1,9 @@
-﻿using System;
+﻿/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
+ * Copyright (c) 2022,  MSDN.WhiteKnight 
+ * License: BSD 3-Clause */
+using System;
 using System.Reflection;
+using CilBrowser.Core;
 using CilTools.Metadata;
 
 namespace CilBrowser
