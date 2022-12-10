@@ -42,6 +42,15 @@ namespace CilBrowser.Core
             return string.Equals(name1, name2, StringComparison.InvariantCultureIgnoreCase);
         }
 
+        static bool IsMethodInAssembly(MethodBase mb, Assembly ass)
+        {
+            if (mb == null || ass == null) return false;
+
+            Type tDecl = mb.DeclaringType;
+
+            return IsTypeInAssembly(tDecl, ass);
+        }
+
         void VisualizeNode(SyntaxNode node, HtmlBuilder target)
         {
             SyntaxNode[] children = node.GetChildNodes();
@@ -72,7 +81,9 @@ namespace CilBrowser.Core
             else if (node is IdentifierSyntax)
             {
                 IdentifierSyntax ids = (IdentifierSyntax)node;
-                string linkUrl = string.Empty;
+                string tagName;
+                const string spanStyleID = "color: rgb(43, 145, 175); text-decoration: none; ";
+                List<HtmlAttribute> attrList = new List<HtmlAttribute>(5);
 
                 if (ids.IsMemberName)
                 {
@@ -82,26 +93,46 @@ namespace CilBrowser.Core
 
                         if (IsTypeInAssembly(targetType, this._ass))
                         {
-                            //render hyperlink for types in the same assembly
-                            linkUrl = GenerateTypeFileName(targetType);
+                            //hyperlink for types in the same assembly
+                            tagName = "a";
+                            attrList.Add(new HtmlAttribute("href", GenerateTypeFileName(targetType)));
+                        }
+                        else
+                        {
+                            //plaintext name for other types
+                            tagName = "span";                            
                         }
                     }
+                    else if (ids.TargetMember is MethodBase)
+                    {
+                        MethodBase mb = (MethodBase)ids.TargetMember;
 
-                    attrs = new HtmlAttribute[1];
-                    attrs[0] = new HtmlAttribute("style", "color: rgb(43,145,175); text-decoration: none;");
+                        if (node.Parent is DirectiveSyntax && 
+                            Utils.StrEquals(((DirectiveSyntax)node.Parent).Name, "method"))
+                        {
+                            //anchor when in method signature
+                            tagName = "a";
+                            attrList.Add(new HtmlAttribute("name", GenerateMethodAnchor(mb)));
+                            attrList.Add(new HtmlAttribute("href", GenerateMethodURL(mb)));
+                        }
+                        else if (IsMethodInAssembly(mb, this._ass))
+                        {
+                            //hyperlink for methods in the same assembly
+                            tagName = "a";
+                            attrList.Add(new HtmlAttribute("href", GenerateMethodURL(mb)));
+                        }
+                        else
+                        {
+                            //plaintext name for other methods
+                            tagName = "span";
+                        }
+                    }
+                    else tagName = "span";
                 }
-                else attrs = new HtmlAttribute[0];
-
-                if (!string.IsNullOrEmpty(linkUrl))
-                {
-                    //hyperlink to target member
-                    target.WriteHyperlink(linkUrl, node.ToString(), attrs);
-                }
-                else
-                {
-                    //plaintext name for other identifiers
-                    target.WriteTag("span", node.ToString(), attrs);
-                }
+                else tagName = "span";
+                
+                attrList.Add(new HtmlAttribute("style", spanStyleID));
+                target.WriteTag(tagName, node.ToString(), attrList.ToArray());
             }
             else if (node is LiteralSyntax)
             {
@@ -128,11 +159,27 @@ namespace CilBrowser.Core
             }
         }
 
+        void WriteHeaderHTML(HtmlBuilder target)
+        {
+            target.StartParagraph();
+            target.WriteEscaped(".NET CIL Browser");
+
+            if (this._ass != null)
+            {
+                target.WriteRaw("&nbsp;-&nbsp;");
+                target.WriteHyperlink("index.html", this._ass.GetName().Name);
+            }
+
+            target.EndParagraph();
+        }
+
         public string VisualizeSyntaxNodes(IEnumerable<SyntaxNode> nodes, string title)
         {
             StringBuilder sb = new StringBuilder(5000);
             HtmlBuilder html = new HtmlBuilder(sb);
             html.StartDocument(title);
+            this.WriteHeaderHTML(html);
+            html.WriteTag("h2", title);
             html.WriteTagStart("pre");
             html.WriteTagStart("code");
 
@@ -144,10 +191,7 @@ namespace CilBrowser.Core
             html.WriteHyperlink("index.html", "Back to table of contents");
             html.EndParagraph();
 
-            html.WriteTag("hr", string.Empty);
-            html.StartParagraph();
-            html.WriteRaw(Footer);
-            html.EndParagraph();
+            WriteFooter(html);
             html.EndDocument();
             return sb.ToString();
         }
@@ -157,7 +201,7 @@ namespace CilBrowser.Core
             CilGraph gr = CilGraph.Create(mb);
             SyntaxNode[] nodes = new SyntaxNode[] { gr.ToSyntaxTree() };
             HtmlGenerator html = new HtmlGenerator();
-            return html.VisualizeSyntaxNodes(nodes, mb.Name);
+            return html.VisualizeSyntaxNodes(nodes, "Method: " + mb.Name);
         }
 
         public string VisualizeType(Type t)
@@ -171,13 +215,13 @@ namespace CilBrowser.Core
                 if (string.IsNullOrWhiteSpace(nodes[0].ToString())) return string.Empty;
             }
 
-            return VisualizeSyntaxNodes(nodes, t.Name);
+            return VisualizeSyntaxNodes(nodes, "Type: " + t.Name);
         }
 
         public string VisualizeAssemblyManifest(Assembly ass)
         {
             IEnumerable<SyntaxNode> nodes = Disassembler.GetAssemblyManifestSyntaxNodes(ass);
-            return VisualizeSyntaxNodes(nodes, ass.GetName().Name);
+            return VisualizeSyntaxNodes(nodes, "Assembly: " + ass.GetName().Name);
         }
 
         static string GenerateTypeFileName(Type t)
@@ -185,11 +229,31 @@ namespace CilBrowser.Core
             return ((uint)t.MetadataToken).ToString("X", CultureInfo.InvariantCulture) + ".html";
         }
 
+        static string GenerateMethodAnchor(MethodBase mb)
+        {
+            return "M"+((uint)mb.MetadataToken).ToString("X", CultureInfo.InvariantCulture);
+        }
+
+        static string GenerateMethodURL(MethodBase mb)
+        {
+            if (mb.DeclaringType == null) return string.Empty;
+
+            return GenerateTypeFileName(mb.DeclaringType) + "#" + GenerateMethodAnchor(mb);
+        }
+
         static int CompareTypes(Type x, Type y)
         {
             string s1 = x.FullName;
             string s2 = y.FullName;
             return string.Compare(s1, s2, StringComparison.OrdinalIgnoreCase);
+        }
+
+        static void WriteFooter(HtmlBuilder target)
+        {
+            target.WriteTag("hr", string.Empty);
+            target.StartParagraph();
+            target.WriteRaw(Footer);
+            target.EndParagraph();
         }
 
         /// <summary>
@@ -241,10 +305,7 @@ namespace CilBrowser.Core
             }
 
             //write TOC
-            toc.WriteTag("hr", string.Empty);
-            toc.StartParagraph();
-            toc.WriteRaw(Footer);
-            toc.EndParagraph();
+            WriteFooter(toc);
             toc.EndDocument();
             File.WriteAllText("index.html", sb.ToString());
         }
