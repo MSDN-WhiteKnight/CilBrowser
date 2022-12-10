@@ -128,10 +128,11 @@ namespace CilBrowser.Core
                         }
                     }
                     else tagName = "span";
+
+                    attrList.Add(new HtmlAttribute("style", spanStyleID));
                 }
                 else tagName = "span";
                 
-                attrList.Add(new HtmlAttribute("style", spanStyleID));
                 target.WriteTag(tagName, node.ToString(), attrList.ToArray());
             }
             else if (node is LiteralSyntax)
@@ -173,20 +174,42 @@ namespace CilBrowser.Core
             target.EndParagraph();
         }
 
-        public string VisualizeSyntaxNodes(IEnumerable<SyntaxNode> nodes, string title)
+        public string VisualizeSyntaxNodes(IEnumerable<SyntaxNode> nodes, string title, string navigation)
         {
             StringBuilder sb = new StringBuilder(5000);
             HtmlBuilder html = new HtmlBuilder(sb);
             html.StartDocument(title);
             this.WriteHeaderHTML(html);
             html.WriteTag("h2", title);
-            html.WriteTagStart("pre");
+            html.WriteTagStart("table", new HtmlAttribute[] { 
+                new HtmlAttribute("width", "100%"), new HtmlAttribute("cellpadding", "5")
+            });
+            html.WriteTagStart("tr");
+
+            //navigation
+            if (!string.IsNullOrEmpty(navigation))
+            {
+                html.WriteTagStart("td", new HtmlAttribute[] { 
+                    new HtmlAttribute("width", "200"), new HtmlAttribute("valign", "top")
+                });
+
+                html.WriteRaw(navigation);
+                html.WriteTagEnd("td");
+            }
+
+            //content
+            html.WriteTagStart("td");
+            html.WriteTagStart("pre", new HtmlAttribute[] { new HtmlAttribute("style", "white-space: pre-wrap;")});
             html.WriteTagStart("code");
 
             foreach (SyntaxNode node in nodes) VisualizeNode(node, html);
 
             html.WriteTagEnd("code");
             html.WriteTagEnd("pre");
+            html.WriteTagEnd("td");
+            html.WriteTagEnd("tr");
+            html.WriteTagEnd("table");
+
             html.StartParagraph();            
             html.WriteHyperlink("index.html", "Back to table of contents");
             html.EndParagraph();
@@ -201,7 +224,38 @@ namespace CilBrowser.Core
             CilGraph gr = CilGraph.Create(mb);
             SyntaxNode[] nodes = new SyntaxNode[] { gr.ToSyntaxTree() };
             HtmlGenerator html = new HtmlGenerator();
-            return html.VisualizeSyntaxNodes(nodes, "Method: " + mb.Name);
+            return html.VisualizeSyntaxNodes(nodes, "Method: " + mb.Name, string.Empty);
+        }
+
+        static string VisualizeNavigationPanel(Type t)
+        {
+            StringBuilder sb = new StringBuilder(1000);
+            HtmlBuilder html = new HtmlBuilder(sb);
+            Assembly ass = t.Assembly;
+
+            if (ass == null) return string.Empty;
+
+            Type[] types = ass.GetTypes();
+
+            for (int i = 0; i < types.Length; i++)
+            {
+                if (!Utils.StrEquals(types[i].Namespace, t.Namespace)) continue;
+
+                html.StartParagraph();
+
+                if (Utils.StrEquals(types[i].FullName, t.FullName))
+                {
+                    html.WriteEscaped(types[i].Name);
+                }
+                else
+                {
+                    html.WriteHyperlink(GenerateTypeFileName(types[i]), types[i].Name);
+                }
+
+                html.EndParagraph();
+            }
+
+            return sb.ToString();
         }
 
         public string VisualizeType(Type t)
@@ -215,13 +269,13 @@ namespace CilBrowser.Core
                 if (string.IsNullOrWhiteSpace(nodes[0].ToString())) return string.Empty;
             }
 
-            return VisualizeSyntaxNodes(nodes, "Type: " + t.Name);
+            return VisualizeSyntaxNodes(nodes, "Type: " + t.Name, VisualizeNavigationPanel(t));
         }
 
         public string VisualizeAssemblyManifest(Assembly ass)
         {
             IEnumerable<SyntaxNode> nodes = Disassembler.GetAssemblyManifestSyntaxNodes(ass);
-            return VisualizeSyntaxNodes(nodes, "Assembly: " + ass.GetName().Name);
+            return VisualizeSyntaxNodes(nodes, "Assembly: " + ass.GetName().Name, string.Empty);
         }
 
         static string GenerateTypeFileName(Type t)
