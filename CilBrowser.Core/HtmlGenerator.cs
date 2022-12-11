@@ -198,8 +198,8 @@ namespace CilBrowser.Core
             }
 
             //content
-            html.WriteTagStart("td");
-            html.WriteTagStart("pre", new HtmlAttribute[] { new HtmlAttribute("style", "white-space: pre-wrap;")});
+            html.WriteTagStart("td", HtmlBuilder.OneAttribute("valign", "top"));
+            html.WriteTagStart("pre", HtmlBuilder.OneAttribute("style", "white-space: pre-wrap;"));
             html.WriteTagStart("code");
 
             foreach (SyntaxNode node in nodes) VisualizeNode(node, html);
@@ -310,6 +310,34 @@ namespace CilBrowser.Core
             target.EndParagraph();
         }
 
+        static Dictionary<string, List<Type>> GroupByNamespace(Type[] types)
+        {
+            Dictionary<string, List<Type>> ret = new Dictionary<string, List<Type>>();
+
+            for (int i = 0; i < types.Length; i++)
+            {
+                string ns = types[i].Namespace;
+
+                if (ns == null) ns = string.Empty;
+
+                List<Type> list;
+
+                if (ret.ContainsKey(ns))
+                {
+                    list = ret[ns];
+                }
+                else
+                {
+                    list = new List<Type>();
+                    ret[ns] = list;
+                }
+
+                list.Add(types[i]);
+            }
+
+            return ret;
+        }
+
         /// <summary>
         /// Generates a static website that contains disassembled CIL for the specified assembly
         /// </summary>
@@ -335,29 +363,59 @@ namespace CilBrowser.Core
 
             //write types
             Type[] types = ass.GetTypes();
-            Array.Sort(types, CompareTypes);
+            Dictionary<string, List<Type>> typeMap = GroupByNamespace(types);
+            string[] namespaces = typeMap.Keys.ToArray();
+            Array.Sort(namespaces);
 
-            for (int i = 0; i < types.Length; i++)
+            for (int i = 0; i < namespaces.Length; i++)
             {
-                //file content
-                html = generator.VisualizeType(types[i]);
+                string nsText = namespaces[i];
+                List<Type> nsTypes = typeMap[namespaces[i]];
 
-                if (string.IsNullOrWhiteSpace(html))
+                if (nsTypes.Count == 0) continue;
+
+                if (nsTypes.Count == 1)
                 {
-                    Console.WriteLine(types[i].FullName + " - skipped");
-                    continue;
+                    BindingFlags all = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | 
+                        BindingFlags.NonPublic;
+
+                    if (Utils.StrEquals(nsTypes[0].FullName, "<Module>") &&
+                        nsTypes[0].GetFields(all).Length == 0 && nsTypes[0].GetMethods(all).Length == 0)
+                    {
+                        continue; //ignore namespace consisting only from empty <Module> type
+                    }
                 }
 
-                Console.WriteLine(types[i].FullName);
-                string fname = GenerateTypeFileName(types[i]);
-                File.WriteAllText(fname, html);
+                if (string.IsNullOrEmpty(nsText)) nsText = "(No namespace)";
+                else nsText = nsText + " namespace";
 
-                //TOC entry
-                toc.StartParagraph();
-                toc.WriteHyperlink(fname, types[i].FullName);
-                toc.EndParagraph();
+                toc.WriteTag("h2", nsText);
+                nsTypes.Sort(CompareTypes);
+
+                for (int j = 0; j < nsTypes.Count; j++)
+                {
+                    //file content
+                    html = generator.VisualizeType(nsTypes[j]);
+                    string fname = GenerateTypeFileName(nsTypes[j]);
+
+                    if (!string.IsNullOrWhiteSpace(html))
+                    {
+                        Console.WriteLine(nsTypes[j].FullName);
+
+                        //TOC entry
+                        toc.StartParagraph();
+                        toc.WriteHyperlink(fname, nsTypes[j].FullName);
+                        toc.EndParagraph();
+                    }
+                    else
+                    {
+                        Console.WriteLine(nsTypes[j].FullName + " - empty");
+                    }
+                    
+                    File.WriteAllText(fname, html);        
+                }
             }
-
+            
             //write TOC
             WriteFooter(toc);
             toc.EndDocument();
