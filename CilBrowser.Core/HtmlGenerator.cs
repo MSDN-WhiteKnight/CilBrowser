@@ -174,74 +174,89 @@ namespace CilBrowser.Core
             target.EndParagraph();
         }
 
-        public string VisualizeSyntaxNodes(IEnumerable<SyntaxNode> nodes, string title, string navigation)
+        void WriteLayoutStart(HtmlBuilder target, string title, string navigation)
         {
-            StringBuilder sb = new StringBuilder(5000);
-            HtmlBuilder html = new HtmlBuilder(sb);
-            html.StartDocument(title);
-            this.WriteHeaderHTML(html);
-            html.WriteTag("h2", title);
-            html.WriteTagStart("table", new HtmlAttribute[] { 
-                new HtmlAttribute("width", "100%"), new HtmlAttribute("cellpadding", "5"), 
+            target.StartDocument(title);
+            this.WriteHeaderHTML(target);
+            target.WriteTag("h2", title);
+
+            target.WriteTagStart("table", new HtmlAttribute[] {
+                new HtmlAttribute("width", "100%"), new HtmlAttribute("cellpadding", "5"),
                 new HtmlAttribute("cellspacing", "5")
             });
-            html.WriteTagStart("tr");
 
-            //navigation
+            target.WriteTagStart("tr");
+
             if (!string.IsNullOrEmpty(navigation))
             {
-                html.WriteTagStart("td", new HtmlAttribute[] { 
+                target.WriteTagStart("td", new HtmlAttribute[] {
                     new HtmlAttribute("width", "200"), new HtmlAttribute("valign", "top"),
                     new HtmlAttribute("style", "border: thin solid;"),
                 });
 
-                html.WriteRaw(navigation);
-                html.WriteTagEnd("td");
+                target.WriteRaw(navigation);
+                target.WriteTagEnd("td");
             }
 
+            target.WriteTagStart("td", HtmlBuilder.OneAttribute("valign", "top"));
+        }
+
+        static void WriteLayoutEnd(HtmlBuilder target)
+        {
+            target.WriteTagEnd("td");
+            target.WriteTagEnd("tr");
+            target.WriteTagEnd("table");
+
+            target.StartParagraph();
+            target.WriteHyperlink("index.html", "Back to table of contents");
+            target.EndParagraph();
+
+            WriteFooter(target);
+            target.EndDocument();
+        }
+        
+        public void VisualizeSyntaxNodes(IEnumerable<SyntaxNode> nodes, HtmlBuilder target)
+        {
+            target.WriteTagStart("pre", HtmlBuilder.OneAttribute("style", "white-space: pre-wrap;"));
+            target.WriteTagStart("code");
+
             //content
-            html.WriteTagStart("td", HtmlBuilder.OneAttribute("valign", "top"));
-            html.WriteTagStart("pre", HtmlBuilder.OneAttribute("style", "white-space: pre-wrap;"));
-            html.WriteTagStart("code");
+            foreach (SyntaxNode node in nodes) this.VisualizeNode(node, target);
 
-            foreach (SyntaxNode node in nodes) VisualizeNode(node, html);
-
-            html.WriteTagEnd("code");
-            html.WriteTagEnd("pre");
-            html.WriteTagEnd("td");
-            html.WriteTagEnd("tr");
-            html.WriteTagEnd("table");
-
-            html.StartParagraph();            
-            html.WriteHyperlink("index.html", "Back to table of contents");
-            html.EndParagraph();
-
-            WriteFooter(html);
-            html.EndDocument();
-            return sb.ToString();
+            target.WriteTagEnd("code");
+            target.WriteTagEnd("pre");
         }
 
         public static string VisualizeMethod(MethodBase mb)
         {
             CilGraph gr = CilGraph.Create(mb);
             SyntaxNode[] nodes = new SyntaxNode[] { gr.ToSyntaxTree() };
-            HtmlGenerator html = new HtmlGenerator();
-            return html.VisualizeSyntaxNodes(nodes, "Method: " + mb.Name, string.Empty);
+            HtmlGenerator generator = new HtmlGenerator();
+            StringBuilder sb = new StringBuilder(5000);
+            HtmlBuilder builder = new HtmlBuilder(sb);
+
+            generator.WriteLayoutStart(builder, "Method: " + mb.Name, string.Empty);
+            generator.VisualizeSyntaxNodes(nodes, builder);
+            WriteLayoutEnd(builder);
+
+            return sb.ToString();
         }
 
-        static string VisualizeNavigationPanel(Type t)
+        static string VisualizeNavigationPanel(Type t, Dictionary<string, List<Type>> typeMap)
         {
             StringBuilder sb = new StringBuilder(1000);
-            HtmlBuilder html = new HtmlBuilder(sb);
-            Assembly ass = t.Assembly;
+            HtmlBuilder html = new HtmlBuilder(sb);            
+            string ns = t.Namespace;
+            List<Type> types;
 
-            if (ass == null) return string.Empty;
+            if (ns == null) ns = string.Empty;
 
-            Type[] types = ass.GetTypes();
+            if (typeMap.ContainsKey(ns)) types = typeMap[ns];
+            else types = new List<Type>();
 
-            if (!string.IsNullOrEmpty(t.Namespace))
+            if (ns.Length > 0)
             {
-                html.WriteParagraph("Types in " + t.Namespace + " namespace:");
+                html.WriteParagraph("Types in " + ns + " namespace:");
             }
             else
             {
@@ -249,10 +264,8 @@ namespace CilBrowser.Core
             }
 
             //list of types
-            for (int i = 0; i < types.Length; i++)
+            for (int i = 0; i < types.Count; i++)
             {
-                if (!Utils.StrEquals(types[i].Namespace, t.Namespace)) continue;
-
                 html.StartParagraph();
 
                 if (Utils.StrEquals(types[i].FullName, t.FullName))
@@ -270,7 +283,7 @@ namespace CilBrowser.Core
             return sb.ToString();
         }
 
-        public string VisualizeType(Type t)
+        public string VisualizeType(Type t, Dictionary<string, List<Type>> typeMap)
         {
             SyntaxNode[] nodes = SyntaxNode.GetTypeDefSyntax(t, true, new DisassemblerParams()).ToArray();
 
@@ -281,13 +294,28 @@ namespace CilBrowser.Core
                 if (string.IsNullOrWhiteSpace(nodes[0].ToString())) return string.Empty;
             }
 
-            return VisualizeSyntaxNodes(nodes, "Type: " + t.FullName, VisualizeNavigationPanel(t));
+            StringBuilder sb = new StringBuilder(5000);
+            HtmlBuilder html = new HtmlBuilder(sb);
+
+            string navigation = VisualizeNavigationPanel(t, typeMap);
+            this.WriteLayoutStart(html, "Type: " + t.FullName, navigation);
+            this.VisualizeSyntaxNodes(nodes, html);
+            WriteLayoutEnd(html);
+
+            return sb.ToString();
         }
 
         public string VisualizeAssemblyManifest(Assembly ass)
         {
             IEnumerable<SyntaxNode> nodes = Disassembler.GetAssemblyManifestSyntaxNodes(ass);
-            return VisualizeSyntaxNodes(nodes, "Assembly: " + ass.GetName().Name, string.Empty);
+            StringBuilder sb = new StringBuilder(5000);
+            HtmlBuilder html = new HtmlBuilder(sb);
+
+            this.WriteLayoutStart(html, "Assembly: " + ass.GetName().Name, string.Empty);
+            this.VisualizeSyntaxNodes(nodes, html);
+            WriteLayoutEnd(html);
+
+            return sb.ToString();
         }
 
         static string GenerateTypeFileName(Type t)
@@ -411,7 +439,7 @@ namespace CilBrowser.Core
                 for (int j = 0; j < nsTypes.Count; j++)
                 {
                     //file content
-                    html = generator.VisualizeType(nsTypes[j]);
+                    html = generator.VisualizeType(nsTypes[j], typeMap);
                     string fname = GenerateTypeFileName(nsTypes[j]);
 
                     if (!string.IsNullOrWhiteSpace(html))
