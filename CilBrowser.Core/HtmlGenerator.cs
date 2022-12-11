@@ -182,7 +182,8 @@ namespace CilBrowser.Core
             this.WriteHeaderHTML(html);
             html.WriteTag("h2", title);
             html.WriteTagStart("table", new HtmlAttribute[] { 
-                new HtmlAttribute("width", "100%"), new HtmlAttribute("cellpadding", "5")
+                new HtmlAttribute("width", "100%"), new HtmlAttribute("cellpadding", "5"), 
+                new HtmlAttribute("cellspacing", "5")
             });
             html.WriteTagStart("tr");
 
@@ -190,7 +191,8 @@ namespace CilBrowser.Core
             if (!string.IsNullOrEmpty(navigation))
             {
                 html.WriteTagStart("td", new HtmlAttribute[] { 
-                    new HtmlAttribute("width", "200"), new HtmlAttribute("valign", "top")
+                    new HtmlAttribute("width", "200"), new HtmlAttribute("valign", "top"),
+                    new HtmlAttribute("style", "border: thin solid;"),
                 });
 
                 html.WriteRaw(navigation);
@@ -237,6 +239,16 @@ namespace CilBrowser.Core
 
             Type[] types = ass.GetTypes();
 
+            if (!string.IsNullOrEmpty(t.Namespace))
+            {
+                html.WriteParagraph("Types in " + t.Namespace + " namespace:");
+            }
+            else
+            {
+                html.WriteParagraph("Types without namespace:");
+            }
+
+            //list of types
             for (int i = 0; i < types.Length; i++)
             {
                 if (!Utils.StrEquals(types[i].Namespace, t.Namespace)) continue;
@@ -245,7 +257,7 @@ namespace CilBrowser.Core
 
                 if (Utils.StrEquals(types[i].FullName, t.FullName))
                 {
-                    html.WriteEscaped(types[i].Name);
+                    html.WriteTag("b", types[i].Name);
                 }
                 else
                 {
@@ -269,7 +281,7 @@ namespace CilBrowser.Core
                 if (string.IsNullOrWhiteSpace(nodes[0].ToString())) return string.Empty;
             }
 
-            return VisualizeSyntaxNodes(nodes, "Type: " + t.Name, VisualizeNavigationPanel(t));
+            return VisualizeSyntaxNodes(nodes, "Type: " + t.FullName, VisualizeNavigationPanel(t));
         }
 
         public string VisualizeAssemblyManifest(Assembly ass)
@@ -341,25 +353,29 @@ namespace CilBrowser.Core
         /// <summary>
         /// Generates a static website that contains disassembled CIL for the specified assembly
         /// </summary>
-        public static void GenerateWebsite(Assembly ass)
+        public static void GenerateWebsite(Assembly ass, string outputPath)
         {
             HtmlGenerator generator = new HtmlGenerator(ass);
+            Directory.CreateDirectory(outputPath);
 
             //write assembly manifest
             string html = generator.VisualizeAssemblyManifest(ass);
-            File.WriteAllText("assembly.html", html);
+            File.WriteAllText(Path.Combine(outputPath, "assembly.html"), html);
             
             //create Table of contents builder
             StringBuilder sb = new StringBuilder(1000);
             HtmlBuilder toc = new HtmlBuilder(sb);
             AssemblyName an = ass.GetName();
             Console.WriteLine("Generating website for " + an.Name);
+            Console.WriteLine("Output path: " + outputPath);
+
             toc.StartDocument(".NET CIL Browser - " + an.Name);
             toc.WriteParagraph(".NET CIL Browser");
             toc.WriteTag("h1", an.Name);
             toc.StartParagraph();
             toc.WriteHyperlink("assembly.html", "(Assembly manifest)");
             toc.EndParagraph();
+            toc.WriteParagraph("Types in assembly: ");
 
             //write types
             Type[] types = ass.GetTypes();
@@ -412,14 +428,14 @@ namespace CilBrowser.Core
                         Console.WriteLine(nsTypes[j].FullName + " - empty");
                     }
                     
-                    File.WriteAllText(fname, html);        
+                    File.WriteAllText(Path.Combine(outputPath, fname), html);        
                 }
             }
             
             //write TOC
             WriteFooter(toc);
             toc.EndDocument();
-            File.WriteAllText("index.html", sb.ToString());
+            File.WriteAllText(Path.Combine(outputPath, "index.html"), sb.ToString());
         }
     }
 }
