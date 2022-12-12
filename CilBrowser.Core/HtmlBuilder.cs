@@ -160,17 +160,20 @@ namespace CilBrowser.Core
             this.WriteTag("br", string.Empty, NoAttributes);
         }
 
-        public void StartDocument(string title)
+        public void StartDocument(string title, string style)
         {
             this.WriteTagStart("html");
             this.WriteTagStart("head");
             this.WriteTag("title", title);
+            this.WriteTag("style", style);
             this.WriteTagEnd("head");
+            this.wr.WriteLine();
             this.WriteTagStart("body");
         }
 
         public void EndDocument()
         {
+            this.wr.WriteLine();
             this.WriteTagEnd("body");
             this.WriteTagEnd("html");
         }
