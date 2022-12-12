@@ -15,3 +15,5 @@ Command line syntax:
 `[--output <OutputPath>]` - Path to the directory where to write generated website files. When not specified, writes to `./Output/`.
 
 `<AssemblyPath>` - Path to the input assembly.
+
+[Demo website](https://msdn-whiteknight.github.io/CilBrowser/html/) shows CIL code of CIL Browser itself.
