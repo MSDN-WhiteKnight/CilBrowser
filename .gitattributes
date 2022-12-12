@@ -1,0 +1,2 @@
+# Exclude generated HTML from language stats
+html/* linguist-generated
