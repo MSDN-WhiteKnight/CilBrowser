@@ -7,7 +7,7 @@ using System.Text;
 
 namespace CilBrowser.Core
 {
-    internal static class Utils
+    public static class Utils
     {
         public static bool StrEquals(string left, string right)
         {

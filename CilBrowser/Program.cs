@@ -2,6 +2,7 @@
  * Copyright (c) 2022,  MSDN.WhiteKnight 
  * License: BSD 3-Clause */
 using System;
+using System.IO;
 using System.Reflection;
 using CilBrowser.Core;
 using CilTools.Metadata;
@@ -46,7 +47,7 @@ namespace CilBrowser
         {
             Console.WriteLine(string.Join(",", args));
             //parse command line parameters
-            string assemblyPath;
+            string inputPath;
             string outputPath = null;
 
             if (args.Length == 0)
@@ -64,9 +65,9 @@ namespace CilBrowser
                 pos++;
             }
 
-            assemblyPath = ReadCommandParameter(args, pos);
+            inputPath = ReadCommandParameter(args, pos);
 
-            if (string.IsNullOrEmpty(assemblyPath))
+            if (string.IsNullOrEmpty(inputPath))
             {
                 GenerateDemo();
                 return;
@@ -78,12 +79,21 @@ namespace CilBrowser
             }
 
             //generate website
-            AssemblyReader reader = new AssemblyReader();
+            string ext = Path.GetExtension(inputPath);
 
-            using (reader)
+            if (Utils.StrEquals(ext, ".dll") || Utils.StrEquals(ext, ".exe") || Utils.StrEquals(ext, ".winmd"))
             {
-                Assembly ass = reader.LoadFrom(assemblyPath);
-                HtmlGenerator.GenerateWebsite(ass, outputPath);
+                AssemblyReader reader = new AssemblyReader();
+
+                using (reader)
+                {
+                    Assembly ass = reader.LoadFrom(inputPath);
+                    HtmlGenerator.GenerateWebsite(ass, outputPath);
+                }
+            }
+            else //source directory
+            {
+                HtmlGenerator.GenerateWebsite(inputPath, outputPath);
             }
 
             Console.WriteLine("Generated!");

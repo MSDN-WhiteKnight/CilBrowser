@@ -11,6 +11,8 @@ using System.Reflection;
 using System.Text;
 using CilTools.BytecodeAnalysis;
 using CilTools.Syntax;
+using CilView.Core.Syntax;
+using CilView.SourceCode;
 
 namespace CilBrowser.Core
 {
@@ -101,14 +103,14 @@ namespace CilBrowser.Core
                         else
                         {
                             //plaintext name for other types
-                            tagName = "span";                            
+                            tagName = "span";
                         }
                     }
                     else if (ids.TargetMember is MethodBase)
                     {
                         MethodBase mb = (MethodBase)ids.TargetMember;
 
-                        if (node.Parent is DirectiveSyntax && 
+                        if (node.Parent is DirectiveSyntax &&
                             Utils.StrEquals(((DirectiveSyntax)node.Parent).Name, "method"))
                         {
                             //anchor when in method signature
@@ -154,6 +156,22 @@ namespace CilBrowser.Core
                 attrs = new HtmlAttribute[1];
                 attrs[0] = new HtmlAttribute("style", "color: green;");
                 target.WriteTag("span", node.ToString(), attrs);
+            }
+            else if (node is SourceToken)
+            {
+                SourceToken token = (SourceToken)node;
+                string style = string.Empty;
+
+                switch (token.Kind)
+                {
+                    case TokenKind.Keyword: style = "color: blue;"; break;                    
+                    case TokenKind.DoubleQuotLiteral: style = "color: red;"; break;
+                    case TokenKind.SingleQuotLiteral: style = "color: red;"; break;
+                    case TokenKind.Comment: style = "color: green;"; break;
+                    case TokenKind.MultilineComment: style = "color: green;"; break;
+                }
+
+                target.WriteTag("span", node.ToString(), HtmlBuilder.OneAttribute("style", style));
             }
             else
             {
@@ -315,6 +333,36 @@ namespace CilBrowser.Core
             HtmlBuilder html = new HtmlBuilder(sb);
 
             this.WriteLayoutStart(html, "Assembly: " + ass.GetName().Name, string.Empty);
+            this.VisualizeSyntaxNodes(nodes, html);
+            WriteLayoutEnd(html);
+
+            return sb.ToString();
+        }
+
+        static SyntaxNode[] GetTokens(string content, string ext)
+        {
+            if (Utils.StrEquals(ext, ".il") || Utils.StrEquals(ext, ".cil"))
+            {
+                return SyntaxReader.ReadAllNodes(content);
+            }
+            else
+            {
+                return TokenParser.ParseTokens(content, TokenParser.GetDefinitions(ext),
+                    TokenClassifier.Create(ext));
+            }
+        }
+
+        public string VisualizeSourceFile(string content, string filename)
+        {
+            string ext = Path.GetExtension(filename);
+            StringBuilder sb = new StringBuilder(5000);
+            HtmlBuilder html = new HtmlBuilder(sb);
+
+            //convert source text into tokens
+            SyntaxNode[] nodes = GetTokens(content, ext);
+
+            //convert tokens to HTML
+            this.WriteLayoutStart(html, "Source file: " + filename, string.Empty);
             this.VisualizeSyntaxNodes(nodes, html);
             WriteLayoutEnd(html);
 
@@ -485,6 +533,68 @@ namespace CilBrowser.Core
                 }
             }
             
+            //write TOC
+            WriteFooter(toc);
+            toc.EndDocument();
+            File.WriteAllText(Path.Combine(outputPath, "index.html"), sb.ToString());
+        }
+
+        public static void GenerateWebsite(string sourcesPath, string outputPath)
+        {
+            HtmlGenerator generator = new HtmlGenerator();
+            Directory.CreateDirectory(outputPath);
+            
+            //create Table of contents builder
+            StringBuilder sb = new StringBuilder(1000);
+            HtmlBuilder toc = new HtmlBuilder(sb);
+            Console.WriteLine("Generating website for source directory: " + sourcesPath);
+            Console.WriteLine("Output path: " + outputPath);
+
+            toc.StartDocument(".NET CIL Browser", GlobalStyles);
+            toc.WriteParagraph(".NET CIL Browser");
+            toc.WriteTag("h1", "Source code");
+            toc.WriteRaw(Environment.NewLine);
+            toc.WriteParagraph("Files: ");
+
+            //write source files
+            string[] files = Directory.GetFiles(sourcesPath);
+            Array.Sort(files);
+
+            for (int i = 0; i < files.Length; i++)
+            {
+                string name = Path.GetFileName(files[i]);
+                string html;
+
+                try
+                {
+                    string content = File.ReadAllText(files[i]);
+                    html = generator.VisualizeSourceFile(content, name);
+                }
+                catch (IOException ex)
+                {
+                    html = VisualizeException(ex);
+                    Console.WriteLine("Failed to generate HTML for " + name);
+                    Console.WriteLine(ex.ToString());
+                }
+
+                if (!string.IsNullOrWhiteSpace(html))
+                {
+                    Console.WriteLine(name);
+
+                    //file content
+                    File.WriteAllText(Path.Combine(outputPath, name + ".html"), html);
+
+                    //TOC entry
+                    toc.StartParagraph();
+                    toc.WriteHyperlink(name + ".html", name);
+                    toc.EndParagraph();
+                }
+                else
+                {
+                    Console.WriteLine(name + " - empty");
+                }
+            }//end for
+                        
             //write TOC
             WriteFooter(toc);
             toc.EndDocument();
