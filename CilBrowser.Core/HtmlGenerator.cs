@@ -193,11 +193,15 @@ namespace CilBrowser.Core
         {
             target.StartParagraph();
             target.WriteEscaped(".NET CIL Browser");
+            target.WriteRaw("&nbsp;-&nbsp;");
 
             if (this._ass != null)
             {
-                target.WriteRaw("&nbsp;-&nbsp;");
                 target.WriteHyperlink("index.html", this._ass.GetName().Name);
+            }
+            else
+            {
+                target.WriteHyperlink("index.html", "Back to table of contents");
             }
 
             target.EndParagraph();
@@ -314,6 +318,35 @@ namespace CilBrowser.Core
             return sb.ToString();
         }
 
+        static string VisualizeNavigationPanel(string filename, string dirName, string[] dirFiles)
+        {
+            StringBuilder sb = new StringBuilder(1000);
+            HtmlBuilder html = new HtmlBuilder(sb);
+            html.WriteParagraph("Files in " + dirName + " directory:");
+
+            //list of files
+            for (int i = 0; i < dirFiles.Length; i++)
+            {
+                if (!IsSourceFile(dirFiles[i])) continue;
+
+                html.StartParagraph();
+                string currFileName = Path.GetFileName(dirFiles[i]);
+
+                if (Utils.StrEquals(currFileName, filename))
+                {
+                    html.WriteTag("b", filename);
+                }
+                else
+                {
+                    html.WriteHyperlink(currFileName + ".html", currFileName);
+                }
+
+                html.EndParagraph();
+            }
+
+            return sb.ToString();
+        }
+
         public string VisualizeType(Type t, Dictionary<string, List<Type>> typeMap)
         {
             SyntaxNode[] nodes = SyntaxNode.GetTypeDefSyntax(t, true, new DisassemblerParams()).ToArray();
@@ -370,7 +403,7 @@ namespace CilBrowser.Core
             }
         }
 
-        public string VisualizeSourceFile(string content, string filename)
+        public string VisualizeSourceFile(string content, string filename, string navigation)
         {
             string ext = Path.GetExtension(filename);
             StringBuilder sb = new StringBuilder(5000);
@@ -380,7 +413,7 @@ namespace CilBrowser.Core
             SyntaxNode[] nodes = GetTokens(content, ext);
 
             //convert tokens to HTML
-            this.WriteLayoutStart(html, "Source file: " + filename, string.Empty);
+            this.WriteLayoutStart(html, "Source file: " + filename, navigation);
             this.VisualizeSyntaxNodes(nodes, html);
             WriteLayoutEnd(html);
 
@@ -589,7 +622,7 @@ namespace CilBrowser.Core
             string[] dirs = Directory.GetDirectories(sourcesPath);
             Array.Sort(dirs);
 
-            if (dirs.Length > 0) toc.WriteParagraph("Subdirectories: ");
+            if (dirs.Length > 0) toc.WriteTag("h2", "Subdirectories");
 
             for (int i = 0; i < dirs.Length; i++)
             {
@@ -602,15 +635,13 @@ namespace CilBrowser.Core
                 toc.WriteHyperlink("./" + name + "/index.html", name);
                 toc.EndParagraph();
             }
-                        
-            if (dirs.Length > 0) toc.WriteLineBreak();
-
+            
             //write source files
             toc.WriteRaw(Environment.NewLine);
             string[] files = Directory.GetFiles(sourcesPath);
             Array.Sort(files);
 
-            if (files.Length > 0) toc.WriteParagraph("Files: ");
+            if (files.Length > 0) toc.WriteTag("h2", "Files");
 
             for (int i = 0; i < files.Length; i++)
             {
@@ -622,7 +653,8 @@ namespace CilBrowser.Core
                 try
                 {
                     string content = File.ReadAllText(files[i]);
-                    html = generator.VisualizeSourceFile(content, name);
+                    string navigation = VisualizeNavigationPanel(name, dirName, files);
+                    html = generator.VisualizeSourceFile(content, name, navigation);
                 }
                 catch (IOException ex)
                 {
