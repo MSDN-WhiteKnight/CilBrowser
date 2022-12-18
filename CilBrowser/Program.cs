@@ -39,8 +39,8 @@ namespace CilBrowser
                 HtmlGenerator.GenerateWebsite(ass, "./CilBrowser/");
             }
 
-            HtmlGenerator.GenerateWebsite("../../../../CilBrowser.Core", "./CilBrowser.Core_Source/");
-            HtmlGenerator.GenerateWebsite("../../../../CilBrowser", "./CilBrowser_Source/");
+            HtmlGenerator.GenerateWebsite("../../../../CilBrowser.Core", "./CilBrowser.Core_Source/", 0);
+            HtmlGenerator.GenerateWebsite("../../../../CilBrowser", "./CilBrowser_Source/", 0);
 
             Console.WriteLine("Generated!");
             return 0;
@@ -96,7 +96,7 @@ namespace CilBrowser
             }
             else //source directory
             {
-                HtmlGenerator.GenerateWebsite(inputPath, outputPath);
+                HtmlGenerator.GenerateWebsite(inputPath, outputPath, 0);
             }
 
             Console.WriteLine("Generated!");

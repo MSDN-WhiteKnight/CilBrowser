@@ -612,8 +612,14 @@ namespace CilBrowser.Core
             return s_excludedDirs.Contains(name);
         }
 
-        public static void GenerateWebsite(string sourcesPath, string outputPath)
+        public static void GenerateWebsite(string sourcesPath, string outputPath, int level)
         {
+            if (level > 50)
+            {
+                Console.WriteLine("Error: directory recursion is too deep!");
+                return;
+            }
+
             HtmlGenerator generator = new HtmlGenerator();
             Directory.CreateDirectory(outputPath);
             
@@ -633,6 +639,13 @@ namespace CilBrowser.Core
             Array.Sort(dirs);
 
             if (dirs.Length > 0) toc.WriteTag("h2", "Subdirectories");
+
+            if (level > 0)
+            {
+                toc.StartParagraph();
+                toc.WriteHyperlink("../index.html", "(go to parent directory)");
+                toc.EndParagraph();
+            }
 
             for (int i = 0; i < dirs.Length; i++)
             {
@@ -698,7 +711,7 @@ namespace CilBrowser.Core
 
                 if (IsDirectoryExcluded(name)) continue;
 
-                GenerateWebsite(dirs[i], Path.Combine(outputPath, name));
+                GenerateWebsite(dirs[i], Path.Combine(outputPath, name), level + 1);
             }
 
             //write TOC
