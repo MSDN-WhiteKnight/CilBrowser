@@ -92,7 +92,7 @@
 
 <span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> static </span><span style="color: blue;">int32</span><a name="M6000003" href="2000002.html#M6000003" class="memberid"> GenerateDemo</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
  {
-<span style="color: magenta;">  .maxstack </span> 2
+<span style="color: magenta;">  .maxstack </span> 3
 <span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">class </span>[<span>CilTools.Metadata</span>]<span class="memberid">CilTools.Metadata</span>.<span class="memberid">AssemblyReader</span><span> V_0</span>,
      <span style="color: blue;">class </span>[<span>CilTools.Metadata</span>]<span class="memberid">CilTools.Metadata</span>.<span class="memberid">AssemblyReader</span><span> V_1</span>,
      <span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Reflection</span>.<span class="memberid">Assembly</span><span> V_2</span>,
@@ -143,7 +143,17 @@
 <span>            nop          </span>
 <span>   IL_0001</span>: <span>endfinally   </span>
   }
-<span>  IL_0002</span>: <span>ldstr        </span><span style="color: red;">&quot;Generated!&quot;</span>
+<span>  IL_0002</span>: <span>ldstr        </span><span style="color: red;">&quot;../../../../CilBrowser.Core&quot;</span>
+<span>           ldstr        </span><span style="color: red;">&quot;./CilBrowser.Core_Source/&quot;</span>
+<span>           ldc.i4.0     </span>
+<span>           call         </span><span style="color: blue;">void</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">HtmlGenerator</span>::<span class="memberid">GenerateWebsite</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>, <span style="color: blue;">int32</span>)
+<span>           nop          </span>
+<span>           ldstr        </span><span style="color: red;">&quot;../../../../CilBrowser&quot;</span>
+<span>           ldstr        </span><span style="color: red;">&quot;./CilBrowser_Source/&quot;</span>
+<span>           ldc.i4.0     </span>
+<span>           call         </span><span style="color: blue;">void</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">HtmlGenerator</span>::<span class="memberid">GenerateWebsite</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>, <span style="color: blue;">int32</span>)
+<span>           nop          </span>
+<span>           ldstr        </span><span style="color: red;">&quot;Generated!&quot;</span>
 <span>           call         </span><span style="color: blue;">void</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">WriteLine</span>(<span style="color: blue;">string</span>)
 <span>           nop          </span>
 <span>           ldc.i4.0     </span>
@@ -162,19 +172,16 @@
 <span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">string</span><span> V_0</span>,
      <span style="color: blue;">string</span><span> V_1</span>,
      <span style="color: blue;">int32</span><span> V_2</span>,
-     <span style="color: blue;">class </span>[<span>CilTools.Metadata</span>]<span class="memberid">CilTools.Metadata</span>.<span class="memberid">AssemblyReader</span><span> V_3</span>,
+     <span style="color: blue;">string</span><span> V_3</span>,
      <span style="color: blue;">bool</span><span> V_4</span>,
      <span style="color: blue;">bool</span><span> V_5</span>,
      <span style="color: blue;">bool</span><span> V_6</span>,
      <span style="color: blue;">bool</span><span> V_7</span>,
-     <span style="color: blue;">class </span>[<span>CilTools.Metadata</span>]<span class="memberid">CilTools.Metadata</span>.<span class="memberid">AssemblyReader</span><span> V_8</span>,
-     <span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Reflection</span>.<span class="memberid">Assembly</span><span> V_9</span>)
+     <span style="color: blue;">bool</span><span> V_8</span>,
+     <span style="color: blue;">class </span>[<span>CilTools.Metadata</span>]<span class="memberid">CilTools.Metadata</span>.<span class="memberid">AssemblyReader</span><span> V_9</span>,
+     <span style="color: blue;">class </span>[<span>CilTools.Metadata</span>]<span class="memberid">CilTools.Metadata</span>.<span class="memberid">AssemblyReader</span><span> V_10</span>,
+     <span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Reflection</span>.<span class="memberid">Assembly</span><span> V_11</span>)
 
-<span>           nop          </span>
-<span>           ldstr        </span><span style="color: red;">&quot;,&quot;</span>
-<span>           ldarg.0      </span>
-<span>           call         </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Join</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>[])
-<span>           call         </span><span style="color: blue;">void</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">WriteLine</span>(<span style="color: blue;">string</span>)
 <span>           nop          </span>
 <span>           ldnull       </span>
 <span>           stloc.1      </span>
@@ -188,7 +195,7 @@
 </span><span>           nop          </span>
 <span>           call         </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser</span>.<a href="2000002.html" class="memberid">Program</a>::<a href="2000002.html#M6000003" class="memberid">GenerateDemo</a>()
 <span>           pop          </span>
-<span>           br           </span><span>IL_0007
+<span>           br           </span><span>IL_0011
 </span><span>  IL_0001</span>: <span>ldc.i4.0     </span>
 <span>           stloc.2      </span>
 <span>           ldarg.0      </span>
@@ -224,7 +231,7 @@
 </span><span>           nop          </span>
 <span>           call         </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser</span>.<a href="2000002.html" class="memberid">Program</a>::<a href="2000002.html#M6000003" class="memberid">GenerateDemo</a>()
 <span>           pop          </span>
-<span>           br.s         </span><span>IL_0007
+<span>           br           </span><span>IL_0011
 </span><span>  IL_0003</span>: <span>ldloc.1      </span>
 <span>           call         </span><span style="color: blue;">bool</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">IsNullOrEmpty</span>(<span style="color: blue;">string</span>)
 <span>           stloc.s      </span><span>V_7</span>
@@ -234,37 +241,66 @@
 <span>           ldstr        </span><span style="color: red;">&quot;./Output/&quot;</span>
 <span>           stloc.1      </span>
 <span>           nop          </span>
-<span>  IL_0004</span>: <span>newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>CilTools.Metadata</span>]<span class="memberid">CilTools.Metadata</span>.<span class="memberid">AssemblyReader</span>::<span class="memberid">.ctor</span>()
+<span>  IL_0004</span>: <span>ldloc.0      </span>
+<span>           call         </span><span style="color: blue;">string</span> [<span>System.Runtime.Extensions</span>]<span class="memberid">System.IO</span>.<span class="memberid">Path</span>::<span class="memberid">GetExtension</span>(<span style="color: blue;">string</span>)
 <span>           stloc.3      </span>
 <span>           ldloc.3      </span>
-<span>           stloc.s      </span><span>V_8</span>
+<span>           ldstr        </span><span style="color: red;">&quot;.dll&quot;</span>
+<span>           call         </span><span style="color: blue;">bool</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">Utils</span>::<span class="memberid">StrEquals</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>           brtrue.s     </span><span>IL_0005
+</span><span>           ldloc.3      </span>
+<span>           ldstr        </span><span style="color: red;">&quot;.exe&quot;</span>
+<span>           call         </span><span style="color: blue;">bool</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">Utils</span>::<span class="memberid">StrEquals</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>           brtrue.s     </span><span>IL_0005
+</span><span>           ldloc.3      </span>
+<span>           ldstr        </span><span style="color: red;">&quot;.winmd&quot;</span>
+<span>           call         </span><span style="color: blue;">bool</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">Utils</span>::<span class="memberid">StrEquals</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>           br.s         </span><span>IL_0006
+</span><span>  IL_0005</span>: <span>ldc.i4.1     </span>
+<span>  IL_0006</span>: <span>stloc.s      </span><span>V_8</span>
+<span>           ldloc.s      </span><span>V_8</span>
+<span>           brfalse.s    </span><span>IL_0009
+</span><span>           nop          </span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>CilTools.Metadata</span>]<span class="memberid">CilTools.Metadata</span>.<span class="memberid">AssemblyReader</span>::<span class="memberid">.ctor</span>()
+<span>           stloc.s      </span><span>V_9</span>
+<span>           ldloc.s      </span><span>V_9</span>
+<span>           stloc.s      </span><span>V_10</span>
 <span style="color: magenta;">  .try
 </span>  {
 <span>            nop          </span>
-<span>            ldloc.3      </span>
+<span>            ldloc.s      </span><span>V_9</span>
 <span>            ldloc.0      </span>
 <span>            callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Reflection</span>.<span class="memberid">Assembly</span> [<span>CilTools.Metadata</span>]<span class="memberid">CilTools.Metadata</span>.<span class="memberid">AssemblyReader</span>::<span class="memberid">LoadFrom</span>(<span style="color: blue;">string</span>)
-<span>            stloc.s      </span><span>V_9</span>
-<span>            ldloc.s      </span><span>V_9</span>
+<span>            stloc.s      </span><span>V_11</span>
+<span>            ldloc.s      </span><span>V_11</span>
 <span>            ldloc.1      </span>
 <span>            call         </span><span style="color: blue;">void</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">HtmlGenerator</span>::<span class="memberid">GenerateWebsite</span>(<span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Reflection</span>.<span class="memberid">Assembly</span>, <span style="color: blue;">string</span>)
 <span>            nop          </span>
 <span>            nop          </span>
-<span>            leave.s      </span><span>IL_0006
+<span>            leave.s      </span><span>IL_0008
 </span>  }
   <span style="color: blue;">finally</span>
   {
-<span>            ldloc.s      </span><span>V_8</span>
-<span>            brfalse.s    </span><span>IL_0005
-</span><span>            ldloc.s      </span><span>V_8</span>
+<span>            ldloc.s      </span><span>V_10</span>
+<span>            brfalse.s    </span><span>IL_0007
+</span><span>            ldloc.s      </span><span>V_10</span>
 <span>            callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">IDisposable</span>::<span class="memberid">Dispose</span>()
 <span>            nop          </span>
-<span>   IL_0005</span>: <span>endfinally   </span>
+<span>   IL_0007</span>: <span>endfinally   </span>
   }
-<span>  IL_0006</span>: <span>ldstr        </span><span style="color: red;">&quot;Generated!&quot;</span>
+<span>  IL_0008</span>: <span>nop          </span>
+<span>           br.s         </span><span>IL_0010
+</span><span>  IL_0009</span>: <span>nop          </span>
+<span>           ldloc.0      </span>
+<span>           ldloc.1      </span>
+<span>           ldc.i4.0     </span>
+<span>           call         </span><span style="color: blue;">void</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">HtmlGenerator</span>::<span class="memberid">GenerateWebsite</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>, <span style="color: blue;">int32</span>)
+<span>           nop          </span>
+<span>           nop          </span>
+<span>  IL_0010</span>: <span>ldstr        </span><span style="color: red;">&quot;Generated!&quot;</span>
 <span>           call         </span><span style="color: blue;">void</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">WriteLine</span>(<span style="color: blue;">string</span>)
 <span>           nop          </span>
-<span>  IL_0007</span>: <span>ret          </span>
+<span>  IL_0011</span>: <span>ret          </span>
  }
 
 }

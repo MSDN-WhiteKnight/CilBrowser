@@ -1,0 +1,76 @@
+<html><head><title>Source file: SourceToken.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
+<h2>Source file: SourceToken.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in SourceCode directory:</p><p><a href="CppClassifier.cs.html">CppClassifier.cs</a></p><p><a href="CsharpClassifier.cs.html">CsharpClassifier.cs</a></p><p><a href="Decompiler.cs.html">Decompiler.cs</a></p><p><a href="README.md.html">README.md</a></p><p><b>SourceToken.cs</b></p><p><a href="TokenClassifier.cs.html">TokenClassifier.cs</a></p><p><a href="TokenParser.cs.html">TokenParser.cs</a></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Tools 
+ * Copyright (c) 2022, MSDN.WhiteKnight (https://github.com/MSDN-WhiteKnight) 
+ * License: BSD 2.0 */
+</span><span style="color: blue;">using </span>System;
+<span style="color: blue;">using </span>System.Collections.Generic;
+<span style="color: blue;">using </span>System.IO;
+<span style="color: blue;">using </span>System.Text;
+<span style="color: blue;">using </span>CilTools.Syntax;
+<span style="color: blue;">using </span>CilView.Core.Syntax;
+
+<span style="color: blue;">namespace </span>CilView.SourceCode
+{
+    <span style="color: green;">/// &lt;summary&gt;
+    </span><span style="color: green;">/// Represents a smallest lexical unit of a source text 
+    </span><span style="color: green;">/// (used for syntax highlighting in CIL View &quot;Show source&quot; feature)
+    </span><span style="color: green;">/// &lt;/summary&gt;
+    </span><span style="color: blue;">public </span><span style="color: blue;">class </span>SourceToken : SyntaxNode
+    {
+        TokenKind _kind;
+        <span style="color: blue;">string </span>_content;
+        
+        <span style="color: blue;">public </span>SourceToken(<span style="color: blue;">string </span>content, TokenKind kind)
+        {
+            <span style="color: blue;">this</span>._kind = kind;
+            <span style="color: blue;">this</span>._content = content;
+            <span style="color: blue;">this</span>._lead = <span style="color: blue;">string</span>.Empty;
+            <span style="color: blue;">this</span>._trail = <span style="color: blue;">string</span>.Empty;
+        }
+
+        <span style="color: blue;">public </span>SourceToken(<span style="color: blue;">string </span>content, TokenKind kind, <span style="color: blue;">string </span>leadingWhitespace, <span style="color: blue;">string </span>trailingWhitespace)
+        {
+            <span style="color: blue;">this</span>._kind = kind;
+            <span style="color: blue;">this</span>._content = content;
+            <span style="color: blue;">this</span>._lead = leadingWhitespace;
+            <span style="color: blue;">this</span>._trail = trailingWhitespace;
+        }
+        
+        <span style="color: blue;">internal </span><span style="color: blue;">static </span>SourceToken CreateFromString(<span style="color: blue;">string </span>tokenString, <span style="color: blue;">string </span>leadingWhitespace, 
+            <span style="color: blue;">string </span>trailingWhitespace, TokenClassifier classifier)
+        {
+            <span style="color: blue;">if </span>(leadingWhitespace == <span style="color: blue;">null</span>) leadingWhitespace = <span style="color: blue;">string</span>.Empty;
+            <span style="color: blue;">if </span>(trailingWhitespace == <span style="color: blue;">null</span>) trailingWhitespace = <span style="color: blue;">string</span>.Empty;
+
+            TokenKind kind = classifier.GetKind(tokenString);
+
+            <span style="color: blue;">return </span><span style="color: blue;">new </span>SourceToken(tokenString, kind, leadingWhitespace, trailingWhitespace);
+        }
+
+        <span style="color: blue;">public </span>TokenKind Kind
+        {
+            get { <span style="color: blue;">return </span><span style="color: blue;">this</span>._kind; }
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">string </span>Content
+        {
+            get { <span style="color: blue;">return </span><span style="color: blue;">this</span>._content; }
+        }
+                
+        <span style="color: blue;">public </span><span style="color: blue;">override </span><span style="color: blue;">void </span>ToText(TextWriter target)
+        {
+            target.Write(<span style="color: blue;">this</span>._lead);
+            target.Write(<span style="color: blue;">this</span>._content);
+            target.Write(<span style="color: blue;">this</span>._trail);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span>IEnumerable&lt;SyntaxNode&gt; EnumerateChildNodes()
+        {
+            <span style="color: blue;">return </span><span style="color: blue;">new </span>SyntaxNode[0];
+        }
+    }
+}
+</code></pre></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>

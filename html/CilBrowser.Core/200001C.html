@@ -1,0 +1,70 @@
+<html><head><title>Type: CilBrowser.Core.Utils</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">CilBrowser.Core</a></p>
+<h2>Type: CilBrowser.Core.Utils</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Types in CilBrowser.Core namespace:</p><p><a href="2000017.html">HtmlAttribute</a></p><p><a href="2000018.html">HtmlBuilder</a></p><p><a href="2000019.html">HtmlGenerator</a></p><p><a href="200001A.html">IlasmClassifier</a></p><p><a href="200001B.html">NullClassifier</a></p><p><b>Utils</b></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: magenta;">.class </span><span style="color: blue;">public </span><span style="color: blue;">abstract </span><span style="color: blue;">auto </span><span style="color: blue;">ansi </span><span style="color: blue;">sealed </span><span style="color: blue;">beforefieldinit </span><a href="200001C.html" class="memberid">CilBrowser.Core.Utils</a>
+<span style="color: blue;">extends </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Object</span>
+{
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> static </span><span style="color: blue;">bool</span><a name="M6000093" href="200001C.html#M6000093" class="memberid"> StrEquals</a>(
+     <span style="color: blue;">string</span><span> left</span>, 
+     <span style="color: blue;">string</span><span> right</span>
+ )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 3
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">bool</span><span> V_0</span>)
+
+<span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           ldarg.1      </span>
+<span>           ldc.i4.4     </span>
+<span>           call         </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Equals</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>, <span style="color: blue;">valuetype </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">StringComparison</span>)
+<span>           stloc.0      </span>
+<span>           br.s         </span><span>IL_0001
+</span><span>  IL_0001</span>: <span>ldloc.0      </span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> static </span><span style="color: blue;">string</span><a name="M6000094" href="200001C.html#M6000094" class="memberid"> GetDirectoryNameFromPath</a>(
+     <span style="color: blue;">string</span><span> path</span>
+ )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 4
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">bool</span><span> V_0</span>,
+     <span style="color: blue;">string</span><span> V_1</span>)
+
+<span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           ldstr        </span><span style="color: red;">&quot;\\&quot;</span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">EndsWith</span>(<span style="color: blue;">string</span>)
+<span>           brtrue.s     </span><span>IL_0001
+</span><span>           ldarg.0      </span>
+<span>           ldstr        </span><span style="color: red;">&quot;/&quot;</span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">EndsWith</span>(<span style="color: blue;">string</span>)
+<span>           br.s         </span><span>IL_0002
+</span><span>  IL_0001</span>: <span>ldc.i4.1     </span>
+<span>  IL_0002</span>: <span>stloc.0      </span>
+<span>           ldloc.0      </span>
+<span>           brfalse.s    </span><span>IL_0003
+</span><span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           ldarg.0      </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Length</span>()
+<span>           ldc.i4.1     </span>
+<span>           sub          </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">string</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Substring</span>(<span style="color: blue;">int32</span>, <span style="color: blue;">int32</span>)
+<span>           call         </span><span style="color: blue;">string</span> [<span>netstandard</span>]<span class="memberid">System.IO</span>.<span class="memberid">Path</span>::<span class="memberid">GetFileName</span>(<span style="color: blue;">string</span>)
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0004
+</span><span>  IL_0003</span>: <span>nop          </span>
+<span>           ldarg.0      </span>
+<span>           call         </span><span style="color: blue;">string</span> [<span>netstandard</span>]<span class="memberid">System.IO</span>.<span class="memberid">Path</span>::<span class="memberid">GetFileName</span>(<span style="color: blue;">string</span>)
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0004
+</span><span>  IL_0004</span>: <span>ldloc.1      </span>
+<span>           ret          </span>
+ }
+
+}
+</code></pre></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>

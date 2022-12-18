@@ -1,0 +1,865 @@
+<html><head><title>Type: CilView.SourceCode.VisualBasic.VbClassifier</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">CilBrowser.Core</a></p>
+<h2>Type: CilView.SourceCode.VisualBasic.VbClassifier</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Types in CilView.SourceCode.VisualBasic namespace:</p><p><b>VbClassifier</b></p><p><a href="2000015.html">VbCommentToken</a></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: magenta;">.class </span><span style="color: blue;">public </span><span style="color: blue;">auto </span><span style="color: blue;">ansi </span><span style="color: blue;">beforefieldinit </span><a href="2000014.html" class="memberid">CilView.SourceCode.VisualBasic.VbClassifier</a>
+<span style="color: blue;">extends </span><span class="memberid">CilView.SourceCode</span>.<a href="2000012.html" class="memberid">TokenClassifier</a>
+{
+
+<span style="color: magenta;"> .field </span><span style="color: blue;">private </span><span style="color: blue;">static </span><span style="color: blue;">initonly </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">HashSet`1</span>&lt;<span style="color: blue;">string</span>&gt;<span class="memberid"> keywords</span>
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> rtspecialname</span><span style="color: blue;"> instance </span><span style="color: blue;">void</span><a name="M600004D" href="2000014.html#M600004D" class="memberid"> .ctor</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 8
+
+<span>           ldarg.0      </span>
+<span>           call         </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilView.SourceCode</span>.<a href="2000012.html" class="memberid">TokenClassifier</a>::<a href="2000012.html#M6000046" class="memberid">.ctor</a>()
+<span>           nop          </span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> rtspecialname</span><span style="color: blue;"> static </span><span style="color: blue;">void</span><a name="M600004E" href="2000014.html#M600004E" class="memberid"> .cctor</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 4
+
+<span>           ldc.i4       </span><span>159</span>
+<span>           newarr       </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>
+<span>           dup          </span>
+<span>           ldc.i4.0     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;AddHandler&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.1     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;AddressOf&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.2     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;Alias&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.3     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;And&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.4     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;AndAlso&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.5     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;As&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.6     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;Boolean&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.7     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;ByRef&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.8     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;Byte&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>9</span>
+<span>           ldstr        </span><span style="color: red;">&quot;ByVal&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>10</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Call&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>11</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Case&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>12</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Catch&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>13</span>
+<span>           ldstr        </span><span style="color: red;">&quot;CBool&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>14</span>
+<span>           ldstr        </span><span style="color: red;">&quot;CByte&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>15</span>
+<span>           ldstr        </span><span style="color: red;">&quot;CChar&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>16</span>
+<span>           ldstr        </span><span style="color: red;">&quot;CDate&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>17</span>
+<span>           ldstr        </span><span style="color: red;">&quot;CDbl&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>18</span>
+<span>           ldstr        </span><span style="color: red;">&quot;CDec&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>19</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Char&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>20</span>
+<span>           ldstr        </span><span style="color: red;">&quot;CInt&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>21</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Class&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>22</span>
+<span>           ldstr        </span><span style="color: red;">&quot;CLng&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>23</span>
+<span>           ldstr        </span><span style="color: red;">&quot;CObj&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>24</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Const&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>25</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Continue&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>26</span>
+<span>           ldstr        </span><span style="color: red;">&quot;CSByte&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>27</span>
+<span>           ldstr        </span><span style="color: red;">&quot;CShort&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>28</span>
+<span>           ldstr        </span><span style="color: red;">&quot;CSng&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>29</span>
+<span>           ldstr        </span><span style="color: red;">&quot;CStr&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>30</span>
+<span>           ldstr        </span><span style="color: red;">&quot;CType&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>31</span>
+<span>           ldstr        </span><span style="color: red;">&quot;CUInt&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>32</span>
+<span>           ldstr        </span><span style="color: red;">&quot;CULng&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>33</span>
+<span>           ldstr        </span><span style="color: red;">&quot;CUShort&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>34</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Date&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>35</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Decimal&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>36</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Declare&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>37</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Default&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>38</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Delegate&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>39</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Dim&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>40</span>
+<span>           ldstr        </span><span style="color: red;">&quot;DirectCast&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>41</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Do&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>42</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Double&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>43</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Each&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>44</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Else&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>45</span>
+<span>           ldstr        </span><span style="color: red;">&quot;ElseIf&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>46</span>
+<span>           ldstr        </span><span style="color: red;">&quot;End&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>47</span>
+<span>           ldstr        </span><span style="color: red;">&quot;EndIf&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>48</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Enum&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>49</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Erase&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>50</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Error&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>51</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Event&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>52</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Exit&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>53</span>
+<span>           ldstr        </span><span style="color: red;">&quot;False&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>54</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Finally&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>55</span>
+<span>           ldstr        </span><span style="color: red;">&quot;For&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>56</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Friend&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>57</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Function&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>58</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Get&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>59</span>
+<span>           ldstr        </span><span style="color: red;">&quot;GetType&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>60</span>
+<span>           ldstr        </span><span style="color: red;">&quot;GetXMLNamespace&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>61</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Global&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>62</span>
+<span>           ldstr        </span><span style="color: red;">&quot;GoSub&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>63</span>
+<span>           ldstr        </span><span style="color: red;">&quot;GoTo&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>64</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Handles&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>65</span>
+<span>           ldstr        </span><span style="color: red;">&quot;If&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>66</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Implements&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>67</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Imports&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>68</span>
+<span>           ldstr        </span><span style="color: red;">&quot;In&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>69</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Inherits&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>70</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Integer&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>71</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Interface&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>72</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Is&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>73</span>
+<span>           ldstr        </span><span style="color: red;">&quot;IsNot&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>74</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Let&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>75</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Lib&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>76</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Like&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>77</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Long&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>78</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Loop&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>79</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Me&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>80</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Mod&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>81</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Module&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>82</span>
+<span>           ldstr        </span><span style="color: red;">&quot;MustInherit&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>83</span>
+<span>           ldstr        </span><span style="color: red;">&quot;MustOverride&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>84</span>
+<span>           ldstr        </span><span style="color: red;">&quot;MyBase&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>85</span>
+<span>           ldstr        </span><span style="color: red;">&quot;MyClass&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>86</span>
+<span>           ldstr        </span><span style="color: red;">&quot;NameOf&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>87</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Namespace&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>88</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Narrowing&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>89</span>
+<span>           ldstr        </span><span style="color: red;">&quot;New&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>90</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Next&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>91</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Not&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>92</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Nothing&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>93</span>
+<span>           ldstr        </span><span style="color: red;">&quot;NotInheritable&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>94</span>
+<span>           ldstr        </span><span style="color: red;">&quot;NotOverridable&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>95</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Object&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>96</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Of&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>97</span>
+<span>           ldstr        </span><span style="color: red;">&quot;On&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>98</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Operator&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>99</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Option&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>100</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Optional&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>101</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Or&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>102</span>
+<span>           ldstr        </span><span style="color: red;">&quot;OrElse&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>103</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Out&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>104</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Overloads&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>105</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Overridable&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>106</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Overrides&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>107</span>
+<span>           ldstr        </span><span style="color: red;">&quot;ParamArray&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>108</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Partial&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>109</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Private&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>110</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Property&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>111</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Protected&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>112</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Public&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>113</span>
+<span>           ldstr        </span><span style="color: red;">&quot;RaiseEvent&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>114</span>
+<span>           ldstr        </span><span style="color: red;">&quot;ReadOnly&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>115</span>
+<span>           ldstr        </span><span style="color: red;">&quot;ReDim&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>116</span>
+<span>           ldstr        </span><span style="color: red;">&quot;REM&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>117</span>
+<span>           ldstr        </span><span style="color: red;">&quot;RemoveHandler&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>118</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Resume&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>119</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Return&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>120</span>
+<span>           ldstr        </span><span style="color: red;">&quot;SByte&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>121</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Select&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>122</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Set&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>123</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Shadows&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>124</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Shared&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>125</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Short&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>126</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Single&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>127</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Static&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>128</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Step&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>129</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Stop&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>130</span>
+<span>           ldstr        </span><span style="color: red;">&quot;String&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>131</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Structure&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>132</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Sub&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>133</span>
+<span>           ldstr        </span><span style="color: red;">&quot;SyncLock&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>134</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Then&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>135</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Throw&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>136</span>
+<span>           ldstr        </span><span style="color: red;">&quot;To&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>137</span>
+<span>           ldstr        </span><span style="color: red;">&quot;True&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>138</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Try&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>139</span>
+<span>           ldstr        </span><span style="color: red;">&quot;TryCast&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>140</span>
+<span>           ldstr        </span><span style="color: red;">&quot;TypeOf&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>141</span>
+<span>           ldstr        </span><span style="color: red;">&quot;UInteger&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>142</span>
+<span>           ldstr        </span><span style="color: red;">&quot;ULong&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>143</span>
+<span>           ldstr        </span><span style="color: red;">&quot;UShort&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>144</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Using&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>145</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Variant&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>146</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Wend&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>147</span>
+<span>           ldstr        </span><span style="color: red;">&quot;When&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>148</span>
+<span>           ldstr        </span><span style="color: red;">&quot;While&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>149</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Widening&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>150</span>
+<span>           ldstr        </span><span style="color: red;">&quot;With&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>151</span>
+<span>           ldstr        </span><span style="color: red;">&quot;WithEvents&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>152</span>
+<span>           ldstr        </span><span style="color: red;">&quot;WriteOnly&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>153</span>
+<span>           ldstr        </span><span style="color: red;">&quot;Xor&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>154</span>
+<span>           ldstr        </span><span style="color: red;">&quot;#Const&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>155</span>
+<span>           ldstr        </span><span style="color: red;">&quot;#Else&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>156</span>
+<span>           ldstr        </span><span style="color: red;">&quot;#ElseIf&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>157</span>
+<span>           ldstr        </span><span style="color: red;">&quot;#End&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4       </span><span>158</span>
+<span>           ldstr        </span><span style="color: red;">&quot;#If&quot;</span>
+<span>           stelem.ref   </span>
+<span>           call         </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">StringComparer</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">StringComparer</span>::<span class="memberid">get_OrdinalIgnoreCase</span>()
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">HashSet`1</span>&lt;<span style="color: blue;">string</span>&gt;::<span class="memberid">.ctor</span>(<span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;!0&gt;, <span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEqualityComparer`1</span>&lt;!0&gt;)
+<span>           stsfld       </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">HashSet`1</span>&lt;<span style="color: blue;">string</span>&gt; <span class="memberid">CilView.SourceCode.VisualBasic</span>.<a href="2000014.html" class="memberid">VbClassifier</a>::<span class="memberid">keywords</span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> static </span><span style="color: blue;">bool</span><a name="M600004A" href="2000014.html#M600004A" class="memberid"> IsKeyword</a>(
+     <span style="color: blue;">string</span><span> token</span>
+ )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 2
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">bool</span><span> V_0</span>)
+
+<span>           nop          </span>
+<span>           ldsfld       </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">HashSet`1</span>&lt;<span style="color: blue;">string</span>&gt; <span class="memberid">CilView.SourceCode.VisualBasic</span>.<a href="2000014.html" class="memberid">VbClassifier</a>::<span class="memberid">keywords</span>
+<span>           ldarg.0      </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">bool</span> <span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">HashSet`1</span>&lt;<span style="color: blue;">string</span>&gt;::<span class="memberid">Contains</span>(!0)
+<span>           stloc.0      </span>
+<span>           br.s         </span><span>IL_0001
+</span><span>  IL_0001</span>: <span>ldloc.0      </span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> static </span><span style="color: blue;">valuetype </span><span class="memberid">CilView.Core.Syntax</span>.<a href="200000C.html" class="memberid">TokenKind</a><a name="M600004B" href="2000014.html#M600004B" class="memberid"> GetKindImpl</a>(
+     <span style="color: blue;">string</span><span> token</span>
+ )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 3
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">bool</span><span> V_0</span>,
+     <span style="color: blue;">valuetype </span><span class="memberid">CilView.Core.Syntax</span>.<a href="200000C.html" class="memberid">TokenKind</a><span> V_1</span>,
+     <span style="color: blue;">bool</span><span> V_2</span>,
+     <span style="color: blue;">bool</span><span> V_3</span>,
+     <span style="color: blue;">bool</span><span> V_4</span>,
+     <span style="color: blue;">bool</span><span> V_5</span>,
+     <span style="color: blue;">bool</span><span> V_6</span>,
+     <span style="color: blue;">bool</span><span> V_7</span>)
+
+<span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Length</span>()
+<span>           ldc.i4.0     </span>
+<span>           ceq          </span>
+<span>           stloc.0      </span>
+<span>           ldloc.0      </span>
+<span>           brfalse.s    </span><span>IL_0001
+</span><span>           ldc.i4.0     </span>
+<span>           stloc.1      </span>
+<span>           br           </span><span>IL_0012
+</span><span>  IL_0001</span>: <span>ldarg.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           call         </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Char</span>::<span class="memberid">IsDigit</span>(<span style="color: blue;">char</span>)
+<span>           stloc.2      </span>
+<span>           ldloc.2      </span>
+<span>           brfalse.s    </span><span>IL_0002
+</span><span>           nop          </span>
+<span>           ldc.i4.8     </span>
+<span>           stloc.1      </span>
+<span>           br           </span><span>IL_0012
+</span><span>  IL_0002</span>: <span>ldarg.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           ldc.i4.s     </span><span>95</span>
+<span>           ceq          </span>
+<span>           stloc.3      </span>
+<span>           ldloc.3      </span>
+<span>           brfalse.s    </span><span>IL_0003
+</span><span>           nop          </span>
+<span>           ldc.i4.1     </span>
+<span>           stloc.1      </span>
+<span>           br           </span><span>IL_0012
+</span><span>  IL_0003</span>: <span>ldarg.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           ldc.i4.s     </span><span>34</span>
+<span>           ceq          </span>
+<span>           stloc.s      </span><span>V_4</span>
+<span>           ldloc.s      </span><span>V_4</span>
+<span>           brfalse.s    </span><span>IL_0007
+</span><span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Length</span>()
+<span>           ldc.i4.2     </span>
+<span>           blt.s        </span><span>IL_0004
+</span><span>           ldarg.0      </span>
+<span>           ldarg.0      </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Length</span>()
+<span>           ldc.i4.1     </span>
+<span>           sub          </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           ldc.i4.s     </span><span>34</span>
+<span>           ceq          </span>
+<span>           ldc.i4.0     </span>
+<span>           ceq          </span>
+<span>           br.s         </span><span>IL_0005
+</span><span>  IL_0004</span>: <span>ldc.i4.1     </span>
+<span>  IL_0005</span>: <span>stloc.s      </span><span>V_5</span>
+<span>           ldloc.s      </span><span>V_5</span>
+<span>           brfalse.s    </span><span>IL_0006
+</span><span>           nop          </span>
+<span>           ldc.i4.0     </span>
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0012
+</span><span>  IL_0006</span>: <span>nop          </span>
+<span>           ldc.i4.7     </span>
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0012
+</span><span>  IL_0007</span>: <span>ldarg.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           ldc.i4.s     </span><span>39</span>
+<span>           ceq          </span>
+<span>           stloc.s      </span><span>V_6</span>
+<span>           ldloc.s      </span><span>V_6</span>
+<span>           brfalse.s    </span><span>IL_0008
+</span><span>           nop          </span>
+<span>           ldc.i4.s     </span><span>9</span>
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0012
+</span><span>  IL_0008</span>: <span>ldarg.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           call         </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Char</span>::<span class="memberid">IsPunctuation</span>(<span style="color: blue;">char</span>)
+<span>           brtrue.s     </span><span>IL_0009
+</span><span>           ldarg.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           call         </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Char</span>::<span class="memberid">IsSymbol</span>(<span style="color: blue;">char</span>)
+<span>           br.s         </span><span>IL_0010
+</span><span>  IL_0009</span>: <span>ldc.i4.1     </span>
+<span>  IL_0010</span>: <span>stloc.s      </span><span>V_7</span>
+<span>           ldloc.s      </span><span>V_7</span>
+<span>           brfalse.s    </span><span>IL_0011
+</span><span>           nop          </span>
+<span>           ldc.i4.5     </span>
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0012
+</span><span>  IL_0011</span>: <span>nop          </span>
+<span>           ldc.i4.0     </span>
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0012
+</span><span>  IL_0012</span>: <span>ldloc.1      </span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> virtual</span><span style="color: blue;"> instance </span><span style="color: blue;">valuetype </span><span class="memberid">CilView.Core.Syntax</span>.<a href="200000C.html" class="memberid">TokenKind</a><a name="M600004C" href="2000014.html#M600004C" class="memberid"> GetKind</a>(
+     <span style="color: blue;">string</span><span> token</span>
+ )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 2
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">bool</span><span> V_0</span>,
+     <span style="color: blue;">valuetype </span><span class="memberid">CilView.Core.Syntax</span>.<a href="200000C.html" class="memberid">TokenKind</a><span> V_1</span>,
+     <span style="color: blue;">bool</span><span> V_2</span>,
+     <span style="color: blue;">bool</span><span> V_3</span>)
+
+<span>           nop          </span>
+<span>           ldarg.1      </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Length</span>()
+<span>           ldc.i4.0     </span>
+<span>           ceq          </span>
+<span>           stloc.0      </span>
+<span>           ldloc.0      </span>
+<span>           brfalse.s    </span><span>IL_0001
+</span><span>           ldc.i4.0     </span>
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0006
+</span><span>  IL_0001</span>: <span>ldarg.1      </span>
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           call         </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Char</span>::<span class="memberid">IsLetter</span>(<span style="color: blue;">char</span>)
+<span>           brtrue.s     </span><span>IL_0002
+</span><span>           ldarg.1      </span>
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           ldc.i4.s     </span><span>35</span>
+<span>           ceq          </span>
+<span>           br.s         </span><span>IL_0003
+</span><span>  IL_0002</span>: <span>ldc.i4.1     </span>
+<span>  IL_0003</span>: <span>stloc.2      </span>
+<span>           ldloc.2      </span>
+<span>           brfalse.s    </span><span>IL_0005
+</span><span>           nop          </span>
+<span>           ldarg.1      </span>
+<span>           call         </span><span style="color: blue;">bool</span> <span class="memberid">CilView.SourceCode.VisualBasic</span>.<a href="2000014.html" class="memberid">VbClassifier</a>::<a href="2000014.html#M600004A" class="memberid">IsKeyword</a>(<span style="color: blue;">string</span>)
+<span>           stloc.3      </span>
+<span>           ldloc.3      </span>
+<span>           brfalse.s    </span><span>IL_0004
+</span><span>           ldc.i4.4     </span>
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0006
+</span><span>  IL_0004</span>: <span>ldc.i4.1     </span>
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0006
+</span><span>  IL_0005</span>: <span>ldarg.1      </span>
+<span>           call         </span><span style="color: blue;">valuetype </span><span class="memberid">CilView.Core.Syntax</span>.<a href="200000C.html" class="memberid">TokenKind</a> <span class="memberid">CilView.SourceCode.VisualBasic</span>.<a href="2000014.html" class="memberid">VbClassifier</a>::<a href="2000014.html#M600004B" class="memberid">GetKindImpl</a>(<span style="color: blue;">string</span>)
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0006
+</span><span>  IL_0006</span>: <span>ldloc.1      </span>
+<span>           ret          </span>
+ }
+
+}
+</code></pre></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>

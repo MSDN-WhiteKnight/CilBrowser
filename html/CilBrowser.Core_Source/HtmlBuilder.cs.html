@@ -1,0 +1,186 @@
+<html><head><title>Source file: HtmlBuilder.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
+<h2>Source file: HtmlBuilder.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in CilBrowser.Core directory:</p><p><a href="CilBrowser.Core.csproj.html">CilBrowser.Core.csproj</a></p><p><a href="HtmlAttribute.cs.html">HtmlAttribute.cs</a></p><p><b>HtmlBuilder.cs</b></p><p><a href="HtmlGenerator.cs.html">HtmlGenerator.cs</a></p><p><a href="IlasmClassifier.cs.html">IlasmClassifier.cs</a></p><p><a href="NullClassifier.cs.html">NullClassifier.cs</a></p><p><a href="Utils.cs.html">Utils.cs</a></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
+ * Copyright (c) 2022,  MSDN.WhiteKnight 
+ * License: BSD 3-Clause */
+</span><span style="color: blue;">using </span>System;
+<span style="color: blue;">using </span>System.Collections.Generic;
+<span style="color: blue;">using </span>System.IO;
+<span style="color: blue;">using </span>System.Net;
+<span style="color: blue;">using </span>System.Text;
+
+<span style="color: blue;">namespace </span>CilBrowser.Core
+{
+    <span style="color: blue;">public </span><span style="color: blue;">class </span>HtmlBuilder
+    {
+        TextWriter wr;
+
+        <span style="color: blue;">public </span>HtmlBuilder(TextWriter target)
+        {
+            <span style="color: blue;">this</span>.wr = target;
+        }
+
+        <span style="color: blue;">public </span>HtmlBuilder(StringBuilder sb)
+        {
+            <span style="color: blue;">this</span>.wr = <span style="color: blue;">new </span>StringWriter(sb);
+        }
+
+        <span style="color: blue;">static </span><span style="color: blue;">readonly </span>HtmlAttribute[] NoAttributes = <span style="color: blue;">new </span>HtmlAttribute[0];
+
+        <span style="color: blue;">public </span><span style="color: blue;">static </span>HtmlAttribute[] OneAttribute(<span style="color: blue;">string </span>name, <span style="color: blue;">string </span>val)
+        {
+            HtmlAttribute[] ret = <span style="color: blue;">new </span>HtmlAttribute[1];
+            ret[0] = <span style="color: blue;">new </span>HtmlAttribute(name, val);
+            <span style="color: blue;">return </span>ret;
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">void </span>WriteRaw(<span style="color: blue;">string </span>s)
+        {
+            wr.Write(s);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">void </span>WriteEscaped(<span style="color: blue;">string </span>s)
+        {
+            wr.Write(WebUtility.HtmlEncode(s));
+        }
+
+        <span style="color: blue;">void </span>WriteAttributes(HtmlAttribute[] attributes)
+        {
+            <span style="color: blue;">for </span>(<span style="color: blue;">int </span>i = 0; i &lt; attributes.Length; i++)
+            {
+                wr.Write(<span style="color: red;">&#39; &#39;</span>);
+                wr.Write(attributes[i].Name);
+
+                <span style="color: blue;">string </span>val = attributes[i].Value;
+
+                <span style="color: blue;">if </span>(val == <span style="color: blue;">null</span>) val = <span style="color: blue;">string</span>.Empty;
+
+                val = WebUtility.HtmlEncode(val);
+                wr.Write(<span style="color: red;">&#39;=&#39;</span>);
+                wr.Write(<span style="color: red;">&#39;&quot;&#39;</span>);
+                wr.Write(val);
+                wr.Write(<span style="color: red;">&#39;&quot;&#39;</span>);
+            }
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">void </span>WriteTagStart(<span style="color: blue;">string </span>name, HtmlAttribute[] attributes)
+        {
+            <span style="color: blue;">if </span>(attributes == <span style="color: blue;">null</span>) attributes = <span style="color: blue;">new </span>HtmlAttribute[0];
+
+            wr.Write(<span style="color: red;">&#39;&lt;&#39;</span>);
+            wr.Write(name);
+            WriteAttributes(attributes);
+            wr.Write(<span style="color: red;">&#39;&gt;&#39;</span>);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">void </span>WriteTagStart(<span style="color: blue;">string </span>name)
+        {
+            <span style="color: blue;">this</span>.WriteTagStart(name, NoAttributes);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">void </span>WriteTagEnd(<span style="color: blue;">string </span>name)
+        {
+            wr.Write(<span style="color: red;">&#39;&lt;&#39;</span>);
+            wr.Write(<span style="color: red;">&#39;/&#39;</span>);
+            wr.Write(name);
+            wr.Write(<span style="color: red;">&#39;&gt;&#39;</span>);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">void </span>WriteTag(<span style="color: blue;">string </span>name, <span style="color: blue;">string </span>content)
+        {
+            <span style="color: blue;">this</span>.WriteTag(name, content, NoAttributes, <span style="color: blue;">false</span>);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">void </span>WriteTag(<span style="color: blue;">string </span>name, <span style="color: blue;">string </span>content, HtmlAttribute[] attributes)
+        {
+            <span style="color: blue;">this</span>.WriteTag(name, content, attributes, <span style="color: blue;">false</span>);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">void </span>WriteTag(<span style="color: blue;">string </span>name, <span style="color: blue;">string </span>content, HtmlAttribute[] attributes, <span style="color: blue;">bool </span>isRaw)
+        {
+            <span style="color: blue;">if </span>(content == <span style="color: blue;">null</span>) content = <span style="color: blue;">string</span>.Empty;
+            <span style="color: blue;">if </span>(attributes == <span style="color: blue;">null</span>) attributes = <span style="color: blue;">new </span>HtmlAttribute[0];
+
+            wr.Write(<span style="color: red;">&#39;&lt;&#39;</span>);
+            wr.Write(name);
+            WriteAttributes(attributes);
+
+            <span style="color: blue;">if </span>(content.Length == 0)
+            {
+                wr.Write(<span style="color: red;">&#39;/&#39;</span>);
+                wr.Write(<span style="color: red;">&#39;&gt;&#39;</span>);
+                <span style="color: blue;">return</span>;
+            }
+
+            wr.Write(<span style="color: red;">&#39;&gt;&#39;</span>);
+            <span style="color: blue;">string </span>to_write = content;
+
+            <span style="color: blue;">if </span>(!isRaw) to_write = WebUtility.HtmlEncode(to_write);
+
+            wr.Write(to_write);
+            WriteTagEnd(name);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">void </span>WriteHyperlink(<span style="color: blue;">string </span>url, <span style="color: blue;">string </span>text)
+        {
+            <span style="color: blue;">this</span>.WriteTag(<span style="color: red;">&quot;a&quot;</span>, text, <span style="color: blue;">new </span>HtmlAttribute[] { <span style="color: blue;">new </span>HtmlAttribute(<span style="color: red;">&quot;href&quot;</span>, url) });
+        }
+
+        <span style="color: green;">/// &lt;summary&gt;
+        </span><span style="color: green;">/// Writes hyperlink with the specified URL, text and additional attributes 
+        </span><span style="color: green;">/// (&lt;c&gt;href&lt;/c&gt; attribute does not need to be included in &lt;paramref name=&quot;attrs&quot;/&gt;).
+        </span><span style="color: green;">/// &lt;/summary&gt;        
+        </span><span style="color: blue;">public </span><span style="color: blue;">void </span>WriteHyperlink(<span style="color: blue;">string </span>url, <span style="color: blue;">string </span>text, IEnumerable&lt;HtmlAttribute&gt; attrs)
+        {
+            List&lt;HtmlAttribute&gt; attrs2 = <span style="color: blue;">new </span>List&lt;HtmlAttribute&gt;();
+            attrs2.Add(<span style="color: blue;">new </span>HtmlAttribute(<span style="color: red;">&quot;href&quot;</span>, url));
+
+            <span style="color: blue;">foreach </span>(HtmlAttribute ha <span style="color: blue;">in </span>attrs) attrs2.Add(ha);
+
+            <span style="color: blue;">this</span>.WriteTag(<span style="color: red;">&quot;a&quot;</span>, text, attrs2.ToArray());
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">void </span>StartParagraph()
+        {
+            <span style="color: blue;">this</span>.WriteTagStart(<span style="color: red;">&quot;p&quot;</span>, NoAttributes);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">void </span>EndParagraph()
+        {
+            <span style="color: blue;">this</span>.WriteTagEnd(<span style="color: red;">&quot;p&quot;</span>);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">void </span>WriteParagraph(<span style="color: blue;">string </span>text)
+        {
+            <span style="color: blue;">this</span>.WriteTagStart(<span style="color: red;">&quot;p&quot;</span>, NoAttributes);
+            <span style="color: blue;">this</span>.WriteEscaped(text);
+            <span style="color: blue;">this</span>.WriteTagEnd(<span style="color: red;">&quot;p&quot;</span>);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">void </span>WriteLineBreak()
+        {
+            <span style="color: blue;">this</span>.WriteTag(<span style="color: red;">&quot;br&quot;</span>, <span style="color: blue;">string</span>.Empty, NoAttributes);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">void </span>StartDocument(<span style="color: blue;">string </span>title, <span style="color: blue;">string </span>style)
+        {
+            <span style="color: blue;">this</span>.WriteTagStart(<span style="color: red;">&quot;html&quot;</span>);
+            <span style="color: blue;">this</span>.WriteTagStart(<span style="color: red;">&quot;head&quot;</span>);
+            <span style="color: blue;">this</span>.WriteTag(<span style="color: red;">&quot;title&quot;</span>, title);
+            <span style="color: blue;">this</span>.WriteTag(<span style="color: red;">&quot;style&quot;</span>, style);
+            <span style="color: blue;">this</span>.WriteTagEnd(<span style="color: red;">&quot;head&quot;</span>);
+            <span style="color: blue;">this</span>.wr.WriteLine();
+            <span style="color: blue;">this</span>.WriteTagStart(<span style="color: red;">&quot;body&quot;</span>);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">void </span>EndDocument()
+        {
+            <span style="color: blue;">this</span>.wr.WriteLine();
+            <span style="color: blue;">this</span>.WriteTagEnd(<span style="color: red;">&quot;body&quot;</span>);
+            <span style="color: blue;">this</span>.WriteTagEnd(<span style="color: red;">&quot;html&quot;</span>);
+        }
+    }
+}
+</code></pre></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>

@@ -48,7 +48,6 @@ namespace CilBrowser
 
         static void Main(string[] args)
         {
-            Console.WriteLine(string.Join(",", args));
             //parse command line parameters
             string inputPath;
             string outputPath = null;

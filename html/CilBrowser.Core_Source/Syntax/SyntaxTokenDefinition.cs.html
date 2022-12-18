@@ -1,0 +1,241 @@
+<html><head><title>Source file: SyntaxTokenDefinition.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
+<h2>Source file: SyntaxTokenDefinition.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in Syntax directory:</p><p><a href="README.md.html">README.md</a></p><p><a href="SyntaxReader.cs.html">SyntaxReader.cs</a></p><p><b>SyntaxTokenDefinition.cs</b></p><p><a href="TokenKind.cs.html">TokenKind.cs</a></p><p><a href="TokenReader.cs.html">TokenReader.cs</a></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Tools 
+ * Copyright (c) 2022,  MSDN.WhiteKnight (https://github.com/MSDN-WhiteKnight) 
+ * License: BSD 2.0 */
+</span><span style="color: blue;">using </span>System;
+<span style="color: blue;">using </span>System.Collections.Generic;
+<span style="color: blue;">using </span>System.Text;
+
+<span style="color: blue;">namespace </span>CilView.Core.Syntax
+{
+    <span style="color: green;">/// &lt;summary&gt;
+    </span><span style="color: green;">/// A base class for classes that define logic for reading specific kinds of tokens from a string
+    </span><span style="color: green;">/// &lt;/summary&gt;
+    </span><span style="color: blue;">public </span><span style="color: blue;">abstract </span><span style="color: blue;">class </span>SyntaxTokenDefinition
+    {
+        <span style="color: blue;">static </span>SyntaxTokenDefinition[] ilasmTokens = <span style="color: blue;">null</span>;
+
+        <span style="color: blue;">public </span><span style="color: blue;">static </span>SyntaxTokenDefinition[] IlasmTokens
+        {
+            get
+            {
+                <span style="color: blue;">if </span>(ilasmTokens == <span style="color: blue;">null</span>)
+                {
+                    ilasmTokens = <span style="color: blue;">new </span>SyntaxTokenDefinition[] {
+                        <span style="color: blue;">new </span>NameToken(), <span style="color: blue;">new </span>PunctuationToken(), <span style="color: blue;">new </span>WhitespaceToken(), <span style="color: blue;">new </span>NumericLiteralToken(),
+                        <span style="color: blue;">new </span>DoubleQuotLiteralToken(), <span style="color: blue;">new </span>SingleQuotLiteralToken(), <span style="color: blue;">new </span>CommentToken(),
+                        <span style="color: blue;">new </span>MultilineCommentToken()
+                    };
+                }
+
+                <span style="color: blue;">return </span>ilasmTokens;
+            }
+        }
+
+        <span style="color: blue;">internal </span><span style="color: blue;">static </span><span style="color: blue;">bool </span>IsEscaped(<span style="color: blue;">string </span>str, <span style="color: blue;">int </span>i)
+        {
+            <span style="color: blue;">if </span>(i &lt;= 0) <span style="color: blue;">return </span><span style="color: blue;">false</span>;
+
+            <span style="color: blue;">char </span>c1 = str[i - 1];
+
+            <span style="color: blue;">if </span>(c1 != <span style="color: red;">&#39;\\&#39;</span>) <span style="color: blue;">return </span><span style="color: blue;">false</span>;
+
+            <span style="color: green;">//check if the slash itself not escaped
+            </span><span style="color: blue;">return </span>!IsEscaped(str, i - 1);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">abstract </span>TokenKind Kind { get; }
+        <span style="color: blue;">public </span><span style="color: blue;">abstract </span><span style="color: blue;">bool </span>HasStart(TokenReader reader);
+        <span style="color: blue;">public </span><span style="color: blue;">abstract </span><span style="color: blue;">bool </span>HasContinuation(<span style="color: blue;">string </span>prevPart, TokenReader reader);
+    }
+
+    <span style="color: green;">/// &lt;summary&gt;
+    </span><span style="color: green;">/// Ilasm DottedName token (ECMA-335 II.5.2 - Basic syntax categories).
+    </span><span style="color: green;">/// &lt;/summary&gt;
+    </span><span style="color: blue;">internal </span><span style="color: blue;">class </span>NameToken : SyntaxTokenDefinition
+    {
+        <span style="color: blue;">public </span><span style="color: blue;">override </span>TokenKind Kind =&gt; TokenKind.Name;
+
+        <span style="color: blue;">static </span><span style="color: blue;">readonly </span>HashSet&lt;<span style="color: blue;">char</span>&gt; validChars = <span style="color: blue;">new </span>HashSet&lt;<span style="color: blue;">char</span>&gt;(<span style="color: blue;">new </span><span style="color: blue;">char</span>[] { <span style="color: red;">&#39;.&#39;</span>, <span style="color: red;">&#39;_&#39;</span>, <span style="color: red;">&#39;$&#39;</span>, <span style="color: red;">&#39;@&#39;</span>, <span style="color: red;">&#39;`&#39;</span>, <span style="color: red;">&#39;?&#39; </span>});
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span><span style="color: blue;">bool </span>HasStart(TokenReader reader)
+        {
+            <span style="color: blue;">char </span>c = reader.PeekChar();
+
+            <span style="color: blue;">return </span><span style="color: blue;">char</span>.IsLetter(c) || validChars.Contains(c);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span><span style="color: blue;">bool </span>HasContinuation(<span style="color: blue;">string </span>prevPart, TokenReader reader)
+        {
+            <span style="color: blue;">char </span>c = reader.PeekChar();
+            
+            <span style="color: blue;">return </span><span style="color: blue;">char</span>.IsLetterOrDigit(c) || validChars.Contains(c);
+        }
+    }
+
+    <span style="color: blue;">internal </span><span style="color: blue;">class </span>PunctuationToken : SyntaxTokenDefinition
+    {
+        <span style="color: blue;">public </span><span style="color: blue;">override </span>TokenKind Kind =&gt; TokenKind.Punctuation;
+
+        <span style="color: blue;">static </span><span style="color: blue;">bool </span>IsPunctuation(<span style="color: blue;">char </span>c)
+        {
+            <span style="color: blue;">return </span>(<span style="color: blue;">char</span>.IsPunctuation(c) || <span style="color: blue;">char</span>.IsSymbol(c)) &amp;&amp; c != <span style="color: red;">&#39;\&#39;&#39; </span>&amp;&amp; c != <span style="color: red;">&#39;&quot;&#39;</span>;
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span><span style="color: blue;">bool </span>HasStart(TokenReader reader)
+        {
+            <span style="color: blue;">char </span>c = reader.PeekChar();
+
+            <span style="color: blue;">if </span>(c == <span style="color: red;">&#39;/&#39;</span>)
+            {
+                <span style="color: blue;">char</span>[] chars = reader.PeekChars(2);
+                <span style="color: blue;">if </span>(chars.Length &gt;= 2 &amp;&amp; (chars[1] == <span style="color: red;">&#39;*&#39; </span>|| chars[1] == <span style="color: red;">&#39;/&#39;</span>)) <span style="color: blue;">return </span><span style="color: blue;">false</span>;
+                <span style="color: blue;">else </span><span style="color: blue;">return </span><span style="color: blue;">true</span>;
+            }
+            <span style="color: blue;">else
+            </span>{
+                <span style="color: blue;">return </span>IsPunctuation(c);
+            }
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span><span style="color: blue;">bool </span>HasContinuation(<span style="color: blue;">string </span>prevPart, TokenReader reader)
+        {
+            <span style="color: blue;">if </span>(prevPart.Length &gt;= 1) <span style="color: blue;">return </span><span style="color: blue;">false</span>;
+            <span style="color: blue;">else </span><span style="color: blue;">return </span><span style="color: blue;">true</span>;
+        }
+    }
+
+    <span style="color: blue;">internal </span><span style="color: blue;">class </span>WhitespaceToken : SyntaxTokenDefinition
+    {
+        <span style="color: blue;">public </span><span style="color: blue;">override </span>TokenKind Kind =&gt; TokenKind.Whitespace;
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span><span style="color: blue;">bool </span>HasStart(TokenReader reader)
+        {
+            <span style="color: blue;">char </span>c = reader.PeekChar();
+            <span style="color: blue;">return </span><span style="color: blue;">char</span>.IsWhiteSpace(c);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span><span style="color: blue;">bool </span>HasContinuation(<span style="color: blue;">string </span>prevPart, TokenReader reader)
+        {
+            <span style="color: blue;">char </span>c = reader.PeekChar();
+            <span style="color: blue;">return </span><span style="color: blue;">char</span>.IsWhiteSpace(c);
+        }
+    }
+
+    <span style="color: blue;">internal </span><span style="color: blue;">class </span>NumericLiteralToken : SyntaxTokenDefinition
+    {
+        <span style="color: blue;">public </span><span style="color: blue;">override </span>TokenKind Kind =&gt; TokenKind.NumericLiteral;
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span><span style="color: blue;">bool </span>HasStart(TokenReader reader)
+        {
+            <span style="color: blue;">char </span>c = reader.PeekChar();
+
+            <span style="color: blue;">return </span><span style="color: blue;">char</span>.IsDigit(c);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span><span style="color: blue;">bool </span>HasContinuation(<span style="color: blue;">string </span>prevPart, TokenReader reader)
+        {
+            <span style="color: blue;">char </span>c = reader.PeekChar();
+            <span style="color: blue;">return </span><span style="color: blue;">char</span>.IsDigit(c) || c == <span style="color: red;">&#39;.&#39;</span>;
+        }
+    }
+
+    <span style="color: blue;">internal </span><span style="color: blue;">class </span>DoubleQuotLiteralToken : SyntaxTokenDefinition
+    {
+        <span style="color: blue;">public </span><span style="color: blue;">override </span>TokenKind Kind =&gt; TokenKind.DoubleQuotLiteral;
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span><span style="color: blue;">bool </span>HasStart(TokenReader reader)
+        {
+            <span style="color: blue;">char </span>c = reader.PeekChar();
+            <span style="color: blue;">return </span>c == <span style="color: red;">&#39;&quot;&#39;</span>;
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span><span style="color: blue;">bool </span>HasContinuation(<span style="color: blue;">string </span>prevPart, TokenReader reader)
+        {
+            <span style="color: blue;">if </span>(prevPart.Length &lt;= 1) <span style="color: blue;">return </span><span style="color: blue;">true</span>;
+
+            <span style="color: blue;">char </span>c = prevPart[prevPart.Length - 1];
+
+            <span style="color: blue;">if </span>(c == <span style="color: red;">&#39;&quot;&#39;</span>)
+            {
+                <span style="color: blue;">if </span>(IsEscaped(prevPart, prevPart.Length - 1)) <span style="color: blue;">return </span><span style="color: blue;">true</span>;
+                <span style="color: blue;">else </span><span style="color: blue;">return </span><span style="color: blue;">false</span>;
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">return </span><span style="color: blue;">true</span>;
+        }
+    }
+
+    <span style="color: blue;">internal </span><span style="color: blue;">class </span>SingleQuotLiteralToken : SyntaxTokenDefinition
+    {
+        <span style="color: blue;">public </span><span style="color: blue;">override </span>TokenKind Kind =&gt; TokenKind.SingleQuotLiteral;
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span><span style="color: blue;">bool </span>HasStart(TokenReader reader)
+        {
+            <span style="color: blue;">char </span>c = reader.PeekChar();
+            <span style="color: blue;">return </span>c == <span style="color: red;">&#39;\&#39;&#39;</span>;
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span><span style="color: blue;">bool </span>HasContinuation(<span style="color: blue;">string </span>prevPart, TokenReader reader)
+        {
+            <span style="color: blue;">if </span>(prevPart.Length &lt;= 1) <span style="color: blue;">return </span><span style="color: blue;">true</span>;
+
+            <span style="color: blue;">char </span>c = prevPart[prevPart.Length - 1];
+
+            <span style="color: blue;">if </span>(c == <span style="color: red;">&#39;\&#39;&#39;</span>)
+            {
+                <span style="color: blue;">if </span>(IsEscaped(prevPart, prevPart.Length - 1)) <span style="color: blue;">return </span><span style="color: blue;">true</span>;
+                <span style="color: blue;">else </span><span style="color: blue;">return </span><span style="color: blue;">false</span>;
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">return </span><span style="color: blue;">true</span>;
+        }
+    }
+
+    <span style="color: blue;">internal </span><span style="color: blue;">class </span>MultilineCommentToken : SyntaxTokenDefinition
+    {
+        <span style="color: blue;">public </span><span style="color: blue;">override </span>TokenKind Kind =&gt; TokenKind.MultilineComment;
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span><span style="color: blue;">bool </span>HasStart(TokenReader reader)
+        {
+            <span style="color: green;">/**/
+            </span><span style="color: blue;">char</span>[] chars = reader.PeekChars(2);
+            <span style="color: blue;">if </span>(chars.Length &lt; 2) <span style="color: blue;">return </span><span style="color: blue;">false</span>;
+
+            <span style="color: blue;">return </span>chars[0] == <span style="color: red;">&#39;/&#39; </span>&amp;&amp; chars[1] == <span style="color: red;">&#39;*&#39;</span>;
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span><span style="color: blue;">bool </span>HasContinuation(<span style="color: blue;">string </span>prevPart, TokenReader reader)
+        {
+            <span style="color: blue;">if </span>(prevPart.Length &lt;= 2) <span style="color: blue;">return </span><span style="color: blue;">true</span>;
+
+            <span style="color: blue;">char </span>c1 = prevPart[prevPart.Length - 2];
+            <span style="color: blue;">char </span>c2 = prevPart[prevPart.Length - 1];
+            <span style="color: blue;">return </span>!(c1 == <span style="color: red;">&#39;*&#39; </span>&amp;&amp; c2 == <span style="color: red;">&#39;/&#39;</span>);
+        }
+    }
+
+    <span style="color: blue;">internal </span><span style="color: blue;">class </span>CommentToken : SyntaxTokenDefinition
+    {
+        <span style="color: blue;">public </span><span style="color: blue;">override </span>TokenKind Kind =&gt; TokenKind.MultilineComment;
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span><span style="color: blue;">bool </span>HasStart(TokenReader reader)
+        {
+            <span style="color: green;">//
+            </span><span style="color: blue;">char</span>[] chars = reader.PeekChars(2);
+            <span style="color: blue;">if </span>(chars.Length &lt; 2) <span style="color: blue;">return </span><span style="color: blue;">false</span>;
+
+            <span style="color: blue;">return </span>chars[0] == <span style="color: red;">&#39;/&#39; </span>&amp;&amp; chars[1] == <span style="color: red;">&#39;/&#39;</span>;
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span><span style="color: blue;">bool </span>HasContinuation(<span style="color: blue;">string </span>prevPart, TokenReader reader)
+        {
+            <span style="color: blue;">if </span>(prevPart.Length &lt; 2) <span style="color: blue;">return </span><span style="color: blue;">true</span>;
+
+            <span style="color: blue;">char </span>c = reader.PeekChar();
+            <span style="color: blue;">return </span>!(c == <span style="color: red;">&#39;\n&#39; </span>|| c == <span style="color: red;">&#39;\r&#39;</span>);
+        }
+    }
+}
+</code></pre></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>

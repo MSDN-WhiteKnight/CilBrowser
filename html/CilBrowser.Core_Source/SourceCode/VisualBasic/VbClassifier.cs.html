@@ -1,0 +1,92 @@
+<html><head><title>Source file: VbClassifier.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
+<h2>Source file: VbClassifier.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in VisualBasic directory:</p><p><b>VbClassifier.cs</b></p><p><a href="VbCommentToken.cs.html">VbCommentToken.cs</a></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Tools 
+ * Copyright (c) 2022, MSDN.WhiteKnight (https://github.com/MSDN-WhiteKnight) 
+ * License: BSD 2.0 */
+</span><span style="color: blue;">using </span>System;
+<span style="color: blue;">using </span>System.Collections.Generic;
+<span style="color: blue;">using </span>System.Text;
+<span style="color: blue;">using </span>CilView.Core.Syntax;
+
+<span style="color: blue;">namespace </span>CilView.SourceCode.VisualBasic
+{
+    <span style="color: blue;">public </span><span style="color: blue;">class </span>VbClassifier : TokenClassifier
+    {
+        <span style="color: green;">//https://docs.microsoft.com/en-us/dotnet/visual-basic/language-reference/keywords/
+        </span><span style="color: blue;">static </span><span style="color: blue;">readonly </span>HashSet&lt;<span style="color: blue;">string</span>&gt; keywords = <span style="color: blue;">new </span>HashSet&lt;<span style="color: blue;">string</span>&gt;(<span style="color: blue;">new </span><span style="color: blue;">string</span>[] {
+<span style="color: red;">&quot;AddHandler&quot;</span>,<span style="color: red;">&quot;AddressOf&quot;</span>,<span style="color: red;">&quot;Alias&quot;</span>,<span style="color: red;">&quot;And&quot;</span>,<span style="color: red;">&quot;AndAlso&quot;</span>,<span style="color: red;">&quot;As&quot;</span>,<span style="color: red;">&quot;Boolean&quot;</span>,<span style="color: red;">&quot;ByRef&quot;</span>,<span style="color: red;">&quot;Byte&quot;</span>,<span style="color: red;">&quot;ByVal&quot;</span>,<span style="color: red;">&quot;Call&quot;</span>,
+<span style="color: red;">&quot;Case&quot;</span>,<span style="color: red;">&quot;Catch&quot;</span>,<span style="color: red;">&quot;CBool&quot;</span>,<span style="color: red;">&quot;CByte&quot;</span>,<span style="color: red;">&quot;CChar&quot;</span>,<span style="color: red;">&quot;CDate&quot;</span>,<span style="color: red;">&quot;CDbl&quot;</span>,<span style="color: red;">&quot;CDec&quot;</span>,<span style="color: red;">&quot;Char&quot;</span>,<span style="color: red;">&quot;CInt&quot;</span>,<span style="color: red;">&quot;Class&quot;</span>,<span style="color: red;">&quot;CLng&quot;</span>,<span style="color: red;">&quot;CObj&quot;</span>,
+<span style="color: red;">&quot;Const&quot;</span>,<span style="color: red;">&quot;Continue&quot;</span>,<span style="color: red;">&quot;CSByte&quot;</span>,<span style="color: red;">&quot;CShort&quot;</span>,<span style="color: red;">&quot;CSng&quot;</span>,<span style="color: red;">&quot;CStr&quot;</span>,<span style="color: red;">&quot;CType&quot;</span>,<span style="color: red;">&quot;CUInt&quot;</span>,<span style="color: red;">&quot;CULng&quot;</span>,<span style="color: red;">&quot;CUShort&quot;</span>,<span style="color: red;">&quot;Date&quot;</span>,
+<span style="color: red;">&quot;Decimal&quot;</span>,<span style="color: red;">&quot;Declare&quot;</span>,<span style="color: red;">&quot;Default&quot;</span>,<span style="color: red;">&quot;Delegate&quot;</span>,<span style="color: red;">&quot;Dim&quot;</span>,<span style="color: red;">&quot;DirectCast&quot;</span>,<span style="color: red;">&quot;Do&quot;</span>,<span style="color: red;">&quot;Double&quot;</span>,<span style="color: red;">&quot;Each&quot;</span>,<span style="color: red;">&quot;Else&quot;</span>,<span style="color: red;">&quot;ElseIf&quot;</span>,
+<span style="color: red;">&quot;End&quot;</span>,<span style="color: red;">&quot;EndIf&quot;</span>,<span style="color: red;">&quot;Enum&quot;</span>,<span style="color: red;">&quot;Erase&quot;</span>,<span style="color: red;">&quot;Error&quot;</span>,<span style="color: red;">&quot;Event&quot;</span>,<span style="color: red;">&quot;Exit&quot;</span>,<span style="color: red;">&quot;False&quot;</span>,<span style="color: red;">&quot;Finally&quot;</span>,<span style="color: red;">&quot;For&quot;</span>,<span style="color: red;">&quot;Friend&quot;</span>,<span style="color: red;">&quot;Function&quot;</span>,
+<span style="color: red;">&quot;Get&quot;</span>,<span style="color: red;">&quot;GetType&quot;</span>,<span style="color: red;">&quot;GetXMLNamespace&quot;</span>,<span style="color: red;">&quot;Global&quot;</span>,<span style="color: red;">&quot;GoSub&quot;</span>,<span style="color: red;">&quot;GoTo&quot;</span>,<span style="color: red;">&quot;Handles&quot;</span>,<span style="color: red;">&quot;If&quot;</span>,<span style="color: red;">&quot;Implements&quot;</span>,<span style="color: red;">&quot;Imports&quot;</span>,
+<span style="color: red;">&quot;In&quot;</span>,<span style="color: red;">&quot;Inherits&quot;</span>,<span style="color: red;">&quot;Integer&quot;</span>,<span style="color: red;">&quot;Interface&quot;</span>,<span style="color: red;">&quot;Is&quot;</span>,<span style="color: red;">&quot;IsNot&quot;</span>,<span style="color: red;">&quot;Let&quot;</span>,<span style="color: red;">&quot;Lib&quot;</span>,<span style="color: red;">&quot;Like&quot;</span>,<span style="color: red;">&quot;Long&quot;</span>,<span style="color: red;">&quot;Loop&quot;</span>,<span style="color: red;">&quot;Me&quot;</span>,
+<span style="color: red;">&quot;Mod&quot;</span>,<span style="color: red;">&quot;Module&quot;</span>,<span style="color: red;">&quot;MustInherit&quot;</span>,<span style="color: red;">&quot;MustOverride&quot;</span>,<span style="color: red;">&quot;MyBase&quot;</span>,<span style="color: red;">&quot;MyClass&quot;</span>,<span style="color: red;">&quot;NameOf&quot;</span>,<span style="color: red;">&quot;Namespace&quot;</span>,<span style="color: red;">&quot;Narrowing&quot;</span>,
+<span style="color: red;">&quot;New&quot;</span>,<span style="color: red;">&quot;Next&quot;</span>,<span style="color: red;">&quot;Not&quot;</span>,<span style="color: red;">&quot;Nothing&quot;</span>,<span style="color: red;">&quot;NotInheritable&quot;</span>,<span style="color: red;">&quot;NotOverridable&quot;</span>,<span style="color: red;">&quot;Object&quot;</span>,<span style="color: red;">&quot;Of&quot;</span>,<span style="color: red;">&quot;On&quot;</span>,<span style="color: red;">&quot;Operator&quot;</span>,
+<span style="color: red;">&quot;Option&quot;</span>,<span style="color: red;">&quot;Optional&quot;</span>,<span style="color: red;">&quot;Or&quot;</span>,<span style="color: red;">&quot;OrElse&quot;</span>,<span style="color: red;">&quot;Out&quot;</span>,<span style="color: red;">&quot;Overloads&quot;</span>,<span style="color: red;">&quot;Overridable&quot;</span>,<span style="color: red;">&quot;Overrides&quot;</span>,<span style="color: red;">&quot;ParamArray&quot;</span>,
+<span style="color: red;">&quot;Partial&quot;</span>,<span style="color: red;">&quot;Private&quot;</span>,<span style="color: red;">&quot;Property&quot;</span>,<span style="color: red;">&quot;Protected&quot;</span>,<span style="color: red;">&quot;Public&quot;</span>,<span style="color: red;">&quot;RaiseEvent&quot;</span>,<span style="color: red;">&quot;ReadOnly&quot;</span>,<span style="color: red;">&quot;ReDim&quot;</span>,<span style="color: red;">&quot;REM&quot;</span>,
+<span style="color: red;">&quot;RemoveHandler&quot;</span>,<span style="color: red;">&quot;Resume&quot;</span>,<span style="color: red;">&quot;Return&quot;</span>,<span style="color: red;">&quot;SByte&quot;</span>,<span style="color: red;">&quot;Select&quot;</span>,<span style="color: red;">&quot;Set&quot;</span>,<span style="color: red;">&quot;Shadows&quot;</span>,<span style="color: red;">&quot;Shared&quot;</span>,<span style="color: red;">&quot;Short&quot;</span>,<span style="color: red;">&quot;Single&quot;</span>,
+<span style="color: red;">&quot;Static&quot;</span>,<span style="color: red;">&quot;Step&quot;</span>,<span style="color: red;">&quot;Stop&quot;</span>,<span style="color: red;">&quot;String&quot;</span>,<span style="color: red;">&quot;Structure&quot;</span>,<span style="color: red;">&quot;Sub&quot;</span>,<span style="color: red;">&quot;SyncLock&quot;</span>,<span style="color: red;">&quot;Then&quot;</span>,<span style="color: red;">&quot;Throw&quot;</span>,<span style="color: red;">&quot;To&quot;</span>,<span style="color: red;">&quot;True&quot;</span>,<span style="color: red;">&quot;Try&quot;</span>,
+<span style="color: red;">&quot;TryCast&quot;</span>,<span style="color: red;">&quot;TypeOf&quot;</span>,<span style="color: red;">&quot;UInteger&quot;</span>,<span style="color: red;">&quot;ULong&quot;</span>,<span style="color: red;">&quot;UShort&quot;</span>,<span style="color: red;">&quot;Using&quot;</span>,<span style="color: red;">&quot;Variant&quot;</span>,<span style="color: red;">&quot;Wend&quot;</span>,<span style="color: red;">&quot;When&quot;</span>,<span style="color: red;">&quot;While&quot;</span>,<span style="color: red;">&quot;Widening&quot;</span>,
+<span style="color: red;">&quot;With&quot;</span>,<span style="color: red;">&quot;WithEvents&quot;</span>,<span style="color: red;">&quot;WriteOnly&quot;</span>,<span style="color: red;">&quot;Xor&quot;</span>,
+<span style="color: red;">&quot;#Const&quot;</span>,<span style="color: red;">&quot;#Else&quot;</span>,<span style="color: red;">&quot;#ElseIf&quot;</span>,<span style="color: red;">&quot;#End&quot;</span>,<span style="color: red;">&quot;#If&quot;
+        </span>}, StringComparer.OrdinalIgnoreCase);
+
+        <span style="color: blue;">static </span><span style="color: blue;">bool </span>IsKeyword(<span style="color: blue;">string </span>token)
+        {
+            <span style="color: blue;">return </span>keywords.Contains(token);
+        }
+
+        <span style="color: blue;">static </span>TokenKind GetKindImpl(<span style="color: blue;">string </span>token)
+        {
+            <span style="color: blue;">if </span>(token.Length == 0) <span style="color: blue;">return </span>TokenKind.Unknown;
+
+            <span style="color: blue;">if </span>(<span style="color: blue;">char</span>.IsDigit(token[0]))
+            {
+                <span style="color: blue;">return </span>TokenKind.NumericLiteral;
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(token[0] == <span style="color: red;">&#39;_&#39;</span>)
+            {
+                <span style="color: blue;">return </span>TokenKind.Name;
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(token[0] == <span style="color: red;">&#39;&quot;&#39;</span>)
+            {
+                <span style="color: blue;">if </span>(token.Length &lt; 2 || token[token.Length - 1] != <span style="color: red;">&#39;&quot;&#39;</span>)
+                {
+                    <span style="color: blue;">return </span>TokenKind.Unknown;
+                }
+                <span style="color: blue;">else
+                </span>{
+                    <span style="color: blue;">return </span>TokenKind.DoubleQuotLiteral;
+                }
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(token[0] == <span style="color: red;">&#39;\&#39;&#39;</span>)
+            {
+                <span style="color: blue;">return </span>TokenKind.Comment;
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(<span style="color: blue;">char</span>.IsPunctuation(token[0]) || <span style="color: blue;">char</span>.IsSymbol(token[0]))
+            {
+                <span style="color: blue;">return </span>TokenKind.Punctuation;
+            }
+            <span style="color: blue;">else
+            </span>{
+                <span style="color: blue;">return </span>TokenKind.Unknown;
+            }
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span>TokenKind GetKind(<span style="color: blue;">string </span>token)
+        {
+            <span style="color: blue;">if </span>(token.Length == 0) <span style="color: blue;">return </span>TokenKind.Unknown;
+
+            <span style="color: blue;">if </span>(<span style="color: blue;">char</span>.IsLetter(token[0]) || token[0] == <span style="color: red;">&#39;#&#39;</span>)
+            {
+                <span style="color: blue;">if </span>(IsKeyword(token)) <span style="color: blue;">return </span>TokenKind.Keyword;
+                <span style="color: blue;">else </span><span style="color: blue;">return </span>TokenKind.Name;
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">return </span>GetKindImpl(token);
+        }
+    }
+}
+</code></pre></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>
