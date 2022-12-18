@@ -39,6 +39,9 @@ namespace CilBrowser
                 HtmlGenerator.GenerateWebsite(ass, "./CilBrowser/");
             }
 
+            HtmlGenerator.GenerateWebsite("../../../../CilBrowser.Core", "./CilBrowser.Core_Source/");
+            HtmlGenerator.GenerateWebsite("../../../../CilBrowser", "./CilBrowser_Source/");
+
             Console.WriteLine("Generated!");
             return 0;
         }

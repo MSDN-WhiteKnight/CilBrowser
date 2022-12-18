@@ -170,18 +170,28 @@ namespace CilBrowser.Core
             else if (node is SourceToken)
             {
                 SourceToken token = (SourceToken)node;
-                string style = string.Empty;
-
+                
                 switch (token.Kind)
                 {
-                    case TokenKind.Keyword: style = "color: blue;"; break;                    
-                    case TokenKind.DoubleQuotLiteral: style = "color: red;"; break;
-                    case TokenKind.SingleQuotLiteral: style = "color: red;"; break;
-                    case TokenKind.Comment: style = "color: green;"; break;
-                    case TokenKind.MultilineComment: style = "color: green;"; break;
+                    case TokenKind.Keyword:
+                        target.WriteTag("span", node.ToString(), HtmlBuilder.OneAttribute("style", "color: blue;"));
+                        break;
+                    case TokenKind.DoubleQuotLiteral:
+                        target.WriteTag("span", node.ToString(), HtmlBuilder.OneAttribute("style", "color: red;"));
+                        break;
+                    case TokenKind.SingleQuotLiteral:
+                        target.WriteTag("span", node.ToString(), HtmlBuilder.OneAttribute("style", "color: red;"));
+                        break;
+                    case TokenKind.Comment:
+                        target.WriteTag("span", node.ToString(), HtmlBuilder.OneAttribute("style", "color: green;"));
+                        break;
+                    case TokenKind.MultilineComment:
+                        target.WriteTag("span", node.ToString(), HtmlBuilder.OneAttribute("style", "color: green;"));
+                        break;
+                    default:
+                        target.WriteEscaped(node.ToString());
+                        break;
                 }
-
-                target.WriteTag("span", node.ToString(), HtmlBuilder.OneAttribute("style", style));
             }
             else
             {
