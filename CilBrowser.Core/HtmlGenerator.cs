@@ -413,7 +413,7 @@ namespace CilBrowser.Core
             }
         }
 
-        public string VisualizeSourceFile(string content, string filename, string navigation)
+        public string VisualizeSourceFile(string content, string filename, string navigation, string sourceControlUrl)
         {
             string ext = Path.GetExtension(filename);
             StringBuilder sb = new StringBuilder(5000);
@@ -425,6 +425,12 @@ namespace CilBrowser.Core
             //convert tokens to HTML
             this.WriteLayoutStart(html, "Source file: " + filename, navigation);
             this.VisualizeSyntaxNodes(nodes, html);
+
+            if (!string.IsNullOrEmpty(sourceControlUrl))
+            {
+                html.WriteHyperlink(Utils.UrlAppend(sourceControlUrl, filename), "View in source control");
+            }
+
             WriteLayoutEnd(html);
 
             return sb.ToString();
@@ -612,7 +618,7 @@ namespace CilBrowser.Core
             return s_excludedDirs.Contains(name);
         }
 
-        public static void GenerateWebsite(string sourcesPath, string outputPath, int level)
+        public static void GenerateWebsite(string sourcesPath, string outputPath, int level, string sourceControlUrl)
         {
             if (level > 50)
             {
@@ -677,7 +683,7 @@ namespace CilBrowser.Core
                 {
                     string content = File.ReadAllText(files[i]);
                     string navigation = VisualizeNavigationPanel(name, dirName, files);
-                    html = generator.VisualizeSourceFile(content, name, navigation);
+                    html = generator.VisualizeSourceFile(content, name, navigation, sourceControlUrl);
                 }
                 catch (IOException ex)
                 {
@@ -711,7 +717,7 @@ namespace CilBrowser.Core
 
                 if (IsDirectoryExcluded(name)) continue;
 
-                GenerateWebsite(dirs[i], Path.Combine(outputPath, name), level + 1);
+                GenerateWebsite(dirs[i], Path.Combine(outputPath, name), level + 1, Utils.UrlAppend(sourceControlUrl, name));
             }
 
             //write TOC

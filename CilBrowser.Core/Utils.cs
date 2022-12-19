@@ -26,5 +26,11 @@ namespace CilBrowser.Core
                 return Path.GetFileName(path);
             }
         }
+
+        public static string UrlAppend(string url, string str)
+        {
+            if (url.EndsWith("/", StringComparison.Ordinal)) return url + str;
+            else return url + "/" + str;
+        }
     }
 }
