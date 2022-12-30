@@ -11,21 +11,6 @@ namespace CilBrowser
 {
     class Program
     {
-        static bool TryReadExpectedParameter(string[] args, int pos, string expected)
-        {
-            if (pos >= args.Length) return false;
-
-            if (args[pos] == expected) return true;
-            else return false;
-        }
-
-        static string ReadCommandParameter(string[] args, int pos)
-        {
-            if (pos >= args.Length) return null;
-
-            return args[pos];
-        }
-
         static int GenerateDemo()
         {
             AssemblyReader reader = new AssemblyReader();
@@ -51,27 +36,39 @@ namespace CilBrowser
 
         static void Main(string[] args)
         {
-            //parse command line parameters
-            string inputPath;
-            string outputPath = null;
-
             if (args.Length == 0)
             {
                 GenerateDemo();
                 return;
             }
 
-            int pos = 0;
-
-            if (TryReadExpectedParameter(args, pos, "--output"))
+            NamedArgumentDefinition[] defs = new NamedArgumentDefinition[]
             {
-                pos++;
-                outputPath = ReadCommandParameter(args, pos);
-                pos++;
+                new NamedArgumentDefinition("--output", true),
+                new NamedArgumentDefinition("--namespace", true),
+            };
+
+            //parse command line parameters
+            CommandLineArgs cla = new CommandLineArgs(args, defs);
+            string inputPath = string.Empty;
+            string outputPath = string.Empty;
+            string namespaceFilter = string.Empty;
+
+            if (cla.HasNamedArgument("--output"))
+            {
+                outputPath = cla.GetNamedArgument("--output");
             }
 
-            inputPath = ReadCommandParameter(args, pos);
+            if (cla.HasNamedArgument("--namespace"))
+            {
+                namespaceFilter = cla.GetNamedArgument("--namespace");
+            }
 
+            if (cla.PositionalArgumentsCount > 0)
+            {
+                inputPath = cla.GetPositionalArgument(0);
+            }
+            
             if (string.IsNullOrEmpty(inputPath))
             {
                 GenerateDemo();
@@ -93,7 +90,7 @@ namespace CilBrowser
                 using (reader)
                 {
                     Assembly ass = reader.LoadFrom(inputPath);
-                    HtmlGenerator.GenerateWebsite(ass, string.Empty, outputPath);
+                    HtmlGenerator.GenerateWebsite(ass, namespaceFilter, outputPath);
                 }
             }
             else //source directory
