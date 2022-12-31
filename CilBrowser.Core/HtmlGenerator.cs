@@ -457,7 +457,7 @@ namespace CilBrowser.Core
             return sb.ToString();
         }
 
-        static string GenerateTypeFileName(Type t)
+        public static string GenerateTypeFileName(Type t)
         {
             return ((uint)t.MetadataToken).ToString("X", CultureInfo.InvariantCulture) + ".html";
         }
@@ -474,14 +474,14 @@ namespace CilBrowser.Core
             return GenerateTypeFileName(mb.DeclaringType) + "#" + GenerateMethodAnchor(mb);
         }
 
-        static int CompareTypes(Type x, Type y)
+        public static int CompareTypes(Type x, Type y)
         {
             string s1 = x.FullName;
             string s2 = y.FullName;
             return string.Compare(s1, s2, StringComparison.OrdinalIgnoreCase);
         }
 
-        static void WriteFooter(HtmlBuilder target)
+        public static void WriteFooter(HtmlBuilder target)
         {
             target.WriteTag("hr", string.Empty);
             target.StartParagraph();
@@ -489,7 +489,7 @@ namespace CilBrowser.Core
             target.EndParagraph();
         }
 
-        static Dictionary<string, List<Type>> GroupByNamespace(Type[] types)
+        public static Dictionary<string, List<Type>> GroupByNamespace(Type[] types)
         {
             Dictionary<string, List<Type>> ret = new Dictionary<string, List<Type>>();
 
@@ -528,6 +528,18 @@ namespace CilBrowser.Core
             return sb.ToString();
         }
 
+        public static void WriteTocStart(HtmlBuilder toc, AssemblyName an)
+        {
+            toc.StartDocument(".NET CIL Browser - " + an.Name, GlobalStyles);
+            toc.WriteParagraph(".NET CIL Browser");
+            toc.WriteTag("h1", an.Name);
+            toc.WriteRaw(Environment.NewLine);
+            toc.StartParagraph();
+            toc.WriteHyperlink("assembly.html", "(Assembly manifest)");
+            toc.EndParagraph();
+            toc.WriteParagraph("Types in assembly: ");
+        }
+
         /// <summary>
         /// Generates a static website that contains disassembled CIL for the specified assembly
         /// </summary>
@@ -549,16 +561,8 @@ namespace CilBrowser.Core
             if (!string.IsNullOrEmpty(nsFilter)) Console.WriteLine("Namespace filter: " + nsFilter);
 
             Console.WriteLine("Output path: " + outputPath);
-
-            toc.StartDocument(".NET CIL Browser - " + an.Name, GlobalStyles);
-            toc.WriteParagraph(".NET CIL Browser");
-            toc.WriteTag("h1", an.Name);
-            toc.WriteRaw(Environment.NewLine);
-            toc.StartParagraph();
-            toc.WriteHyperlink("assembly.html", "(Assembly manifest)");
-            toc.EndParagraph();
-            toc.WriteParagraph("Types in assembly: ");
-
+            WriteTocStart(toc, an);
+            
             //write types
             Type[] types = ass.GetTypes();
             Dictionary<string, List<Type>> typeMap = GroupByNamespace(types);
