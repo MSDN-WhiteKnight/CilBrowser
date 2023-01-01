@@ -53,37 +53,16 @@ namespace CilBrowser.Core
             this._ass = ass;
             this._nsFilter = ns;
         }
-
-        static bool IsTypeInAssembly(Type t, Assembly ass)
-        {
-            if (t == null || ass == null) return false;
-
-            Assembly typeAssembly = t.Assembly;
-
-            if (typeAssembly == null) return false;
-
-            string name1 = typeAssembly.GetName().Name;
-            string name2 = ass.GetName().Name;
-            return string.Equals(name1, name2, StringComparison.InvariantCultureIgnoreCase);
-        }
-
+        
         static bool IsMethodInAssembly(MethodBase mb, Assembly ass)
         {
             if (mb == null || ass == null) return false;
 
             Type tDecl = mb.DeclaringType;
 
-            return IsTypeInAssembly(tDecl, ass);
+            return Utils.IsTypeInAssembly(tDecl, ass);
         }
-
-        static bool IsMatchingNamespaceFilter(Type t, string nsFilter)
-        {
-            if (nsFilter.Length == 0) return true;
-            if (t == null) return false;
-
-            return Utils.StrEquals(t.Namespace, nsFilter);
-        }
-
+        
         void VisualizeNode(SyntaxNode node, HtmlBuilder target)
         {
             SyntaxNode[] children = node.GetChildNodes();
@@ -123,8 +102,8 @@ namespace CilBrowser.Core
                     {
                         Type targetType = (Type)ids.TargetMember;
 
-                        if (IsTypeInAssembly(targetType, this._ass) &&
-                            IsMatchingNamespaceFilter(targetType, this._nsFilter))
+                        if (Utils.IsTypeInAssembly(targetType, this._ass) &&
+                            Utils.IsMatchingNamespaceFilter(targetType, this._nsFilter))
                         {
                             //hyperlink for types in the same assembly
                             tagName = "a";
@@ -149,7 +128,7 @@ namespace CilBrowser.Core
                             attrList.Add(new HtmlAttribute("href", GenerateMethodURL(mb)));
                         }
                         else if (IsMethodInAssembly(mb, this._ass) &&
-                            IsMatchingNamespaceFilter(mb.DeclaringType, this._nsFilter))
+                            Utils.IsMatchingNamespaceFilter(mb.DeclaringType, this._nsFilter))
                         {
                             //hyperlink for methods in the same assembly
                             tagName = "a";
@@ -473,14 +452,7 @@ namespace CilBrowser.Core
 
             return GenerateTypeFileName(mb.DeclaringType) + "#" + GenerateMethodAnchor(mb);
         }
-
-        public static int CompareTypes(Type x, Type y)
-        {
-            string s1 = x.FullName;
-            string s2 = y.FullName;
-            return string.Compare(s1, s2, StringComparison.OrdinalIgnoreCase);
-        }
-
+        
         public static void WriteFooter(HtmlBuilder target)
         {
             target.WriteTag("hr", string.Empty);
@@ -488,35 +460,7 @@ namespace CilBrowser.Core
             target.WriteRaw(Footer);
             target.EndParagraph();
         }
-
-        public static Dictionary<string, List<Type>> GroupByNamespace(Type[] types)
-        {
-            Dictionary<string, List<Type>> ret = new Dictionary<string, List<Type>>();
-
-            for (int i = 0; i < types.Length; i++)
-            {
-                string ns = types[i].Namespace;
-
-                if (ns == null) ns = string.Empty;
-
-                List<Type> list;
-
-                if (ret.ContainsKey(ns))
-                {
-                    list = ret[ns];
-                }
-                else
-                {
-                    list = new List<Type>();
-                    ret[ns] = list;
-                }
-
-                list.Add(types[i]);
-            }
-
-            return ret;
-        }
-
+        
         static string VisualizeException(Exception ex)
         {
             StringBuilder sb = new StringBuilder(500);
@@ -565,7 +509,7 @@ namespace CilBrowser.Core
             
             //write types
             Type[] types = ass.GetTypes();
-            Dictionary<string, List<Type>> typeMap = GroupByNamespace(types);
+            Dictionary<string, List<Type>> typeMap = Utils.GroupByNamespace(types);
             string[] namespaces = typeMap.Keys.ToArray();
             Array.Sort(namespaces);
 
@@ -598,7 +542,6 @@ namespace CilBrowser.Core
                 else nsText = nsText + " namespace";
 
                 toc.WriteTag("h2", nsText);
-                nsTypes.Sort(CompareTypes);
 
                 for (int j = 0; j < nsTypes.Count; j++)
                 {

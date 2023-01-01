@@ -22,9 +22,11 @@ namespace CilBrowser.Core
         Assembly _ass;
         HtmlGenerator _gen;
         Dictionary<string, List<Type>> _typeMap;
-
+        Dictionary<string, string> _cache = new Dictionary<string, string>(CacheCapacity);
+        
         const string UrlHost = "http://localhost:8080";
         const string UrlPrefix = "/CilBrowser/";
+        const int CacheCapacity = 200;
 
         public Server(Assembly ass)
         {
@@ -32,7 +34,24 @@ namespace CilBrowser.Core
             this._gen = new HtmlGenerator(ass);
 
             Type[] types = ass.GetTypes();
-            this._typeMap = HtmlGenerator.GroupByNamespace(types);
+            this._typeMap = Utils.GroupByNamespace(types);
+        }
+
+        void AddToCache(string url, string content)
+        {
+            if (string.IsNullOrEmpty(content) || content.Length < 20) return;
+
+            if (this._cache.Count >= CacheCapacity) this._cache.Clear();
+            
+            this._cache[url] = content;
+        }
+
+        string TryGetFromCache(string url)
+        {
+            string ret;
+
+            if (this._cache.TryGetValue(url, out ret)) return ret;
+            else return string.Empty;
         }
 
         static int ResolveTokenFromUrl(string url)
@@ -129,6 +148,15 @@ namespace CilBrowser.Core
                 response.Headers.Add("Expires: Tue, 01 Jul 2000 06:00:00 GMT");
                 response.Headers.Add("Cache-Control: max-age=0, no-cache, must-revalidate");
 
+                // Try from cache
+                string cached = this.TryGetFromCache(url);
+
+                if (cached.Length > 0)
+                {
+                    SendHtmlResponse(response, cached);
+                    continue;
+                }
+                
                 if (Utils.StrEquals(url, UrlPrefix) || Utils.StrEquals(url, UrlPrefix + "index.html"))
                 {
                     // Table of contents
@@ -154,8 +182,7 @@ namespace CilBrowser.Core
                             if (string.IsNullOrEmpty(nsText)) nsText = "(No namespace)";
                             else nsText = nsText + " namespace";
 
-                            toc.WriteTag("h2", nsText);
-                            nsTypes.Sort(HtmlGenerator.CompareTypes);
+                            toc.WriteTag("h2", nsText);       
 
                             for (int j = 0; j < nsTypes.Count; j++)
                             {
@@ -183,6 +210,7 @@ namespace CilBrowser.Core
                     // Assembly manifest
                     content = this._gen.VisualizeAssemblyManifest(this._ass);
                     SendHtmlResponse(response, content);
+                    this.AddToCache(url, content);
                     continue;
                 }
 
@@ -207,6 +235,7 @@ namespace CilBrowser.Core
 
                 content = this._gen.VisualizeType(t, this._typeMap);
                 SendHtmlResponse(response, content);
+                this.AddToCache(url, content);
             }//end while
         }
 
