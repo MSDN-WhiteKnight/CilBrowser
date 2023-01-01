@@ -195,7 +195,7 @@ namespace CilBrowser.Core
                             }
                         }//end for
 
-                        HtmlGenerator.WriteFooter(toc);
+                        this._gen.WriteFooter(toc);
                         toc.EndDocument();
                     }//end using
 

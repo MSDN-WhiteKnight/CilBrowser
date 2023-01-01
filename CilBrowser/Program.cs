@@ -19,9 +19,9 @@ namespace CilBrowser
             using (reader)
             {
                 Assembly ass = reader.LoadFrom(typeof(HtmlGenerator).Assembly.Location);
-                HtmlGenerator.GenerateWebsite(ass, string.Empty, "./CilBrowser.Core/");
+                HtmlGenerator.GenerateWebsite(ass, string.Empty, "./CilBrowser.Core/", string.Empty);
                 ass = reader.LoadFrom(typeof(Program).Assembly.Location);
-                HtmlGenerator.GenerateWebsite(ass, string.Empty, "./CilBrowser/");
+                HtmlGenerator.GenerateWebsite(ass, string.Empty, "./CilBrowser/", string.Empty);
             }
 
             HtmlGenerator.GenerateWebsite("../../../../CilBrowser.Core", "./CilBrowser.Core_Source/", 0,
@@ -90,7 +90,7 @@ namespace CilBrowser
                 using (reader)
                 {
                     Assembly ass = reader.LoadFrom(inputPath);
-                    HtmlGenerator.GenerateWebsite(ass, namespaceFilter, outputPath);
+                    HtmlGenerator.GenerateWebsite(ass, namespaceFilter, outputPath, string.Empty);
                 }
             }
             else //source directory
