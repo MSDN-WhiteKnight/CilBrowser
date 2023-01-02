@@ -25,10 +25,10 @@ namespace CilBrowser
             }
 
             HtmlGenerator.GenerateWebsite("../../../../CilBrowser.Core", "./CilBrowser.Core_Source/", 0,
-                "https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser.Core/");
+                "https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser.Core/", string.Empty);
 
             HtmlGenerator.GenerateWebsite("../../../../CilBrowser", "./CilBrowser_Source/", 0,
-                "https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser/");
+                "https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser/", string.Empty);
 
             Console.WriteLine("Generated!");
             return 0;
@@ -46,6 +46,7 @@ namespace CilBrowser
             {
                 new NamedArgumentDefinition("--output", true),
                 new NamedArgumentDefinition("--namespace", true),
+                new NamedArgumentDefinition("--footer", true),
             };
 
             //parse command line parameters
@@ -53,6 +54,7 @@ namespace CilBrowser
             string inputPath = string.Empty;
             string outputPath = string.Empty;
             string namespaceFilter = string.Empty;
+            string footerPath = string.Empty;
 
             if (cla.HasNamedArgument("--output"))
             {
@@ -62,6 +64,11 @@ namespace CilBrowser
             if (cla.HasNamedArgument("--namespace"))
             {
                 namespaceFilter = cla.GetNamedArgument("--namespace");
+            }
+
+            if (cla.HasNamedArgument("--footer"))
+            {
+                footerPath = cla.GetNamedArgument("--footer");
             }
 
             if (cla.PositionalArgumentsCount > 0)
@@ -80,6 +87,13 @@ namespace CilBrowser
                 outputPath = "./Output/";
             }
 
+            string footerContent = string.Empty;
+
+            if (!string.IsNullOrEmpty(footerPath))
+            {
+                footerContent = File.ReadAllText(footerPath);
+            }
+
             //generate website
             string ext = Path.GetExtension(inputPath);
 
@@ -90,12 +104,12 @@ namespace CilBrowser
                 using (reader)
                 {
                     Assembly ass = reader.LoadFrom(inputPath);
-                    HtmlGenerator.GenerateWebsite(ass, namespaceFilter, outputPath, string.Empty);
+                    HtmlGenerator.GenerateWebsite(ass, namespaceFilter, outputPath, footerContent);
                 }
             }
             else //source directory
             {
-                HtmlGenerator.GenerateWebsite(inputPath, outputPath, 0, string.Empty);
+                HtmlGenerator.GenerateWebsite(inputPath, outputPath, 0, string.Empty, footerContent);
             }
 
             Console.WriteLine("Generated!");

@@ -608,7 +608,8 @@ namespace CilBrowser.Core
             return s_excludedDirs.Contains(name);
         }
 
-        public static void GenerateWebsite(string sourcesPath, string outputPath, int level, string sourceControlUrl)
+        public static void GenerateWebsite(string sourcesPath, string outputPath, int level, 
+            string sourceControlUrl, string customFooter)
         {
             if (level > 50)
             {
@@ -617,6 +618,7 @@ namespace CilBrowser.Core
             }
 
             HtmlGenerator generator = new HtmlGenerator();
+            generator._customFooter = customFooter;
             Directory.CreateDirectory(outputPath);
             
             //create Table of contents builder
@@ -704,10 +706,14 @@ namespace CilBrowser.Core
             for (int i = 0; i < dirs.Length; i++)
             {
                 string name = Utils.GetDirectoryNameFromPath(dirs[i]);
+                string urlNew;
 
                 if (IsDirectoryExcluded(name)) continue;
 
-                GenerateWebsite(dirs[i], Path.Combine(outputPath, name), level + 1, Utils.UrlAppend(sourceControlUrl, name));
+                if (!string.IsNullOrEmpty(sourceControlUrl)) urlNew = Utils.UrlAppend(sourceControlUrl, name);
+                else urlNew = string.Empty;
+
+                GenerateWebsite(dirs[i], Path.Combine(outputPath, name), level + 1,urlNew, customFooter);
             }
 
             //write TOC
