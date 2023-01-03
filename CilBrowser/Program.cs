@@ -34,12 +34,12 @@ namespace CilBrowser
             return 0;
         }
 
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
             if (args.Length == 0)
             {
                 GenerateDemo();
-                return;
+                return 0;
             }
 
             NamedArgumentDefinition[] defs = new NamedArgumentDefinition[]
@@ -49,13 +49,15 @@ namespace CilBrowser
                 new NamedArgumentDefinition("--footer", true),
             };
 
-            //parse command line parameters
+            // *** Parse command line parameters ***
             CommandLineArgs cla = new CommandLineArgs(args, defs);
             string inputPath = string.Empty;
             string outputPath = string.Empty;
             string namespaceFilter = string.Empty;
             string footerPath = string.Empty;
+            bool server = false;
 
+            //named parameters
             if (cla.HasNamedArgument("--output"))
             {
                 outputPath = cla.GetNamedArgument("--output");
@@ -71,6 +73,7 @@ namespace CilBrowser
                 footerPath = cla.GetNamedArgument("--footer");
             }
 
+            //positional parameter: input path
             if (cla.PositionalArgumentsCount > 0)
             {
                 inputPath = cla.GetPositionalArgument(0);
@@ -78,41 +81,90 @@ namespace CilBrowser
             
             if (string.IsNullOrEmpty(inputPath))
             {
+                //Input path not specified, generate demo website
                 GenerateDemo();
-                return;
+                return 0;
             }
 
             if (string.IsNullOrEmpty(outputPath))
             {
-                outputPath = "./Output/";
+                //Output path is not specified, use server mode instead of generating website
+                server = true;
             }
 
             string footerContent = string.Empty;
 
             if (!string.IsNullOrEmpty(footerPath))
             {
+                if (server)
+                {
+                    Console.WriteLine("Error: Custom footer is not supported in server mode");
+                    return 1;
+                }
+
+                //read custom footer file
                 footerContent = File.ReadAllText(footerPath);
             }
 
-            //generate website
+            if (!string.IsNullOrEmpty(namespaceFilter) && server)
+            {
+                Console.WriteLine("Error: Namespace filter is not supported in server mode");
+                return 1;
+            }
+            
+            // *** Run program ***
             string ext = Path.GetExtension(inputPath);
 
             if (Utils.StrEquals(ext, ".dll") || Utils.StrEquals(ext, ".exe") || Utils.StrEquals(ext, ".winmd"))
             {
+                //assembly file
                 AssemblyReader reader = new AssemblyReader();
 
                 using (reader)
                 {
                     Assembly ass = reader.LoadFrom(inputPath);
-                    HtmlGenerator.GenerateWebsite(ass, namespaceFilter, outputPath, footerContent);
+
+                    if (server)
+                    {
+                        //run server
+                        Console.WriteLine("Running server...");
+                        Server srv = new Server(ass);
+                        srv.RunInBackground();
+
+                        while (true)
+                        {
+                            ConsoleKeyInfo key = Console.ReadKey();
+
+                            if (key.Key == ConsoleKey.E)
+                            {
+                                srv.Stop();
+                                srv.Dispose();
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //generate static website
+                        HtmlGenerator.GenerateWebsite(ass, namespaceFilter, outputPath, footerContent);
+                        Console.WriteLine("Generated!");
+                    }
                 }
             }
             else //source directory
             {
+                if (server)
+                {
+                    Console.WriteLine("Error: Server mode is not supported for sources");
+                    return 1;
+                }
+
+                //generate static website
                 HtmlGenerator.GenerateWebsite(inputPath, outputPath, 0, string.Empty, footerContent);
+                Console.WriteLine("Generated!");
             }
 
-            Console.WriteLine("Generated!");
+            return 0;
         }
     }
 }

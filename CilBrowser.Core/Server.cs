@@ -17,10 +17,11 @@ namespace CilBrowser.Core
     /// <summary>
     /// Provides a server that dynamically generates HTML for a disassembled IL and returns it via HTTP
     /// </summary>
-    public class Server
+    public sealed class Server : IDisposable
     {
         Assembly _ass;
         HtmlGenerator _gen;
+        HttpListener _listener;
         Dictionary<string, List<Type>> _typeMap;
         Dictionary<string, string> _cache = new Dictionary<string, string>(CacheCapacity);
         
@@ -35,6 +36,9 @@ namespace CilBrowser.Core
 
             Type[] types = ass.GetTypes();
             this._typeMap = Utils.GroupByNamespace(types);
+
+            // Create a listener.
+            this._listener = new HttpListener();
         }
 
         void AddToCache(string url, string content)
@@ -97,7 +101,7 @@ namespace CilBrowser.Core
         static void SendHtmlResponse(HttpListenerResponse response, string content)
         {
             // Get a response stream and write the response to it.
-            response.ContentType = "text/html";
+            response.ContentType = "text/html; charset=utf-8";
             Stream output = response.OutputStream;
             StreamWriter wr = new StreamWriter(output);
 
@@ -118,8 +122,7 @@ namespace CilBrowser.Core
 
         public void Run()
         {
-            // Create a listener.
-            HttpListener listener = new HttpListener();
+            HttpListener listener = this._listener;
             StreamWriter wr;
 
             // Add the prefixes.
@@ -127,10 +130,18 @@ namespace CilBrowser.Core
             listener.Start();
             Console.WriteLine("Assembly: " + this._ass.GetName().Name);
             Console.WriteLine("Displaying web UI on " + UrlHost + UrlPrefix);
+            Console.WriteLine("Press E to stop server");
 
             while (true)
             {
                 HttpListenerContext context = listener.GetContext();
+
+                if (!listener.IsListening)
+                {
+                    Console.WriteLine("Server was stopped");
+                    break;
+                }
+
                 HttpListenerRequest request = context.Request;
                 string url = request.RawUrl;
 
@@ -160,7 +171,7 @@ namespace CilBrowser.Core
                 if (Utils.StrEquals(url, UrlPrefix) || Utils.StrEquals(url, UrlPrefix + "index.html"))
                 {
                     // Table of contents
-                    response.ContentType = "text/html";
+                    response.ContentType = "text/html; charset=utf-8";
                     string[] namespaces = this._typeMap.Keys.ToArray();
                     Array.Sort(namespaces);
 
@@ -237,6 +248,16 @@ namespace CilBrowser.Core
                 SendHtmlResponse(response, content);
                 this.AddToCache(url, content);
             }//end while
+        }
+
+        public void Stop()
+        {
+            this._listener.Stop();
+        }
+
+        public void Dispose()
+        {
+            this._listener.Close();
         }
 
         public void RunInBackground()
