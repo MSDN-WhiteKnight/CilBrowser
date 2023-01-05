@@ -19,15 +19,15 @@ namespace CilBrowser
             using (reader)
             {
                 Assembly ass = reader.LoadFrom(typeof(HtmlGenerator).Assembly.Location);
-                HtmlGenerator.GenerateWebsite(ass, string.Empty, "./CilBrowser.Core/", string.Empty);
+                WebsiteGenerator.GenerateFromAssembly(ass, string.Empty, "./CilBrowser.Core/", string.Empty);
                 ass = reader.LoadFrom(typeof(Program).Assembly.Location);
-                HtmlGenerator.GenerateWebsite(ass, string.Empty, "./CilBrowser/", string.Empty);
+                WebsiteGenerator.GenerateFromAssembly(ass, string.Empty, "./CilBrowser/", string.Empty);
             }
 
-            HtmlGenerator.GenerateWebsite("../../../../CilBrowser.Core", "./CilBrowser.Core_Source/", 0,
+            WebsiteGenerator.GenerateFromSources("../../../../CilBrowser.Core", "./CilBrowser.Core_Source/",
                 "https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser.Core/", string.Empty);
 
-            HtmlGenerator.GenerateWebsite("../../../../CilBrowser", "./CilBrowser_Source/", 0,
+            WebsiteGenerator.GenerateFromSources("../../../../CilBrowser", "./CilBrowser_Source/",
                 "https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser/", string.Empty);
 
             Console.WriteLine("Generated!");
@@ -146,7 +146,7 @@ namespace CilBrowser
                     else
                     {
                         //generate static website
-                        HtmlGenerator.GenerateWebsite(ass, namespaceFilter, outputPath, footerContent);
+                        WebsiteGenerator.GenerateFromAssembly(ass, namespaceFilter, outputPath, footerContent);
                         Console.WriteLine("Generated!");
                     }
                 }
@@ -160,7 +160,7 @@ namespace CilBrowser
                 }
 
                 //generate static website
-                HtmlGenerator.GenerateWebsite(inputPath, outputPath, 0, string.Empty, footerContent);
+                WebsiteGenerator.GenerateFromSources(inputPath, outputPath, string.Empty, footerContent);
                 Console.WriteLine("Generated!");
             }
 
