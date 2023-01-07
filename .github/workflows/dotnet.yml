@@ -9,7 +9,7 @@ on:
   pull_request:
 
 jobs:
-  build:
+  ci:
 
     runs-on: ubuntu-latest
 
@@ -21,3 +21,5 @@ jobs:
         dotnet-version: 6.0.x
     - name: Build
       run: dotnet build
+    - name: Test
+      run: dotnet test

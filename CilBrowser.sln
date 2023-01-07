@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CilBrowser", "CilBrowser\CilBrowser.csproj", "{3E7A7A85-7A89-40DE-91CC-BCF6503992C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CilBrowser.Core", "CilBrowser.Core\CilBrowser.Core.csproj", "{5C1D11C3-D854-4684-B0FE-7B04C2BB0080}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CilBrowser.Core", "CilBrowser.Core\CilBrowser.Core.csproj", "{5C1D11C3-D854-4684-B0FE-7B04C2BB0080}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CilBrowser.Tests", "CilBrowser.Tests\CilBrowser.Tests.csproj", "{BCD30D8D-286F-430B-86C4-B9E9A9B1DBE8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{5C1D11C3-D854-4684-B0FE-7B04C2BB0080}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C1D11C3-D854-4684-B0FE-7B04C2BB0080}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C1D11C3-D854-4684-B0FE-7B04C2BB0080}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCD30D8D-286F-430B-86C4-B9E9A9B1DBE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCD30D8D-286F-430B-86C4-B9E9A9B1DBE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCD30D8D-286F-430B-86C4-B9E9A9B1DBE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCD30D8D-286F-430B-86C4-B9E9A9B1DBE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
