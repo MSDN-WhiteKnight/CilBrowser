@@ -9,10 +9,12 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using CilBrowser.Core.SyntaxModel;
 using CilTools.BytecodeAnalysis;
 using CilTools.Syntax;
 using CilView.Core.Syntax;
 using CilView.SourceCode;
+using CilView.SourceCode.Common;
 
 namespace CilBrowser.Core
 {
@@ -366,28 +368,7 @@ namespace CilBrowser.Core
 
             return sb.ToString();
         }
-
-        static SyntaxNode[] GetTokens(string content, string ext)
-        {
-            ext = ext.ToLower();
-
-            if (Utils.StrEquals(ext, ".il") || Utils.StrEquals(ext, ".cil"))
-            {
-                return SyntaxReader.ReadAllNodes(content);
-            }
-            else if (Utils.StrEquals(ext, ".txt") || Utils.StrEquals(ext, ".md"))
-            {
-                //disable syntax highlighting for plaintext files
-                return TokenParser.ParseTokens(content, TokenParser.GetDefinitions(ext),
-                    NullClassifier.Value);
-            }
-            else
-            {
-                return TokenParser.ParseTokens(content, TokenParser.GetDefinitions(ext),
-                    TokenClassifier.Create(ext));
-            }
-        }
-
+        
         public string VisualizeSourceFile(string content, string filename, string navigation, string sourceControlUrl)
         {
             string ext = Path.GetExtension(filename);
@@ -395,7 +376,7 @@ namespace CilBrowser.Core
             HtmlBuilder html = new HtmlBuilder(sb);
 
             //convert source text into tokens
-            SyntaxNode[] nodes = GetTokens(content, ext);
+            SyntaxNode[] nodes = SourceParser.Parse(content, ext);
 
             //convert tokens to HTML
             this.WriteLayoutStart(html, "Source file: " + filename, navigation);
