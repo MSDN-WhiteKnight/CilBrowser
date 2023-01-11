@@ -1,6 +1,6 @@
-/* CIL Browser 
- * Copyright (c) 2023, MSDN.WhiteKnight (https://github.com/MSDN-WhiteKnight) 
- * License: BSD 2.0 */
+/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
+ * Copyright (c) 2023,  MSDN.WhiteKnight 
+ * License: BSD 3-Clause */
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,8 +8,12 @@ using CilView.Core.Syntax;
 
 namespace CilView.SourceCode
 {
-    public class MarkupClassifier : TokenClassifier
+    public sealed class MarkupClassifier : TokenClassifier
     {
+        private MarkupClassifier() { }
+
+        public static readonly MarkupClassifier Value = new MarkupClassifier();
+
         public override TokenKind GetKind(string token)
         {
             if (token.Length == 0) return TokenKind.Unknown;

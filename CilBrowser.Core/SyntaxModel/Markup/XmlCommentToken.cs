@@ -1,6 +1,6 @@
-/* CIL Browser 
- * Copyright (c) 2023,  MSDN.WhiteKnight (https://github.com/MSDN-WhiteKnight) 
- * License: BSD 2.0 */
+/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
+ * Copyright (c) 2023,  MSDN.WhiteKnight 
+ * License: BSD 3-Clause */
 using System;
 using System.Collections.Generic;
 using System.Text;
