@@ -1,4 +1,4 @@
-﻿/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
+/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
  * Copyright (c) 2023,  MSDN.WhiteKnight 
  * License: BSD 3-Clause */
 using System;
@@ -50,7 +50,7 @@ namespace CilBrowser.Tests
         public void Test_SourceParser_Xml()
         {
             string src = "<Application Name=\"Foo\"><!-- 'application definition' --></Application>";
-            SyntaxNode[] nodes = SourceParser.Parse(src, ".xml");
+            SyntaxNode[] nodes = SourceParser.ParseXmlTokens(src);
 
             Assert.AreEqual(11, nodes.Length);
             Assert.AreEqual("<", (nodes[0] as SourceToken).Content);
