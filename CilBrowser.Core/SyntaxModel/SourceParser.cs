@@ -1,4 +1,4 @@
-﻿/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
+/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
  * Copyright (c) 2023,  MSDN.WhiteKnight 
  * License: BSD 3-Clause */
 using System;
@@ -23,6 +23,11 @@ namespace CilBrowser.Core.SyntaxModel
             ".xml", ".csproj", ".vbproj", ".vcxproj", ".proj", ".ilproj", ".htm", ".html", ".config", ".xaml"
         });
 
+        public static SourceToken[] ParseXmlTokens(string content)
+        {
+            return TokenParser.ParseTokens(content, s_markupDefinitions, MarkupClassifier.Value);
+        }
+
         public static SyntaxNode[] Parse(string content, string ext)
         {
             ext = ext.ToLower();
@@ -39,7 +44,8 @@ namespace CilBrowser.Core.SyntaxModel
             }
             else if (s_markupExts.Contains(ext))
             {
-                return TokenParser.ParseTokens(content, s_markupDefinitions, MarkupClassifier.Value);
+                SourceToken[] tokens = ParseXmlTokens(content);
+                return SyntaxElementReader.ParseElements(tokens, SyntaxElementDefinition.GetMarkupDefs());
             }
             else
             {
