@@ -1,0 +1,157 @@
+<html><head><title>Source file: CommandLineArgs.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
+<h2>Source file: CommandLineArgs.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in CilBrowser directory:</p><p><a href="CilBrowser.csproj.html">CilBrowser.csproj</a></p><p><b>CommandLineArgs.cs</b></p><p><a href="footer.html.html">footer.html</a></p><p><a href="generate-demo.cmd.html">generate-demo.cmd</a></p><p><a href="Program.cs.html">Program.cs</a></p><p><a href="run.cmd.html">run.cmd</a></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
+ * Copyright (c) 2022,  MSDN.WhiteKnight 
+ * License: BSD 3-Clause */
+</span><span style="color: blue;">using </span>System;
+<span style="color: blue;">using </span>System.Collections.Generic;
+<span style="color: blue;">using </span>System.Text;
+<span style="color: blue;">using </span>CilBrowser.Core;
+
+<span style="color: blue;">namespace </span>CilBrowser
+{
+    <span style="color: blue;">class </span>CommandLineArgs
+    {
+        Dictionary&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt; namedArgs;
+        <span style="color: blue;">string</span>[] posArgs;
+
+        <span style="color: blue;">public </span>CommandLineArgs(<span style="color: blue;">string</span>[] args, NamedArgumentDefinition[] defs)
+        {
+            namedArgs = <span style="color: blue;">new </span>Dictionary&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt;(args.Length);
+            List&lt;<span style="color: blue;">string</span>&gt; positional = <span style="color: blue;">new </span>List&lt;<span style="color: blue;">string</span>&gt;(args.Length);
+            <span style="color: blue;">int </span>i = 0;
+
+            <span style="color: blue;">while</span>(<span style="color: blue;">true</span>)
+            {
+                <span style="color: blue;">if </span>(i &gt;= args.Length) <span style="color: blue;">break</span>;
+
+                <span style="color: blue;">if </span>(IsSwitch(args[i]))
+                {
+                    <span style="color: blue;">if </span>(NamedArgumentDefinition.IsArgumentWithoutValue(args[i], defs) || 
+                        i == args.Length - 1 || IsSwitch(args[i + 1]))
+                    {
+                        <span style="color: green;">//switch without value
+                        </span>namedArgs[args[i]] = <span style="color: blue;">string</span>.Empty;
+                    }
+                    <span style="color: blue;">else
+                    </span>{
+                        <span style="color: green;">//switch with value
+                        </span><span style="color: blue;">string </span>name = args[i];
+                        i++;
+                        
+                        <span style="color: blue;">string </span>val = args[i];
+
+                        <span style="color: blue;">if </span>(val == <span style="color: blue;">null</span>) val = <span style="color: blue;">string</span>.Empty;
+
+                        namedArgs[name] = val;
+                    }
+                }
+                <span style="color: blue;">else
+                </span>{
+                    <span style="color: green;">//positional argument
+                    </span><span style="color: blue;">string </span>val = args[i];
+
+                    <span style="color: blue;">if </span>(val == <span style="color: blue;">null</span>) val = <span style="color: blue;">string</span>.Empty;
+
+                    positional.Add(val);
+                }
+
+                i++;
+            }
+
+            <span style="color: blue;">this</span>.posArgs = positional.ToArray();
+        }
+
+        <span style="color: blue;">static </span><span style="color: blue;">bool </span>IsSwitch(<span style="color: blue;">string </span>s)
+        {
+            <span style="color: blue;">if </span>(s == <span style="color: blue;">null</span>) <span style="color: blue;">return </span><span style="color: blue;">false</span>;
+
+            <span style="color: blue;">return </span>s.StartsWith(<span style="color: red;">&quot;-&quot;</span>) || s.StartsWith(<span style="color: red;">&quot;--&quot;</span>);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">bool </span>HasNamedArgument(<span style="color: blue;">string </span>name)
+        {
+            <span style="color: blue;">return </span><span style="color: blue;">this</span>.namedArgs.ContainsKey(name);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">string </span>GetNamedArgument(<span style="color: blue;">string </span>name)
+        {
+            <span style="color: blue;">string </span>ret;
+            <span style="color: blue;">if </span>(<span style="color: blue;">this</span>.namedArgs.TryGetValue(name, <span style="color: blue;">out </span>ret)) <span style="color: blue;">return </span>ret;
+            <span style="color: blue;">else </span><span style="color: blue;">return </span><span style="color: blue;">null</span>;
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">int </span>PositionalArgumentsCount
+        {
+            get { <span style="color: blue;">return </span><span style="color: blue;">this</span>.posArgs.Length; }
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">string </span>GetPositionalArgument(<span style="color: blue;">int </span>index)
+        {
+            <span style="color: blue;">return </span><span style="color: blue;">this</span>.posArgs[index];
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">int </span>Count
+        {
+            get { <span style="color: blue;">return </span><span style="color: blue;">this</span>.namedArgs.Count + <span style="color: blue;">this</span>.posArgs.Length; }
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span><span style="color: blue;">string </span>ToString()
+        {
+            StringBuilder sb = <span style="color: blue;">new </span>StringBuilder(1000);
+            sb.AppendLine(<span style="color: red;">&quot;Named: &quot; </span>+ <span style="color: blue;">this</span>.namedArgs.Count.ToString());
+
+            <span style="color: blue;">foreach </span>(<span style="color: blue;">string </span>key <span style="color: blue;">in </span><span style="color: blue;">this</span>.namedArgs.Keys)
+            {
+                sb.AppendFormat(<span style="color: red;">&quot; {0} = {1}&quot;</span>, key, <span style="color: blue;">this</span>.GetNamedArgument(key));
+                sb.AppendLine();
+            }
+
+            sb.AppendLine();
+            sb.AppendLine(<span style="color: red;">&quot;Positional: &quot; </span>+ <span style="color: blue;">this</span>.posArgs.Length.ToString());
+
+            <span style="color: blue;">for </span>(<span style="color: blue;">int </span>i = 0; i &lt; <span style="color: blue;">this</span>.posArgs.Length; i++)
+            {
+                sb.AppendFormat(<span style="color: red;">&quot; {0} = {1}&quot;</span>, i, <span style="color: blue;">this</span>.posArgs[i]);
+                sb.AppendLine();
+            }
+
+            <span style="color: blue;">return </span>sb.ToString();
+        }
+    }
+
+    <span style="color: blue;">class </span>NamedArgumentDefinition
+    {
+        <span style="color: blue;">public </span>NamedArgumentDefinition(<span style="color: blue;">string </span>name, <span style="color: blue;">bool </span>hasValue)
+        {
+            <span style="color: blue;">this</span>.Name = name;
+            <span style="color: blue;">this</span>.HasValue = hasValue;
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">string </span>Name { get; set; }
+        <span style="color: blue;">public </span><span style="color: blue;">bool </span>HasValue { get; set; }
+
+        <span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">bool </span>IsArgumentWithValue(<span style="color: blue;">string </span>name, IEnumerable&lt;NamedArgumentDefinition&gt; defs)
+        {
+            <span style="color: blue;">foreach </span>(NamedArgumentDefinition def <span style="color: blue;">in </span>defs)
+            {
+                <span style="color: blue;">if </span>(def.HasValue &amp;&amp; Utils.StrEquals(def.Name, name)) <span style="color: blue;">return </span><span style="color: blue;">true</span>;
+            }
+
+            <span style="color: blue;">return </span><span style="color: blue;">false</span>;
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">bool </span>IsArgumentWithoutValue(<span style="color: blue;">string </span>name, IEnumerable&lt;NamedArgumentDefinition&gt; defs)
+        {
+            <span style="color: blue;">foreach </span>(NamedArgumentDefinition def <span style="color: blue;">in </span>defs)
+            {
+                <span style="color: blue;">if </span>(!def.HasValue &amp;&amp; Utils.StrEquals(def.Name, name)) <span style="color: blue;">return </span><span style="color: blue;">true</span>;
+            }
+
+            <span style="color: blue;">return </span><span style="color: blue;">false</span>;
+        }
+    }
+}
+</code></pre><a href="https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser/CommandLineArgs.cs">View in source control</a></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>

@@ -1,0 +1,62 @@
+<html><head><title>Source file: SourceParser.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
+<h2>Source file: SourceParser.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in SyntaxModel directory:</p><p><b>SourceParser.cs</b></p><p><a href="SyntaxElement.cs.html">SyntaxElement.cs</a></p><p><a href="SyntaxElementDefinition.cs.html">SyntaxElementDefinition.cs</a></p><p><a href="SyntaxElementReader.cs.html">SyntaxElementReader.cs</a></p><p><a href="SyntaxKind.cs.html">SyntaxKind.cs</a></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
+ * Copyright (c) 2023,  MSDN.WhiteKnight 
+ * License: BSD 3-Clause */
+</span><span style="color: blue;">using </span>System;
+<span style="color: blue;">using </span>System.Collections.Generic;
+<span style="color: blue;">using </span>System.Text;
+<span style="color: blue;">using </span>CilBrowser.Core.SyntaxModel.Markup;
+<span style="color: blue;">using </span>CilTools.Syntax;
+<span style="color: blue;">using </span>CilView.Core.Syntax;
+<span style="color: blue;">using </span>CilView.SourceCode;
+<span style="color: blue;">using </span>CilView.SourceCode.Common;
+
+<span style="color: blue;">namespace </span>CilBrowser.Core.SyntaxModel
+{
+    <span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">class </span>SourceParser
+    {
+        <span style="color: blue;">static </span><span style="color: blue;">readonly </span>SyntaxTokenDefinition[] s_markupDefinitions = <span style="color: blue;">new </span>SyntaxTokenDefinition[] {
+            <span style="color: blue;">new </span>CommonNameToken(), <span style="color: blue;">new </span>XmlCommentToken(), <span style="color: blue;">new </span>PunctuationToken(), <span style="color: blue;">new </span>WhitespaceToken(),
+            <span style="color: blue;">new </span>NumericLiteralToken(), <span style="color: blue;">new </span>DoubleQuotLiteralToken()
+        };
+
+        <span style="color: blue;">static </span><span style="color: blue;">readonly </span>HashSet&lt;<span style="color: blue;">string</span>&gt; s_markupExts = <span style="color: blue;">new </span>HashSet&lt;<span style="color: blue;">string</span>&gt;(<span style="color: blue;">new </span><span style="color: blue;">string</span>[] {
+            <span style="color: red;">&quot;.xml&quot;</span>, <span style="color: red;">&quot;.csproj&quot;</span>, <span style="color: red;">&quot;.vbproj&quot;</span>, <span style="color: red;">&quot;.vcxproj&quot;</span>, <span style="color: red;">&quot;.proj&quot;</span>, <span style="color: red;">&quot;.ilproj&quot;</span>, <span style="color: red;">&quot;.htm&quot;</span>, <span style="color: red;">&quot;.html&quot;</span>, <span style="color: red;">&quot;.config&quot;</span>, <span style="color: red;">&quot;.xaml&quot;
+        </span>});
+
+        <span style="color: blue;">public </span><span style="color: blue;">static </span>SourceToken[] ParseXmlTokens(<span style="color: blue;">string </span>content)
+        {
+            <span style="color: blue;">return </span>TokenParser.ParseTokens(content, s_markupDefinitions, MarkupClassifier.Value);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">static </span>SyntaxNode[] Parse(<span style="color: blue;">string </span>content, <span style="color: blue;">string </span>ext)
+        {
+            ext = ext.ToLower();
+
+            <span style="color: blue;">if </span>(Utils.StrEquals(ext, <span style="color: red;">&quot;.il&quot;</span>) || Utils.StrEquals(ext, <span style="color: red;">&quot;.cil&quot;</span>))
+            {
+                <span style="color: blue;">return </span>SyntaxReader.ReadAllNodes(content);
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(Utils.StrEquals(ext, <span style="color: red;">&quot;.txt&quot;</span>) || Utils.StrEquals(ext, <span style="color: red;">&quot;.md&quot;</span>))
+            {
+                <span style="color: green;">//disable syntax highlighting for plaintext files
+                </span><span style="color: blue;">return </span>TokenParser.ParseTokens(content, TokenParser.GetDefinitions(ext),
+                    NullClassifier.Value);
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(s_markupExts.Contains(ext))
+            {
+                SourceToken[] tokens = ParseXmlTokens(content);
+                <span style="color: blue;">return </span>SyntaxElementReader.ParseElements(tokens, SyntaxElementDefinition.GetMarkupDefs());
+            }
+            <span style="color: blue;">else
+            </span>{
+                <span style="color: blue;">return </span>TokenParser.ParseTokens(content, TokenParser.GetDefinitions(ext),
+                    TokenClassifier.Create(ext));
+            }
+        }
+    }
+}
+</code></pre><a href="https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser.Core/SyntaxModel/SourceParser.cs">View in source control</a></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>

@@ -1,12 +1,13 @@
 <html><head><title>Source file: Utils.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
 <body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
-<h2>Source file: Utils.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in CilBrowser.Core directory:</p><p><a href="CilBrowser.Core.csproj.html">CilBrowser.Core.csproj</a></p><p><a href="HtmlAttribute.cs.html">HtmlAttribute.cs</a></p><p><a href="HtmlBuilder.cs.html">HtmlBuilder.cs</a></p><p><a href="HtmlGenerator.cs.html">HtmlGenerator.cs</a></p><p><a href="IlasmClassifier.cs.html">IlasmClassifier.cs</a></p><p><a href="NullClassifier.cs.html">NullClassifier.cs</a></p><p><b>Utils.cs</b></p></td>
+<h2>Source file: Utils.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in CilBrowser.Core directory:</p><p><a href="CilBrowser.Core.csproj.html">CilBrowser.Core.csproj</a></p><p><a href="HtmlAttribute.cs.html">HtmlAttribute.cs</a></p><p><a href="HtmlBuilder.cs.html">HtmlBuilder.cs</a></p><p><a href="HtmlGenerator.cs.html">HtmlGenerator.cs</a></p><p><a href="IlasmClassifier.cs.html">IlasmClassifier.cs</a></p><p><a href="NullClassifier.cs.html">NullClassifier.cs</a></p><p><a href="Server.cs.html">Server.cs</a></p><p><b>Utils.cs</b></p><p><a href="WebsiteGenerator.cs.html">WebsiteGenerator.cs</a></p></td>
 <td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
  * Copyright (c) 2022,  MSDN.WhiteKnight 
  * License: BSD 3-Clause */
 </span><span style="color: blue;">using </span>System;
 <span style="color: blue;">using </span>System.Collections.Generic;
 <span style="color: blue;">using </span>System.IO;
+<span style="color: blue;">using </span>System.Reflection;
 <span style="color: blue;">using </span>System.Text;
 
 <span style="color: blue;">namespace </span>CilBrowser.Core
@@ -29,7 +30,75 @@
                 <span style="color: blue;">return </span>Path.GetFileName(path);
             }
         }
+
+        <span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">string </span>UrlAppend(<span style="color: blue;">string </span>url, <span style="color: blue;">string </span>str)
+        {
+            <span style="color: blue;">if </span>(url.EndsWith(<span style="color: red;">&quot;/&quot;</span>, StringComparison.Ordinal)) <span style="color: blue;">return </span>url + str;
+            <span style="color: blue;">else </span><span style="color: blue;">return </span>url + <span style="color: red;">&quot;/&quot; </span>+ str;
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">int </span>CompareTypes(Type x, Type y)
+        {
+            <span style="color: blue;">string </span>s1 = x.FullName;
+            <span style="color: blue;">string </span>s2 = y.FullName;
+            <span style="color: blue;">return </span><span style="color: blue;">string</span>.Compare(s1, s2, StringComparison.OrdinalIgnoreCase);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">static </span>Dictionary&lt;<span style="color: blue;">string</span>, List&lt;Type&gt;&gt; GroupByNamespace(Type[] types)
+        {
+            Dictionary&lt;<span style="color: blue;">string</span>, List&lt;Type&gt;&gt; ret = <span style="color: blue;">new </span>Dictionary&lt;<span style="color: blue;">string</span>, List&lt;Type&gt;&gt;();
+
+            <span style="color: blue;">for </span>(<span style="color: blue;">int </span>i = 0; i &lt; types.Length; i++)
+            {
+                <span style="color: blue;">string </span>ns = types[i].Namespace;
+
+                <span style="color: blue;">if </span>(ns == <span style="color: blue;">null</span>) ns = <span style="color: blue;">string</span>.Empty;
+
+                List&lt;Type&gt; list;
+
+                <span style="color: blue;">if </span>(ret.ContainsKey(ns))
+                {
+                    list = ret[ns];
+                }
+                <span style="color: blue;">else
+                </span>{
+                    list = <span style="color: blue;">new </span>List&lt;Type&gt;();
+                    ret[ns] = list;
+                }
+
+                list.Add(types[i]);
+            }
+
+            <span style="color: blue;">foreach </span>(<span style="color: blue;">string </span>key <span style="color: blue;">in </span>ret.Keys)
+            {
+                List&lt;Type&gt; list = ret[key];
+                list.Sort(CompareTypes);
+            }
+
+            <span style="color: blue;">return </span>ret;
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">bool </span>IsMatchingNamespaceFilter(Type t, <span style="color: blue;">string </span>nsFilter)
+        {
+            <span style="color: blue;">if </span>(nsFilter.Length == 0) <span style="color: blue;">return </span><span style="color: blue;">true</span>;
+            <span style="color: blue;">if </span>(t == <span style="color: blue;">null</span>) <span style="color: blue;">return </span><span style="color: blue;">false</span>;
+
+            <span style="color: blue;">return </span>StrEquals(t.Namespace, nsFilter);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">bool </span>IsTypeInAssembly(Type t, Assembly ass)
+        {
+            <span style="color: blue;">if </span>(t == <span style="color: blue;">null </span>|| ass == <span style="color: blue;">null</span>) <span style="color: blue;">return </span><span style="color: blue;">false</span>;
+
+            Assembly typeAssembly = t.Assembly;
+
+            <span style="color: blue;">if </span>(typeAssembly == <span style="color: blue;">null</span>) <span style="color: blue;">return </span><span style="color: blue;">false</span>;
+
+            <span style="color: blue;">string </span>name1 = typeAssembly.GetName().Name;
+            <span style="color: blue;">string </span>name2 = ass.GetName().Name;
+            <span style="color: blue;">return </span><span style="color: blue;">string</span>.Equals(name1, name2, StringComparison.InvariantCultureIgnoreCase);
+        }
     }
 }
-</code></pre></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</code></pre><a href="https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser.Core/Utils.cs">View in source control</a></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
 </body></html>

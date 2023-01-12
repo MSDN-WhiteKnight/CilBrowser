@@ -1,0 +1,110 @@
+<html><head><title>Source file: SyntaxElementReader.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
+<h2>Source file: SyntaxElementReader.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in SyntaxModel directory:</p><p><a href="SourceParser.cs.html">SourceParser.cs</a></p><p><a href="SyntaxElement.cs.html">SyntaxElement.cs</a></p><p><a href="SyntaxElementDefinition.cs.html">SyntaxElementDefinition.cs</a></p><p><b>SyntaxElementReader.cs</b></p><p><a href="SyntaxKind.cs.html">SyntaxKind.cs</a></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
+ * Copyright (c) 2023,  MSDN.WhiteKnight 
+ * License: BSD 3-Clause */
+</span><span style="color: blue;">using </span>System;
+<span style="color: blue;">using </span>System.Collections.Generic;
+<span style="color: blue;">using </span>System.Linq;
+<span style="color: blue;">using </span>System.Text;
+<span style="color: blue;">using </span>CilView.SourceCode;
+
+<span style="color: blue;">namespace </span>CilBrowser.Core.SyntaxModel
+{
+    <span style="color: blue;">public </span><span style="color: blue;">class </span>SyntaxElementReader
+    {
+        SourceToken[] source;
+        <span style="color: blue;">int </span>pos = 0;
+        SyntaxElementDefinition[] definitions;
+
+        <span style="color: blue;">public </span>SyntaxElementReader(IEnumerable&lt;SourceToken&gt; src, IEnumerable&lt;SyntaxElementDefinition&gt; defs)
+        {
+            <span style="color: blue;">this</span>.source = src.ToArray();
+            <span style="color: blue;">this</span>.definitions = defs.ToArray();
+        }
+
+        SourceToken Read()
+        {
+            <span style="color: blue;">if </span>(pos &gt;= source.Length) <span style="color: blue;">return </span><span style="color: blue;">null</span>;
+
+            SourceToken ret = source[pos];
+            pos++;
+            <span style="color: blue;">return </span>ret;
+        }
+
+        <span style="color: blue;">public </span>SyntaxElement ReadElement()
+        {
+            <span style="color: blue;">if </span>(pos &gt;= source.Length) <span style="color: blue;">return </span><span style="color: blue;">null</span>;
+
+            SyntaxElement ret = <span style="color: blue;">new </span>SyntaxElement();
+            SyntaxElementDefinition currentElement = <span style="color: blue;">null</span>;
+
+            <span style="color: blue;">for </span>(<span style="color: blue;">int </span>i = 0; i &lt; definitions.Length; i++)
+            {
+                <span style="color: blue;">if </span>(definitions[i].HasStart(source, pos))
+                {
+                    currentElement = definitions[i];
+                    <span style="color: blue;">break</span>;
+                }
+            }
+
+            <span style="color: blue;">if </span>(currentElement == <span style="color: blue;">null</span>)
+            {
+                <span style="color: green;">//unknown element
+
+                </span><span style="color: blue;">while </span>(<span style="color: blue;">true</span>)
+                {
+                    SourceToken tok = <span style="color: blue;">this</span>.Read();
+
+                    <span style="color: blue;">if </span>(tok == <span style="color: blue;">null</span>) <span style="color: blue;">break</span>;
+
+                    ret.Add(tok);
+
+                    <span style="color: blue;">for </span>(<span style="color: blue;">int </span>i = 0; i &lt; definitions.Length; i++)
+                    {
+                        <span style="color: blue;">if </span>(definitions[i].HasStart(source, pos)) <span style="color: blue;">return </span>ret;
+                    }
+                }<span style="color: green;">//end while
+            </span>}
+            <span style="color: blue;">else
+            </span>{
+                ret.Kind = currentElement.Kind;
+
+                <span style="color: blue;">while </span>(<span style="color: blue;">true</span>)
+                {
+                    SourceToken tok = <span style="color: blue;">this</span>.Read();
+
+                    <span style="color: blue;">if </span>(tok == <span style="color: blue;">null</span>) <span style="color: blue;">break</span>;
+
+                    ret.Add(tok);
+
+                    <span style="color: blue;">if </span>(currentElement.HasEnd(source, pos))
+                    {
+                        <span style="color: blue;">break</span>;
+                    }
+                }<span style="color: green;">//end while
+            </span>}
+
+            <span style="color: blue;">return </span>ret;
+        }
+
+        <span style="color: blue;">public </span>IEnumerable&lt;SyntaxElement&gt; ReadAll()
+        {
+            <span style="color: blue;">while </span>(<span style="color: blue;">true</span>)
+            {
+                SyntaxElement x = <span style="color: blue;">this</span>.ReadElement();
+                <span style="color: blue;">if </span>(x == <span style="color: blue;">null</span>) <span style="color: blue;">break</span>;
+                yield <span style="color: blue;">return </span>x;
+            }
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">static </span>SyntaxElement[] ParseElements(IEnumerable&lt;SourceToken&gt; src, IEnumerable&lt;SyntaxElementDefinition&gt; defs)
+        {
+            SyntaxElementReader reader = <span style="color: blue;">new </span>SyntaxElementReader(src, defs);
+            <span style="color: blue;">return </span>reader.ReadAll().ToArray();
+        }
+    }
+}
+</code></pre><a href="https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser.Core/SyntaxModel/SyntaxElementReader.cs">View in source control</a></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>

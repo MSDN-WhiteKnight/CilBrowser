@@ -1,0 +1,106 @@
+<html><head><title>Type: CilBrowser.Core.SyntaxModel.Markup.XmlCommentToken</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">CilBrowser.Core</a></p>
+<h2>Type: CilBrowser.Core.SyntaxModel.Markup.XmlCommentToken</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Types in CilBrowser.Core.SyntaxModel.Markup namespace:</p><p><b>XmlCommentToken</b></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: magenta;">.class </span><span style="color: blue;">private </span><span style="color: blue;">auto </span><span style="color: blue;">ansi </span><span style="color: blue;">beforefieldinit </span><a href="2000026.html" class="memberid">CilBrowser.Core.SyntaxModel.Markup.XmlCommentToken</a>
+<span style="color: blue;">extends </span><span class="memberid">CilView.Core.Syntax</span>.<a href="2000003.html" class="memberid">SyntaxTokenDefinition</a>
+{
+
+<span style="color: magenta;"> .property </span><span style="color: blue;">instance </span><span style="color: blue;">valuetype </span><span class="memberid">CilView.Core.Syntax</span>.<a href="200000C.html" class="memberid">TokenKind</a><span class="memberid"> Kind</span>()
+ {
+<span style="color: magenta;">  .get </span><span style="color: blue;">instance </span><span style="color: blue;">valuetype </span><span class="memberid">CilView.Core.Syntax</span>.<a href="200000C.html" class="memberid">TokenKind</a> <span class="memberid">CilBrowser.Core.SyntaxModel.Markup</span>.<a href="2000026.html" class="memberid">XmlCommentToken</a>::<a href="2000026.html#M60000C7" class="memberid">get_Kind</a>()
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> rtspecialname</span><span style="color: blue;"> instance </span><span style="color: blue;">void</span><a name="M60000CA" href="2000026.html#M60000CA" class="memberid"> .ctor</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 8
+
+<span>           ldarg.0      </span>
+<span>           call         </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilView.Core.Syntax</span>.<a href="2000003.html" class="memberid">SyntaxTokenDefinition</a>::<a href="2000003.html#M6000008" class="memberid">.ctor</a>()
+<span>           nop          </span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> virtual</span><span style="color: blue;"> specialname</span><span style="color: blue;"> instance </span><span style="color: blue;">valuetype </span><span class="memberid">CilView.Core.Syntax</span>.<a href="200000C.html" class="memberid">TokenKind</a><a name="M60000C7" href="2000026.html#M60000C7" class="memberid"> get_Kind</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 8
+
+<span>           ldc.i4.s     </span><span>9</span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> virtual</span><span style="color: blue;"> instance </span><span style="color: blue;">bool</span><a name="M60000C8" href="2000026.html#M60000C8" class="memberid"> HasContinuation</a>(
+     <span style="color: blue;">string</span><span> prevPart</span>, 
+     <span style="color: blue;">class </span><span class="memberid">CilView.Core.Syntax</span>.<a href="200000D.html" class="memberid">TokenReader</a><span> reader</span>
+ )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 2
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">bool</span><span> V_0</span>)
+
+<span>           nop          </span>
+<span>           ldarg.1      </span>
+<span>           ldstr        </span><span style="color: red;">&quot;--\076&quot;</span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">EndsWith</span>(<span style="color: blue;">string</span>)
+<span>           ldc.i4.0     </span>
+<span>           ceq          </span>
+<span>           stloc.0      </span>
+<span>           br.s         </span><span>IL_0001
+</span><span>  IL_0001</span>: <span>ldloc.0      </span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> virtual</span><span style="color: blue;"> instance </span><span style="color: blue;">bool</span><a name="M60000C9" href="2000026.html#M60000C9" class="memberid"> HasStart</a>(
+     <span style="color: blue;">class </span><span class="memberid">CilView.Core.Syntax</span>.<a href="200000D.html" class="memberid">TokenReader</a><span> reader</span>
+ )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 2
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">char</span>[]<span> V_0</span>,
+     <span style="color: blue;">bool</span><span> V_1</span>,
+     <span style="color: blue;">bool</span><span> V_2</span>)
+
+<span>           nop          </span>
+<span>           ldarg.1      </span>
+<span>           ldc.i4.4     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span>[] <span class="memberid">CilView.Core.Syntax</span>.<a href="200000D.html" class="memberid">TokenReader</a>::<a href="200000D.html#M6000032" class="memberid">PeekChars</a>(<span style="color: blue;">int32</span>)
+<span>           stloc.0      </span>
+<span>           ldloc.0      </span>
+<span>           ldlen        </span>
+<span>           conv.i4      </span>
+<span>           ldc.i4.4     </span>
+<span>           clt          </span>
+<span>           stloc.1      </span>
+<span>           ldloc.1      </span>
+<span>           brfalse.s    </span><span>IL_0001
+</span><span>           ldc.i4.0     </span>
+<span>           stloc.2      </span>
+<span>           br.s         </span><span>IL_0004
+</span><span>  IL_0001</span>: <span>ldloc.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           ldelem.u2    </span>
+<span>           ldc.i4.s     </span><span>60</span>
+<span>           bne.un.s     </span><span>IL_0002
+</span><span>           ldloc.0      </span>
+<span>           ldc.i4.1     </span>
+<span>           ldelem.u2    </span>
+<span>           ldc.i4.s     </span><span>33</span>
+<span>           bne.un.s     </span><span>IL_0002
+</span><span>           ldloc.0      </span>
+<span>           ldc.i4.2     </span>
+<span>           ldelem.u2    </span>
+<span>           ldc.i4.s     </span><span>45</span>
+<span>           bne.un.s     </span><span>IL_0002
+</span><span>           ldloc.0      </span>
+<span>           ldc.i4.3     </span>
+<span>           ldelem.u2    </span>
+<span>           ldc.i4.s     </span><span>45</span>
+<span>           ceq          </span>
+<span>           br.s         </span><span>IL_0003
+</span><span>  IL_0002</span>: <span>ldc.i4.0     </span>
+<span>  IL_0003</span>: <span>stloc.2      </span>
+<span>           br.s         </span><span>IL_0004
+</span><span>  IL_0004</span>: <span>ldloc.2      </span>
+<span>           ret          </span>
+ }
+
+}
+</code></pre></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>

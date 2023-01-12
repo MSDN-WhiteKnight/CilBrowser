@@ -1,0 +1,136 @@
+<html><head><title>Source file: SyntaxElementDefinition.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
+<h2>Source file: SyntaxElementDefinition.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in SyntaxModel directory:</p><p><a href="SourceParser.cs.html">SourceParser.cs</a></p><p><a href="SyntaxElement.cs.html">SyntaxElement.cs</a></p><p><b>SyntaxElementDefinition.cs</b></p><p><a href="SyntaxElementReader.cs.html">SyntaxElementReader.cs</a></p><p><a href="SyntaxKind.cs.html">SyntaxKind.cs</a></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
+ * Copyright (c) 2023,  MSDN.WhiteKnight 
+ * License: BSD 3-Clause */
+</span><span style="color: blue;">using </span>System;
+<span style="color: blue;">using </span>System.Collections.Generic;
+<span style="color: blue;">using </span>System.Linq;
+<span style="color: blue;">using </span>System.Text;
+<span style="color: blue;">using </span>CilView.Core.Syntax;
+<span style="color: blue;">using </span>CilView.SourceCode;
+
+<span style="color: blue;">namespace </span>CilBrowser.Core.SyntaxModel
+{
+    <span style="color: blue;">public </span><span style="color: blue;">class </span>SyntaxElementDefinition
+    {
+        SyntaxFilter[] start;
+        SyntaxFilter[] end;
+        SyntaxKind kind;
+
+        <span style="color: blue;">public </span>SyntaxElementDefinition(IEnumerable&lt;SyntaxFilter&gt; startSequence,
+            IEnumerable&lt;SyntaxFilter&gt; endSequence,
+            SyntaxKind syntaxKind)
+        {
+            <span style="color: blue;">this</span>.start = startSequence.ToArray();
+            <span style="color: blue;">this</span>.end = endSequence.ToArray();
+            <span style="color: blue;">this</span>.kind = syntaxKind;
+        }
+
+        <span style="color: blue;">public </span>IEnumerable&lt;SyntaxFilter&gt; Start
+        {
+            get
+            {
+                <span style="color: blue;">for </span>(<span style="color: blue;">int </span>i = 0; i &lt; start.Length; i++)
+                {
+                    yield <span style="color: blue;">return </span>start[i];
+                }
+            }
+        }
+
+        <span style="color: blue;">public </span>IEnumerable&lt;SyntaxFilter&gt; End
+        {
+            get
+            {
+                <span style="color: blue;">for </span>(<span style="color: blue;">int </span>i = 0; i &lt; end.Length; i++)
+                {
+                    yield <span style="color: blue;">return </span>end[i];
+                }
+            }
+        }
+
+        <span style="color: blue;">public </span>SyntaxKind Kind
+        {
+            get { <span style="color: blue;">return </span><span style="color: blue;">this</span>.kind; }
+        }
+        
+        <span style="color: blue;">static </span><span style="color: blue;">bool </span>IsMatch(SourceToken[] arr, <span style="color: blue;">int </span>index, SyntaxFilter[] filters)
+        {
+            <span style="color: blue;">if </span>(index + filters.Length &gt;= arr.Length) <span style="color: blue;">return </span><span style="color: blue;">false</span>;
+            <span style="color: blue;">if </span>(index &lt; 0) <span style="color: blue;">return </span><span style="color: blue;">false</span>;
+
+            <span style="color: blue;">for </span>(<span style="color: blue;">int </span>i = 0; i &lt; filters.Length; i++)
+            {
+                SourceToken tok = arr[index + i];
+                SyntaxFilter filter = filters[i];
+
+                <span style="color: blue;">if </span>(!filter.IsMatch(tok)) <span style="color: blue;">return </span><span style="color: blue;">false</span>;
+            }
+
+            <span style="color: blue;">return </span><span style="color: blue;">true</span>;
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">bool </span>HasStart(SourceToken[] arr, <span style="color: blue;">int </span>index)
+        {
+            <span style="color: blue;">return </span>IsMatch(arr, index, <span style="color: blue;">this</span>.start);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">bool </span>HasEnd(SourceToken[] arr, <span style="color: blue;">int </span>index)
+        {
+            <span style="color: blue;">return </span>IsMatch(arr, index - <span style="color: blue;">this</span>.end.Length, <span style="color: blue;">this</span>.end);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">static </span>SyntaxElementDefinition[] GetMarkupDefs()
+        {
+            <span style="color: green;">//HTML/XML syntax element definitions
+            </span>SyntaxElementDefinition tagStart = <span style="color: blue;">new </span>SyntaxElementDefinition(
+            startSequence: <span style="color: blue;">new </span>SyntaxFilter[] {
+                <span style="color: blue;">new </span>SyntaxFilter(TokenKind.Punctuation, <span style="color: red;">&quot;&lt;&quot;</span>),
+                <span style="color: blue;">new </span>SyntaxFilter(TokenKind.Name, <span style="color: blue;">null</span>)
+            },
+            endSequence: <span style="color: blue;">new </span>SyntaxFilter[] {
+                <span style="color: blue;">new </span>SyntaxFilter(TokenKind.Punctuation, <span style="color: red;">&quot;&gt;&quot;</span>)
+            },
+            syntaxKind: SyntaxKind.TagStart);
+
+            SyntaxElementDefinition tagEnd = <span style="color: blue;">new </span>SyntaxElementDefinition(
+            startSequence: <span style="color: blue;">new </span>SyntaxFilter[] {
+                <span style="color: blue;">new </span>SyntaxFilter(TokenKind.Punctuation, <span style="color: red;">&quot;&lt;&quot;</span>),
+                <span style="color: blue;">new </span>SyntaxFilter(TokenKind.Punctuation, <span style="color: red;">&quot;/&quot;</span>),
+                <span style="color: blue;">new </span>SyntaxFilter(TokenKind.Name, <span style="color: blue;">null</span>)
+            },
+            endSequence: <span style="color: blue;">new </span>SyntaxFilter[] {
+                <span style="color: blue;">new </span>SyntaxFilter(TokenKind.Punctuation, <span style="color: red;">&quot;&gt;&quot;</span>)
+            },
+            syntaxKind: SyntaxKind.TagEnd);
+
+            <span style="color: blue;">return </span><span style="color: blue;">new </span>SyntaxElementDefinition[] { tagStart, tagEnd };
+        }
+    }
+
+    <span style="color: blue;">public </span><span style="color: blue;">class </span>SyntaxFilter
+    {
+        <span style="color: blue;">public </span>TokenKind? Kind { get; set; }
+        <span style="color: blue;">public </span><span style="color: blue;">string </span>Content { get; set; }
+
+        <span style="color: blue;">public </span>SyntaxFilter(TokenKind? kind, <span style="color: blue;">string </span>content)
+        {
+            <span style="color: blue;">this</span>.Kind = kind;
+            <span style="color: blue;">this</span>.Content = content;
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">bool </span>IsMatch(SourceToken token)
+        {
+            <span style="color: blue;">bool </span>ret = <span style="color: blue;">true</span>;
+
+            <span style="color: blue;">if </span>(<span style="color: blue;">this</span>.Kind.HasValue) ret &amp;= token.Kind == <span style="color: blue;">this</span>.Kind.Value;
+
+            <span style="color: blue;">if </span>(<span style="color: blue;">this</span>.Content != <span style="color: blue;">null</span>) ret &amp;= Utils.StrEquals(token.Content, <span style="color: blue;">this</span>.Content);
+
+            <span style="color: blue;">return </span>ret;
+        }
+    }
+}
+</code></pre><a href="https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser.Core/SyntaxModel/SyntaxElementDefinition.cs">View in source control</a></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>

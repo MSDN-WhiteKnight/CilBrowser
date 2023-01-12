@@ -1,6 +1,6 @@
 <html><head><title>Source file: Program.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
 <body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
-<h2>Source file: Program.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in CilBrowser directory:</p><p><a href="CilBrowser.csproj.html">CilBrowser.csproj</a></p><p><a href="generate-demo.cmd.html">generate-demo.cmd</a></p><p><b>Program.cs</b></p><p><a href="run.cmd.html">run.cmd</a></p></td>
+<h2>Source file: Program.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in CilBrowser directory:</p><p><a href="CilBrowser.csproj.html">CilBrowser.csproj</a></p><p><a href="CommandLineArgs.cs.html">CommandLineArgs.cs</a></p><p><a href="footer.html.html">footer.html</a></p><p><a href="generate-demo.cmd.html">generate-demo.cmd</a></p><p><b>Program.cs</b></p><p><a href="run.cmd.html">run.cmd</a></p></td>
 <td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
  * Copyright (c) 2022,  MSDN.WhiteKnight 
  * License: BSD 3-Clause */
@@ -14,21 +14,6 @@
 {
     <span style="color: blue;">class </span>Program
     {
-        <span style="color: blue;">static </span><span style="color: blue;">bool </span>TryReadExpectedParameter(<span style="color: blue;">string</span>[] args, <span style="color: blue;">int </span>pos, <span style="color: blue;">string </span>expected)
-        {
-            <span style="color: blue;">if </span>(pos &gt;= args.Length) <span style="color: blue;">return </span><span style="color: blue;">false</span>;
-
-            <span style="color: blue;">if </span>(args[pos] == expected) <span style="color: blue;">return </span><span style="color: blue;">true</span>;
-            <span style="color: blue;">else </span><span style="color: blue;">return </span><span style="color: blue;">false</span>;
-        }
-
-        <span style="color: blue;">static </span><span style="color: blue;">string </span>ReadCommandParameter(<span style="color: blue;">string</span>[] args, <span style="color: blue;">int </span>pos)
-        {
-            <span style="color: blue;">if </span>(pos &gt;= args.Length) <span style="color: blue;">return </span><span style="color: blue;">null</span>;
-
-            <span style="color: blue;">return </span>args[pos];
-        }
-
         <span style="color: blue;">static </span><span style="color: blue;">int </span>GenerateDemo()
         {
             AssemblyReader reader = <span style="color: blue;">new </span>AssemblyReader();
@@ -37,73 +22,154 @@
             <span style="color: blue;">using </span>(reader)
             {
                 Assembly ass = reader.LoadFrom(<span style="color: blue;">typeof</span>(HtmlGenerator).Assembly.Location);
-                HtmlGenerator.GenerateWebsite(ass, <span style="color: red;">&quot;./CilBrowser.Core/&quot;</span>);
+                WebsiteGenerator.GenerateFromAssembly(ass, <span style="color: blue;">string</span>.Empty, <span style="color: red;">&quot;./CilBrowser.Core/&quot;</span>, <span style="color: blue;">string</span>.Empty);
                 ass = reader.LoadFrom(<span style="color: blue;">typeof</span>(Program).Assembly.Location);
-                HtmlGenerator.GenerateWebsite(ass, <span style="color: red;">&quot;./CilBrowser/&quot;</span>);
+                WebsiteGenerator.GenerateFromAssembly(ass, <span style="color: blue;">string</span>.Empty, <span style="color: red;">&quot;./CilBrowser/&quot;</span>, <span style="color: blue;">string</span>.Empty);
             }
 
-            HtmlGenerator.GenerateWebsite(<span style="color: red;">&quot;../../../../CilBrowser.Core&quot;</span>, <span style="color: red;">&quot;./CilBrowser.Core_Source/&quot;</span>, 0);
-            HtmlGenerator.GenerateWebsite(<span style="color: red;">&quot;../../../../CilBrowser&quot;</span>, <span style="color: red;">&quot;./CilBrowser_Source/&quot;</span>, 0);
+            WebsiteGenerator.GenerateFromSources(<span style="color: red;">&quot;../../../../CilBrowser.Core&quot;</span>, <span style="color: red;">&quot;./CilBrowser.Core_Source/&quot;</span>,
+                <span style="color: red;">&quot;https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser.Core/&quot;</span>, <span style="color: blue;">string</span>.Empty);
+
+            WebsiteGenerator.GenerateFromSources(<span style="color: red;">&quot;../../../../CilBrowser&quot;</span>, <span style="color: red;">&quot;./CilBrowser_Source/&quot;</span>,
+                <span style="color: red;">&quot;https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser/&quot;</span>, <span style="color: blue;">string</span>.Empty);
 
             Console.WriteLine(<span style="color: red;">&quot;Generated!&quot;</span>);
             <span style="color: blue;">return </span>0;
         }
 
-        <span style="color: blue;">static </span><span style="color: blue;">void </span>Main(<span style="color: blue;">string</span>[] args)
+        <span style="color: blue;">static </span><span style="color: blue;">int </span>Main(<span style="color: blue;">string</span>[] args)
         {
-            <span style="color: green;">//parse command line parameters
-            </span><span style="color: blue;">string </span>inputPath;
-            <span style="color: blue;">string </span>outputPath = <span style="color: blue;">null</span>;
-
             <span style="color: blue;">if </span>(args.Length == 0)
             {
                 GenerateDemo();
-                <span style="color: blue;">return</span>;
+                <span style="color: blue;">return </span>0;
             }
 
-            <span style="color: blue;">int </span>pos = 0;
-
-            <span style="color: blue;">if </span>(TryReadExpectedParameter(args, pos, <span style="color: red;">&quot;--output&quot;</span>))
+            NamedArgumentDefinition[] defs = <span style="color: blue;">new </span>NamedArgumentDefinition[]
             {
-                pos++;
-                outputPath = ReadCommandParameter(args, pos);
-                pos++;
+                <span style="color: blue;">new </span>NamedArgumentDefinition(<span style="color: red;">&quot;--output&quot;</span>, <span style="color: blue;">true</span>),
+                <span style="color: blue;">new </span>NamedArgumentDefinition(<span style="color: red;">&quot;--namespace&quot;</span>, <span style="color: blue;">true</span>),
+                <span style="color: blue;">new </span>NamedArgumentDefinition(<span style="color: red;">&quot;--footer&quot;</span>, <span style="color: blue;">true</span>),
+            };
+
+            <span style="color: green;">// *** Parse command line parameters ***
+            </span>CommandLineArgs cla = <span style="color: blue;">new </span>CommandLineArgs(args, defs);
+            <span style="color: blue;">string </span>inputPath = <span style="color: blue;">string</span>.Empty;
+            <span style="color: blue;">string </span>outputPath = <span style="color: blue;">string</span>.Empty;
+            <span style="color: blue;">string </span>namespaceFilter = <span style="color: blue;">string</span>.Empty;
+            <span style="color: blue;">string </span>footerPath = <span style="color: blue;">string</span>.Empty;
+            <span style="color: blue;">bool </span>server = <span style="color: blue;">false</span>;
+
+            <span style="color: green;">//named parameters
+            </span><span style="color: blue;">if </span>(cla.HasNamedArgument(<span style="color: red;">&quot;--output&quot;</span>))
+            {
+                outputPath = cla.GetNamedArgument(<span style="color: red;">&quot;--output&quot;</span>);
             }
 
-            inputPath = ReadCommandParameter(args, pos);
+            <span style="color: blue;">if </span>(cla.HasNamedArgument(<span style="color: red;">&quot;--namespace&quot;</span>))
+            {
+                namespaceFilter = cla.GetNamedArgument(<span style="color: red;">&quot;--namespace&quot;</span>);
+            }
 
+            <span style="color: blue;">if </span>(cla.HasNamedArgument(<span style="color: red;">&quot;--footer&quot;</span>))
+            {
+                footerPath = cla.GetNamedArgument(<span style="color: red;">&quot;--footer&quot;</span>);
+            }
+
+            <span style="color: green;">//positional parameter: input path
+            </span><span style="color: blue;">if </span>(cla.PositionalArgumentsCount &gt; 0)
+            {
+                inputPath = cla.GetPositionalArgument(0);
+            }
+            
             <span style="color: blue;">if </span>(<span style="color: blue;">string</span>.IsNullOrEmpty(inputPath))
             {
-                GenerateDemo();
-                <span style="color: blue;">return</span>;
+                <span style="color: green;">//Input path not specified, generate demo website
+                </span>GenerateDemo();
+                <span style="color: blue;">return </span>0;
             }
 
             <span style="color: blue;">if </span>(<span style="color: blue;">string</span>.IsNullOrEmpty(outputPath))
             {
-                outputPath = <span style="color: red;">&quot;./Output/&quot;</span>;
+                <span style="color: green;">//Output path is not specified, use server mode instead of generating website
+                </span>server = <span style="color: blue;">true</span>;
             }
 
-            <span style="color: green;">//generate website
+            <span style="color: blue;">string </span>footerContent = <span style="color: blue;">string</span>.Empty;
+
+            <span style="color: blue;">if </span>(!<span style="color: blue;">string</span>.IsNullOrEmpty(footerPath))
+            {
+                <span style="color: blue;">if </span>(server)
+                {
+                    Console.WriteLine(<span style="color: red;">&quot;Error: Custom footer is not supported in server mode&quot;</span>);
+                    <span style="color: blue;">return </span>1;
+                }
+
+                <span style="color: green;">//read custom footer file
+                </span>footerContent = File.ReadAllText(footerPath);
+            }
+
+            <span style="color: blue;">if </span>(!<span style="color: blue;">string</span>.IsNullOrEmpty(namespaceFilter) &amp;&amp; server)
+            {
+                Console.WriteLine(<span style="color: red;">&quot;Error: Namespace filter is not supported in server mode&quot;</span>);
+                <span style="color: blue;">return </span>1;
+            }
+            
+            <span style="color: green;">// *** Run program ***
             </span><span style="color: blue;">string </span>ext = Path.GetExtension(inputPath);
 
             <span style="color: blue;">if </span>(Utils.StrEquals(ext, <span style="color: red;">&quot;.dll&quot;</span>) || Utils.StrEquals(ext, <span style="color: red;">&quot;.exe&quot;</span>) || Utils.StrEquals(ext, <span style="color: red;">&quot;.winmd&quot;</span>))
             {
-                AssemblyReader reader = <span style="color: blue;">new </span>AssemblyReader();
+                <span style="color: green;">//assembly file
+                </span>AssemblyReader reader = <span style="color: blue;">new </span>AssemblyReader();
 
                 <span style="color: blue;">using </span>(reader)
                 {
                     Assembly ass = reader.LoadFrom(inputPath);
-                    HtmlGenerator.GenerateWebsite(ass, outputPath);
+
+                    <span style="color: blue;">if </span>(server)
+                    {
+                        <span style="color: green;">//run server
+                        </span>Console.WriteLine(<span style="color: red;">&quot;Running server...&quot;</span>);
+                        Server srv = <span style="color: blue;">new </span>Server(ass);
+                        srv.RunInBackground();
+
+                        <span style="color: blue;">while </span>(<span style="color: blue;">true</span>)
+                        {
+                            ConsoleKeyInfo key = Console.ReadKey();
+
+                            <span style="color: blue;">if </span>(key.Key == ConsoleKey.E)
+                            {
+                                srv.Stop();
+                                srv.Dispose();
+                                <span style="color: blue;">break</span>;
+                            }
+                        }
+                    }
+                    <span style="color: blue;">else
+                    </span>{
+                        <span style="color: green;">//generate static website
+                        </span>WebsiteGenerator.GenerateFromAssembly(ass, namespaceFilter, outputPath, footerContent);
+                        Console.WriteLine(<span style="color: red;">&quot;Generated!&quot;</span>);
+                    }
                 }
             }
             <span style="color: blue;">else </span><span style="color: green;">//source directory
             </span>{
-                HtmlGenerator.GenerateWebsite(inputPath, outputPath, 0);
+                <span style="color: blue;">if </span>(server)
+                {
+                    Console.WriteLine(<span style="color: red;">&quot;Error: Server mode is not supported for sources&quot;</span>);
+                    <span style="color: blue;">return </span>1;
+                }
+
+                <span style="color: green;">//generate static website
+                </span>WebsiteGenerator.GenerateFromSources(inputPath, outputPath, <span style="color: blue;">string</span>.Empty, footerContent);
+                Console.WriteLine(<span style="color: red;">&quot;Generated!&quot;</span>);
             }
 
-            Console.WriteLine(<span style="color: red;">&quot;Generated!&quot;</span>);
+            <span style="color: blue;">return </span>0;
         }
     }
 }
-</code></pre></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</code></pre><a href="https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser/Program.cs">View in source control</a></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
 </body></html>
