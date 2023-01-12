@@ -1,4 +1,4 @@
-﻿/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
+/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
  * Copyright (c) 2022,  MSDN.WhiteKnight 
  * License: BSD 3-Clause */
 using System;
@@ -68,7 +68,15 @@ namespace CilBrowser.Core
 
             return Utils.IsTypeInAssembly(tDecl, ass);
         }
-        
+
+        static bool IsNameToken(SyntaxNode node)
+        {
+            SourceToken tok = node as SourceToken;
+
+            if (tok == null) return false;
+            else return tok.Kind == TokenKind.Name;
+        }
+
         void VisualizeNode(SyntaxNode node, HtmlBuilder target)
         {
             SyntaxNode[] children = node.GetChildNodes();
@@ -76,7 +84,43 @@ namespace CilBrowser.Core
 
             if (children.Length > 0)
             {
-                foreach (SyntaxNode child in children) VisualizeNode(child, target);
+                if (node is SyntaxElement)
+                {
+                    SyntaxElement elem = (SyntaxElement)node;
+
+                    if (elem.Kind == SyntaxKind.TagStart || elem.Kind == SyntaxKind.TagEnd)
+                    {
+                        SyntaxNode[] tokens = elem.GetChildNodes();
+                        int nameIndex;
+
+                        if (elem.Kind == SyntaxKind.TagStart) nameIndex = 1;
+                        else nameIndex = 2;
+
+                        for (int i = 0; i < tokens.Length; i++)
+                        {
+                            if (i == nameIndex && IsNameToken(tokens[i]))
+                            {
+                                //highlighted tag name
+                                target.WriteTag("span", tokens[i].ToString(),
+                                    HtmlBuilder.OneAttribute("style", "color: blue;"));
+                            }
+                            else
+                            {
+                                //rest of the content
+                                VisualizeNode(tokens[i], target);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (SyntaxNode child in children) VisualizeNode(child, target);
+                    }
+                }
+                else
+                {
+                    //other syntax nodes
+                    foreach (SyntaxNode child in children) VisualizeNode(child, target);
+                }
             }
             else if (node is KeywordSyntax)
             {
