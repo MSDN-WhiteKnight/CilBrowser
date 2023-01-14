@@ -3,6 +3,7 @@
  * License: BSD 3-Clause */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Globalization;
 using System.Linq;
@@ -480,11 +481,85 @@ namespace CilBrowser.Core
             return sb.ToString();
         }
 
-        public static void WriteTocStart(HtmlBuilder toc, AssemblyName an)
+        static void VisualizeVersionInfo(HtmlBuilder target, Assembly ass)
         {
+            AssemblyName an = ass.GetName();
+            target.WriteTagStart("table", HtmlBuilder.OneAttribute("cellpadding", "4"));
+
+            if (an.Version != null)
+            {
+                target.WriteTagStart("tr");
+                target.WriteTag("td", "Assembly version");
+                target.WriteTag("td", an.Version.ToString());
+                target.WriteTagEnd("tr");
+            }
+
+            if (string.IsNullOrEmpty(ass.Location))
+            {
+                //cannot display version info if location is unknown
+                target.WriteTagEnd("table");
+                return;
+            }
+
+            FileVersionInfo fvi;
+
+            try
+            {
+                fvi = FileVersionInfo.GetVersionInfo(ass.Location);
+            }
+            catch (Exception ex)
+            {
+                target.WriteTagEnd("table");
+                target.WriteParagraph("Failed to get file version info!");
+                target.WriteRaw(VisualizeException(ex));                
+                Console.WriteLine(ex.ToString());
+                return;
+            }
+
+            if (fvi.FileVersion != null)
+            {
+                target.WriteTagStart("tr");
+                target.WriteTag("td", "File version");
+                target.WriteTag("td", fvi.FileVersion);
+                target.WriteTagEnd("tr");
+            }
+
+            if (fvi.ProductVersion != null)
+            {
+                target.WriteTagStart("tr");
+                target.WriteTag("td", "Product version");
+                target.WriteTag("td", fvi.ProductVersion);
+                target.WriteTagEnd("tr");
+            }
+
+            if (fvi.ProductName != null)
+            {
+                target.WriteTagStart("tr");
+                target.WriteTag("td", "Product name");
+                target.WriteTag("td", fvi.ProductName);
+                target.WriteTagEnd("tr");
+            }
+
+            if (fvi.CompanyName != null)
+            {
+                target.WriteTagStart("tr");
+                target.WriteTag("td", "Vendor");
+                target.WriteTag("td", fvi.CompanyName);
+                target.WriteTagEnd("tr");
+            }
+
+            target.WriteTagEnd("table");
+            
+            if (!string.IsNullOrEmpty(fvi.LegalCopyright)) target.WriteParagraph(fvi.LegalCopyright);
+        }
+
+        public static void WriteTocStart(HtmlBuilder toc, Assembly ass)
+        {
+            AssemblyName an = ass.GetName();
             toc.StartDocument(".NET CIL Browser - " + an.Name, GlobalStyles);
             toc.WriteParagraph(".NET CIL Browser");
             toc.WriteTag("h1", an.Name);
+            VisualizeVersionInfo(toc, ass);
             toc.WriteRaw(Environment.NewLine);
             toc.StartParagraph();
             toc.WriteHyperlink("assembly.html", "(Assembly manifest)");

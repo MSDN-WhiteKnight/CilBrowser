@@ -181,7 +181,7 @@ namespace CilBrowser.Core
 
                     using (wr)
                     {
-                        HtmlGenerator.WriteTocStart(toc, this._ass.GetName());
+                        HtmlGenerator.WriteTocStart(toc, this._ass);
 
                         for (int i = 0; i < namespaces.Length; i++)
                         {

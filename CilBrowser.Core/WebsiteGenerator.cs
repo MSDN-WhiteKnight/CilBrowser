@@ -59,7 +59,7 @@ namespace CilBrowser.Core
             if (!string.IsNullOrEmpty(nsFilter)) Console.WriteLine("Namespace filter: " + nsFilter);
 
             Console.WriteLine("Output path: " + outputPath);
-            HtmlGenerator.WriteTocStart(toc, an);
+            HtmlGenerator.WriteTocStart(toc, ass);
 
             //write types
             Type[] types = ass.GetTypes();
