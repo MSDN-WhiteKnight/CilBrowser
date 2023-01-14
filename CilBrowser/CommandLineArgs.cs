@@ -120,14 +120,16 @@ namespace CilBrowser
 
     class NamedArgumentDefinition
     {
-        public NamedArgumentDefinition(string name, bool hasValue)
+        public NamedArgumentDefinition(string name, bool hasValue, string descr)
         {
             this.Name = name;
             this.HasValue = hasValue;
+            this.Description = descr;
         }
 
         public string Name { get; set; }
         public bool HasValue { get; set; }
+        public string Description { get; set; }
 
         public static bool IsArgumentWithValue(string name, IEnumerable<NamedArgumentDefinition> defs)
         {

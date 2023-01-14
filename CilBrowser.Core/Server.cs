@@ -20,18 +20,22 @@ namespace CilBrowser.Core
     public sealed class Server : IDisposable
     {
         Assembly _ass;
+        string _urlHost;
+        string _urlPrefix;
         HtmlGenerator _gen;
         HttpListener _listener;
         Dictionary<string, List<Type>> _typeMap;
         Dictionary<string, string> _cache = new Dictionary<string, string>(CacheCapacity);
         
-        const string UrlHost = "http://localhost:8080";
-        const string UrlPrefix = "/CilBrowser/";
+        public const string DefaultUrlHost = "http://localhost:8080";
+        public const string DefaultUrlPrefix = "/CilBrowser/";
         const int CacheCapacity = 200;
 
-        public Server(Assembly ass)
+        public Server(Assembly ass, string urlHost, string urlPrefix)
         {
             this._ass = ass;
+            this._urlHost = urlHost;
+            this._urlPrefix = urlPrefix;
             this._gen = new HtmlGenerator(ass);
 
             Type[] types = ass.GetTypes();
@@ -58,9 +62,9 @@ namespace CilBrowser.Core
             else return string.Empty;
         }
 
-        static int ResolveTokenFromUrl(string url)
+        int ResolveTokenFromUrl(string url)
         {
-            int index = UrlPrefix.Length;
+            int index = this._urlPrefix.Length;
 
             if (index >= url.Length) return 0;
 
@@ -126,10 +130,10 @@ namespace CilBrowser.Core
             StreamWriter wr;
 
             // Add the prefixes.
-            listener.Prefixes.Add(UrlHost + UrlPrefix);
+            listener.Prefixes.Add(this._urlHost + this._urlPrefix);
             listener.Start();
             Console.WriteLine("Assembly: " + this._ass.GetName().Name);
-            Console.WriteLine("Displaying web UI on " + UrlHost + UrlPrefix);
+            Console.WriteLine("Displaying web UI on " + this._urlHost + this._urlPrefix);
             Console.WriteLine("Press E to stop server");
 
             while (true)
@@ -149,7 +153,7 @@ namespace CilBrowser.Core
 
                 // Construct a response.
 
-                if (!url.StartsWith(UrlPrefix))
+                if (!url.StartsWith(this._urlPrefix))
                 {
                     //вернуть ошибку при неверном URL
                     SendErrorResponse(response, 404, "Not found");
@@ -168,7 +172,7 @@ namespace CilBrowser.Core
                     continue;
                 }
                 
-                if (Utils.StrEquals(url, UrlPrefix) || Utils.StrEquals(url, UrlPrefix + "index.html"))
+                if (Utils.StrEquals(url, this._urlPrefix) || Utils.StrEquals(url, this._urlPrefix + "index.html"))
                 {
                     // Table of contents
                     response.ContentType = "text/html; charset=utf-8";
@@ -216,7 +220,7 @@ namespace CilBrowser.Core
 
                 string content;
 
-                if (Utils.StrEquals(url, UrlPrefix + "assembly.html"))
+                if (Utils.StrEquals(url, this._urlPrefix + "assembly.html"))
                 {
                     // Assembly manifest
                     content = this._gen.VisualizeAssemblyManifest(this._ass);

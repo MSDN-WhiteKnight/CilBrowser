@@ -11,6 +11,8 @@ namespace CilBrowser
 {
     class Program
     {
+        static NamedArgumentDefinition[] defs;
+
         static int GenerateDemo()
         {
             AssemblyReader reader = new AssemblyReader();
@@ -34,6 +36,21 @@ namespace CilBrowser
             return 0;
         }
 
+        static void PrintHelp()
+        {
+            Console.WriteLine("*** CIL Browser {0} ***", typeof(Program).Assembly.GetName().Version);
+            Console.WriteLine();
+            Console.WriteLine("Command line syntax:");
+            Console.WriteLine("  CilBrowser [Options] <InputPath>");
+            Console.WriteLine();
+            Console.WriteLine("Options:");
+
+            for (int i = 0; i < defs.Length; i++)
+            {
+                Console.WriteLine(defs[i].Name + ": " + defs[i].Description);
+            }
+        }
+
         static int Main(string[] args)
         {
             if (args.Length == 0)
@@ -42,12 +59,20 @@ namespace CilBrowser
                 return 0;
             }
 
-            NamedArgumentDefinition[] defs = new NamedArgumentDefinition[]
+            defs = new NamedArgumentDefinition[]
             {
-                new NamedArgumentDefinition("--output", true),
-                new NamedArgumentDefinition("--namespace", true),
-                new NamedArgumentDefinition("--footer", true),
+                new NamedArgumentDefinition("--output", true, "Output directory"),
+                new NamedArgumentDefinition("--namespace", true, "Namespace filter"),
+                new NamedArgumentDefinition("--footer", true, "Custom footer file path"),
+                new NamedArgumentDefinition("--host", true, "URL host (default is " + Server.DefaultUrlHost + ")"),
+                new NamedArgumentDefinition("--prefix", true, "URL prefix (default is " + Server.DefaultUrlPrefix + ")"),
             };
+
+            if (Utils.StrEquals(args[0], "help") || Utils.StrEquals(args[0], "-?") || Utils.StrEquals(args[0], "/?"))
+            {
+                PrintHelp();
+                return 0;
+            }
 
             // *** Parse command line parameters ***
             CommandLineArgs cla = new CommandLineArgs(args, defs);
@@ -55,6 +80,8 @@ namespace CilBrowser
             string outputPath = string.Empty;
             string namespaceFilter = string.Empty;
             string footerPath = string.Empty;
+            string urlHost = string.Empty;
+            string urlPrefix = string.Empty;
             bool server = false;
 
             //named parameters
@@ -71,6 +98,16 @@ namespace CilBrowser
             if (cla.HasNamedArgument("--footer"))
             {
                 footerPath = cla.GetNamedArgument("--footer");
+            }
+
+            if (cla.HasNamedArgument("--host"))
+            {
+                urlHost = cla.GetNamedArgument("--host");
+            }
+
+            if (cla.HasNamedArgument("--prefix"))
+            {
+                urlPrefix = cla.GetNamedArgument("--prefix");
             }
 
             //positional parameter: input path
@@ -111,6 +148,27 @@ namespace CilBrowser
                 Console.WriteLine("Error: Namespace filter is not supported in server mode");
                 return 1;
             }
+
+            if (server)
+            {
+                if (string.IsNullOrEmpty(urlHost))
+                {
+                    urlHost = Server.DefaultUrlHost;
+                }
+
+                if (string.IsNullOrEmpty(urlPrefix))
+                {
+                    urlPrefix = Server.DefaultUrlPrefix;
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(urlHost) || !string.IsNullOrEmpty(urlPrefix))
+                {
+                    Console.WriteLine("Error: --host or --prefix should not be specified in website generator mode");
+                    return 1;
+                }
+            }
             
             // *** Run program ***
             string ext = Path.GetExtension(inputPath);
@@ -128,7 +186,7 @@ namespace CilBrowser
                     {
                         //run server
                         Console.WriteLine("Running server...");
-                        Server srv = new Server(ass);
+                        Server srv = new Server(ass, urlHost, urlPrefix);
                         srv.RunInBackground();
 
                         while (true)
