@@ -95,5 +95,85 @@ namespace CilBrowser.Core
             string name2 = ass.GetName().Name;
             return string.Equals(name1, name2, StringComparison.InvariantCultureIgnoreCase);
         }
+
+        /// <summary>
+        /// Creates unique temp directory under the current assembly location directory and returns its path
+        /// </summary>
+        public static string CreateTempDir(string dirname)
+        {
+            string t = Path.GetDirectoryName(typeof(Utils).Assembly.Location);
+            string ret = String.Empty;
+            Random rnd = new Random();
+            int n = 0;
+
+            //generate unique temp directory path
+
+            while (true)
+            {
+                int x = rnd.Next();
+                string uniqueNumber = x.ToString("X");
+                ret = Path.Combine(t, uniqueNumber, dirname);
+
+                if (!File.Exists(ret) && !Directory.Exists(ret))
+                {
+                    //found unique name
+                    Directory.CreateDirectory(ret);
+                    return ret;
+                }
+
+                n++;
+
+                if (n > 2000) throw new IOException("Failed to generate temp directory name");
+            }
+        }
+
+        /// <summary>
+        /// Tries to delete the directory with the specified path and all of its subdirectories. Does not stop on exceptions.
+        /// </summary>
+        public static bool DeleteTempDirRecursive(string dir, int n)
+        {
+            string[] files = Directory.GetFiles(dir);
+            bool success = true;
+
+            //delete files in a dir
+            for (int i = 0; i < files.Length; i++)
+            {
+                try
+                {
+                    File.Delete(files[i]);
+                }
+                catch (Exception)
+                {
+                    success = false;
+                }
+            }
+
+            if (n > 500)
+            {
+                Console.WriteLine("Error: recursion is too deep when removing temp dirs!");
+                return false;
+            }
+
+            //delete subdirs
+            string[] subdirs = Directory.GetDirectories(dir);
+
+            for (int i = 0; i < subdirs.Length; i++)
+            {
+                bool res = DeleteTempDirRecursive(subdirs[i], n+1);
+                if (res == false) success = false;
+            }
+
+            //if all files and subdirs are removed, we can remove the whole directory
+            if (success)
+            {
+                try
+                {
+                    Directory.Delete(dir);
+                }
+                catch (Exception){}
+            }
+
+            return success;
+        }
     }
 }

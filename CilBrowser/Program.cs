@@ -4,8 +4,10 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 using CilBrowser.Core;
 using CilTools.Metadata;
+using Integration.Git;
 
 namespace CilBrowser
 {
@@ -49,6 +51,37 @@ namespace CilBrowser
             {
                 Console.WriteLine(defs[i].Name + ": " + defs[i].Description);
             }
+        }
+
+        static int GenerateFromGitRepository(string url, string outputPath, string footerContent)
+        {
+            string repoName = Path.GetFileNameWithoutExtension(url);
+
+            if (string.IsNullOrEmpty(repoName)) repoName = "repo";
+            
+            // Clone remote to temp directory
+            string cloneDir = Utils.CreateTempDir(repoName);
+            string cloneDirLinux = cloneDir.Replace('\\', '/'); //git bash uses Linux paths
+
+            try
+            {
+                Console.WriteLine("Cloning git repository to " + cloneDirLinux + "...");
+                string output = GitBash.ExecuteCommand("git clone " + url + " " + cloneDirLinux);
+                Console.WriteLine(output);
+
+                Console.WriteLine("Generating website from cloned sources...");
+                WebsiteGenerator.GenerateFromSources(cloneDir, outputPath, string.Empty, footerContent);
+            }
+            finally
+            {
+                // Try to delete cloned sources. This will most likely fail because git has some background process
+                // that keeps objects open even after we've finished working with repository.
+                Thread.Sleep(500);
+                Utils.DeleteTempDirRecursive(cloneDir, 0);
+            }
+
+            Console.WriteLine("Generated!");
+            return 0;
         }
 
         static int Main(string[] args)
@@ -208,6 +241,10 @@ namespace CilBrowser
                         Console.WriteLine("Generated!");
                     }
                 }
+            }
+            else if (inputPath.EndsWith(".git"))
+            {
+                return GenerateFromGitRepository(inputPath, outputPath, footerContent);
             }
             else //source directory
             {
