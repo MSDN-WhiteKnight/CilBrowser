@@ -38,7 +38,7 @@ namespace CilView.Core.Syntax
             if (currentToken == null)
             {
                 //unknown token
-                System.Diagnostics.Debug.Assert(false, "Unknown token at " + this._pos.ToString());
+                System.Diagnostics.Debug.WriteLine("Warning: Unknown token at " + this._pos.ToString());
 
                 while (true)
                 {

@@ -48,7 +48,7 @@ namespace CilBrowser.Core
 
             //write assembly manifest
             string html = generator.VisualizeAssemblyManifest(ass);
-            File.WriteAllText(Path.Combine(outputPath, "assembly.html"), html);
+            File.WriteAllText(Path.Combine(outputPath, "assembly.html"), html, Encoding.UTF8);
 
             //create Table of contents builder
             StringBuilder sb = new StringBuilder(1000);
@@ -127,14 +127,14 @@ namespace CilBrowser.Core
                         Console.WriteLine(nsTypes[j].FullName + " - empty");
                     }
 
-                    File.WriteAllText(Path.Combine(outputPath, fname), html);
+                    File.WriteAllText(Path.Combine(outputPath, fname), html, Encoding.UTF8);
                 }
             }
 
             //write TOC
             generator.WriteFooter(toc);
             toc.EndDocument();
-            File.WriteAllText(Path.Combine(outputPath, "index.html"), sb.ToString());
+            File.WriteAllText(Path.Combine(outputPath, "index.html"), sb.ToString(), Encoding.UTF8);
         }
 
         static string VisualizeNavigationPanel(string filename, string dirName, string[] dirFiles)
@@ -244,7 +244,7 @@ namespace CilBrowser.Core
                     Console.WriteLine(name);
 
                     //file content
-                    File.WriteAllText(Path.Combine(outputPath, name + ".html"), html);
+                    File.WriteAllText(Path.Combine(outputPath, name + ".html"), html, Encoding.UTF8);
 
                     //TOC entry
                     toc.StartParagraph();
@@ -274,7 +274,7 @@ namespace CilBrowser.Core
             //write TOC
             generator.WriteFooter(toc);
             toc.EndDocument();
-            File.WriteAllText(Path.Combine(outputPath, "index.html"), sb.ToString());
+            File.WriteAllText(Path.Combine(outputPath, "index.html"), sb.ToString(), Encoding.UTF8);
         }
 
         /// <summary>
