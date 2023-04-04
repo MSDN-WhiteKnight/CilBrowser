@@ -1,19 +1,19 @@
-﻿/* CIL Tools 
- * Copyright (c) 2022,  MSDN.WhiteKnight (https://github.com/MSDN-WhiteKnight) 
- * License: BSD 2.0 */
+﻿/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
+ * Copyright (c) 2023,  MSDN.WhiteKnight 
+ * License: BSD 3-Clause */
 using System;
 using System.Collections.Generic;
 using System.Text;
-using CilView.Core.Syntax;
+using CilTools.Syntax.Tokens;
 
-namespace CilView.SourceCode.Common
+namespace CilTools.SourceCode.Common
 {
     /// <summary>
-    /// Defines a name (identifier or keyword) token common to multiple programming languages
+    /// Defines a name (identifier or keyword) token common to multiple C-like programming languages
     /// </summary>
     internal class CommonNameToken : SyntaxTokenDefinition
     {
-        public override TokenKind Kind => TokenKind.Name;
+        // From: https://github.com/MSDN-WhiteKnight/CilTools/blob/master/CilTools.SourceCode/Common/CommonNameToken.cs
 
         public override bool HasStart(TokenReader reader)
         {

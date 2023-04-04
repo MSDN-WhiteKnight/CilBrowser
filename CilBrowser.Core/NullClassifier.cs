@@ -1,23 +1,23 @@
 ﻿/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
- * Copyright (c) 2022,  MSDN.WhiteKnight 
+ * Copyright (c) 2023,  MSDN.WhiteKnight 
  * License: BSD 3-Clause */
 using System;
 using System.Collections.Generic;
 using System.Text;
-using CilView.Core.Syntax;
-using CilView.SourceCode;
+using CilTools.Syntax;
+using CilTools.SourceCode.Common;
 
 namespace CilBrowser.Core
 {
-    class NullClassifier : TokenClassifier
+    class NullClassifier : SyntaxFactory
     {
         internal static readonly NullClassifier Value = new NullClassifier();
 
         private NullClassifier() { }
 
-        public override TokenKind GetKind(string token)
+        public override SyntaxNode CreateNode(string content, string leadingWhitespace, string trailingWhitespace)
         {
-            return TokenKind.Unknown;
+            return new SourceToken(content, TokenKind.Unknown, leadingWhitespace, trailingWhitespace);
         }
     }
 }

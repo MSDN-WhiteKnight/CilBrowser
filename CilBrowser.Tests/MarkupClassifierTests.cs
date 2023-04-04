@@ -7,9 +7,9 @@ using System.IO;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CilBrowser.Core.SyntaxModel;
+using CilBrowser.Core.SyntaxModel.Markup;
 using CilTools.Syntax;
-using CilView.Core.Syntax;
-using CilView.SourceCode;
+using CilTools.SourceCode.Common;
 
 namespace CilBrowser.Tests
 {
