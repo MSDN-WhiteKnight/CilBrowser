@@ -25,7 +25,7 @@ namespace CilBrowser.Core.SyntaxModel
 
         public static SourceToken[] ParseXmlTokens(string content)
         {
-            return SyntaxReader.ReadAllNodes(content, s_markupDefinitions, MarkupClassifier.Value).
+            return SyntaxReader.ReadAllNodes(content, s_markupDefinitions, MarkupTokenFactory.Value).
                 Cast<SourceToken>().ToArray();
         }
 

@@ -9,11 +9,14 @@ using CilTools.SourceCode.Common;
 
 namespace CilBrowser.Core.SyntaxModel.Markup
 {
-    public sealed class MarkupClassifier : SyntaxFactory
+    /// <summary>
+    /// Produces <see cref="SourceToken"/> instances for markup languages (XML, HTML)
+    /// </summary>
+    public sealed class MarkupTokenFactory : SyntaxFactory
     {
-        private MarkupClassifier() { }
+        private MarkupTokenFactory() { }
 
-        public static readonly MarkupClassifier Value = new MarkupClassifier();
+        public static readonly MarkupTokenFactory Value = new MarkupTokenFactory();
 
         static TokenKind GetKindCommon(string token)
         {
@@ -83,7 +86,7 @@ namespace CilBrowser.Core.SyntaxModel.Markup
             }
         }
 
-        public TokenKind GetKind(string token)
+        static TokenKind GetKind(string token)
         {
             if (token.Length == 0) return TokenKind.Unknown;
 

@@ -14,18 +14,22 @@ using CilTools.SourceCode.Common;
 namespace CilBrowser.Tests
 {
     [TestClass]
-    public class MarkupClassifierTests
+    public class MarkupTokenFactoryTests
     {
         [DataRow("Project", TokenKind.Name)]
         [DataRow("<", TokenKind.Punctuation)]
         [DataRow("<!-- <Commented> -->", TokenKind.Comment)]
         [DataRow("<!-- \"Commented\" -->", TokenKind.Comment)]
         [DataTestMethod]
-        public void Test_GetKind(string token, TokenKind expected)
+        public void Test_CreateNode(string token, TokenKind expected)
         {
-            MarkupClassifier classifier = MarkupClassifier.Value;
-            TokenKind actual = classifier.GetKind(token);
-            Assert.AreEqual(expected, actual);
+            MarkupTokenFactory factory = MarkupTokenFactory.Value;
+            SourceToken st = (SourceToken)factory.CreateNode(token, string.Empty, string.Empty);
+
+            Assert.AreEqual(token, st.Content);
+            Assert.AreEqual(expected, st.Kind);
+            Assert.AreEqual(string.Empty, st.LeadingWhitespace);
+            Assert.AreEqual(string.Empty, st.TrailingWhitespace);
         }
 
         [DataRow("int x = 0; Console.WriteLine(\"Test\"); //comment", ".cs")]
