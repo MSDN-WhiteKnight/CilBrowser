@@ -41,7 +41,7 @@ namespace CilBrowser.Core.SyntaxModel
             {
                 //disable syntax highlighting for plaintext files
                 return SyntaxReader.ReadAllNodes(content, SourceCodeUtils.GetTokenDefinitions(ext),
-                    NullClassifier.Value);
+                    UnknownTokenFactory.Value);
             }
             else if (s_markupExts.Contains(ext))
             {

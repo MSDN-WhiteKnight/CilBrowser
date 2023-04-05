@@ -5,15 +5,18 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using CilTools.Syntax;
-using CilTools.SourceCode.Common;
 
-namespace CilBrowser.Core
+namespace CilTools.SourceCode.Common
 {
-    class NullClassifier : SyntaxFactory
+    /// <summary>
+    /// Produces <see cref="SourceToken"/> instances classified as <see cref="TokenKind.Unknown"/> for all inputs 
+    /// (useful to disable syntax highlighting).
+    /// </summary>
+    class UnknownTokenFactory : SyntaxFactory
     {
-        internal static readonly NullClassifier Value = new NullClassifier();
+        internal static readonly UnknownTokenFactory Value = new UnknownTokenFactory();
 
-        private NullClassifier() { }
+        private UnknownTokenFactory() { }
 
         public override SyntaxNode CreateNode(string content, string leadingWhitespace, string trailingWhitespace)
         {
