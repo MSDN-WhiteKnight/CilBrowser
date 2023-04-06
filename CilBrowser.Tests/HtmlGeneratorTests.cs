@@ -9,8 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CilBrowser.Core;
 using CilTools.Metadata;
 using CilTools.Syntax;
-using CilView.Core.Syntax;
-using CilView.SourceCode;
+using CilTools.SourceCode.Common;
 
 namespace CilBrowser.Tests
 {

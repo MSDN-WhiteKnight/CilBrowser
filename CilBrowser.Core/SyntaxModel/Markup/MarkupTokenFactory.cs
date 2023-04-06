@@ -1,41 +1,27 @@
-﻿/* CIL Tools 
- * Copyright (c) 2022, MSDN.WhiteKnight (https://github.com/MSDN-WhiteKnight) 
- * License: BSD 2.0 */
+/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
+ * Copyright (c) 2023,  MSDN.WhiteKnight 
+ * License: BSD 3-Clause */
 using System;
 using System.Collections.Generic;
 using System.Text;
-using CilView.Core.Syntax;
-using CilView.SourceCode.VisualBasic;
+using CilTools.Syntax;
+using CilTools.SourceCode.Common;
 
-namespace CilView.SourceCode
+namespace CilBrowser.Core.SyntaxModel.Markup
 {
-    public abstract class TokenClassifier
+    /// <summary>
+    /// Produces <see cref="SourceToken"/> instances for markup languages (XML, HTML)
+    /// </summary>
+    public sealed class MarkupTokenFactory : SyntaxFactory
     {
-        public abstract TokenKind GetKind(string token);
+        private MarkupTokenFactory() { }
 
-        public static TokenClassifier Create(string ext)
-        {
-            if (ext == null) ext = string.Empty;
+        public static readonly MarkupTokenFactory Value = new MarkupTokenFactory();
 
-            ext = ext.Trim();
-
-            if (Decompiler.IsCppExtension(ext))
-            {
-                return new CppClassifier();
-            }
-            else if (ext.Equals(".vb", StringComparison.OrdinalIgnoreCase))
-            {
-                return new VbClassifier();
-            }
-            else
-            {
-                return new CsharpClassifier();
-            }
-        }
-
-        protected static TokenKind GetKindCommon(string token)
+        static TokenKind GetKindCommon(string token)
         {
             //common logic for C-like languages
+            //From: https://github.com/MSDN-WhiteKnight/CilTools/blob/master/CilTools.SourceCode/Common/SourceCodeUtils.cs
             if (token.Length == 0) return TokenKind.Unknown;
 
             if (char.IsDigit(token[0]))
@@ -98,6 +84,27 @@ namespace CilView.SourceCode
             {
                 return TokenKind.Unknown;
             }
+        }
+
+        static TokenKind GetKind(string token)
+        {
+            if (token.Length == 0) return TokenKind.Unknown;
+
+            if (char.IsLetter(token[0]) || token[0] == '_')
+            {
+                return TokenKind.Name;
+            }
+            else if (token.StartsWith("<!--"))
+            {
+                return TokenKind.Comment;
+            }
+            else return GetKindCommon(token);
+        }
+
+        public override SyntaxNode CreateNode(string content, string leadingWhitespace, string trailingWhitespace)
+        {
+            TokenKind kind = GetKind(content);
+            return new SourceToken(content, kind, leadingWhitespace, trailingWhitespace);
         }
     }
 }

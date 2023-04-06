@@ -5,8 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using CilTools.SourceCode.Common;
 using CilTools.Syntax;
-using CilView.SourceCode;
 
 namespace CilBrowser.Core.SyntaxModel
 {

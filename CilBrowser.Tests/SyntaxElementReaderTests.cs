@@ -6,8 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CilBrowser.Core.SyntaxModel;
-using CilView.Core.Syntax;
-using CilView.SourceCode;
+using CilTools.SourceCode.Common;
 
 namespace CilBrowser.Tests
 {

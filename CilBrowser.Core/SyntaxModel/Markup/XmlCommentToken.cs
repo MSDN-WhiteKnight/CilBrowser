@@ -4,14 +4,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using CilView.Core.Syntax;
+using CilTools.Syntax.Tokens;
 
 namespace CilBrowser.Core.SyntaxModel.Markup
 {
     class XmlCommentToken : SyntaxTokenDefinition
     {
-        public override TokenKind Kind => TokenKind.Comment;
-
         public override bool HasContinuation(string prevPart, TokenReader reader)
         {
             return !prevPart.EndsWith("-->");
@@ -19,11 +17,11 @@ namespace CilBrowser.Core.SyntaxModel.Markup
 
         public override bool HasStart(TokenReader reader)
         {
-            char[] arr = reader.PeekChars(4);
+            string str = reader.PeekString(4);
 
-            if (arr.Length < 4) return false;
+            if (str.Length < 4) return false;
 
-            return arr[0] == '<' && arr[1] == '!' && arr[2] == '-' && arr[3] == '-';
+            return str[0] == '<' && str[1] == '!' && str[2] == '-' && str[3] == '-';
         }
     }
 }

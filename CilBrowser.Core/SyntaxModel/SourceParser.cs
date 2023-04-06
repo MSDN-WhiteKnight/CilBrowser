@@ -3,12 +3,12 @@
  * License: BSD 3-Clause */
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using CilBrowser.Core.SyntaxModel.Markup;
 using CilTools.Syntax;
-using CilView.Core.Syntax;
-using CilView.SourceCode;
-using CilView.SourceCode.Common;
+using CilTools.Syntax.Tokens;
+using CilTools.SourceCode.Common;
 
 namespace CilBrowser.Core.SyntaxModel
 {
@@ -25,7 +25,8 @@ namespace CilBrowser.Core.SyntaxModel
 
         public static SourceToken[] ParseXmlTokens(string content)
         {
-            return TokenParser.ParseTokens(content, s_markupDefinitions, MarkupClassifier.Value);
+            return SyntaxReader.ReadAllNodes(content, s_markupDefinitions, MarkupTokenFactory.Value).
+                Cast<SourceToken>().ToArray();
         }
 
         public static SyntaxNode[] Parse(string content, string ext)
@@ -39,8 +40,8 @@ namespace CilBrowser.Core.SyntaxModel
             else if (Utils.StrEquals(ext, ".txt") || Utils.StrEquals(ext, ".md"))
             {
                 //disable syntax highlighting for plaintext files
-                return TokenParser.ParseTokens(content, TokenParser.GetDefinitions(ext),
-                    NullClassifier.Value);
+                return SyntaxReader.ReadAllNodes(content, SourceCodeUtils.GetTokenDefinitions(ext),
+                    UnknownTokenFactory.Value);
             }
             else if (s_markupExts.Contains(ext))
             {
@@ -49,8 +50,8 @@ namespace CilBrowser.Core.SyntaxModel
             }
             else
             {
-                return TokenParser.ParseTokens(content, TokenParser.GetDefinitions(ext),
-                    TokenClassifier.Create(ext));
+                return SyntaxReader.ReadAllNodes(content, SourceCodeUtils.GetTokenDefinitions(ext),
+                    SourceCodeUtils.GetFactory(ext));
             }
         }
     }

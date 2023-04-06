@@ -12,10 +12,8 @@ using System.Reflection;
 using System.Text;
 using CilBrowser.Core.SyntaxModel;
 using CilTools.BytecodeAnalysis;
+using CilTools.SourceCode.Common;
 using CilTools.Syntax;
-using CilView.Core.Syntax;
-using CilView.SourceCode;
-using CilView.SourceCode.Common;
 
 namespace CilBrowser.Core
 {
