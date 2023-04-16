@@ -1,5 +1,5 @@
 ﻿/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
- * Copyright (c) 2022,  MSDN.WhiteKnight 
+ * Copyright (c) 2023,  MSDN.WhiteKnight 
  * License: BSD 3-Clause */
 using System;
 using System.IO;
@@ -17,22 +17,59 @@ namespace CilBrowser
 
         static int GenerateDemo()
         {
+            string outputDir;
+            string pathCilBrowser;
+            string pathCilBrowserCore;
             AssemblyReader reader = new AssemblyReader();
             Console.WriteLine("Generating demo website...");
 
+            // Determine paths
+            if (File.Exists("./CilBrowser.csproj")) // Launched from project root (like for 'dotnet run')
+            {
+                pathCilBrowser = ".";
+                pathCilBrowserCore = "../CilBrowser.Core";
+                outputDir = "./bin";
+            }
+            else // Launched from bin/(config)/(tfm) under project root
+            {
+                pathCilBrowser = "../../../../CilBrowser";
+                pathCilBrowserCore = "../../../../CilBrowser.Core";
+                outputDir = ".";
+            }
+
+            // Generate websites: Disassembled CIL for binaries
             using (reader)
             {
                 Assembly ass = reader.LoadFrom(typeof(HtmlGenerator).Assembly.Location);
-                WebsiteGenerator.GenerateFromAssembly(ass, string.Empty, "./CilBrowser.Core/", string.Empty);
+                WebsiteGenerator.GenerateFromAssembly(ass, string.Empty, outputDir + "/CilBrowser.Core/", string.Empty);
                 ass = reader.LoadFrom(typeof(Program).Assembly.Location);
-                WebsiteGenerator.GenerateFromAssembly(ass, string.Empty, "./CilBrowser/", string.Empty);
+                WebsiteGenerator.GenerateFromAssembly(ass, string.Empty, outputDir + "/CilBrowser/", string.Empty);
+                Console.WriteLine();
             }
 
-            WebsiteGenerator.GenerateFromSources("../../../../CilBrowser.Core", "./CilBrowser.Core_Source/",
+            // Generate websites: Source code
+            const string MsgTemplate = "Error: Failed to generate demo website for {0} sources. Directory not found. " +
+                "Run program from bin/(config)/(tfm) subridectory of source directory to fix this.";
+            
+            if (Directory.Exists(pathCilBrowserCore))
+            {
+                WebsiteGenerator.GenerateFromSources(pathCilBrowserCore, outputDir + "/CilBrowser.Core_Source/",
                 "https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser.Core/", string.Empty);
+            }
+            else
+            {
+                Console.WriteLine(MsgTemplate, "CilBrowser.Core");
+            }
 
-            WebsiteGenerator.GenerateFromSources("../../../../CilBrowser", "./CilBrowser_Source/",
+            if (Directory.Exists(pathCilBrowser))
+            {
+                WebsiteGenerator.GenerateFromSources(pathCilBrowser, outputDir + "/CilBrowser_Source/",
                 "https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser/", string.Empty);
+            }
+            else
+            {
+                Console.WriteLine(MsgTemplate, "CilBrowser");
+            }
 
             Console.WriteLine("Generated!");
             return 0;
