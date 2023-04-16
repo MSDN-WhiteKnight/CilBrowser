@@ -15,31 +15,9 @@ namespace CilBrowser
     {
         static NamedArgumentDefinition[] defs;
 
-        private static Assembly Reader_AssemblyResolve(object sender, ResolveEventArgs args)
-        {
-            AssemblyReader reader = (AssemblyReader)sender;
-            AssemblyName an = new AssemblyName(args.Name);
-
-            // Resolve dependencies from packages
-            if (Utils.StrEquals(an.Name, "CilTools.BytecodeAnalysis"))
-            {
-                return reader.LoadFrom(typeof(CilTools.BytecodeAnalysis.CilAnalysis).Assembly.Location);
-            }
-            else if (Utils.StrEquals(an.Name, "CilTools.Metadata"))
-            {
-                return reader.LoadFrom(typeof(AssemblyReader).Assembly.Location);
-            }
-            else if (Utils.StrEquals(an.Name, "CilTools.SourceCode"))
-            {
-                return reader.LoadFrom(typeof(CilTools.SourceCode.Common.SourceToken).Assembly.Location);
-            }
-            else return null;
-        }
-
         static int GenerateDemo()
         {
             AssemblyReader reader = new AssemblyReader();
-            reader.AssemblyResolve += Reader_AssemblyResolve;
             Console.WriteLine("Generating demo website...");
 
             using (reader)

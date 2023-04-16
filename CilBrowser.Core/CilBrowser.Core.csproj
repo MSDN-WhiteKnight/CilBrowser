@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CilTools.BytecodeAnalysis" Version="2.6.0" />
-    <PackageReference Include="CilTools.Metadata" Version="2.6.0" />
-    <PackageReference Include="CilTools.SourceCode" Version="2.6.0" />
+    <PackageReference Include="CilTools.BytecodeAnalysis" Version="2.6.1" />
+    <PackageReference Include="CilTools.Metadata" Version="2.6.1" />
+    <PackageReference Include="CilTools.SourceCode" Version="2.6.1" />
   </ItemGroup>
 
 </Project>
