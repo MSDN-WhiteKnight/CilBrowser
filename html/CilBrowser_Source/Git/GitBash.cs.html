@@ -1,0 +1,101 @@
+﻿<html><head><title>Source file: GitBash.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
+<h2>Source file: GitBash.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in Git directory:</p><p><b>GitBash.cs</b></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
+ * Copyright (c) 2023,  MSDN.WhiteKnight 
+ * License: BSD 3-Clause */
+</span><span style="color: blue;">using </span>System;
+<span style="color: blue;">using </span>System.Collections.Generic;
+<span style="color: blue;">using </span>System.Text;
+<span style="color: blue;">using </span>System.IO;
+<span style="color: blue;">using </span>System.Diagnostics;
+
+<span style="color: blue;">namespace </span>Integration.Git
+{
+    <span style="color: blue;">public </span><span style="color: blue;">class </span>GitBash : IDisposable
+    {
+        Process pr;
+        StringBuilder resultbuilder;
+
+        <span style="color: blue;">public </span>GitBash(<span style="color: blue;">string </span>path, <span style="color: blue;">string </span>command)
+        {
+            ProcessStartInfo psi = <span style="color: blue;">new </span>ProcessStartInfo();
+            psi.FileName = path;
+            psi.WorkingDirectory = Environment.CurrentDirectory;
+            psi.Arguments = <span style="color: red;">&quot;-x -c \&quot;&quot; </span>+ command + <span style="color: red;">&quot;\&quot;&quot;</span>;
+            psi.UseShellExecute = <span style="color: blue;">false</span>;
+            psi.RedirectStandardInput = <span style="color: blue;">true</span>;
+            psi.RedirectStandardOutput = <span style="color: blue;">true</span>;
+            psi.RedirectStandardError = <span style="color: blue;">true</span>;
+            psi.CreateNoWindow = <span style="color: blue;">true</span>;
+            <span style="color: blue;">this</span>.pr = <span style="color: blue;">new </span>Process();
+            <span style="color: blue;">this</span>.pr.StartInfo = psi;
+            <span style="color: blue;">this</span>.pr.OutputDataReceived += pr_DataReceived;
+            <span style="color: blue;">this</span>.pr.ErrorDataReceived += pr_DataReceived;
+            <span style="color: blue;">this</span>.resultbuilder = <span style="color: blue;">new </span>StringBuilder(500);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">void </span>Start()
+        {
+            <span style="color: blue;">this</span>.pr.Start();
+            <span style="color: blue;">this</span>.pr.BeginOutputReadLine();
+            <span style="color: blue;">this</span>.pr.BeginErrorReadLine();
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">void </span>WaitForExit()
+        {
+            <span style="color: blue;">this</span>.pr.WaitForExit();
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">string </span>Output { get { <span style="color: blue;">return </span><span style="color: blue;">this</span>.resultbuilder.ToString(); } }
+
+        <span style="color: blue;">public </span><span style="color: blue;">string </span>Run()
+        {
+            Start();
+            WaitForExit();
+            <span style="color: blue;">return </span>Output;
+        }
+
+        <span style="color: blue;">void </span>pr_DataReceived(<span style="color: blue;">object </span>sender, DataReceivedEventArgs e)
+        {
+            resultbuilder.AppendLine(e.Data);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">void </span>Dispose()
+        {
+            <span style="color: blue;">this</span>.pr.Dispose();
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">string </span>GetPath()
+        {
+            <span style="color: blue;">string </span>path = <span style="color: red;">&quot;&quot;</span>;
+            <span style="color: blue;">string </span>val = Environment.GetEnvironmentVariable(<span style="color: red;">&quot;GITBASH_PATH&quot;</span>);
+
+            <span style="color: blue;">if </span>(String.IsNullOrEmpty(val))
+            {
+                path = <span style="color: red;">&quot;C:\\Program Files\\Git\\bin\\sh.exe&quot;</span>;
+                Console.WriteLine(<span style="color: red;">&quot;Warning: GITBASH_PATH is not set, using default path C:\\Program Files\\Git\\bin&quot;</span>);
+            }
+            <span style="color: blue;">else </span>path = Path.Combine(val, <span style="color: red;">&quot;sh.exe&quot;</span>);
+
+            <span style="color: blue;">return </span>path;
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">string </span>ExecuteCommand(<span style="color: blue;">string </span>command)
+        {
+            <span style="color: blue;">try
+            </span>{
+                <span style="color: blue;">using </span>(GitBash gb = <span style="color: blue;">new </span>GitBash(GitBash.GetPath(), command))
+                {
+                    <span style="color: blue;">return </span>gb.Run();
+                }
+            }
+            <span style="color: blue;">catch </span>(Exception ex)
+            {
+                <span style="color: blue;">return </span>ex.ToString();
+            }
+        }
+    }
+}
+</code></pre><a href="https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser/Git/GitBash.cs">View in source control</a></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>

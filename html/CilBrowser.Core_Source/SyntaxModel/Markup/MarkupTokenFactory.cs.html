@@ -1,44 +1,30 @@
-<html><head><title>Source file: TokenClassifier.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+﻿<html><head><title>Source file: MarkupTokenFactory.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
 <body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
-<h2>Source file: TokenClassifier.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in SourceCode directory:</p><p><a href="CppClassifier.cs.html">CppClassifier.cs</a></p><p><a href="CsharpClassifier.cs.html">CsharpClassifier.cs</a></p><p><a href="Decompiler.cs.html">Decompiler.cs</a></p><p><a href="README.md.html">README.md</a></p><p><a href="SourceToken.cs.html">SourceToken.cs</a></p><p><b>TokenClassifier.cs</b></p><p><a href="TokenParser.cs.html">TokenParser.cs</a></p></td>
-<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Tools 
- * Copyright (c) 2022, MSDN.WhiteKnight (https://github.com/MSDN-WhiteKnight) 
- * License: BSD 2.0 */
+<h2>Source file: MarkupTokenFactory.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in Markup directory:</p><p><b>MarkupTokenFactory.cs</b></p><p><a href="XmlCommentToken.cs.html">XmlCommentToken.cs</a></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
+ * Copyright (c) 2023,  MSDN.WhiteKnight 
+ * License: BSD 3-Clause */
 </span><span style="color: blue;">using </span>System;
 <span style="color: blue;">using </span>System.Collections.Generic;
 <span style="color: blue;">using </span>System.Text;
-<span style="color: blue;">using </span>CilView.Core.Syntax;
-<span style="color: blue;">using </span>CilView.SourceCode.VisualBasic;
+<span style="color: blue;">using </span>CilTools.Syntax;
+<span style="color: blue;">using </span>CilTools.SourceCode.Common;
 
-<span style="color: blue;">namespace </span>CilView.SourceCode
+<span style="color: blue;">namespace </span>CilBrowser.Core.SyntaxModel.Markup
 {
-    <span style="color: blue;">public </span><span style="color: blue;">abstract </span><span style="color: blue;">class </span>TokenClassifier
+    <span style="color: green;">/// &lt;summary&gt;
+    </span><span style="color: green;">/// Produces &lt;see cref=&quot;SourceToken&quot;/&gt; instances for markup languages (XML, HTML)
+    </span><span style="color: green;">/// &lt;/summary&gt;
+    </span><span style="color: blue;">public </span><span style="color: blue;">sealed </span><span style="color: blue;">class </span>MarkupTokenFactory : SyntaxFactory
     {
-        <span style="color: blue;">public </span><span style="color: blue;">abstract </span>TokenKind GetKind(<span style="color: blue;">string </span>token);
+        <span style="color: blue;">private </span>MarkupTokenFactory() { }
 
-        <span style="color: blue;">public </span><span style="color: blue;">static </span>TokenClassifier Create(<span style="color: blue;">string </span>ext)
-        {
-            <span style="color: blue;">if </span>(ext == <span style="color: blue;">null</span>) ext = <span style="color: blue;">string</span>.Empty;
+        <span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">readonly </span>MarkupTokenFactory Value = <span style="color: blue;">new </span>MarkupTokenFactory();
 
-            ext = ext.Trim();
-
-            <span style="color: blue;">if </span>(Decompiler.IsCppExtension(ext))
-            {
-                <span style="color: blue;">return </span><span style="color: blue;">new </span>CppClassifier();
-            }
-            <span style="color: blue;">else </span><span style="color: blue;">if </span>(ext.Equals(<span style="color: red;">&quot;.vb&quot;</span>, StringComparison.OrdinalIgnoreCase))
-            {
-                <span style="color: blue;">return </span><span style="color: blue;">new </span>VbClassifier();
-            }
-            <span style="color: blue;">else
-            </span>{
-                <span style="color: blue;">return </span><span style="color: blue;">new </span>CsharpClassifier();
-            }
-        }
-
-        <span style="color: blue;">protected </span><span style="color: blue;">static </span>TokenKind GetKindCommon(<span style="color: blue;">string </span>token)
+        <span style="color: blue;">static </span>TokenKind GetKindCommon(<span style="color: blue;">string </span>token)
         {
             <span style="color: green;">//common logic for C-like languages
+            </span><span style="color: green;">//From: https://github.com/MSDN-WhiteKnight/CilTools/blob/master/CilTools.SourceCode/Common/SourceCodeUtils.cs
             </span><span style="color: blue;">if </span>(token.Length == 0) <span style="color: blue;">return </span>TokenKind.Unknown;
 
             <span style="color: blue;">if </span>(<span style="color: blue;">char</span>.IsDigit(token[0]))
@@ -102,7 +88,28 @@
                 <span style="color: blue;">return </span>TokenKind.Unknown;
             }
         }
+
+        <span style="color: blue;">static </span>TokenKind GetKind(<span style="color: blue;">string </span>token)
+        {
+            <span style="color: blue;">if </span>(token.Length == 0) <span style="color: blue;">return </span>TokenKind.Unknown;
+
+            <span style="color: blue;">if </span>(<span style="color: blue;">char</span>.IsLetter(token[0]) || token[0] == <span style="color: red;">&#39;_&#39;</span>)
+            {
+                <span style="color: blue;">return </span>TokenKind.Name;
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(token.StartsWith(<span style="color: red;">&quot;&lt;!--&quot;</span>))
+            {
+                <span style="color: blue;">return </span>TokenKind.Comment;
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">return </span>GetKindCommon(token);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span>SyntaxNode CreateNode(<span style="color: blue;">string </span>content, <span style="color: blue;">string </span>leadingWhitespace, <span style="color: blue;">string </span>trailingWhitespace)
+        {
+            TokenKind kind = GetKind(content);
+            <span style="color: blue;">return </span><span style="color: blue;">new </span>SourceToken(content, kind, leadingWhitespace, trailingWhitespace);
+        }
     }
 }
-</code></pre><a href="https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser.Core/SourceCode/TokenClassifier.cs">View in source control</a></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</code></pre><a href="https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser.Core/SyntaxModel/Markup/MarkupTokenFactory.cs">View in source control</a></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
 </body></html>

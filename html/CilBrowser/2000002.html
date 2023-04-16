@@ -1,425 +1,276 @@
-<html><head><title>Type: CilBrowser.CommandLineArgs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+﻿<html><head><title>Type: Integration.Git.GitBash</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
 <body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">CilBrowser</a></p>
-<h2>Type: CilBrowser.CommandLineArgs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Types in CilBrowser namespace:</p><p><b>CommandLineArgs</b></p><p><a href="2000003.html">NamedArgumentDefinition</a></p><p><a href="2000004.html">Program</a></p></td>
-<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: magenta;">.class </span><span style="color: blue;">private </span><span style="color: blue;">auto </span><span style="color: blue;">ansi </span><span style="color: blue;">beforefieldinit </span><a href="2000002.html" class="memberid">CilBrowser.CommandLineArgs</a>
+<h2>Type: Integration.Git.GitBash</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Types in Integration.Git namespace:</p><p><b>GitBash</b></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: magenta;">.class </span><span style="color: blue;">public </span><span style="color: blue;">auto </span><span style="color: blue;">ansi </span><span style="color: blue;">beforefieldinit </span><a href="2000002.html" class="memberid">Integration.Git.GitBash</a>
 <span style="color: blue;">extends </span>[<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">Object</span>
+<span style="color: blue;">implements </span>[<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">IDisposable</span>
 {
 
-<span style="color: magenta;"> .field </span><span style="color: blue;">private </span><span style="color: blue;">class </span>[<span>System.Collections</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">Dictionary`2</span>&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt;<span class="memberid"> namedArgs</span>
-<span style="color: magenta;"> .field </span><span style="color: blue;">private </span><span style="color: blue;">string</span>[]<span class="memberid"> posArgs</span>
+<span style="color: magenta;"> .field </span><span style="color: blue;">private </span><span style="color: blue;">class </span>[<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">Process</span><span class="memberid"> pr</span>
+<span style="color: magenta;"> .field </span><span style="color: blue;">private </span><span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Text</span>.<span class="memberid">StringBuilder</span><span class="memberid"> resultbuilder</span>
 
-<span style="color: magenta;"> .property </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span><span class="memberid"> PositionalArgumentsCount</span>()
+<span style="color: magenta;"> .property </span><span style="color: blue;">instance </span><span style="color: blue;">string</span><span class="memberid"> Output</span>()
  {
-<span style="color: magenta;">  .get </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser</span>.<a href="2000002.html" class="memberid">CommandLineArgs</a>::<a href="2000002.html#M6000005" class="memberid">get_PositionalArgumentsCount</a>()
- }
-
-<span style="color: magenta;"> .property </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span><span class="memberid"> Count</span>()
- {
-<span style="color: magenta;">  .get </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser</span>.<a href="2000002.html" class="memberid">CommandLineArgs</a>::<a href="2000002.html#M6000007" class="memberid">get_Count</a>()
+<span style="color: magenta;">  .get </span><span style="color: blue;">instance </span><span style="color: blue;">string</span> <span class="memberid">Integration.Git</span>.<a href="2000002.html" class="memberid">GitBash</a>::<a href="2000002.html#M6000004" class="memberid">get_Output</a>()
  }
 
 <span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> rtspecialname</span><span style="color: blue;"> instance </span><span style="color: blue;">void</span><a name="M6000001" href="2000002.html#M6000001" class="memberid"> .ctor</a>(
-     <span style="color: blue;">string</span>[]<span> args</span>, 
-     <span style="color: blue;">class </span><span class="memberid">CilBrowser</span>.<a href="2000003.html" class="memberid">NamedArgumentDefinition</a>[]<span> defs</span>
+     <span style="color: blue;">string</span><span> path</span>, 
+     <span style="color: blue;">string</span><span> command</span>
  )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
  {
-<span style="color: magenta;">  .maxstack </span> 3
-<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">class </span>[<span>System.Collections</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">List`1</span>&lt;<span style="color: blue;">string</span>&gt;<span> V_0</span>,
-     <span style="color: blue;">int32</span><span> V_1</span>,
-     <span style="color: blue;">bool</span><span> V_2</span>,
-     <span style="color: blue;">bool</span><span> V_3</span>,
-     <span style="color: blue;">bool</span><span> V_4</span>,
-     <span style="color: blue;">string</span><span> V_5</span>,
-     <span style="color: blue;">string</span><span> V_6</span>,
-     <span style="color: blue;">bool</span><span> V_7</span>,
-     <span style="color: blue;">string</span><span> V_8</span>,
-     <span style="color: blue;">bool</span><span> V_9</span>,
-     <span style="color: blue;">bool</span><span> V_10</span>)
+<span style="color: magenta;">  .maxstack </span> 4
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">class </span>[<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">ProcessStartInfo</span><span> V_0</span>)
 
 <span>           ldarg.0      </span>
 <span>           call         </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">Object</span>::<span class="memberid">.ctor</span>()
 <span>           nop          </span>
 <span>           nop          </span>
-<span>           ldarg.0      </span>
-<span>           ldarg.1      </span>
-<span>           ldlen        </span>
-<span>           conv.i4      </span>
-<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span style="color: blue;">class </span>[<span>System.Collections</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">Dictionary`2</span>&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt;::<span class="memberid">.ctor</span>(<span style="color: blue;">int32</span>)
-<span>           stfld        </span><span style="color: blue;">class </span>[<span>System.Collections</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">Dictionary`2</span>&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt; <span class="memberid">CilBrowser</span>.<a href="2000002.html" class="memberid">CommandLineArgs</a>::<span class="memberid">namedArgs</span>
-<span>           ldarg.1      </span>
-<span>           ldlen        </span>
-<span>           conv.i4      </span>
-<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span style="color: blue;">class </span>[<span>System.Collections</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">List`1</span>&lt;<span style="color: blue;">string</span>&gt;::<span class="memberid">.ctor</span>(<span style="color: blue;">int32</span>)
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">ProcessStartInfo</span>::<span class="memberid">.ctor</span>()
 <span>           stloc.0      </span>
-<span>           ldc.i4.0     </span>
-<span>           stloc.1      </span>
-<span>           br           </span><span>IL_0011
-</span><span>  IL_0001</span>: <span>nop          </span>
-<span>           ldloc.1      </span>
+<span>           ldloc.0      </span>
 <span>           ldarg.1      </span>
-<span>           ldlen        </span>
-<span>           conv.i4      </span>
-<span>           clt          </span>
-<span>           ldc.i4.0     </span>
-<span>           ceq          </span>
-<span>           stloc.2      </span>
-<span>           ldloc.2      </span>
-<span>           brfalse.s    </span><span>IL_0002
-</span><span>           br           </span><span>IL_0012
-</span><span>  IL_0002</span>: <span>ldarg.1      </span>
-<span>           ldloc.1      </span>
-<span>           ldelem.ref   </span>
-<span>           call         </span><span style="color: blue;">bool</span> <span class="memberid">CilBrowser</span>.<a href="2000002.html" class="memberid">CommandLineArgs</a>::<a href="2000002.html#M6000002" class="memberid">IsSwitch</a>(<span style="color: blue;">string</span>)
-<span>           stloc.3      </span>
-<span>           ldloc.3      </span>
-<span>           brfalse.s    </span><span>IL_0008
-</span><span>           nop          </span>
-<span>           ldarg.1      </span>
-<span>           ldloc.1      </span>
-<span>           ldelem.ref   </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">ProcessStartInfo</span>::<span class="memberid">set_FileName</span>(<span style="color: blue;">string</span>)
+<span>           nop          </span>
+<span>           ldloc.0      </span>
+<span>           call         </span><span style="color: blue;">string</span> [<span>System.Runtime.Extensions</span>]<span class="memberid">System</span>.<span class="memberid">Environment</span>::<span class="memberid">get_CurrentDirectory</span>()
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">ProcessStartInfo</span>::<span class="memberid">set_WorkingDirectory</span>(<span style="color: blue;">string</span>)
+<span>           nop          </span>
+<span>           ldloc.0      </span>
+<span>           ldstr        </span><span style="color: red;">&quot;-x -c \042&quot;</span>
 <span>           ldarg.2      </span>
-<span>           call         </span><span style="color: blue;">bool</span> <span class="memberid">CilBrowser</span>.<a href="2000003.html" class="memberid">NamedArgumentDefinition</a>::<a href="2000003.html#M600000F" class="memberid">IsArgumentWithoutValue</a>(<span style="color: blue;">string</span>, <span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser</span>.<a href="2000003.html" class="memberid">NamedArgumentDefinition</a>&gt;)
-<span>           brtrue.s     </span><span>IL_0003
-</span><span>           ldloc.1      </span>
-<span>           ldarg.1      </span>
-<span>           ldlen        </span>
-<span>           conv.i4      </span>
-<span>           ldc.i4.1     </span>
-<span>           sub          </span>
-<span>           beq.s        </span><span>IL_0003
-</span><span>           ldarg.1      </span>
-<span>           ldloc.1      </span>
-<span>           ldc.i4.1     </span>
-<span>           add          </span>
-<span>           ldelem.ref   </span>
-<span>           call         </span><span style="color: blue;">bool</span> <span class="memberid">CilBrowser</span>.<a href="2000002.html" class="memberid">CommandLineArgs</a>::<a href="2000002.html#M6000002" class="memberid">IsSwitch</a>(<span style="color: blue;">string</span>)
-<span>           br.s         </span><span>IL_0004
-</span><span>  IL_0003</span>: <span>ldc.i4.1     </span>
-<span>  IL_0004</span>: <span>stloc.s      </span><span>V_4</span>
-<span>           ldloc.s      </span><span>V_4</span>
-<span>           brfalse.s    </span><span>IL_0005
-</span><span>           nop          </span>
-<span>           ldarg.0      </span>
-<span>           ldfld        </span><span style="color: blue;">class </span>[<span>System.Collections</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">Dictionary`2</span>&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt; <span class="memberid">CilBrowser</span>.<a href="2000002.html" class="memberid">CommandLineArgs</a>::<span class="memberid">namedArgs</span>
-<span>           ldarg.1      </span>
-<span>           ldloc.1      </span>
-<span>           ldelem.ref   </span>
-<span>           ldsfld       </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Empty</span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span style="color: blue;">class </span>[<span>System.Collections</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">Dictionary`2</span>&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt;::<span class="memberid">set_Item</span>(!0, !1)
+<span>           ldstr        </span><span style="color: red;">&quot;\042&quot;</span>
+<span>           call         </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Concat</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">ProcessStartInfo</span>::<span class="memberid">set_Arguments</span>(<span style="color: blue;">string</span>)
 <span>           nop          </span>
-<span>           nop          </span>
-<span>           br.s         </span><span>IL_0007
-</span><span>  IL_0005</span>: <span>nop          </span>
-<span>           ldarg.1      </span>
-<span>           ldloc.1      </span>
-<span>           ldelem.ref   </span>
-<span>           stloc.s      </span><span>V_5</span>
-<span>           ldloc.1      </span>
-<span>           ldc.i4.1     </span>
-<span>           add          </span>
-<span>           stloc.1      </span>
-<span>           ldarg.1      </span>
-<span>           ldloc.1      </span>
-<span>           ldelem.ref   </span>
-<span>           stloc.s      </span><span>V_6</span>
-<span>           ldloc.s      </span><span>V_6</span>
-<span>           ldnull       </span>
-<span>           ceq          </span>
-<span>           stloc.s      </span><span>V_7</span>
-<span>           ldloc.s      </span><span>V_7</span>
-<span>           brfalse.s    </span><span>IL_0006
-</span><span>           ldsfld       </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Empty</span>
-<span>           stloc.s      </span><span>V_6</span>
-<span>  IL_0006</span>: <span>ldarg.0      </span>
-<span>           ldfld        </span><span style="color: blue;">class </span>[<span>System.Collections</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">Dictionary`2</span>&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt; <span class="memberid">CilBrowser</span>.<a href="2000002.html" class="memberid">CommandLineArgs</a>::<span class="memberid">namedArgs</span>
-<span>           ldloc.s      </span><span>V_5</span>
-<span>           ldloc.s      </span><span>V_6</span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span style="color: blue;">class </span>[<span>System.Collections</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">Dictionary`2</span>&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt;::<span class="memberid">set_Item</span>(!0, !1)
-<span>           nop          </span>
-<span>           nop          </span>
-<span>  IL_0007</span>: <span>nop          </span>
-<span>           br.s         </span><span>IL_0010
-</span><span>  IL_0008</span>: <span>nop          </span>
-<span>           ldarg.1      </span>
-<span>           ldloc.1      </span>
-<span>           ldelem.ref   </span>
-<span>           stloc.s      </span><span>V_8</span>
-<span>           ldloc.s      </span><span>V_8</span>
-<span>           ldnull       </span>
-<span>           ceq          </span>
-<span>           stloc.s      </span><span>V_9</span>
-<span>           ldloc.s      </span><span>V_9</span>
-<span>           brfalse.s    </span><span>IL_0009
-</span><span>           ldsfld       </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Empty</span>
-<span>           stloc.s      </span><span>V_8</span>
-<span>  IL_0009</span>: <span>ldloc.0      </span>
-<span>           ldloc.s      </span><span>V_8</span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span style="color: blue;">class </span>[<span>System.Collections</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">List`1</span>&lt;<span style="color: blue;">string</span>&gt;::<span class="memberid">Add</span>(!0)
-<span>           nop          </span>
-<span>           nop          </span>
-<span>  IL_0010</span>: <span>ldloc.1      </span>
-<span>           ldc.i4.1     </span>
-<span>           add          </span>
-<span>           stloc.1      </span>
-<span>           nop          </span>
-<span>  IL_0011</span>: <span>ldc.i4.1     </span>
-<span>           stloc.s      </span><span>V_10</span>
-<span>           br           </span><span>IL_0001
-</span><span>  IL_0012</span>: <span>ldarg.0      </span>
 <span>           ldloc.0      </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span>!0[] <span style="color: blue;">class </span>[<span>System.Collections</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">List`1</span>&lt;<span style="color: blue;">string</span>&gt;::<span class="memberid">ToArray</span>()
-<span>           stfld        </span><span style="color: blue;">string</span>[] <span class="memberid">CilBrowser</span>.<a href="2000002.html" class="memberid">CommandLineArgs</a>::<span class="memberid">posArgs</span>
-<span>           ret          </span>
- }
-
-<span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> static </span><span style="color: blue;">bool</span><a name="M6000002" href="2000002.html#M6000002" class="memberid"> IsSwitch</a>(
-     <span style="color: blue;">string</span><span> s</span>
- )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
- {
-<span style="color: magenta;">  .maxstack </span> 2
-<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">bool</span><span> V_0</span>,
-     <span style="color: blue;">bool</span><span> V_1</span>)
-
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">ProcessStartInfo</span>::<span class="memberid">set_UseShellExecute</span>(<span style="color: blue;">bool</span>)
 <span>           nop          </span>
-<span>           ldarg.0      </span>
-<span>           ldnull       </span>
-<span>           ceq          </span>
-<span>           stloc.0      </span>
 <span>           ldloc.0      </span>
-<span>           brfalse.s    </span><span>IL_0001
-</span><span>           ldc.i4.0     </span>
-<span>           stloc.1      </span>
-<span>           br.s         </span><span>IL_0004
-</span><span>  IL_0001</span>: <span>ldarg.0      </span>
-<span>           ldstr        </span><span style="color: red;">&quot;-&quot;</span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">bool</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">StartsWith</span>(<span style="color: blue;">string</span>)
-<span>           brtrue.s     </span><span>IL_0002
-</span><span>           ldarg.0      </span>
-<span>           ldstr        </span><span style="color: red;">&quot;--&quot;</span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">bool</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">StartsWith</span>(<span style="color: blue;">string</span>)
-<span>           br.s         </span><span>IL_0003
-</span><span>  IL_0002</span>: <span>ldc.i4.1     </span>
-<span>  IL_0003</span>: <span>stloc.1      </span>
-<span>           br.s         </span><span>IL_0004
-</span><span>  IL_0004</span>: <span>ldloc.1      </span>
+<span>           ldc.i4.1     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">ProcessStartInfo</span>::<span class="memberid">set_RedirectStandardInput</span>(<span style="color: blue;">bool</span>)
+<span>           nop          </span>
+<span>           ldloc.0      </span>
+<span>           ldc.i4.1     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">ProcessStartInfo</span>::<span class="memberid">set_RedirectStandardOutput</span>(<span style="color: blue;">bool</span>)
+<span>           nop          </span>
+<span>           ldloc.0      </span>
+<span>           ldc.i4.1     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">ProcessStartInfo</span>::<span class="memberid">set_RedirectStandardError</span>(<span style="color: blue;">bool</span>)
+<span>           nop          </span>
+<span>           ldloc.0      </span>
+<span>           ldc.i4.1     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">ProcessStartInfo</span>::<span class="memberid">set_CreateNoWindow</span>(<span style="color: blue;">bool</span>)
+<span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">Process</span>::<span class="memberid">.ctor</span>()
+<span>           stfld        </span><span style="color: blue;">class </span>[<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">Process</span> <span class="memberid">Integration.Git</span>.<a href="2000002.html" class="memberid">GitBash</a>::<span class="memberid">pr</span>
+<span>           ldarg.0      </span>
+<span>           ldfld        </span><span style="color: blue;">class </span>[<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">Process</span> <span class="memberid">Integration.Git</span>.<a href="2000002.html" class="memberid">GitBash</a>::<span class="memberid">pr</span>
+<span>           ldloc.0      </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">Process</span>::<span class="memberid">set_StartInfo</span>(<span style="color: blue;">class </span>[<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">ProcessStartInfo</span>)
+<span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           ldfld        </span><span style="color: blue;">class </span>[<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">Process</span> <span class="memberid">Integration.Git</span>.<a href="2000002.html" class="memberid">GitBash</a>::<span class="memberid">pr</span>
+<span>           ldarg.0      </span>
+<span>           ldftn        </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">Integration.Git</span>.<a href="2000002.html" class="memberid">GitBash</a>::<a href="2000002.html#M6000006" class="memberid">pr_DataReceived</a>(<span style="color: blue;">object</span>, <span style="color: blue;">class </span>[<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">DataReceivedEventArgs</span>)
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">DataReceivedEventHandler</span>::<span class="memberid">.ctor</span>(<span style="color: blue;">object</span>, <span style="color: blue;">native int</span>)
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">Process</span>::<span class="memberid">add_OutputDataReceived</span>(<span style="color: blue;">class </span>[<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">DataReceivedEventHandler</span>)
+<span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           ldfld        </span><span style="color: blue;">class </span>[<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">Process</span> <span class="memberid">Integration.Git</span>.<a href="2000002.html" class="memberid">GitBash</a>::<span class="memberid">pr</span>
+<span>           ldarg.0      </span>
+<span>           ldftn        </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">Integration.Git</span>.<a href="2000002.html" class="memberid">GitBash</a>::<a href="2000002.html#M6000006" class="memberid">pr_DataReceived</a>(<span style="color: blue;">object</span>, <span style="color: blue;">class </span>[<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">DataReceivedEventArgs</span>)
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">DataReceivedEventHandler</span>::<span class="memberid">.ctor</span>(<span style="color: blue;">object</span>, <span style="color: blue;">native int</span>)
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">Process</span>::<span class="memberid">add_ErrorDataReceived</span>(<span style="color: blue;">class </span>[<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">DataReceivedEventHandler</span>)
+<span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           ldc.i4       </span><span>500</span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Runtime</span>]<span class="memberid">System.Text</span>.<span class="memberid">StringBuilder</span>::<span class="memberid">.ctor</span>(<span style="color: blue;">int32</span>)
+<span>           stfld        </span><span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Text</span>.<span class="memberid">StringBuilder</span> <span class="memberid">Integration.Git</span>.<a href="2000002.html" class="memberid">GitBash</a>::<span class="memberid">resultbuilder</span>
 <span>           ret          </span>
  }
 
-<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> instance </span><span style="color: blue;">bool</span><a name="M6000003" href="2000002.html#M6000003" class="memberid"> HasNamedArgument</a>(
-     <span style="color: blue;">string</span><span> name</span>
- )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> instance </span><span style="color: blue;">void</span><a name="M6000002" href="2000002.html#M6000002" class="memberid"> Start</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
  {
-<span style="color: magenta;">  .maxstack </span> 2
-<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">bool</span><span> V_0</span>)
+<span style="color: magenta;">  .maxstack </span> 8
 
 <span>           nop          </span>
 <span>           ldarg.0      </span>
-<span>           ldfld        </span><span style="color: blue;">class </span>[<span>System.Collections</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">Dictionary`2</span>&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt; <span class="memberid">CilBrowser</span>.<a href="2000002.html" class="memberid">CommandLineArgs</a>::<span class="memberid">namedArgs</span>
-<span>           ldarg.1      </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">bool</span> <span style="color: blue;">class </span>[<span>System.Collections</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">Dictionary`2</span>&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt;::<span class="memberid">ContainsKey</span>(!0)
-<span>           stloc.0      </span>
-<span>           br.s         </span><span>IL_0001
-</span><span>  IL_0001</span>: <span>ldloc.0      </span>
+<span>           ldfld        </span><span style="color: blue;">class </span>[<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">Process</span> <span class="memberid">Integration.Git</span>.<a href="2000002.html" class="memberid">GitBash</a>::<span class="memberid">pr</span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">bool</span> [<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">Process</span>::<span class="memberid">Start</span>()
+<span>           pop          </span>
+<span>           ldarg.0      </span>
+<span>           ldfld        </span><span style="color: blue;">class </span>[<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">Process</span> <span class="memberid">Integration.Git</span>.<a href="2000002.html" class="memberid">GitBash</a>::<span class="memberid">pr</span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">Process</span>::<span class="memberid">BeginOutputReadLine</span>()
+<span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           ldfld        </span><span style="color: blue;">class </span>[<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">Process</span> <span class="memberid">Integration.Git</span>.<a href="2000002.html" class="memberid">GitBash</a>::<span class="memberid">pr</span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">Process</span>::<span class="memberid">BeginErrorReadLine</span>()
+<span>           nop          </span>
 <span>           ret          </span>
  }
 
-<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> instance </span><span style="color: blue;">string</span><a name="M6000004" href="2000002.html#M6000004" class="memberid"> GetNamedArgument</a>(
-     <span style="color: blue;">string</span><span> name</span>
- )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> instance </span><span style="color: blue;">void</span><a name="M6000003" href="2000002.html#M6000003" class="memberid"> WaitForExit</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
  {
-<span style="color: magenta;">  .maxstack </span> 3
-<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">string</span><span> V_0</span>,
-     <span style="color: blue;">bool</span><span> V_1</span>,
-     <span style="color: blue;">string</span><span> V_2</span>)
+<span style="color: magenta;">  .maxstack </span> 8
 
 <span>           nop          </span>
 <span>           ldarg.0      </span>
-<span>           ldfld        </span><span style="color: blue;">class </span>[<span>System.Collections</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">Dictionary`2</span>&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt; <span class="memberid">CilBrowser</span>.<a href="2000002.html" class="memberid">CommandLineArgs</a>::<span class="memberid">namedArgs</span>
-<span>           ldarg.1      </span>
-<span>           ldloca.s     </span><span>V_0</span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">bool</span> <span style="color: blue;">class </span>[<span>System.Collections</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">Dictionary`2</span>&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt;::<span class="memberid">TryGetValue</span>(!0, !1&amp;)
-<span>           stloc.1      </span>
-<span>           ldloc.1      </span>
-<span>           brfalse.s    </span><span>IL_0001
-</span><span>           ldloc.0      </span>
-<span>           stloc.2      </span>
-<span>           br.s         </span><span>IL_0002
-</span><span>  IL_0001</span>: <span>ldnull       </span>
-<span>           stloc.2      </span>
-<span>           br.s         </span><span>IL_0002
-</span><span>  IL_0002</span>: <span>ldloc.2      </span>
+<span>           ldfld        </span><span style="color: blue;">class </span>[<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">Process</span> <span class="memberid">Integration.Git</span>.<a href="2000002.html" class="memberid">GitBash</a>::<span class="memberid">pr</span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">Process</span>::<span class="memberid">WaitForExit</span>()
+<span>           nop          </span>
 <span>           ret          </span>
  }
 
-<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> instance </span><span style="color: blue;">int32</span><a name="M6000005" href="2000002.html#M6000005" class="memberid"> get_PositionalArgumentsCount</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> instance </span><span style="color: blue;">string</span><a name="M6000004" href="2000002.html#M6000004" class="memberid"> get_Output</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
  {
 <span style="color: magenta;">  .maxstack </span> 1
-<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">int32</span><span> V_0</span>)
-
-<span>           nop          </span>
-<span>           ldarg.0      </span>
-<span>           ldfld        </span><span style="color: blue;">string</span>[] <span class="memberid">CilBrowser</span>.<a href="2000002.html" class="memberid">CommandLineArgs</a>::<span class="memberid">posArgs</span>
-<span>           ldlen        </span>
-<span>           conv.i4      </span>
-<span>           stloc.0      </span>
-<span>           br.s         </span><span>IL_0001
-</span><span>  IL_0001</span>: <span>ldloc.0      </span>
-<span>           ret          </span>
- }
-
-<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> instance </span><span style="color: blue;">string</span><a name="M6000006" href="2000002.html#M6000006" class="memberid"> GetPositionalArgument</a>(
-     <span style="color: blue;">int32</span><span> index</span>
- )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
- {
-<span style="color: magenta;">  .maxstack </span> 2
 <span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">string</span><span> V_0</span>)
 
 <span>           nop          </span>
 <span>           ldarg.0      </span>
-<span>           ldfld        </span><span style="color: blue;">string</span>[] <span class="memberid">CilBrowser</span>.<a href="2000002.html" class="memberid">CommandLineArgs</a>::<span class="memberid">posArgs</span>
-<span>           ldarg.1      </span>
-<span>           ldelem.ref   </span>
+<span>           ldfld        </span><span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Text</span>.<span class="memberid">StringBuilder</span> <span class="memberid">Integration.Git</span>.<a href="2000002.html" class="memberid">GitBash</a>::<span class="memberid">resultbuilder</span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">Object</span>::<span class="memberid">ToString</span>()
 <span>           stloc.0      </span>
 <span>           br.s         </span><span>IL_0001
 </span><span>  IL_0001</span>: <span>ldloc.0      </span>
 <span>           ret          </span>
  }
 
-<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> instance </span><span style="color: blue;">int32</span><a name="M6000007" href="2000002.html#M6000007" class="memberid"> get_Count</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> instance </span><span style="color: blue;">string</span><a name="M6000005" href="2000002.html#M6000005" class="memberid"> Run</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 1
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">string</span><span> V_0</span>)
+
+<span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           call         </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">Integration.Git</span>.<a href="2000002.html" class="memberid">GitBash</a>::<a href="2000002.html#M6000002" class="memberid">Start</a>()
+<span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           call         </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">Integration.Git</span>.<a href="2000002.html" class="memberid">GitBash</a>::<a href="2000002.html#M6000003" class="memberid">WaitForExit</a>()
+<span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           call         </span><span style="color: blue;">instance </span><span style="color: blue;">string</span> <span class="memberid">Integration.Git</span>.<a href="2000002.html" class="memberid">GitBash</a>::<a href="2000002.html#M6000004" class="memberid">get_Output</a>()
+<span>           stloc.0      </span>
+<span>           br.s         </span><span>IL_0001
+</span><span>  IL_0001</span>: <span>ldloc.0      </span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> instance </span><span style="color: blue;">void</span><a name="M6000006" href="2000002.html#M6000006" class="memberid"> pr_DataReceived</a>(
+     <span style="color: blue;">object</span><span> sender</span>, 
+     <span style="color: blue;">class </span>[<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">DataReceivedEventArgs</span><span> e</span>
+ )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 8
+
+<span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           ldfld        </span><span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Text</span>.<span class="memberid">StringBuilder</span> <span class="memberid">Integration.Git</span>.<a href="2000002.html" class="memberid">GitBash</a>::<span class="memberid">resultbuilder</span>
+<span>           ldarg.2      </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">string</span> [<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">DataReceivedEventArgs</span>::<span class="memberid">get_Data</span>()
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Text</span>.<span class="memberid">StringBuilder</span> [<span>System.Runtime</span>]<span class="memberid">System.Text</span>.<span class="memberid">StringBuilder</span>::<span class="memberid">AppendLine</span>(<span style="color: blue;">string</span>)
+<span>           pop          </span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> newslot</span><span style="color: blue;"> virtual</span><span style="color: blue;"> final</span><span style="color: blue;"> instance </span><span style="color: blue;">void</span><a name="M6000007" href="2000002.html#M6000007" class="memberid"> Dispose</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 8
+
+<span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           ldfld        </span><span style="color: blue;">class </span>[<span>System.Diagnostics.Process</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">Process</span> <span class="memberid">Integration.Git</span>.<a href="2000002.html" class="memberid">GitBash</a>::<span class="memberid">pr</span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.ComponentModel.Primitives</span>]<span class="memberid">System.ComponentModel</span>.<span class="memberid">Component</span>::<span class="memberid">Dispose</span>()
+<span>           nop          </span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> static </span><span style="color: blue;">string</span><a name="M6000008" href="2000002.html#M6000008" class="memberid"> GetPath</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
  {
 <span style="color: magenta;">  .maxstack </span> 2
-<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">int32</span><span> V_0</span>)
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">string</span><span> V_0</span>,
+     <span style="color: blue;">string</span><span> V_1</span>,
+     <span style="color: blue;">bool</span><span> V_2</span>,
+     <span style="color: blue;">string</span><span> V_3</span>)
 
 <span>           nop          </span>
-<span>           ldarg.0      </span>
-<span>           ldfld        </span><span style="color: blue;">class </span>[<span>System.Collections</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">Dictionary`2</span>&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt; <span class="memberid">CilBrowser</span>.<a href="2000002.html" class="memberid">CommandLineArgs</a>::<span class="memberid">namedArgs</span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span> <span style="color: blue;">class </span>[<span>System.Collections</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">Dictionary`2</span>&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt;::<span class="memberid">get_Count</span>()
-<span>           ldarg.0      </span>
-<span>           ldfld        </span><span style="color: blue;">string</span>[] <span class="memberid">CilBrowser</span>.<a href="2000002.html" class="memberid">CommandLineArgs</a>::<span class="memberid">posArgs</span>
-<span>           ldlen        </span>
-<span>           conv.i4      </span>
-<span>           add          </span>
+<span>           ldstr        </span><span style="color: red;">&quot;&quot;</span>
 <span>           stloc.0      </span>
-<span>           br.s         </span><span>IL_0001
-</span><span>  IL_0001</span>: <span>ldloc.0      </span>
+<span>           ldstr        </span><span style="color: red;">&quot;GITBASH_PATH&quot;</span>
+<span>           call         </span><span style="color: blue;">string</span> [<span>System.Runtime.Extensions</span>]<span class="memberid">System</span>.<span class="memberid">Environment</span>::<span class="memberid">GetEnvironmentVariable</span>(<span style="color: blue;">string</span>)
+<span>           stloc.1      </span>
+<span>           ldloc.1      </span>
+<span>           call         </span><span style="color: blue;">bool</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">IsNullOrEmpty</span>(<span style="color: blue;">string</span>)
+<span>           stloc.2      </span>
+<span>           ldloc.2      </span>
+<span>           brfalse.s    </span><span>IL_0001
+</span><span>           nop          </span>
+<span>           ldstr        </span><span style="color: red;">&quot;C:\\Program Files\\Git\\bin\\sh.exe&quot;</span>
+<span>           stloc.0      </span>
+<span>           ldstr        </span><span style="color: red;">&quot;Warning: GITBASH_PATH is not set, using default path C:\\Program Files\\Git\\bin&quot;</span>
+<span>           call         </span><span style="color: blue;">void</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">WriteLine</span>(<span style="color: blue;">string</span>)
+<span>           nop          </span>
+<span>           nop          </span>
+<span>           br.s         </span><span>IL_0002
+</span><span>  IL_0001</span>: <span>ldloc.1      </span>
+<span>           ldstr        </span><span style="color: red;">&quot;sh.exe&quot;</span>
+<span>           call         </span><span style="color: blue;">string</span> [<span>System.Runtime.Extensions</span>]<span class="memberid">System.IO</span>.<span class="memberid">Path</span>::<span class="memberid">Combine</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>           stloc.0      </span>
+<span>  IL_0002</span>: <span>ldloc.0      </span>
+<span>           stloc.3      </span>
+<span>           br.s         </span><span>IL_0003
+</span><span>  IL_0003</span>: <span>ldloc.3      </span>
 <span>           ret          </span>
  }
 
-<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> virtual</span><span style="color: blue;"> instance </span><span style="color: blue;">string</span><a name="M6000008" href="2000002.html#M6000008" class="memberid"> ToString</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> static </span><span style="color: blue;">string</span><a name="M6000009" href="2000002.html#M6000009" class="memberid"> ExecuteCommand</a>(
+     <span style="color: blue;">string</span><span> command</span>
+ )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
  {
-<span style="color: magenta;">  .maxstack </span> 5
-<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Text</span>.<span class="memberid">StringBuilder</span><span> V_0</span>,
-     <span style="color: blue;">int32</span><span> V_1</span>,
-     <span style="color: blue;">valuetype </span>[<span>???</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">KeyCollection</span>/<span class="memberid">Enumerator</span>&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt;<span> V_2</span>,
-     <span style="color: blue;">string</span><span> V_3</span>,
-     <span style="color: blue;">int32</span><span> V_4</span>,
-     <span style="color: blue;">bool</span><span> V_5</span>,
-     <span style="color: blue;">string</span><span> V_6</span>)
+<span style="color: magenta;">  .maxstack </span> 2
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">class </span><span class="memberid">Integration.Git</span>.<a href="2000002.html" class="memberid">GitBash</a><span> V_0</span>,
+     <span style="color: blue;">string</span><span> V_1</span>,
+     <span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">Exception</span><span> V_2</span>)
 
 <span>           nop          </span>
-<span>           ldc.i4       </span><span>1000</span>
-<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Runtime</span>]<span class="memberid">System.Text</span>.<span class="memberid">StringBuilder</span>::<span class="memberid">.ctor</span>(<span style="color: blue;">int32</span>)
-<span>           stloc.0      </span>
-<span>           ldloc.0      </span>
-<span>           ldstr        </span><span style="color: red;">&quot;Named: &quot;</span>
-<span>           ldarg.0      </span>
-<span>           ldfld        </span><span style="color: blue;">class </span>[<span>System.Collections</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">Dictionary`2</span>&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt; <span class="memberid">CilBrowser</span>.<a href="2000002.html" class="memberid">CommandLineArgs</a>::<span class="memberid">namedArgs</span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span> <span style="color: blue;">class </span>[<span>System.Collections</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">Dictionary`2</span>&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt;::<span class="memberid">get_Count</span>()
-<span>           stloc.1      </span>
-<span>           ldloca.s     </span><span>V_1</span>
-<span>           call         </span><span style="color: blue;">instance </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">Int32</span>::<span class="memberid">ToString</span>()
-<span>           call         </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Concat</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Text</span>.<span class="memberid">StringBuilder</span> [<span>System.Runtime</span>]<span class="memberid">System.Text</span>.<span class="memberid">StringBuilder</span>::<span class="memberid">AppendLine</span>(<span style="color: blue;">string</span>)
-<span>           pop          </span>
-<span>           nop          </span>
-<span>           ldarg.0      </span>
-<span>           ldfld        </span><span style="color: blue;">class </span>[<span>System.Collections</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">Dictionary`2</span>&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt; <span class="memberid">CilBrowser</span>.<a href="2000002.html" class="memberid">CommandLineArgs</a>::<span class="memberid">namedArgs</span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>System.Collections</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">Dictionary`2</span>/<span class="memberid">KeyCollection</span>&lt;!0, !1&gt; <span style="color: blue;">class </span>[<span>System.Collections</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">Dictionary`2</span>&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt;::<span class="memberid">get_Keys</span>()
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">valuetype </span>[<span>???</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">KeyCollection</span>/<span class="memberid">Enumerator</span>&lt;!0, !1&gt; <span style="color: blue;">class </span>[<span>System.Collections</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">Dictionary`2</span>/<span class="memberid">KeyCollection</span>&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt;::<span class="memberid">GetEnumerator</span>()
-<span>           stloc.2      </span>
 <span style="color: magenta;">  .try
 </span>  {
-<span>            br.s         </span><span>IL_0002
-</span><span>   IL_0001</span>: <span>ldloca.s     </span><span>V_2</span>
-<span>            call         </span><span style="color: blue;">instance </span>!0 <span style="color: blue;">valuetype </span>[<span>???</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">KeyCollection</span>/<span class="memberid">Enumerator</span>&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt;::<span class="memberid">get_Current</span>()
-<span>            stloc.3      </span>
 <span>            nop          </span>
-<span>            ldloc.0      </span>
-<span>            ldstr        </span><span style="color: red;">&quot; {0} \075 {1}&quot;</span>
-<span>            ldloc.3      </span>
+<span>            call         </span><span style="color: blue;">string</span> <span class="memberid">Integration.Git</span>.<a href="2000002.html" class="memberid">GitBash</a>::<a href="2000002.html#M6000008" class="memberid">GetPath</a>()
 <span>            ldarg.0      </span>
-<span>            ldloc.3      </span>
-<span>            call         </span><span style="color: blue;">instance </span><span style="color: blue;">string</span> <span class="memberid">CilBrowser</span>.<a href="2000002.html" class="memberid">CommandLineArgs</a>::<a href="2000002.html#M6000004" class="memberid">GetNamedArgument</a>(<span style="color: blue;">string</span>)
-<span>            callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Text</span>.<span class="memberid">StringBuilder</span> [<span>System.Runtime</span>]<span class="memberid">System.Text</span>.<span class="memberid">StringBuilder</span>::<span class="memberid">AppendFormat</span>(<span style="color: blue;">string</span>, <span style="color: blue;">object</span>, <span style="color: blue;">object</span>)
-<span>            pop          </span>
-<span>            ldloc.0      </span>
-<span>            callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Text</span>.<span class="memberid">StringBuilder</span> [<span>System.Runtime</span>]<span class="memberid">System.Text</span>.<span class="memberid">StringBuilder</span>::<span class="memberid">AppendLine</span>()
-<span>            pop          </span>
-<span>            nop          </span>
-<span>   IL_0002</span>: <span>ldloca.s     </span><span>V_2</span>
-<span>            call         </span><span style="color: blue;">instance </span><span style="color: blue;">bool</span> <span style="color: blue;">valuetype </span>[<span>???</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">KeyCollection</span>/<span class="memberid">Enumerator</span>&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt;::<span class="memberid">MoveNext</span>()
-<span>            brtrue.s     </span><span>IL_0001
-</span><span>            leave.s      </span><span>IL_0003
-</span>  }
-  <span style="color: blue;">finally</span>
-  {
-<span>            ldloca.s     </span><span>V_2</span>
-<span>            constrained. </span><span style="color: blue;">valuetype </span>[<span>???</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">KeyCollection</span>/<span class="memberid">Enumerator</span>&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt;
-<span>            callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">IDisposable</span>::<span class="memberid">Dispose</span>()
-<span>            nop          </span>
-<span>            endfinally   </span>
+<span>            newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">Integration.Git</span>.<a href="2000002.html" class="memberid">GitBash</a>::<a href="2000002.html#M6000001" class="memberid">.ctor</a>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>            stloc.0      </span>
+<span style="color: magenta;">   .try
+</span>   {
+<span>             nop          </span>
+<span>             ldloc.0      </span>
+<span>             callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">string</span> <span class="memberid">Integration.Git</span>.<a href="2000002.html" class="memberid">GitBash</a>::<a href="2000002.html#M6000005" class="memberid">Run</a>()
+<span>             stloc.1      </span>
+<span>             leave.s      </span><span>IL_0002
+</span>   }
+   <span style="color: blue;">finally</span>
+   {
+<span>             ldloc.0      </span>
+<span>             brfalse.s    </span><span>IL_0001
+</span><span>             ldloc.0      </span>
+<span>             callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">IDisposable</span>::<span class="memberid">Dispose</span>()
+<span>             nop          </span>
+<span>    IL_0001</span>: <span>endfinally   </span>
+   }
   }
-<span>  IL_0003</span>: <span>ldloc.0      </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Text</span>.<span class="memberid">StringBuilder</span> [<span>System.Runtime</span>]<span class="memberid">System.Text</span>.<span class="memberid">StringBuilder</span>::<span class="memberid">AppendLine</span>()
-<span>           pop          </span>
-<span>           ldloc.0      </span>
-<span>           ldstr        </span><span style="color: red;">&quot;Positional: &quot;</span>
-<span>           ldarg.0      </span>
-<span>           ldfld        </span><span style="color: blue;">string</span>[] <span class="memberid">CilBrowser</span>.<a href="2000002.html" class="memberid">CommandLineArgs</a>::<span class="memberid">posArgs</span>
-<span>           ldlen        </span>
-<span>           conv.i4      </span>
-<span>           stloc.1      </span>
-<span>           ldloca.s     </span><span>V_1</span>
-<span>           call         </span><span style="color: blue;">instance </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">Int32</span>::<span class="memberid">ToString</span>()
-<span>           call         </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Concat</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Text</span>.<span class="memberid">StringBuilder</span> [<span>System.Runtime</span>]<span class="memberid">System.Text</span>.<span class="memberid">StringBuilder</span>::<span class="memberid">AppendLine</span>(<span style="color: blue;">string</span>)
-<span>           pop          </span>
-<span>           ldc.i4.0     </span>
-<span>           stloc.s      </span><span>V_4</span>
-<span>           br.s         </span><span>IL_0005
-</span><span>  IL_0004</span>: <span>nop          </span>
-<span>           ldloc.0      </span>
-<span>           ldstr        </span><span style="color: red;">&quot; {0} \075 {1}&quot;</span>
-<span>           ldloc.s      </span><span>V_4</span>
-<span>           box          </span>[<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">Int32</span>
-<span>           ldarg.0      </span>
-<span>           ldfld        </span><span style="color: blue;">string</span>[] <span class="memberid">CilBrowser</span>.<a href="2000002.html" class="memberid">CommandLineArgs</a>::<span class="memberid">posArgs</span>
-<span>           ldloc.s      </span><span>V_4</span>
-<span>           ldelem.ref   </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Text</span>.<span class="memberid">StringBuilder</span> [<span>System.Runtime</span>]<span class="memberid">System.Text</span>.<span class="memberid">StringBuilder</span>::<span class="memberid">AppendFormat</span>(<span style="color: blue;">string</span>, <span style="color: blue;">object</span>, <span style="color: blue;">object</span>)
-<span>           pop          </span>
-<span>           ldloc.0      </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Text</span>.<span class="memberid">StringBuilder</span> [<span>System.Runtime</span>]<span class="memberid">System.Text</span>.<span class="memberid">StringBuilder</span>::<span class="memberid">AppendLine</span>()
-<span>           pop          </span>
-<span>           nop          </span>
-<span>           ldloc.s      </span><span>V_4</span>
-<span>           ldc.i4.1     </span>
-<span>           add          </span>
-<span>           stloc.s      </span><span>V_4</span>
-<span>  IL_0005</span>: <span>ldloc.s      </span><span>V_4</span>
-<span>           ldarg.0      </span>
-<span>           ldfld        </span><span style="color: blue;">string</span>[] <span class="memberid">CilBrowser</span>.<a href="2000002.html" class="memberid">CommandLineArgs</a>::<span class="memberid">posArgs</span>
-<span>           ldlen        </span>
-<span>           conv.i4      </span>
-<span>           clt          </span>
-<span>           stloc.s      </span><span>V_5</span>
-<span>           ldloc.s      </span><span>V_5</span>
-<span>           brtrue.s     </span><span>IL_0004
-</span><span>           ldloc.0      </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">Object</span>::<span class="memberid">ToString</span>()
-<span>           stloc.s      </span><span>V_6</span>
-<span>           br.s         </span><span>IL_0006
-</span><span>  IL_0006</span>: <span>ldloc.s      </span><span>V_6</span>
+  <span style="color: blue;">catch </span>[<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">Exception</span>
+  {
+<span>            stloc.2      </span>
+<span>            nop          </span>
+<span>            ldloc.2      </span>
+<span>            callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">Object</span>::<span class="memberid">ToString</span>()
+<span>            stloc.1      </span>
+<span>            leave.s      </span><span>IL_0002
+</span>  }
+<span>  IL_0002</span>: <span>ldloc.1      </span>
 <span>           ret          </span>
  }
 

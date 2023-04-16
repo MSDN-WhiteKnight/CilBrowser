@@ -1,4 +1,4 @@
-<html><head><title>Source file: Program.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+﻿<html><head><title>Source file: Program.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
 <body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
 <h2>Source file: Program.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in CilBrowser directory:</p><p><a href="CilBrowser.csproj.html">CilBrowser.csproj</a></p><p><a href="CommandLineArgs.cs.html">CommandLineArgs.cs</a></p><p><a href="footer.html.html">footer.html</a></p><p><a href="generate-demo.cmd.html">generate-demo.cmd</a></p><p><b>Program.cs</b></p><p><a href="run.cmd.html">run.cmd</a></p></td>
 <td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
@@ -7,13 +7,17 @@
 </span><span style="color: blue;">using </span>System;
 <span style="color: blue;">using </span>System.IO;
 <span style="color: blue;">using </span>System.Reflection;
+<span style="color: blue;">using </span>System.Threading;
 <span style="color: blue;">using </span>CilBrowser.Core;
 <span style="color: blue;">using </span>CilTools.Metadata;
+<span style="color: blue;">using </span>Integration.Git;
 
 <span style="color: blue;">namespace </span>CilBrowser
 {
     <span style="color: blue;">class </span>Program
     {
+        <span style="color: blue;">static </span>NamedArgumentDefinition[] defs;
+
         <span style="color: blue;">static </span><span style="color: blue;">int </span>GenerateDemo()
         {
             AssemblyReader reader = <span style="color: blue;">new </span>AssemblyReader();
@@ -37,6 +41,52 @@
             <span style="color: blue;">return </span>0;
         }
 
+        <span style="color: blue;">static </span><span style="color: blue;">void </span>PrintHelp()
+        {
+            Console.WriteLine(<span style="color: red;">&quot;*** CIL Browser {0} ***&quot;</span>, <span style="color: blue;">typeof</span>(Program).Assembly.GetName().Version);
+            Console.WriteLine();
+            Console.WriteLine(<span style="color: red;">&quot;Command line syntax:&quot;</span>);
+            Console.WriteLine(<span style="color: red;">&quot;  CilBrowser [Options] &lt;InputPath&gt;&quot;</span>);
+            Console.WriteLine();
+            Console.WriteLine(<span style="color: red;">&quot;Options:&quot;</span>);
+
+            <span style="color: blue;">for </span>(<span style="color: blue;">int </span>i = 0; i &lt; defs.Length; i++)
+            {
+                Console.WriteLine(defs[i].Name + <span style="color: red;">&quot;: &quot; </span>+ defs[i].Description);
+            }
+        }
+
+        <span style="color: blue;">static </span><span style="color: blue;">int </span>GenerateFromGitRepository(<span style="color: blue;">string </span>url, <span style="color: blue;">string </span>outputPath, <span style="color: blue;">string </span>footerContent)
+        {
+            <span style="color: blue;">string </span>repoName = Path.GetFileNameWithoutExtension(url);
+
+            <span style="color: blue;">if </span>(<span style="color: blue;">string</span>.IsNullOrEmpty(repoName)) repoName = <span style="color: red;">&quot;repo&quot;</span>;
+            
+            <span style="color: green;">// Clone remote to temp directory
+            </span><span style="color: blue;">string </span>cloneDir = Utils.CreateTempDir(repoName);
+            <span style="color: blue;">string </span>cloneDirLinux = cloneDir.Replace(<span style="color: red;">&#39;\\&#39;</span>, <span style="color: red;">&#39;/&#39;</span>); <span style="color: green;">//git bash uses Linux paths
+
+            </span><span style="color: blue;">try
+            </span>{
+                Console.WriteLine(<span style="color: red;">&quot;Cloning git repository to &quot; </span>+ cloneDirLinux + <span style="color: red;">&quot;...&quot;</span>);
+                <span style="color: blue;">string </span>output = GitBash.ExecuteCommand(<span style="color: red;">&quot;git clone &quot; </span>+ url + <span style="color: red;">&quot; &quot; </span>+ cloneDirLinux);
+                Console.WriteLine(output);
+
+                Console.WriteLine(<span style="color: red;">&quot;Generating website from cloned sources...&quot;</span>);
+                WebsiteGenerator.GenerateFromSources(cloneDir, outputPath, <span style="color: blue;">string</span>.Empty, footerContent);
+            }
+            <span style="color: blue;">finally
+            </span>{
+                <span style="color: green;">// Try to delete cloned sources. This will most likely fail because git has some background process
+                </span><span style="color: green;">// that keeps objects open even after we&#39;ve finished working with repository.
+                </span>Thread.Sleep(500);
+                Utils.DeleteTempDirRecursive(cloneDir, 0);
+            }
+
+            Console.WriteLine(<span style="color: red;">&quot;Generated!&quot;</span>);
+            <span style="color: blue;">return </span>0;
+        }
+
         <span style="color: blue;">static </span><span style="color: blue;">int </span>Main(<span style="color: blue;">string</span>[] args)
         {
             <span style="color: blue;">if </span>(args.Length == 0)
@@ -45,12 +95,20 @@
                 <span style="color: blue;">return </span>0;
             }
 
-            NamedArgumentDefinition[] defs = <span style="color: blue;">new </span>NamedArgumentDefinition[]
+            defs = <span style="color: blue;">new </span>NamedArgumentDefinition[]
             {
-                <span style="color: blue;">new </span>NamedArgumentDefinition(<span style="color: red;">&quot;--output&quot;</span>, <span style="color: blue;">true</span>),
-                <span style="color: blue;">new </span>NamedArgumentDefinition(<span style="color: red;">&quot;--namespace&quot;</span>, <span style="color: blue;">true</span>),
-                <span style="color: blue;">new </span>NamedArgumentDefinition(<span style="color: red;">&quot;--footer&quot;</span>, <span style="color: blue;">true</span>),
+                <span style="color: blue;">new </span>NamedArgumentDefinition(<span style="color: red;">&quot;--output&quot;</span>, <span style="color: blue;">true</span>, <span style="color: red;">&quot;Output directory&quot;</span>),
+                <span style="color: blue;">new </span>NamedArgumentDefinition(<span style="color: red;">&quot;--namespace&quot;</span>, <span style="color: blue;">true</span>, <span style="color: red;">&quot;Namespace filter&quot;</span>),
+                <span style="color: blue;">new </span>NamedArgumentDefinition(<span style="color: red;">&quot;--footer&quot;</span>, <span style="color: blue;">true</span>, <span style="color: red;">&quot;Custom footer file path&quot;</span>),
+                <span style="color: blue;">new </span>NamedArgumentDefinition(<span style="color: red;">&quot;--host&quot;</span>, <span style="color: blue;">true</span>, <span style="color: red;">&quot;URL host (default is &quot; </span>+ Server.DefaultUrlHost + <span style="color: red;">&quot;)&quot;</span>),
+                <span style="color: blue;">new </span>NamedArgumentDefinition(<span style="color: red;">&quot;--prefix&quot;</span>, <span style="color: blue;">true</span>, <span style="color: red;">&quot;URL prefix (default is &quot; </span>+ Server.DefaultUrlPrefix + <span style="color: red;">&quot;)&quot;</span>),
             };
+
+            <span style="color: blue;">if </span>(Utils.StrEquals(args[0], <span style="color: red;">&quot;help&quot;</span>) || Utils.StrEquals(args[0], <span style="color: red;">&quot;-?&quot;</span>) || Utils.StrEquals(args[0], <span style="color: red;">&quot;/?&quot;</span>))
+            {
+                PrintHelp();
+                <span style="color: blue;">return </span>0;
+            }
 
             <span style="color: green;">// *** Parse command line parameters ***
             </span>CommandLineArgs cla = <span style="color: blue;">new </span>CommandLineArgs(args, defs);
@@ -58,6 +116,8 @@
             <span style="color: blue;">string </span>outputPath = <span style="color: blue;">string</span>.Empty;
             <span style="color: blue;">string </span>namespaceFilter = <span style="color: blue;">string</span>.Empty;
             <span style="color: blue;">string </span>footerPath = <span style="color: blue;">string</span>.Empty;
+            <span style="color: blue;">string </span>urlHost = <span style="color: blue;">string</span>.Empty;
+            <span style="color: blue;">string </span>urlPrefix = <span style="color: blue;">string</span>.Empty;
             <span style="color: blue;">bool </span>server = <span style="color: blue;">false</span>;
 
             <span style="color: green;">//named parameters
@@ -74,6 +134,16 @@
             <span style="color: blue;">if </span>(cla.HasNamedArgument(<span style="color: red;">&quot;--footer&quot;</span>))
             {
                 footerPath = cla.GetNamedArgument(<span style="color: red;">&quot;--footer&quot;</span>);
+            }
+
+            <span style="color: blue;">if </span>(cla.HasNamedArgument(<span style="color: red;">&quot;--host&quot;</span>))
+            {
+                urlHost = cla.GetNamedArgument(<span style="color: red;">&quot;--host&quot;</span>);
+            }
+
+            <span style="color: blue;">if </span>(cla.HasNamedArgument(<span style="color: red;">&quot;--prefix&quot;</span>))
+            {
+                urlPrefix = cla.GetNamedArgument(<span style="color: red;">&quot;--prefix&quot;</span>);
             }
 
             <span style="color: green;">//positional parameter: input path
@@ -114,6 +184,27 @@
                 Console.WriteLine(<span style="color: red;">&quot;Error: Namespace filter is not supported in server mode&quot;</span>);
                 <span style="color: blue;">return </span>1;
             }
+
+            <span style="color: blue;">if </span>(server)
+            {
+                <span style="color: blue;">if </span>(<span style="color: blue;">string</span>.IsNullOrEmpty(urlHost))
+                {
+                    urlHost = Server.DefaultUrlHost;
+                }
+
+                <span style="color: blue;">if </span>(<span style="color: blue;">string</span>.IsNullOrEmpty(urlPrefix))
+                {
+                    urlPrefix = Server.DefaultUrlPrefix;
+                }
+            }
+            <span style="color: blue;">else
+            </span>{
+                <span style="color: blue;">if </span>(!<span style="color: blue;">string</span>.IsNullOrEmpty(urlHost) || !<span style="color: blue;">string</span>.IsNullOrEmpty(urlPrefix))
+                {
+                    Console.WriteLine(<span style="color: red;">&quot;Error: --host or --prefix should not be specified in website generator mode&quot;</span>);
+                    <span style="color: blue;">return </span>1;
+                }
+            }
             
             <span style="color: green;">// *** Run program ***
             </span><span style="color: blue;">string </span>ext = Path.GetExtension(inputPath);
@@ -131,7 +222,7 @@
                     {
                         <span style="color: green;">//run server
                         </span>Console.WriteLine(<span style="color: red;">&quot;Running server...&quot;</span>);
-                        Server srv = <span style="color: blue;">new </span>Server(ass);
+                        Server srv = <span style="color: blue;">new </span>Server(ass, urlHost, urlPrefix);
                         srv.RunInBackground();
 
                         <span style="color: blue;">while </span>(<span style="color: blue;">true</span>)
@@ -153,6 +244,10 @@
                         Console.WriteLine(<span style="color: red;">&quot;Generated!&quot;</span>);
                     }
                 }
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(inputPath.EndsWith(<span style="color: red;">&quot;.git&quot;</span>))
+            {
+                <span style="color: blue;">return </span>GenerateFromGitRepository(inputPath, outputPath, footerContent);
             }
             <span style="color: blue;">else </span><span style="color: green;">//source directory
             </span>{

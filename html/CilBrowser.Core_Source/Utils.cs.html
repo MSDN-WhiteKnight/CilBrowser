@@ -1,6 +1,6 @@
-<html><head><title>Source file: Utils.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+﻿<html><head><title>Source file: Utils.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
 <body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
-<h2>Source file: Utils.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in CilBrowser.Core directory:</p><p><a href="CilBrowser.Core.csproj.html">CilBrowser.Core.csproj</a></p><p><a href="HtmlAttribute.cs.html">HtmlAttribute.cs</a></p><p><a href="HtmlBuilder.cs.html">HtmlBuilder.cs</a></p><p><a href="HtmlGenerator.cs.html">HtmlGenerator.cs</a></p><p><a href="IlasmClassifier.cs.html">IlasmClassifier.cs</a></p><p><a href="NullClassifier.cs.html">NullClassifier.cs</a></p><p><a href="Server.cs.html">Server.cs</a></p><p><b>Utils.cs</b></p><p><a href="WebsiteGenerator.cs.html">WebsiteGenerator.cs</a></p></td>
+<h2>Source file: Utils.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in CilBrowser.Core directory:</p><p><a href="CilBrowser.Core.csproj.html">CilBrowser.Core.csproj</a></p><p><a href="HtmlAttribute.cs.html">HtmlAttribute.cs</a></p><p><a href="HtmlBuilder.cs.html">HtmlBuilder.cs</a></p><p><a href="HtmlGenerator.cs.html">HtmlGenerator.cs</a></p><p><a href="Server.cs.html">Server.cs</a></p><p><b>Utils.cs</b></p><p><a href="WebsiteGenerator.cs.html">WebsiteGenerator.cs</a></p></td>
 <td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
  * Copyright (c) 2022,  MSDN.WhiteKnight 
  * License: BSD 3-Clause */
@@ -97,6 +97,86 @@
             <span style="color: blue;">string </span>name1 = typeAssembly.GetName().Name;
             <span style="color: blue;">string </span>name2 = ass.GetName().Name;
             <span style="color: blue;">return </span><span style="color: blue;">string</span>.Equals(name1, name2, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        <span style="color: green;">/// &lt;summary&gt;
+        </span><span style="color: green;">/// Creates unique temp directory under the current assembly location directory and returns its path
+        </span><span style="color: green;">/// &lt;/summary&gt;
+        </span><span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">string </span>CreateTempDir(<span style="color: blue;">string </span>dirname)
+        {
+            <span style="color: blue;">string </span>t = Path.GetDirectoryName(<span style="color: blue;">typeof</span>(Utils).Assembly.Location);
+            <span style="color: blue;">string </span>ret = String.Empty;
+            Random rnd = <span style="color: blue;">new </span>Random();
+            <span style="color: blue;">int </span>n = 0;
+
+            <span style="color: green;">//generate unique temp directory path
+
+            </span><span style="color: blue;">while </span>(<span style="color: blue;">true</span>)
+            {
+                <span style="color: blue;">int </span>x = rnd.Next();
+                <span style="color: blue;">string </span>uniqueNumber = x.ToString(<span style="color: red;">&quot;X&quot;</span>);
+                ret = Path.Combine(t, uniqueNumber, dirname);
+
+                <span style="color: blue;">if </span>(!File.Exists(ret) &amp;&amp; !Directory.Exists(ret))
+                {
+                    <span style="color: green;">//found unique name
+                    </span>Directory.CreateDirectory(ret);
+                    <span style="color: blue;">return </span>ret;
+                }
+
+                n++;
+
+                <span style="color: blue;">if </span>(n &gt; 2000) <span style="color: blue;">throw </span><span style="color: blue;">new </span>IOException(<span style="color: red;">&quot;Failed to generate temp directory name&quot;</span>);
+            }
+        }
+
+        <span style="color: green;">/// &lt;summary&gt;
+        </span><span style="color: green;">/// Tries to delete the directory with the specified path and all of its subdirectories. Does not stop on exceptions.
+        </span><span style="color: green;">/// &lt;/summary&gt;
+        </span><span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">bool </span>DeleteTempDirRecursive(<span style="color: blue;">string </span>dir, <span style="color: blue;">int </span>n)
+        {
+            <span style="color: blue;">string</span>[] files = Directory.GetFiles(dir);
+            <span style="color: blue;">bool </span>success = <span style="color: blue;">true</span>;
+
+            <span style="color: green;">//delete files in a dir
+            </span><span style="color: blue;">for </span>(<span style="color: blue;">int </span>i = 0; i &lt; files.Length; i++)
+            {
+                <span style="color: blue;">try
+                </span>{
+                    File.Delete(files[i]);
+                }
+                <span style="color: blue;">catch </span>(Exception)
+                {
+                    success = <span style="color: blue;">false</span>;
+                }
+            }
+
+            <span style="color: blue;">if </span>(n &gt; 500)
+            {
+                Console.WriteLine(<span style="color: red;">&quot;Error: recursion is too deep when removing temp dirs!&quot;</span>);
+                <span style="color: blue;">return </span><span style="color: blue;">false</span>;
+            }
+
+            <span style="color: green;">//delete subdirs
+            </span><span style="color: blue;">string</span>[] subdirs = Directory.GetDirectories(dir);
+
+            <span style="color: blue;">for </span>(<span style="color: blue;">int </span>i = 0; i &lt; subdirs.Length; i++)
+            {
+                <span style="color: blue;">bool </span>res = DeleteTempDirRecursive(subdirs[i], n+1);
+                <span style="color: blue;">if </span>(res == <span style="color: blue;">false</span>) success = <span style="color: blue;">false</span>;
+            }
+
+            <span style="color: green;">//if all files and subdirs are removed, we can remove the whole directory
+            </span><span style="color: blue;">if </span>(success)
+            {
+                <span style="color: blue;">try
+                </span>{
+                    Directory.Delete(dir);
+                }
+                <span style="color: blue;">catch </span>(Exception){}
+            }
+
+            <span style="color: blue;">return </span>success;
         }
     }
 }

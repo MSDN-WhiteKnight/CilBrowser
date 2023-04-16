@@ -1,11 +1,12 @@
-<html><head><title>Source file: HtmlGenerator.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+﻿<html><head><title>Source file: HtmlGenerator.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
 <body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
-<h2>Source file: HtmlGenerator.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in CilBrowser.Core directory:</p><p><a href="CilBrowser.Core.csproj.html">CilBrowser.Core.csproj</a></p><p><a href="HtmlAttribute.cs.html">HtmlAttribute.cs</a></p><p><a href="HtmlBuilder.cs.html">HtmlBuilder.cs</a></p><p><b>HtmlGenerator.cs</b></p><p><a href="IlasmClassifier.cs.html">IlasmClassifier.cs</a></p><p><a href="NullClassifier.cs.html">NullClassifier.cs</a></p><p><a href="Server.cs.html">Server.cs</a></p><p><a href="Utils.cs.html">Utils.cs</a></p><p><a href="WebsiteGenerator.cs.html">WebsiteGenerator.cs</a></p></td>
+<h2>Source file: HtmlGenerator.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in CilBrowser.Core directory:</p><p><a href="CilBrowser.Core.csproj.html">CilBrowser.Core.csproj</a></p><p><a href="HtmlAttribute.cs.html">HtmlAttribute.cs</a></p><p><a href="HtmlBuilder.cs.html">HtmlBuilder.cs</a></p><p><b>HtmlGenerator.cs</b></p><p><a href="Server.cs.html">Server.cs</a></p><p><a href="Utils.cs.html">Utils.cs</a></p><p><a href="WebsiteGenerator.cs.html">WebsiteGenerator.cs</a></p></td>
 <td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
  * Copyright (c) 2022,  MSDN.WhiteKnight 
  * License: BSD 3-Clause */
 </span><span style="color: blue;">using </span>System;
 <span style="color: blue;">using </span>System.Collections.Generic;
+<span style="color: blue;">using </span>System.Diagnostics;
 <span style="color: blue;">using </span>System.IO;
 <span style="color: blue;">using </span>System.Globalization;
 <span style="color: blue;">using </span>System.Linq;
@@ -14,10 +15,8 @@
 <span style="color: blue;">using </span>System.Text;
 <span style="color: blue;">using </span>CilBrowser.Core.SyntaxModel;
 <span style="color: blue;">using </span>CilTools.BytecodeAnalysis;
+<span style="color: blue;">using </span>CilTools.SourceCode.Common;
 <span style="color: blue;">using </span>CilTools.Syntax;
-<span style="color: blue;">using </span>CilView.Core.Syntax;
-<span style="color: blue;">using </span>CilView.SourceCode;
-<span style="color: blue;">using </span>CilView.SourceCode.Common;
 
 <span style="color: blue;">namespace </span>CilBrowser.Core
 {
@@ -483,11 +482,85 @@
             <span style="color: blue;">return </span>sb.ToString();
         }
 
-        <span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">void </span>WriteTocStart(HtmlBuilder toc, AssemblyName an)
+        <span style="color: blue;">static </span><span style="color: blue;">void </span>VisualizeVersionInfo(HtmlBuilder target, Assembly ass)
         {
+            AssemblyName an = ass.GetName();
+            target.WriteTagStart(<span style="color: red;">&quot;table&quot;</span>, HtmlBuilder.OneAttribute(<span style="color: red;">&quot;cellpadding&quot;</span>, <span style="color: red;">&quot;4&quot;</span>));
+
+            <span style="color: blue;">if </span>(an.Version != <span style="color: blue;">null</span>)
+            {
+                target.WriteTagStart(<span style="color: red;">&quot;tr&quot;</span>);
+                target.WriteTag(<span style="color: red;">&quot;td&quot;</span>, <span style="color: red;">&quot;Assembly version&quot;</span>);
+                target.WriteTag(<span style="color: red;">&quot;td&quot;</span>, an.Version.ToString());
+                target.WriteTagEnd(<span style="color: red;">&quot;tr&quot;</span>);
+            }
+
+            <span style="color: blue;">if </span>(<span style="color: blue;">string</span>.IsNullOrEmpty(ass.Location))
+            {
+                <span style="color: green;">//cannot display version info if location is unknown
+                </span>target.WriteTagEnd(<span style="color: red;">&quot;table&quot;</span>);
+                <span style="color: blue;">return</span>;
+            }
+
+            FileVersionInfo fvi;
+
+            <span style="color: blue;">try
+            </span>{
+                fvi = FileVersionInfo.GetVersionInfo(ass.Location);
+            }
+            <span style="color: blue;">catch </span>(Exception ex)
+            {
+                target.WriteTagEnd(<span style="color: red;">&quot;table&quot;</span>);
+                target.WriteParagraph(<span style="color: red;">&quot;Failed to get file version info!&quot;</span>);
+                target.WriteRaw(VisualizeException(ex));                
+                Console.WriteLine(ex.ToString());
+                <span style="color: blue;">return</span>;
+            }
+
+            <span style="color: blue;">if </span>(fvi.FileVersion != <span style="color: blue;">null</span>)
+            {
+                target.WriteTagStart(<span style="color: red;">&quot;tr&quot;</span>);
+                target.WriteTag(<span style="color: red;">&quot;td&quot;</span>, <span style="color: red;">&quot;File version&quot;</span>);
+                target.WriteTag(<span style="color: red;">&quot;td&quot;</span>, fvi.FileVersion);
+                target.WriteTagEnd(<span style="color: red;">&quot;tr&quot;</span>);
+            }
+
+            <span style="color: blue;">if </span>(fvi.ProductVersion != <span style="color: blue;">null</span>)
+            {
+                target.WriteTagStart(<span style="color: red;">&quot;tr&quot;</span>);
+                target.WriteTag(<span style="color: red;">&quot;td&quot;</span>, <span style="color: red;">&quot;Product version&quot;</span>);
+                target.WriteTag(<span style="color: red;">&quot;td&quot;</span>, fvi.ProductVersion);
+                target.WriteTagEnd(<span style="color: red;">&quot;tr&quot;</span>);
+            }
+
+            <span style="color: blue;">if </span>(fvi.ProductName != <span style="color: blue;">null</span>)
+            {
+                target.WriteTagStart(<span style="color: red;">&quot;tr&quot;</span>);
+                target.WriteTag(<span style="color: red;">&quot;td&quot;</span>, <span style="color: red;">&quot;Product name&quot;</span>);
+                target.WriteTag(<span style="color: red;">&quot;td&quot;</span>, fvi.ProductName);
+                target.WriteTagEnd(<span style="color: red;">&quot;tr&quot;</span>);
+            }
+
+            <span style="color: blue;">if </span>(fvi.CompanyName != <span style="color: blue;">null</span>)
+            {
+                target.WriteTagStart(<span style="color: red;">&quot;tr&quot;</span>);
+                target.WriteTag(<span style="color: red;">&quot;td&quot;</span>, <span style="color: red;">&quot;Vendor&quot;</span>);
+                target.WriteTag(<span style="color: red;">&quot;td&quot;</span>, fvi.CompanyName);
+                target.WriteTagEnd(<span style="color: red;">&quot;tr&quot;</span>);
+            }
+
+            target.WriteTagEnd(<span style="color: red;">&quot;table&quot;</span>);
+            
+            <span style="color: blue;">if </span>(!<span style="color: blue;">string</span>.IsNullOrEmpty(fvi.LegalCopyright)) target.WriteParagraph(fvi.LegalCopyright);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">void </span>WriteTocStart(HtmlBuilder toc, Assembly ass)
+        {
+            AssemblyName an = ass.GetName();
             toc.StartDocument(<span style="color: red;">&quot;.NET CIL Browser - &quot; </span>+ an.Name, GlobalStyles);
             toc.WriteParagraph(<span style="color: red;">&quot;.NET CIL Browser&quot;</span>);
             toc.WriteTag(<span style="color: red;">&quot;h1&quot;</span>, an.Name);
+            VisualizeVersionInfo(toc, ass);
             toc.WriteRaw(Environment.NewLine);
             toc.StartParagraph();
             toc.WriteHyperlink(<span style="color: red;">&quot;assembly.html&quot;</span>, <span style="color: red;">&quot;(Assembly manifest)&quot;</span>);

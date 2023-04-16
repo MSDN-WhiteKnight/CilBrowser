@@ -1,169 +1,51 @@
-<html><head><title>Type: CilView.Core.Syntax.SyntaxTokenDefinition</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+﻿<html><head><title>Type: CilTools.SourceCode.Common.UnknownTokenFactory</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
 <body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">CilBrowser.Core</a></p>
-<h2>Type: CilView.Core.Syntax.SyntaxTokenDefinition</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Types in CilView.Core.Syntax namespace:</p><p><a href="200000B.html">CommentToken</a></p><p><a href="2000008.html">DoubleQuotLiteralToken</a></p><p><a href="200000A.html">MultilineCommentToken</a></p><p><a href="2000004.html">NameToken</a></p><p><a href="2000007.html">NumericLiteralToken</a></p><p><a href="2000005.html">PunctuationToken</a></p><p><a href="2000009.html">SingleQuotLiteralToken</a></p><p><a href="2000002.html">SyntaxReader</a></p><p><b>SyntaxTokenDefinition</b></p><p><a href="200000C.html">TokenKind</a></p><p><a href="200000D.html">TokenReader</a></p><p><a href="2000028.html">&lt;ReadAll&gt;d__5</a></p><p><a href="2000006.html">WhitespaceToken</a></p></td>
-<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: magenta;">.class </span><span style="color: blue;">public </span><span style="color: blue;">abstract </span><span style="color: blue;">auto </span><span style="color: blue;">ansi </span><span style="color: blue;">beforefieldinit </span><a href="2000003.html" class="memberid">CilView.Core.Syntax.SyntaxTokenDefinition</a>
-<span style="color: blue;">extends </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Object</span>
+<h2>Type: CilTools.SourceCode.Common.UnknownTokenFactory</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Types in CilTools.SourceCode.Common namespace:</p><p><a href="2000002.html">CommonNameToken</a></p><p><b>UnknownTokenFactory</b></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: magenta;">.class </span><span style="color: blue;">private </span><span style="color: blue;">auto </span><span style="color: blue;">ansi </span><span style="color: blue;">beforefieldinit </span><a href="2000003.html" class="memberid">CilTools.SourceCode.Common.UnknownTokenFactory</a>
+<span style="color: blue;">extends </span>[<span>CilTools.BytecodeAnalysis</span>]<span class="memberid">CilTools.Syntax</span>.<span class="memberid">SyntaxFactory</span>
 {
 
-<span style="color: magenta;"> .field </span><span style="color: blue;">private </span><span style="color: blue;">static </span><span style="color: blue;">class </span><span class="memberid">CilView.Core.Syntax</span>.<a href="2000003.html" class="memberid">SyntaxTokenDefinition</a>[]<span class="memberid"> ilasmTokens</span>
+<span style="color: magenta;"> .field </span><span style="color: blue;">assembly </span><span style="color: blue;">static </span><span style="color: blue;">initonly </span><span style="color: blue;">class </span><span class="memberid">CilTools.SourceCode.Common</span>.<a href="2000003.html" class="memberid">UnknownTokenFactory</a><span class="memberid"> Value</span>
 
-<span style="color: magenta;"> .property </span><span style="color: blue;">class </span><span class="memberid">CilView.Core.Syntax</span>.<a href="2000003.html" class="memberid">SyntaxTokenDefinition</a>[]<span class="memberid"> IlasmTokens</span>()
- {
-<span style="color: magenta;">  .get </span><span style="color: blue;">class </span><span class="memberid">CilView.Core.Syntax</span>.<a href="2000003.html" class="memberid">SyntaxTokenDefinition</a>[] <span class="memberid">CilView.Core.Syntax</span>.<a href="2000003.html" class="memberid">SyntaxTokenDefinition</a>::<a href="2000003.html#M6000003" class="memberid">get_IlasmTokens</a>()
- }
-
-<span style="color: magenta;"> .property </span><span style="color: blue;">instance </span><span style="color: blue;">valuetype </span><span class="memberid">CilView.Core.Syntax</span>.<a href="200000C.html" class="memberid">TokenKind</a><span class="memberid"> Kind</span>()
- {
-<span style="color: magenta;">  .get </span><span style="color: blue;">instance </span><span style="color: blue;">valuetype </span><span class="memberid">CilView.Core.Syntax</span>.<a href="200000C.html" class="memberid">TokenKind</a> <span class="memberid">CilView.Core.Syntax</span>.<a href="2000003.html" class="memberid">SyntaxTokenDefinition</a>::<a href="2000003.html#M6000005" class="memberid">get_Kind</a>()
- }
-
-<span style="color: magenta;"> .method </span><span style="color: blue;">family</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> rtspecialname</span><span style="color: blue;"> instance </span><span style="color: blue;">void</span><a name="M6000008" href="2000003.html#M6000008" class="memberid"> .ctor</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+<span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> rtspecialname</span><span style="color: blue;"> instance </span><span style="color: blue;">void</span><a name="M6000004" href="2000003.html#M6000004" class="memberid"> .ctor</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
  {
 <span style="color: magenta;">  .maxstack </span> 8
 
 <span>           ldarg.0      </span>
-<span>           call         </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Object</span>::<span class="memberid">.ctor</span>()
+<span>           call         </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>CilTools.BytecodeAnalysis</span>]<span class="memberid">CilTools.Syntax</span>.<span class="memberid">SyntaxFactory</span>::<span class="memberid">.ctor</span>()
+<span>           nop          </span>
 <span>           nop          </span>
 <span>           ret          </span>
  }
 
-<span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> rtspecialname</span><span style="color: blue;"> static </span><span style="color: blue;">void</span><a name="M6000009" href="2000003.html#M6000009" class="memberid"> .cctor</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+<span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> rtspecialname</span><span style="color: blue;"> static </span><span style="color: blue;">void</span><a name="M6000006" href="2000003.html#M6000006" class="memberid"> .cctor</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
  {
 <span style="color: magenta;">  .maxstack </span> 8
 
-<span>           ldnull       </span>
-<span>           stsfld       </span><span style="color: blue;">class </span><span class="memberid">CilView.Core.Syntax</span>.<a href="2000003.html" class="memberid">SyntaxTokenDefinition</a>[] <span class="memberid">CilView.Core.Syntax</span>.<a href="2000003.html" class="memberid">SyntaxTokenDefinition</a>::<span class="memberid">ilasmTokens</span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilTools.SourceCode.Common</span>.<a href="2000003.html" class="memberid">UnknownTokenFactory</a>::<a href="2000003.html#M6000004" class="memberid">.ctor</a>()
+<span>           stsfld       </span><span style="color: blue;">class </span><span class="memberid">CilTools.SourceCode.Common</span>.<a href="2000003.html" class="memberid">UnknownTokenFactory</a> <span class="memberid">CilTools.SourceCode.Common</span>.<a href="2000003.html" class="memberid">UnknownTokenFactory</a>::<span class="memberid">Value</span>
 <span>           ret          </span>
  }
 
-<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> static </span><span style="color: blue;">class </span><span class="memberid">CilView.Core.Syntax</span>.<a href="2000003.html" class="memberid">SyntaxTokenDefinition</a>[]<a name="M6000003" href="2000003.html#M6000003" class="memberid"> get_IlasmTokens</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> virtual</span><span style="color: blue;"> instance </span><span style="color: blue;">class </span>[<span>CilTools.BytecodeAnalysis</span>]<span class="memberid">CilTools.Syntax</span>.<span class="memberid">SyntaxNode</span><a name="M6000005" href="2000003.html#M6000005" class="memberid"> CreateNode</a>(
+     <span style="color: blue;">string</span><span> content</span>, 
+     <span style="color: blue;">string</span><span> leadingWhitespace</span>, 
+     <span style="color: blue;">string</span><span> trailingWhitespace</span>
+ )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
  {
 <span style="color: magenta;">  .maxstack </span> 4
-<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">bool</span><span> V_0</span>,
-     <span style="color: blue;">class </span><span class="memberid">CilView.Core.Syntax</span>.<a href="2000003.html" class="memberid">SyntaxTokenDefinition</a>[]<span> V_1</span>)
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">class </span>[<span>CilTools.BytecodeAnalysis</span>]<span class="memberid">CilTools.Syntax</span>.<span class="memberid">SyntaxNode</span><span> V_0</span>)
 
 <span>           nop          </span>
-<span>           ldsfld       </span><span style="color: blue;">class </span><span class="memberid">CilView.Core.Syntax</span>.<a href="2000003.html" class="memberid">SyntaxTokenDefinition</a>[] <span class="memberid">CilView.Core.Syntax</span>.<a href="2000003.html" class="memberid">SyntaxTokenDefinition</a>::<span class="memberid">ilasmTokens</span>
-<span>           ldnull       </span>
-<span>           ceq          </span>
+<span>           ldarg.1      </span>
+<span>           ldc.i4.0     </span>
+<span>           ldarg.2      </span>
+<span>           ldarg.3      </span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">SourceToken</span>::<span class="memberid">.ctor</span>(<span style="color: blue;">string</span>, <span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
 <span>           stloc.0      </span>
-<span>           ldloc.0      </span>
-<span>           brfalse.s    </span><span>IL_0001
-</span><span>           nop          </span>
-<span>           ldc.i4.8     </span>
-<span>           newarr       </span><span class="memberid">CilView.Core.Syntax</span>.<a href="2000003.html" class="memberid">SyntaxTokenDefinition</a>
-<span>           dup          </span>
-<span>           ldc.i4.0     </span>
-<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilView.Core.Syntax</span>.<a href="2000004.html" class="memberid">NameToken</a>::<a href="2000004.html#M600000D" class="memberid">.ctor</a>()
-<span>           stelem.ref   </span>
-<span>           dup          </span>
-<span>           ldc.i4.1     </span>
-<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilView.Core.Syntax</span>.<a href="2000005.html" class="memberid">PunctuationToken</a>::<a href="2000005.html#M6000013" class="memberid">.ctor</a>()
-<span>           stelem.ref   </span>
-<span>           dup          </span>
-<span>           ldc.i4.2     </span>
-<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilView.Core.Syntax</span>.<a href="2000006.html" class="memberid">WhitespaceToken</a>::<a href="2000006.html#M6000017" class="memberid">.ctor</a>()
-<span>           stelem.ref   </span>
-<span>           dup          </span>
-<span>           ldc.i4.3     </span>
-<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilView.Core.Syntax</span>.<a href="2000007.html" class="memberid">NumericLiteralToken</a>::<a href="2000007.html#M600001B" class="memberid">.ctor</a>()
-<span>           stelem.ref   </span>
-<span>           dup          </span>
-<span>           ldc.i4.4     </span>
-<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilView.Core.Syntax</span>.<a href="2000008.html" class="memberid">DoubleQuotLiteralToken</a>::<a href="2000008.html#M600001F" class="memberid">.ctor</a>()
-<span>           stelem.ref   </span>
-<span>           dup          </span>
-<span>           ldc.i4.5     </span>
-<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilView.Core.Syntax</span>.<a href="2000009.html" class="memberid">SingleQuotLiteralToken</a>::<a href="2000009.html#M6000023" class="memberid">.ctor</a>()
-<span>           stelem.ref   </span>
-<span>           dup          </span>
-<span>           ldc.i4.6     </span>
-<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilView.Core.Syntax</span>.<a href="200000B.html" class="memberid">CommentToken</a>::<a href="200000B.html#M600002B" class="memberid">.ctor</a>()
-<span>           stelem.ref   </span>
-<span>           dup          </span>
-<span>           ldc.i4.7     </span>
-<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilView.Core.Syntax</span>.<a href="200000A.html" class="memberid">MultilineCommentToken</a>::<a href="200000A.html#M6000027" class="memberid">.ctor</a>()
-<span>           stelem.ref   </span>
-<span>           stsfld       </span><span style="color: blue;">class </span><span class="memberid">CilView.Core.Syntax</span>.<a href="2000003.html" class="memberid">SyntaxTokenDefinition</a>[] <span class="memberid">CilView.Core.Syntax</span>.<a href="2000003.html" class="memberid">SyntaxTokenDefinition</a>::<span class="memberid">ilasmTokens</span>
-<span>           nop          </span>
-<span>  IL_0001</span>: <span>ldsfld       </span><span style="color: blue;">class </span><span class="memberid">CilView.Core.Syntax</span>.<a href="2000003.html" class="memberid">SyntaxTokenDefinition</a>[] <span class="memberid">CilView.Core.Syntax</span>.<a href="2000003.html" class="memberid">SyntaxTokenDefinition</a>::<span class="memberid">ilasmTokens</span>
-<span>           stloc.1      </span>
-<span>           br.s         </span><span>IL_0002
-</span><span>  IL_0002</span>: <span>ldloc.1      </span>
+<span>           br.s         </span><span>IL_0001
+</span><span>  IL_0001</span>: <span>ldloc.0      </span>
 <span>           ret          </span>
- }
-
-<span style="color: magenta;"> .method </span><span style="color: blue;">assembly</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> static </span><span style="color: blue;">bool</span><a name="M6000004" href="2000003.html#M6000004" class="memberid"> IsEscaped</a>(
-     <span style="color: blue;">string</span><span> str</span>, 
-     <span style="color: blue;">int32</span><span> i</span>
- )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
- {
-<span style="color: magenta;">  .maxstack </span> 3
-<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">char</span><span> V_0</span>,
-     <span style="color: blue;">bool</span><span> V_1</span>,
-     <span style="color: blue;">bool</span><span> V_2</span>,
-     <span style="color: blue;">bool</span><span> V_3</span>)
-
-<span>           nop          </span>
-<span>           ldarg.1      </span>
-<span>           ldc.i4.0     </span>
-<span>           cgt          </span>
-<span>           ldc.i4.0     </span>
-<span>           ceq          </span>
-<span>           stloc.1      </span>
-<span>           ldloc.1      </span>
-<span>           brfalse.s    </span><span>IL_0001
-</span><span>           ldc.i4.0     </span>
-<span>           stloc.2      </span>
-<span>           br.s         </span><span>IL_0003
-</span><span>  IL_0001</span>: <span>ldarg.0      </span>
-<span>           ldarg.1      </span>
-<span>           ldc.i4.1     </span>
-<span>           sub          </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
-<span>           stloc.0      </span>
-<span>           ldloc.0      </span>
-<span>           ldc.i4.s     </span><span>92</span>
-<span>           ceq          </span>
-<span>           ldc.i4.0     </span>
-<span>           ceq          </span>
-<span>           stloc.3      </span>
-<span>           ldloc.3      </span>
-<span>           brfalse.s    </span><span>IL_0002
-</span><span>           ldc.i4.0     </span>
-<span>           stloc.2      </span>
-<span>           br.s         </span><span>IL_0003
-</span><span>  IL_0002</span>: <span>ldarg.0      </span>
-<span>           ldarg.1      </span>
-<span>           ldc.i4.1     </span>
-<span>           sub          </span>
-<span>           call         </span><span style="color: blue;">bool</span> <span class="memberid">CilView.Core.Syntax</span>.<a href="2000003.html" class="memberid">SyntaxTokenDefinition</a>::<a href="2000003.html#M6000004" class="memberid">IsEscaped</a>(<span style="color: blue;">string</span>, <span style="color: blue;">int32</span>)
-<span>           ldc.i4.0     </span>
-<span>           ceq          </span>
-<span>           stloc.2      </span>
-<span>           br.s         </span><span>IL_0003
-</span><span>  IL_0003</span>: <span>ldloc.2      </span>
-<span>           ret          </span>
- }
-
-<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> abstract</span><span style="color: blue;"> newslot</span><span style="color: blue;"> virtual</span><span style="color: blue;"> specialname</span><span style="color: blue;"> instance </span><span style="color: blue;">valuetype </span><span class="memberid">CilView.Core.Syntax</span>.<a href="200000C.html" class="memberid">TokenKind</a><a name="M6000005" href="2000003.html#M6000005" class="memberid"> get_Kind</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
- {
-
- }
-
-<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> abstract</span><span style="color: blue;"> newslot</span><span style="color: blue;"> virtual</span><span style="color: blue;"> instance </span><span style="color: blue;">bool</span><a name="M6000006" href="2000003.html#M6000006" class="memberid"> HasStart</a>(
-     <span style="color: blue;">class </span><span class="memberid">CilView.Core.Syntax</span>.<a href="200000D.html" class="memberid">TokenReader</a><span> reader</span>
- )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
- {
-
- }
-
-<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> abstract</span><span style="color: blue;"> newslot</span><span style="color: blue;"> virtual</span><span style="color: blue;"> instance </span><span style="color: blue;">bool</span><a name="M6000007" href="2000003.html#M6000007" class="memberid"> HasContinuation</a>(
-     <span style="color: blue;">string</span><span> prevPart</span>, 
-     <span style="color: blue;">class </span><span class="memberid">CilView.Core.Syntax</span>.<a href="200000D.html" class="memberid">TokenReader</a><span> reader</span>
- )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
- {
-
  }
 
 }

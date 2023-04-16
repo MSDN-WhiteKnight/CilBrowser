@@ -1,6 +1,6 @@
-<html><head><title>Source file: Server.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+﻿<html><head><title>Source file: Server.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
 <body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
-<h2>Source file: Server.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in CilBrowser.Core directory:</p><p><a href="CilBrowser.Core.csproj.html">CilBrowser.Core.csproj</a></p><p><a href="HtmlAttribute.cs.html">HtmlAttribute.cs</a></p><p><a href="HtmlBuilder.cs.html">HtmlBuilder.cs</a></p><p><a href="HtmlGenerator.cs.html">HtmlGenerator.cs</a></p><p><a href="IlasmClassifier.cs.html">IlasmClassifier.cs</a></p><p><a href="NullClassifier.cs.html">NullClassifier.cs</a></p><p><b>Server.cs</b></p><p><a href="Utils.cs.html">Utils.cs</a></p><p><a href="WebsiteGenerator.cs.html">WebsiteGenerator.cs</a></p></td>
+<h2>Source file: Server.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in CilBrowser.Core directory:</p><p><a href="CilBrowser.Core.csproj.html">CilBrowser.Core.csproj</a></p><p><a href="HtmlAttribute.cs.html">HtmlAttribute.cs</a></p><p><a href="HtmlBuilder.cs.html">HtmlBuilder.cs</a></p><p><a href="HtmlGenerator.cs.html">HtmlGenerator.cs</a></p><p><b>Server.cs</b></p><p><a href="Utils.cs.html">Utils.cs</a></p><p><a href="WebsiteGenerator.cs.html">WebsiteGenerator.cs</a></p></td>
 <td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
  * Copyright (c) 2022,  MSDN.WhiteKnight 
  * License: BSD 3-Clause */
@@ -23,18 +23,22 @@
     </span><span style="color: blue;">public </span><span style="color: blue;">sealed </span><span style="color: blue;">class </span>Server : IDisposable
     {
         Assembly _ass;
+        <span style="color: blue;">string </span>_urlHost;
+        <span style="color: blue;">string </span>_urlPrefix;
         HtmlGenerator _gen;
         HttpListener _listener;
         Dictionary&lt;<span style="color: blue;">string</span>, List&lt;Type&gt;&gt; _typeMap;
         Dictionary&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt; _cache = <span style="color: blue;">new </span>Dictionary&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt;(CacheCapacity);
         
-        <span style="color: blue;">const </span><span style="color: blue;">string </span>UrlHost = <span style="color: red;">&quot;http://localhost:8080&quot;</span>;
-        <span style="color: blue;">const </span><span style="color: blue;">string </span>UrlPrefix = <span style="color: red;">&quot;/CilBrowser/&quot;</span>;
+        <span style="color: blue;">public </span><span style="color: blue;">const </span><span style="color: blue;">string </span>DefaultUrlHost = <span style="color: red;">&quot;http://localhost:8080&quot;</span>;
+        <span style="color: blue;">public </span><span style="color: blue;">const </span><span style="color: blue;">string </span>DefaultUrlPrefix = <span style="color: red;">&quot;/CilBrowser/&quot;</span>;
         <span style="color: blue;">const </span><span style="color: blue;">int </span>CacheCapacity = 200;
 
-        <span style="color: blue;">public </span>Server(Assembly ass)
+        <span style="color: blue;">public </span>Server(Assembly ass, <span style="color: blue;">string </span>urlHost, <span style="color: blue;">string </span>urlPrefix)
         {
             <span style="color: blue;">this</span>._ass = ass;
+            <span style="color: blue;">this</span>._urlHost = urlHost;
+            <span style="color: blue;">this</span>._urlPrefix = urlPrefix;
             <span style="color: blue;">this</span>._gen = <span style="color: blue;">new </span>HtmlGenerator(ass);
 
             Type[] types = ass.GetTypes();
@@ -61,9 +65,9 @@
             <span style="color: blue;">else </span><span style="color: blue;">return </span><span style="color: blue;">string</span>.Empty;
         }
 
-        <span style="color: blue;">static </span><span style="color: blue;">int </span>ResolveTokenFromUrl(<span style="color: blue;">string </span>url)
+        <span style="color: blue;">int </span>ResolveTokenFromUrl(<span style="color: blue;">string </span>url)
         {
-            <span style="color: blue;">int </span>index = UrlPrefix.Length;
+            <span style="color: blue;">int </span>index = <span style="color: blue;">this</span>._urlPrefix.Length;
 
             <span style="color: blue;">if </span>(index &gt;= url.Length) <span style="color: blue;">return </span>0;
 
@@ -129,10 +133,10 @@
             StreamWriter wr;
 
             <span style="color: green;">// Add the prefixes.
-            </span>listener.Prefixes.Add(UrlHost + UrlPrefix);
+            </span>listener.Prefixes.Add(<span style="color: blue;">this</span>._urlHost + <span style="color: blue;">this</span>._urlPrefix);
             listener.Start();
             Console.WriteLine(<span style="color: red;">&quot;Assembly: &quot; </span>+ <span style="color: blue;">this</span>._ass.GetName().Name);
-            Console.WriteLine(<span style="color: red;">&quot;Displaying web UI on &quot; </span>+ UrlHost + UrlPrefix);
+            Console.WriteLine(<span style="color: red;">&quot;Displaying web UI on &quot; </span>+ <span style="color: blue;">this</span>._urlHost + <span style="color: blue;">this</span>._urlPrefix);
             Console.WriteLine(<span style="color: red;">&quot;Press E to stop server&quot;</span>);
 
             <span style="color: blue;">while </span>(<span style="color: blue;">true</span>)
@@ -152,7 +156,7 @@
 
                 <span style="color: green;">// Construct a response.
 
-                </span><span style="color: blue;">if </span>(!url.StartsWith(UrlPrefix))
+                </span><span style="color: blue;">if </span>(!url.StartsWith(<span style="color: blue;">this</span>._urlPrefix))
                 {
                     <span style="color: green;">//вернуть ошибку при неверном URL
                     </span>SendErrorResponse(response, 404, <span style="color: red;">&quot;Not found&quot;</span>);
@@ -171,7 +175,7 @@
                     <span style="color: blue;">continue</span>;
                 }
                 
-                <span style="color: blue;">if </span>(Utils.StrEquals(url, UrlPrefix) || Utils.StrEquals(url, UrlPrefix + <span style="color: red;">&quot;index.html&quot;</span>))
+                <span style="color: blue;">if </span>(Utils.StrEquals(url, <span style="color: blue;">this</span>._urlPrefix) || Utils.StrEquals(url, <span style="color: blue;">this</span>._urlPrefix + <span style="color: red;">&quot;index.html&quot;</span>))
                 {
                     <span style="color: green;">// Table of contents
                     </span>response.ContentType = <span style="color: red;">&quot;text/html; charset=utf-8&quot;</span>;
@@ -184,7 +188,7 @@
 
                     <span style="color: blue;">using </span>(wr)
                     {
-                        HtmlGenerator.WriteTocStart(toc, <span style="color: blue;">this</span>._ass.GetName());
+                        HtmlGenerator.WriteTocStart(toc, <span style="color: blue;">this</span>._ass);
 
                         <span style="color: blue;">for </span>(<span style="color: blue;">int </span>i = 0; i &lt; namespaces.Length; i++)
                         {
@@ -219,7 +223,7 @@
 
                 <span style="color: blue;">string </span>content;
 
-                <span style="color: blue;">if </span>(Utils.StrEquals(url, UrlPrefix + <span style="color: red;">&quot;assembly.html&quot;</span>))
+                <span style="color: blue;">if </span>(Utils.StrEquals(url, <span style="color: blue;">this</span>._urlPrefix + <span style="color: red;">&quot;assembly.html&quot;</span>))
                 {
                     <span style="color: green;">// Assembly manifest
                     </span>content = <span style="color: blue;">this</span>._gen.VisualizeAssemblyManifest(<span style="color: blue;">this</span>._ass);

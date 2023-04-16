@@ -1,6 +1,12 @@
-<html><head><title>Assembly: CilBrowser</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+﻿<html><head><title>Assembly: CilBrowser</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
 <body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">CilBrowser</a></p>
 <h2>Assembly: CilBrowser</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: magenta;">.assembly </span><span style="color: blue;">extern </span><span>System.Runtime
+</span>{
+<span style="color: magenta;">  .publickeytoken </span>= ( B0 3F 5F 7F 11 D5 0A 3A )
+<span style="color: magenta;">  .ver </span><span>4</span>:<span>2</span>:<span>1</span>:<span>0
+</span>}
+
+<span style="color: magenta;">.assembly </span><span style="color: blue;">extern </span><span>System.Diagnostics.Process
 </span>{
 <span style="color: magenta;">  .publickeytoken </span>= ( B0 3F 5F 7F 11 D5 0A 3A )
 <span style="color: magenta;">  .ver </span><span>4</span>:<span>2</span>:<span>1</span>:<span>0
@@ -20,7 +26,7 @@
 
 <span style="color: magenta;">.assembly </span><span style="color: blue;">extern </span><span>CilTools.Metadata
 </span>{
-<span style="color: magenta;">  .ver </span><span>2</span>:<span>5</span>:<span>0</span>:<span>0
+<span style="color: magenta;">  .ver </span><span>2</span>:<span>6</span>:<span>1</span>:<span>0
 </span>}
 
 <span style="color: magenta;">.assembly </span><span style="color: blue;">extern </span><span>CilBrowser.Core
@@ -34,16 +40,28 @@
 <span style="color: magenta;">  .ver </span><span>4</span>:<span>1</span>:<span>1</span>:<span>0
 </span>}
 
-<span style="color: magenta;">.assembly </span><span style="color: blue;">extern </span><span>System.IO.FileSystem
+<span style="color: magenta;">.assembly </span><span style="color: blue;">extern </span><span>System.Runtime.Extensions
+</span>{
+<span style="color: magenta;">  .publickeytoken </span>= ( B0 3F 5F 7F 11 D5 0A 3A )
+<span style="color: magenta;">  .ver </span><span>4</span>:<span>2</span>:<span>1</span>:<span>0
+</span>}
+
+<span style="color: magenta;">.assembly </span><span style="color: blue;">extern </span><span>System.ComponentModel.Primitives
+</span>{
+<span style="color: magenta;">  .publickeytoken </span>= ( B0 3F 5F 7F 11 D5 0A 3A )
+<span style="color: magenta;">  .ver </span><span>4</span>:<span>2</span>:<span>1</span>:<span>0
+</span>}
+
+<span style="color: magenta;">.assembly </span><span style="color: blue;">extern </span><span>System.Threading.Thread
 </span>{
 <span style="color: magenta;">  .publickeytoken </span>= ( B0 3F 5F 7F 11 D5 0A 3A )
 <span style="color: magenta;">  .ver </span><span>4</span>:<span>1</span>:<span>1</span>:<span>0
 </span>}
 
-<span style="color: magenta;">.assembly </span><span style="color: blue;">extern </span><span>System.Runtime.Extensions
+<span style="color: magenta;">.assembly </span><span style="color: blue;">extern </span><span>System.IO.FileSystem
 </span>{
 <span style="color: magenta;">  .publickeytoken </span>= ( B0 3F 5F 7F 11 D5 0A 3A )
-<span style="color: magenta;">  .ver </span><span>4</span>:<span>2</span>:<span>1</span>:<span>0
+<span style="color: magenta;">  .ver </span><span>4</span>:<span>1</span>:<span>1</span>:<span>0
 </span>}
 
 <span style="color: magenta;">.assembly </span><span>CilBrowser
@@ -65,7 +83,7 @@
 </span>}
 
 <span style="color: magenta;">.module </span><span>CilBrowser.dll
-</span><span style="color: green;">//MVID: cb3c255b-938c-4f09-86ba-a48e538ca603
+</span><span style="color: green;">//MVID: 09483c1d-dacf-4c07-934d-5c39e872b32f
 </span><span style="color: magenta;">.imagebase </span>0x400000
 <span style="color: magenta;">.file </span><span style="color: blue;">alignment </span>0x200
 <span style="color: magenta;">.stackreserve </span>0x100000

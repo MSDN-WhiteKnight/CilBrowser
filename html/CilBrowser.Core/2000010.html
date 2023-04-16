@@ -1,38 +1,313 @@
-<html><head><title>Type: CilView.SourceCode.Decompiler</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+﻿<html><head><title>Type: CilBrowser.Core.SyntaxModel.Markup.MarkupTokenFactory</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
 <body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">CilBrowser.Core</a></p>
-<h2>Type: CilView.SourceCode.Decompiler</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Types in CilView.SourceCode namespace:</p><p><a href="200000E.html">CppClassifier</a></p><p><a href="200000F.html">CsharpClassifier</a></p><p><b>Decompiler</b></p><p><a href="2000014.html">MarkupClassifier</a></p><p><a href="2000011.html">SourceToken</a></p><p><a href="2000012.html">TokenClassifier</a></p><p><a href="2000013.html">TokenParser</a></p></td>
-<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: magenta;">.class </span><span style="color: blue;">public </span><span style="color: blue;">abstract </span><span style="color: blue;">auto </span><span style="color: blue;">ansi </span><span style="color: blue;">sealed </span><span style="color: blue;">beforefieldinit </span><a href="2000010.html" class="memberid">CilView.SourceCode.Decompiler</a>
-<span style="color: blue;">extends </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Object</span>
+<h2>Type: CilBrowser.Core.SyntaxModel.Markup.MarkupTokenFactory</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Types in CilBrowser.Core.SyntaxModel.Markup namespace:</p><p><b>MarkupTokenFactory</b></p><p><a href="2000011.html">XmlCommentToken</a></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: magenta;">.class </span><span style="color: blue;">public </span><span style="color: blue;">auto </span><span style="color: blue;">ansi </span><span style="color: blue;">sealed </span><span style="color: blue;">beforefieldinit </span><a href="2000010.html" class="memberid">CilBrowser.Core.SyntaxModel.Markup.MarkupTokenFactory</a>
+<span style="color: blue;">extends </span>[<span>CilTools.BytecodeAnalysis</span>]<span class="memberid">CilTools.Syntax</span>.<span class="memberid">SyntaxFactory</span>
 {
 
-<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> static </span><span style="color: blue;">bool</span><a name="M600003B" href="2000010.html#M600003B" class="memberid"> IsCppExtension</a>(
-     <span style="color: blue;">string</span><span> ext</span>
+<span style="color: magenta;"> .field </span><span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">initonly </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel.Markup</span>.<a href="2000010.html" class="memberid">MarkupTokenFactory</a><span class="memberid"> Value</span>
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> rtspecialname</span><span style="color: blue;"> instance </span><span style="color: blue;">void</span><a name="M6000072" href="2000010.html#M6000072" class="memberid"> .ctor</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 8
+
+<span>           ldarg.0      </span>
+<span>           call         </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>CilTools.BytecodeAnalysis</span>]<span class="memberid">CilTools.Syntax</span>.<span class="memberid">SyntaxFactory</span>::<span class="memberid">.ctor</span>()
+<span>           nop          </span>
+<span>           nop          </span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> rtspecialname</span><span style="color: blue;"> static </span><span style="color: blue;">void</span><a name="M6000076" href="2000010.html#M6000076" class="memberid"> .cctor</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 8
+
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser.Core.SyntaxModel.Markup</span>.<a href="2000010.html" class="memberid">MarkupTokenFactory</a>::<a href="2000010.html#M6000072" class="memberid">.ctor</a>()
+<span>           stsfld       </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel.Markup</span>.<a href="2000010.html" class="memberid">MarkupTokenFactory</a> <span class="memberid">CilBrowser.Core.SyntaxModel.Markup</span>.<a href="2000010.html" class="memberid">MarkupTokenFactory</a>::<span class="memberid">Value</span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> static </span><span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span><a name="M6000073" href="2000010.html#M6000073" class="memberid"> GetKindCommon</a>(
+     <span style="color: blue;">string</span><span> token</span>
  )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
  {
-<span style="color: magenta;">  .maxstack </span> 2
-<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">bool</span><span> V_0</span>)
+<span style="color: magenta;">  .maxstack </span> 3
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">bool</span><span> V_0</span>,
+     <span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span><span> V_1</span>,
+     <span style="color: blue;">bool</span><span> V_2</span>,
+     <span style="color: blue;">bool</span><span> V_3</span>,
+     <span style="color: blue;">bool</span><span> V_4</span>,
+     <span style="color: blue;">bool</span><span> V_5</span>,
+     <span style="color: blue;">bool</span><span> V_6</span>,
+     <span style="color: blue;">bool</span><span> V_7</span>,
+     <span style="color: blue;">bool</span><span> V_8</span>,
+     <span style="color: blue;">bool</span><span> V_9</span>,
+     <span style="color: blue;">bool</span><span> V_10</span>,
+     <span style="color: blue;">bool</span><span> V_11</span>,
+     <span style="color: blue;">bool</span><span> V_12</span>)
 
 <span>           nop          </span>
 <span>           ldarg.0      </span>
-<span>           ldstr        </span><span style="color: red;">&quot;.cpp&quot;</span>
-<span>           call         </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">op_Equality</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
-<span>           brtrue.s     </span><span>IL_0001
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Length</span>()
+<span>           ldc.i4.0     </span>
+<span>           ceq          </span>
+<span>           stloc.0      </span>
+<span>           ldloc.0      </span>
+<span>           brfalse.s    </span><span>IL_0001
+</span><span>           ldc.i4.0     </span>
+<span>           stloc.1      </span>
+<span>           br           </span><span>IL_0019
+</span><span>  IL_0001</span>: <span>ldarg.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           call         </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Char</span>::<span class="memberid">IsDigit</span>(<span style="color: blue;">char</span>)
+<span>           stloc.2      </span>
+<span>           ldloc.2      </span>
+<span>           brfalse.s    </span><span>IL_0002
+</span><span>           nop          </span>
+<span>           ldc.i4.s     </span><span>9</span>
+<span>           stloc.1      </span>
+<span>           br           </span><span>IL_0019
+</span><span>  IL_0002</span>: <span>ldarg.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           ldc.i4.s     </span><span>34</span>
+<span>           ceq          </span>
+<span>           stloc.3      </span>
+<span>           ldloc.3      </span>
+<span>           brfalse.s    </span><span>IL_0006
+</span><span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Length</span>()
+<span>           ldc.i4.2     </span>
+<span>           blt.s        </span><span>IL_0003
 </span><span>           ldarg.0      </span>
-<span>           ldstr        </span><span style="color: red;">&quot;.c&quot;</span>
-<span>           call         </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">op_Equality</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
-<span>           brtrue.s     </span><span>IL_0001
+<span>           ldarg.0      </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Length</span>()
+<span>           ldc.i4.1     </span>
+<span>           sub          </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           ldc.i4.s     </span><span>34</span>
+<span>           ceq          </span>
+<span>           ldc.i4.0     </span>
+<span>           ceq          </span>
+<span>           br.s         </span><span>IL_0004
+</span><span>  IL_0003</span>: <span>ldc.i4.1     </span>
+<span>  IL_0004</span>: <span>stloc.s      </span><span>V_4</span>
+<span>           ldloc.s      </span><span>V_4</span>
+<span>           brfalse.s    </span><span>IL_0005
+</span><span>           nop          </span>
+<span>           ldc.i4.0     </span>
+<span>           stloc.1      </span>
+<span>           br           </span><span>IL_0019
+</span><span>  IL_0005</span>: <span>nop          </span>
+<span>           ldc.i4.7     </span>
+<span>           stloc.1      </span>
+<span>           br           </span><span>IL_0019
+</span><span>  IL_0006</span>: <span>ldarg.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           ldc.i4.s     </span><span>39</span>
+<span>           ceq          </span>
+<span>           stloc.s      </span><span>V_5</span>
+<span>           ldloc.s      </span><span>V_5</span>
+<span>           brfalse.s    </span><span>IL_0010
+</span><span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Length</span>()
+<span>           ldc.i4.2     </span>
+<span>           blt.s        </span><span>IL_0007
 </span><span>           ldarg.0      </span>
-<span>           ldstr        </span><span style="color: red;">&quot;.h&quot;</span>
-<span>           call         </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">op_Equality</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
-<span>           brtrue.s     </span><span>IL_0001
+<span>           ldarg.0      </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Length</span>()
+<span>           ldc.i4.1     </span>
+<span>           sub          </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           ldc.i4.s     </span><span>39</span>
+<span>           ceq          </span>
+<span>           ldc.i4.0     </span>
+<span>           ceq          </span>
+<span>           br.s         </span><span>IL_0008
+</span><span>  IL_0007</span>: <span>ldc.i4.1     </span>
+<span>  IL_0008</span>: <span>stloc.s      </span><span>V_6</span>
+<span>           ldloc.s      </span><span>V_6</span>
+<span>           brfalse.s    </span><span>IL_0009
+</span><span>           nop          </span>
+<span>           ldc.i4.0     </span>
+<span>           stloc.1      </span>
+<span>           br           </span><span>IL_0019
+</span><span>  IL_0009</span>: <span>nop          </span>
+<span>           ldc.i4.6     </span>
+<span>           stloc.1      </span>
+<span>           br           </span><span>IL_0019
+</span><span>  IL_0010</span>: <span>ldarg.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           ldc.i4.s     </span><span>47</span>
+<span>           ceq          </span>
+<span>           stloc.s      </span><span>V_7</span>
+<span>           ldloc.s      </span><span>V_7</span>
+<span>           brfalse.s    </span><span>IL_0015
+</span><span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Length</span>()
+<span>           ldc.i4.1     </span>
+<span>           ceq          </span>
+<span>           stloc.s      </span><span>V_8</span>
+<span>           ldloc.s      </span><span>V_8</span>
+<span>           brfalse.s    </span><span>IL_0011
+</span><span>           nop          </span>
+<span>           ldc.i4.5     </span>
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0019
+</span><span>  IL_0011</span>: <span>ldarg.0      </span>
+<span>           ldc.i4.1     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           ldc.i4.s     </span><span>42</span>
+<span>           ceq          </span>
+<span>           stloc.s      </span><span>V_9</span>
+<span>           ldloc.s      </span><span>V_9</span>
+<span>           brfalse.s    </span><span>IL_0013
+</span><span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           ldstr        </span><span style="color: red;">&quot;*/&quot;</span>
+<span>           ldc.i4.4     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">EndsWith</span>(<span style="color: blue;">string</span>, <span style="color: blue;">valuetype </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">StringComparison</span>)
+<span>           ldc.i4.0     </span>
+<span>           ceq          </span>
+<span>           stloc.s      </span><span>V_10</span>
+<span>           ldloc.s      </span><span>V_10</span>
+<span>           brfalse.s    </span><span>IL_0012
+</span><span>           nop          </span>
+<span>           ldc.i4.0     </span>
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0019
+</span><span>  IL_0012</span>: <span>nop          </span>
+<span>           ldc.i4.s     </span><span>11</span>
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0019
+</span><span>  IL_0013</span>: <span>ldarg.0      </span>
+<span>           ldc.i4.1     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           ldc.i4.s     </span><span>47</span>
+<span>           ceq          </span>
+<span>           stloc.s      </span><span>V_11</span>
+<span>           ldloc.s      </span><span>V_11</span>
+<span>           brfalse.s    </span><span>IL_0014
+</span><span>           nop          </span>
+<span>           ldc.i4.s     </span><span>10</span>
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0019
+</span><span>  IL_0014</span>: <span>nop          </span>
+<span>           ldc.i4.0     </span>
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0019
+</span><span>  IL_0015</span>: <span>ldarg.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           call         </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Char</span>::<span class="memberid">IsPunctuation</span>(<span style="color: blue;">char</span>)
+<span>           brtrue.s     </span><span>IL_0016
 </span><span>           ldarg.0      </span>
-<span>           ldsfld       </span><span style="color: blue;">string</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Empty</span>
-<span>           call         </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">op_Equality</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
-<span>           br.s         </span><span>IL_0002
-</span><span>  IL_0001</span>: <span>ldc.i4.1     </span>
-<span>  IL_0002</span>: <span>stloc.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           call         </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Char</span>::<span class="memberid">IsSymbol</span>(<span style="color: blue;">char</span>)
+<span>           br.s         </span><span>IL_0017
+</span><span>  IL_0016</span>: <span>ldc.i4.1     </span>
+<span>  IL_0017</span>: <span>stloc.s      </span><span>V_12</span>
+<span>           ldloc.s      </span><span>V_12</span>
+<span>           brfalse.s    </span><span>IL_0018
+</span><span>           nop          </span>
+<span>           ldc.i4.5     </span>
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0019
+</span><span>  IL_0018</span>: <span>nop          </span>
+<span>           ldc.i4.0     </span>
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0019
+</span><span>  IL_0019</span>: <span>ldloc.1      </span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> static </span><span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span><a name="M6000074" href="2000010.html#M6000074" class="memberid"> GetKind</a>(
+     <span style="color: blue;">string</span><span> token</span>
+ )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 2
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">bool</span><span> V_0</span>,
+     <span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span><span> V_1</span>,
+     <span style="color: blue;">bool</span><span> V_2</span>,
+     <span style="color: blue;">bool</span><span> V_3</span>)
+
+<span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Length</span>()
+<span>           ldc.i4.0     </span>
+<span>           ceq          </span>
+<span>           stloc.0      </span>
+<span>           ldloc.0      </span>
+<span>           brfalse.s    </span><span>IL_0001
+</span><span>           ldc.i4.0     </span>
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0006
+</span><span>  IL_0001</span>: <span>ldarg.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           call         </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Char</span>::<span class="memberid">IsLetter</span>(<span style="color: blue;">char</span>)
+<span>           brtrue.s     </span><span>IL_0002
+</span><span>           ldarg.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           ldc.i4.s     </span><span>95</span>
+<span>           ceq          </span>
 <span>           br.s         </span><span>IL_0003
-</span><span>  IL_0003</span>: <span>ldloc.0      </span>
+</span><span>  IL_0002</span>: <span>ldc.i4.1     </span>
+<span>  IL_0003</span>: <span>stloc.2      </span>
+<span>           ldloc.2      </span>
+<span>           brfalse.s    </span><span>IL_0004
+</span><span>           nop          </span>
+<span>           ldc.i4.1     </span>
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0006
+</span><span>  IL_0004</span>: <span>ldarg.0      </span>
+<span>           ldstr        </span><span style="color: red;">&quot;&lt;!--&quot;</span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">StartsWith</span>(<span style="color: blue;">string</span>)
+<span>           stloc.3      </span>
+<span>           ldloc.3      </span>
+<span>           brfalse.s    </span><span>IL_0005
+</span><span>           nop          </span>
+<span>           ldc.i4.s     </span><span>10</span>
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0006
+</span><span>  IL_0005</span>: <span>ldarg.0      </span>
+<span>           call         </span><span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span> <span class="memberid">CilBrowser.Core.SyntaxModel.Markup</span>.<a href="2000010.html" class="memberid">MarkupTokenFactory</a>::<a href="2000010.html#M6000073" class="memberid">GetKindCommon</a>(<span style="color: blue;">string</span>)
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0006
+</span><span>  IL_0006</span>: <span>ldloc.1      </span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> virtual</span><span style="color: blue;"> instance </span><span style="color: blue;">class </span>[<span>CilTools.BytecodeAnalysis</span>]<span class="memberid">CilTools.Syntax</span>.<span class="memberid">SyntaxNode</span><a name="M6000075" href="2000010.html#M6000075" class="memberid"> CreateNode</a>(
+     <span style="color: blue;">string</span><span> content</span>, 
+     <span style="color: blue;">string</span><span> leadingWhitespace</span>, 
+     <span style="color: blue;">string</span><span> trailingWhitespace</span>
+ )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 4
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span><span> V_0</span>,
+     <span style="color: blue;">class </span>[<span>CilTools.BytecodeAnalysis</span>]<span class="memberid">CilTools.Syntax</span>.<span class="memberid">SyntaxNode</span><span> V_1</span>)
+
+<span>           nop          </span>
+<span>           ldarg.1      </span>
+<span>           call         </span><span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span> <span class="memberid">CilBrowser.Core.SyntaxModel.Markup</span>.<a href="2000010.html" class="memberid">MarkupTokenFactory</a>::<a href="2000010.html#M6000074" class="memberid">GetKind</a>(<span style="color: blue;">string</span>)
+<span>           stloc.0      </span>
+<span>           ldarg.1      </span>
+<span>           ldloc.0      </span>
+<span>           ldarg.2      </span>
+<span>           ldarg.3      </span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">SourceToken</span>::<span class="memberid">.ctor</span>(<span style="color: blue;">string</span>, <span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0001
+</span><span>  IL_0001</span>: <span>ldloc.1      </span>
 <span>           ret          </span>
  }
 

@@ -1,0 +1,711 @@
+﻿<html><head><title>Type: CilBrowser.Program</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">CilBrowser</a></p>
+<h2>Type: CilBrowser.Program</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Types in CilBrowser namespace:</p><p><a href="2000003.html">CommandLineArgs</a></p><p><a href="2000004.html">NamedArgumentDefinition</a></p><p><b>Program</b></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: magenta;">.class </span><span style="color: blue;">private </span><span style="color: blue;">auto </span><span style="color: blue;">ansi </span><span style="color: blue;">beforefieldinit </span><a href="2000005.html" class="memberid">CilBrowser.Program</a>
+<span style="color: blue;">extends </span>[<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">Object</span>
+{
+
+<span style="color: magenta;"> .field </span><span style="color: blue;">private </span><span style="color: blue;">static </span><span style="color: blue;">class </span><span class="memberid">CilBrowser</span>.<a href="2000004.html" class="memberid">NamedArgumentDefinition</a>[]<span class="memberid"> defs</span>
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> rtspecialname</span><span style="color: blue;"> instance </span><span style="color: blue;">void</span><a name="M600001F" href="2000005.html#M600001F" class="memberid"> .ctor</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 8
+
+<span>           ldarg.0      </span>
+<span>           call         </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">Object</span>::<span class="memberid">.ctor</span>()
+<span>           nop          </span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> static </span><span style="color: blue;">int32</span><a name="M600001B" href="2000005.html#M600001B" class="memberid"> GenerateDemo</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 4
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">class </span>[<span>CilTools.Metadata</span>]<span class="memberid">CilTools.Metadata</span>.<span class="memberid">AssemblyReader</span><span> V_0</span>,
+     <span style="color: blue;">class </span>[<span>CilTools.Metadata</span>]<span class="memberid">CilTools.Metadata</span>.<span class="memberid">AssemblyReader</span><span> V_1</span>,
+     <span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Reflection</span>.<span class="memberid">Assembly</span><span> V_2</span>,
+     <span style="color: blue;">int32</span><span> V_3</span>)
+
+<span>           nop          </span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>CilTools.Metadata</span>]<span class="memberid">CilTools.Metadata</span>.<span class="memberid">AssemblyReader</span>::<span class="memberid">.ctor</span>()
+<span>           stloc.0      </span>
+<span>           ldstr        </span><span style="color: red;">&quot;Generating demo website...&quot;</span>
+<span>           call         </span><span style="color: blue;">void</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">WriteLine</span>(<span style="color: blue;">string</span>)
+<span>           nop          </span>
+<span>           ldloc.0      </span>
+<span>           stloc.1      </span>
+<span style="color: magenta;">  .try
+</span>  {
+<span>            nop          </span>
+<span>            ldloc.0      </span>
+<span>            ldtoken      </span>[<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">HtmlGenerator</span>
+<span>            call         </span><span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">Type</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">Type</span>::<span class="memberid">GetTypeFromHandle</span>(<span style="color: blue;">valuetype </span>[<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">RuntimeTypeHandle</span>)
+<span>            callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Reflection</span>.<span class="memberid">Assembly</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">Type</span>::<span class="memberid">get_Assembly</span>()
+<span>            callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System.Reflection</span>.<span class="memberid">Assembly</span>::<span class="memberid">get_Location</span>()
+<span>            callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Reflection</span>.<span class="memberid">Assembly</span> [<span>CilTools.Metadata</span>]<span class="memberid">CilTools.Metadata</span>.<span class="memberid">AssemblyReader</span>::<span class="memberid">LoadFrom</span>(<span style="color: blue;">string</span>)
+<span>            stloc.2      </span>
+<span>            ldloc.2      </span>
+<span>            ldsfld       </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Empty</span>
+<span>            ldstr        </span><span style="color: red;">&quot;./CilBrowser.Core/&quot;</span>
+<span>            ldsfld       </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Empty</span>
+<span>            call         </span><span style="color: blue;">void</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">WebsiteGenerator</span>::<span class="memberid">GenerateFromAssembly</span>(<span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Reflection</span>.<span class="memberid">Assembly</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>            nop          </span>
+<span>            ldloc.0      </span>
+<span>            ldtoken      </span><span class="memberid">CilBrowser</span>.<a href="2000005.html" class="memberid">Program</a>
+<span>            call         </span><span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">Type</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">Type</span>::<span class="memberid">GetTypeFromHandle</span>(<span style="color: blue;">valuetype </span>[<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">RuntimeTypeHandle</span>)
+<span>            callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Reflection</span>.<span class="memberid">Assembly</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">Type</span>::<span class="memberid">get_Assembly</span>()
+<span>            callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System.Reflection</span>.<span class="memberid">Assembly</span>::<span class="memberid">get_Location</span>()
+<span>            callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Reflection</span>.<span class="memberid">Assembly</span> [<span>CilTools.Metadata</span>]<span class="memberid">CilTools.Metadata</span>.<span class="memberid">AssemblyReader</span>::<span class="memberid">LoadFrom</span>(<span style="color: blue;">string</span>)
+<span>            stloc.2      </span>
+<span>            ldloc.2      </span>
+<span>            ldsfld       </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Empty</span>
+<span>            ldstr        </span><span style="color: red;">&quot;./CilBrowser/&quot;</span>
+<span>            ldsfld       </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Empty</span>
+<span>            call         </span><span style="color: blue;">void</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">WebsiteGenerator</span>::<span class="memberid">GenerateFromAssembly</span>(<span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Reflection</span>.<span class="memberid">Assembly</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>            nop          </span>
+<span>            nop          </span>
+<span>            leave.s      </span><span>IL_0002
+</span>  }
+  <span style="color: blue;">finally</span>
+  {
+<span>            ldloc.1      </span>
+<span>            brfalse.s    </span><span>IL_0001
+</span><span>            ldloc.1      </span>
+<span>            callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">IDisposable</span>::<span class="memberid">Dispose</span>()
+<span>            nop          </span>
+<span>   IL_0001</span>: <span>endfinally   </span>
+  }
+<span>  IL_0002</span>: <span>ldstr        </span><span style="color: red;">&quot;../../../../CilBrowser.Core&quot;</span>
+<span>           ldstr        </span><span style="color: red;">&quot;./CilBrowser.Core_Source/&quot;</span>
+<span>           ldstr        </span><span style="color: red;">&quot;https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser.Core/&quot;</span>
+<span>           ldsfld       </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Empty</span>
+<span>           call         </span><span style="color: blue;">void</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">WebsiteGenerator</span>::<span class="memberid">GenerateFromSources</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>           nop          </span>
+<span>           ldstr        </span><span style="color: red;">&quot;../../../../CilBrowser&quot;</span>
+<span>           ldstr        </span><span style="color: red;">&quot;./CilBrowser_Source/&quot;</span>
+<span>           ldstr        </span><span style="color: red;">&quot;https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser/&quot;</span>
+<span>           ldsfld       </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Empty</span>
+<span>           call         </span><span style="color: blue;">void</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">WebsiteGenerator</span>::<span class="memberid">GenerateFromSources</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>           nop          </span>
+<span>           ldstr        </span><span style="color: red;">&quot;Generated!&quot;</span>
+<span>           call         </span><span style="color: blue;">void</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">WriteLine</span>(<span style="color: blue;">string</span>)
+<span>           nop          </span>
+<span>           ldc.i4.0     </span>
+<span>           stloc.3      </span>
+<span>           br.s         </span><span>IL_0003
+</span><span>  IL_0003</span>: <span>ldloc.3      </span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> static </span><span style="color: blue;">void</span><a name="M600001C" href="2000005.html#M600001C" class="memberid"> PrintHelp</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 4
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">int32</span><span> V_0</span>,
+     <span style="color: blue;">bool</span><span> V_1</span>)
+
+<span>           nop          </span>
+<span>           ldstr        </span><span style="color: red;">&quot;*** CIL Browser {0} ***&quot;</span>
+<span>           ldtoken      </span><span class="memberid">CilBrowser</span>.<a href="2000005.html" class="memberid">Program</a>
+<span>           call         </span><span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">Type</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">Type</span>::<span class="memberid">GetTypeFromHandle</span>(<span style="color: blue;">valuetype </span>[<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">RuntimeTypeHandle</span>)
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Reflection</span>.<span class="memberid">Assembly</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">Type</span>::<span class="memberid">get_Assembly</span>()
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Reflection</span>.<span class="memberid">AssemblyName</span> [<span>System.Runtime</span>]<span class="memberid">System.Reflection</span>.<span class="memberid">Assembly</span>::<span class="memberid">GetName</span>()
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">Version</span> [<span>System.Runtime</span>]<span class="memberid">System.Reflection</span>.<span class="memberid">AssemblyName</span>::<span class="memberid">get_Version</span>()
+<span>           call         </span><span style="color: blue;">void</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">WriteLine</span>(<span style="color: blue;">string</span>, <span style="color: blue;">object</span>)
+<span>           nop          </span>
+<span>           call         </span><span style="color: blue;">void</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">WriteLine</span>()
+<span>           nop          </span>
+<span>           ldstr        </span><span style="color: red;">&quot;Command line syntax:&quot;</span>
+<span>           call         </span><span style="color: blue;">void</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">WriteLine</span>(<span style="color: blue;">string</span>)
+<span>           nop          </span>
+<span>           ldstr        </span><span style="color: red;">&quot;  CilBrowser [Options] &lt;InputPath&gt;&quot;</span>
+<span>           call         </span><span style="color: blue;">void</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">WriteLine</span>(<span style="color: blue;">string</span>)
+<span>           nop          </span>
+<span>           call         </span><span style="color: blue;">void</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">WriteLine</span>()
+<span>           nop          </span>
+<span>           ldstr        </span><span style="color: red;">&quot;Options:&quot;</span>
+<span>           call         </span><span style="color: blue;">void</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">WriteLine</span>(<span style="color: blue;">string</span>)
+<span>           nop          </span>
+<span>           ldc.i4.0     </span>
+<span>           stloc.0      </span>
+<span>           br.s         </span><span>IL_0002
+</span><span>  IL_0001</span>: <span>nop          </span>
+<span>           ldsfld       </span><span style="color: blue;">class </span><span class="memberid">CilBrowser</span>.<a href="2000004.html" class="memberid">NamedArgumentDefinition</a>[] <span class="memberid">CilBrowser</span>.<a href="2000005.html" class="memberid">Program</a>::<span class="memberid">defs</span>
+<span>           ldloc.0      </span>
+<span>           ldelem.ref   </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">string</span> <span class="memberid">CilBrowser</span>.<a href="2000004.html" class="memberid">NamedArgumentDefinition</a>::<a href="2000004.html#M6000013" class="memberid">get_Name</a>()
+<span>           ldstr        </span><span style="color: red;">&quot;: &quot;</span>
+<span>           ldsfld       </span><span style="color: blue;">class </span><span class="memberid">CilBrowser</span>.<a href="2000004.html" class="memberid">NamedArgumentDefinition</a>[] <span class="memberid">CilBrowser</span>.<a href="2000005.html" class="memberid">Program</a>::<span class="memberid">defs</span>
+<span>           ldloc.0      </span>
+<span>           ldelem.ref   </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">string</span> <span class="memberid">CilBrowser</span>.<a href="2000004.html" class="memberid">NamedArgumentDefinition</a>::<a href="2000004.html#M6000017" class="memberid">get_Description</a>()
+<span>           call         </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Concat</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>           call         </span><span style="color: blue;">void</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">WriteLine</span>(<span style="color: blue;">string</span>)
+<span>           nop          </span>
+<span>           nop          </span>
+<span>           ldloc.0      </span>
+<span>           ldc.i4.1     </span>
+<span>           add          </span>
+<span>           stloc.0      </span>
+<span>  IL_0002</span>: <span>ldloc.0      </span>
+<span>           ldsfld       </span><span style="color: blue;">class </span><span class="memberid">CilBrowser</span>.<a href="2000004.html" class="memberid">NamedArgumentDefinition</a>[] <span class="memberid">CilBrowser</span>.<a href="2000005.html" class="memberid">Program</a>::<span class="memberid">defs</span>
+<span>           ldlen        </span>
+<span>           conv.i4      </span>
+<span>           clt          </span>
+<span>           stloc.1      </span>
+<span>           ldloc.1      </span>
+<span>           brtrue.s     </span><span>IL_0001
+</span><span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> static </span><span style="color: blue;">int32</span><a name="M600001D" href="2000005.html#M600001D" class="memberid"> GenerateFromGitRepository</a>(
+     <span style="color: blue;">string</span><span> url</span>, 
+     <span style="color: blue;">string</span><span> outputPath</span>, 
+     <span style="color: blue;">string</span><span> footerContent</span>
+ )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 4
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">string</span><span> V_0</span>,
+     <span style="color: blue;">string</span><span> V_1</span>,
+     <span style="color: blue;">string</span><span> V_2</span>,
+     <span style="color: blue;">bool</span><span> V_3</span>,
+     <span style="color: blue;">string</span><span> V_4</span>,
+     <span style="color: blue;">int32</span><span> V_5</span>)
+
+<span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           call         </span><span style="color: blue;">string</span> [<span>System.Runtime.Extensions</span>]<span class="memberid">System.IO</span>.<span class="memberid">Path</span>::<span class="memberid">GetFileNameWithoutExtension</span>(<span style="color: blue;">string</span>)
+<span>           stloc.0      </span>
+<span>           ldloc.0      </span>
+<span>           call         </span><span style="color: blue;">bool</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">IsNullOrEmpty</span>(<span style="color: blue;">string</span>)
+<span>           stloc.3      </span>
+<span>           ldloc.3      </span>
+<span>           brfalse.s    </span><span>IL_0001
+</span><span>           ldstr        </span><span style="color: red;">&quot;repo&quot;</span>
+<span>           stloc.0      </span>
+<span>  IL_0001</span>: <span>ldloc.0      </span>
+<span>           call         </span><span style="color: blue;">string</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">Utils</span>::<span class="memberid">CreateTempDir</span>(<span style="color: blue;">string</span>)
+<span>           stloc.1      </span>
+<span>           ldloc.1      </span>
+<span>           ldc.i4.s     </span><span>92</span>
+<span>           ldc.i4.s     </span><span>47</span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Replace</span>(<span style="color: blue;">char</span>, <span style="color: blue;">char</span>)
+<span>           stloc.2      </span>
+<span style="color: magenta;">  .try
+</span>  {
+<span>            nop          </span>
+<span>            ldstr        </span><span style="color: red;">&quot;Cloning git repository to &quot;</span>
+<span>            ldloc.2      </span>
+<span>            ldstr        </span><span style="color: red;">&quot;...&quot;</span>
+<span>            call         </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Concat</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>            call         </span><span style="color: blue;">void</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">WriteLine</span>(<span style="color: blue;">string</span>)
+<span>            nop          </span>
+<span>            ldstr        </span><span style="color: red;">&quot;git clone &quot;</span>
+<span>            ldarg.0      </span>
+<span>            ldstr        </span><span style="color: red;">&quot; &quot;</span>
+<span>            ldloc.2      </span>
+<span>            call         </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Concat</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>            call         </span><span style="color: blue;">string</span> <span class="memberid">Integration.Git</span>.<a href="2000002.html" class="memberid">GitBash</a>::<a href="2000002.html#M6000009" class="memberid">ExecuteCommand</a>(<span style="color: blue;">string</span>)
+<span>            stloc.s      </span><span>V_4</span>
+<span>            ldloc.s      </span><span>V_4</span>
+<span>            call         </span><span style="color: blue;">void</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">WriteLine</span>(<span style="color: blue;">string</span>)
+<span>            nop          </span>
+<span>            ldstr        </span><span style="color: red;">&quot;Generating website from cloned sources...&quot;</span>
+<span>            call         </span><span style="color: blue;">void</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">WriteLine</span>(<span style="color: blue;">string</span>)
+<span>            nop          </span>
+<span>            ldloc.1      </span>
+<span>            ldarg.1      </span>
+<span>            ldsfld       </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Empty</span>
+<span>            ldarg.2      </span>
+<span>            call         </span><span style="color: blue;">void</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">WebsiteGenerator</span>::<span class="memberid">GenerateFromSources</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>            nop          </span>
+<span>            nop          </span>
+<span>            leave.s      </span><span>IL_0002
+</span>  }
+  <span style="color: blue;">finally</span>
+  {
+<span>            nop          </span>
+<span>            ldc.i4       </span><span>500</span>
+<span>            call         </span><span style="color: blue;">void</span> [<span>System.Threading.Thread</span>]<span class="memberid">System.Threading</span>.<span class="memberid">Thread</span>::<span class="memberid">Sleep</span>(<span style="color: blue;">int32</span>)
+<span>            nop          </span>
+<span>            ldloc.1      </span>
+<span>            ldc.i4.0     </span>
+<span>            call         </span><span style="color: blue;">bool</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">Utils</span>::<span class="memberid">DeleteTempDirRecursive</span>(<span style="color: blue;">string</span>, <span style="color: blue;">int32</span>)
+<span>            pop          </span>
+<span>            nop          </span>
+<span>            endfinally   </span>
+  }
+<span>  IL_0002</span>: <span>ldstr        </span><span style="color: red;">&quot;Generated!&quot;</span>
+<span>           call         </span><span style="color: blue;">void</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">WriteLine</span>(<span style="color: blue;">string</span>)
+<span>           nop          </span>
+<span>           ldc.i4.0     </span>
+<span>           stloc.s      </span><span>V_5</span>
+<span>           br.s         </span><span>IL_0003
+</span><span>  IL_0003</span>: <span>ldloc.s      </span><span>V_5</span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> static </span><span style="color: blue;">int32</span><a name="M600001E" href="2000005.html#M600001E" class="memberid"> Main</a>(
+     <span style="color: blue;">string</span>[]<span> args</span>
+ )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .entrypoint </span>
+<span style="color: magenta;">  .maxstack </span> 6
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">class </span><span class="memberid">CilBrowser</span>.<a href="2000003.html" class="memberid">CommandLineArgs</a><span> V_0</span>,
+     <span style="color: blue;">string</span><span> V_1</span>,
+     <span style="color: blue;">string</span><span> V_2</span>,
+     <span style="color: blue;">string</span><span> V_3</span>,
+     <span style="color: blue;">string</span><span> V_4</span>,
+     <span style="color: blue;">string</span><span> V_5</span>,
+     <span style="color: blue;">string</span><span> V_6</span>,
+     <span style="color: blue;">bool</span><span> V_7</span>,
+     <span style="color: blue;">string</span><span> V_8</span>,
+     <span style="color: blue;">string</span><span> V_9</span>,
+     <span style="color: blue;">bool</span><span> V_10</span>,
+     <span style="color: blue;">int32</span><span> V_11</span>,
+     <span style="color: blue;">bool</span><span> V_12</span>,
+     <span style="color: blue;">bool</span><span> V_13</span>,
+     <span style="color: blue;">bool</span><span> V_14</span>,
+     <span style="color: blue;">bool</span><span> V_15</span>,
+     <span style="color: blue;">bool</span><span> V_16</span>,
+     <span style="color: blue;">bool</span><span> V_17</span>,
+     <span style="color: blue;">bool</span><span> V_18</span>,
+     <span style="color: blue;">bool</span><span> V_19</span>,
+     <span style="color: blue;">bool</span><span> V_20</span>,
+     <span style="color: blue;">bool</span><span> V_21</span>,
+     <span style="color: blue;">bool</span><span> V_22</span>,
+     <span style="color: blue;">bool</span><span> V_23</span>,
+     <span style="color: blue;">bool</span><span> V_24</span>,
+     <span style="color: blue;">bool</span><span> V_25</span>,
+     <span style="color: blue;">bool</span><span> V_26</span>,
+     <span style="color: blue;">bool</span><span> V_27</span>,
+     <span style="color: blue;">bool</span><span> V_28</span>,
+     <span style="color: blue;">class </span>[<span>CilTools.Metadata</span>]<span class="memberid">CilTools.Metadata</span>.<span class="memberid">AssemblyReader</span><span> V_29</span>,
+     <span style="color: blue;">class </span>[<span>CilTools.Metadata</span>]<span class="memberid">CilTools.Metadata</span>.<span class="memberid">AssemblyReader</span><span> V_30</span>,
+     <span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Reflection</span>.<span class="memberid">Assembly</span><span> V_31</span>,
+     <span style="color: blue;">bool</span><span> V_32</span>,
+     <span style="color: blue;">class </span>[<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">Server</span><span> V_33</span>,
+     <span style="color: blue;">valuetype </span>[<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">ConsoleKeyInfo</span><span> V_34</span>,
+     <span style="color: blue;">bool</span><span> V_35</span>,
+     <span style="color: blue;">bool</span><span> V_36</span>,
+     <span style="color: blue;">bool</span><span> V_37</span>,
+     <span style="color: blue;">bool</span><span> V_38</span>)
+
+<span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           ldlen        </span>
+<span>           ldc.i4.0     </span>
+<span>           ceq          </span>
+<span>           stloc.s      </span><span>V_10</span>
+<span>           ldloc.s      </span><span>V_10</span>
+<span>           brfalse.s    </span><span>IL_0001
+</span><span>           nop          </span>
+<span>           call         </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser</span>.<a href="2000005.html" class="memberid">Program</a>::<a href="2000005.html#M600001B" class="memberid">GenerateDemo</a>()
+<span>           pop          </span>
+<span>           ldc.i4.0     </span>
+<span>           stloc.s      </span><span>V_11</span>
+<span>           br           </span><span>IL_0037
+</span><span>  IL_0001</span>: <span>ldc.i4.5     </span>
+<span>           newarr       </span><span class="memberid">CilBrowser</span>.<a href="2000004.html" class="memberid">NamedArgumentDefinition</a>
+<span>           dup          </span>
+<span>           ldc.i4.0     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;--output&quot;</span>
+<span>           ldc.i4.1     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;Output directory&quot;</span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser</span>.<a href="2000004.html" class="memberid">NamedArgumentDefinition</a>::<a href="2000004.html#M6000012" class="memberid">.ctor</a>(<span style="color: blue;">string</span>, <span style="color: blue;">bool</span>, <span style="color: blue;">string</span>)
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.1     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;--namespace&quot;</span>
+<span>           ldc.i4.1     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;Namespace filter&quot;</span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser</span>.<a href="2000004.html" class="memberid">NamedArgumentDefinition</a>::<a href="2000004.html#M6000012" class="memberid">.ctor</a>(<span style="color: blue;">string</span>, <span style="color: blue;">bool</span>, <span style="color: blue;">string</span>)
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.2     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;--footer&quot;</span>
+<span>           ldc.i4.1     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;Custom footer file path&quot;</span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser</span>.<a href="2000004.html" class="memberid">NamedArgumentDefinition</a>::<a href="2000004.html#M6000012" class="memberid">.ctor</a>(<span style="color: blue;">string</span>, <span style="color: blue;">bool</span>, <span style="color: blue;">string</span>)
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.3     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;--host&quot;</span>
+<span>           ldc.i4.1     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;URL host (default is http://localhost:8080)&quot;</span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser</span>.<a href="2000004.html" class="memberid">NamedArgumentDefinition</a>::<a href="2000004.html#M6000012" class="memberid">.ctor</a>(<span style="color: blue;">string</span>, <span style="color: blue;">bool</span>, <span style="color: blue;">string</span>)
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.4     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;--prefix&quot;</span>
+<span>           ldc.i4.1     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;URL prefix (default is /CilBrowser/)&quot;</span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser</span>.<a href="2000004.html" class="memberid">NamedArgumentDefinition</a>::<a href="2000004.html#M6000012" class="memberid">.ctor</a>(<span style="color: blue;">string</span>, <span style="color: blue;">bool</span>, <span style="color: blue;">string</span>)
+<span>           stelem.ref   </span>
+<span>           stsfld       </span><span style="color: blue;">class </span><span class="memberid">CilBrowser</span>.<a href="2000004.html" class="memberid">NamedArgumentDefinition</a>[] <span class="memberid">CilBrowser</span>.<a href="2000005.html" class="memberid">Program</a>::<span class="memberid">defs</span>
+<span>           ldarg.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           ldelem.ref   </span>
+<span>           ldstr        </span><span style="color: red;">&quot;help&quot;</span>
+<span>           call         </span><span style="color: blue;">bool</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">Utils</span>::<span class="memberid">StrEquals</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>           brtrue.s     </span><span>IL_0002
+</span><span>           ldarg.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           ldelem.ref   </span>
+<span>           ldstr        </span><span style="color: red;">&quot;-?&quot;</span>
+<span>           call         </span><span style="color: blue;">bool</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">Utils</span>::<span class="memberid">StrEquals</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>           brtrue.s     </span><span>IL_0002
+</span><span>           ldarg.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           ldelem.ref   </span>
+<span>           ldstr        </span><span style="color: red;">&quot;/?&quot;</span>
+<span>           call         </span><span style="color: blue;">bool</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">Utils</span>::<span class="memberid">StrEquals</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>           br.s         </span><span>IL_0003
+</span><span>  IL_0002</span>: <span>ldc.i4.1     </span>
+<span>  IL_0003</span>: <span>stloc.s      </span><span>V_12</span>
+<span>           ldloc.s      </span><span>V_12</span>
+<span>           brfalse.s    </span><span>IL_0004
+</span><span>           nop          </span>
+<span>           call         </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser</span>.<a href="2000005.html" class="memberid">Program</a>::<a href="2000005.html#M600001C" class="memberid">PrintHelp</a>()
+<span>           nop          </span>
+<span>           ldc.i4.0     </span>
+<span>           stloc.s      </span><span>V_11</span>
+<span>           br           </span><span>IL_0037
+</span><span>  IL_0004</span>: <span>ldarg.0      </span>
+<span>           ldsfld       </span><span style="color: blue;">class </span><span class="memberid">CilBrowser</span>.<a href="2000004.html" class="memberid">NamedArgumentDefinition</a>[] <span class="memberid">CilBrowser</span>.<a href="2000005.html" class="memberid">Program</a>::<span class="memberid">defs</span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser</span>.<a href="2000003.html" class="memberid">CommandLineArgs</a>::<a href="2000003.html#M600000A" class="memberid">.ctor</a>(<span style="color: blue;">string</span>[], <span style="color: blue;">class </span><span class="memberid">CilBrowser</span>.<a href="2000004.html" class="memberid">NamedArgumentDefinition</a>[])
+<span>           stloc.0      </span>
+<span>           ldsfld       </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Empty</span>
+<span>           stloc.1      </span>
+<span>           ldsfld       </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Empty</span>
+<span>           stloc.2      </span>
+<span>           ldsfld       </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Empty</span>
+<span>           stloc.3      </span>
+<span>           ldsfld       </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Empty</span>
+<span>           stloc.s      </span><span>V_4</span>
+<span>           ldsfld       </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Empty</span>
+<span>           stloc.s      </span><span>V_5</span>
+<span>           ldsfld       </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Empty</span>
+<span>           stloc.s      </span><span>V_6</span>
+<span>           ldc.i4.0     </span>
+<span>           stloc.s      </span><span>V_7</span>
+<span>           ldloc.0      </span>
+<span>           ldstr        </span><span style="color: red;">&quot;--output&quot;</span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">bool</span> <span class="memberid">CilBrowser</span>.<a href="2000003.html" class="memberid">CommandLineArgs</a>::<a href="2000003.html#M600000C" class="memberid">HasNamedArgument</a>(<span style="color: blue;">string</span>)
+<span>           stloc.s      </span><span>V_13</span>
+<span>           ldloc.s      </span><span>V_13</span>
+<span>           brfalse.s    </span><span>IL_0005
+</span><span>           nop          </span>
+<span>           ldloc.0      </span>
+<span>           ldstr        </span><span style="color: red;">&quot;--output&quot;</span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">string</span> <span class="memberid">CilBrowser</span>.<a href="2000003.html" class="memberid">CommandLineArgs</a>::<a href="2000003.html#M600000D" class="memberid">GetNamedArgument</a>(<span style="color: blue;">string</span>)
+<span>           stloc.2      </span>
+<span>           nop          </span>
+<span>  IL_0005</span>: <span>ldloc.0      </span>
+<span>           ldstr        </span><span style="color: red;">&quot;--namespace&quot;</span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">bool</span> <span class="memberid">CilBrowser</span>.<a href="2000003.html" class="memberid">CommandLineArgs</a>::<a href="2000003.html#M600000C" class="memberid">HasNamedArgument</a>(<span style="color: blue;">string</span>)
+<span>           stloc.s      </span><span>V_14</span>
+<span>           ldloc.s      </span><span>V_14</span>
+<span>           brfalse.s    </span><span>IL_0006
+</span><span>           nop          </span>
+<span>           ldloc.0      </span>
+<span>           ldstr        </span><span style="color: red;">&quot;--namespace&quot;</span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">string</span> <span class="memberid">CilBrowser</span>.<a href="2000003.html" class="memberid">CommandLineArgs</a>::<a href="2000003.html#M600000D" class="memberid">GetNamedArgument</a>(<span style="color: blue;">string</span>)
+<span>           stloc.3      </span>
+<span>           nop          </span>
+<span>  IL_0006</span>: <span>ldloc.0      </span>
+<span>           ldstr        </span><span style="color: red;">&quot;--footer&quot;</span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">bool</span> <span class="memberid">CilBrowser</span>.<a href="2000003.html" class="memberid">CommandLineArgs</a>::<a href="2000003.html#M600000C" class="memberid">HasNamedArgument</a>(<span style="color: blue;">string</span>)
+<span>           stloc.s      </span><span>V_15</span>
+<span>           ldloc.s      </span><span>V_15</span>
+<span>           brfalse.s    </span><span>IL_0007
+</span><span>           nop          </span>
+<span>           ldloc.0      </span>
+<span>           ldstr        </span><span style="color: red;">&quot;--footer&quot;</span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">string</span> <span class="memberid">CilBrowser</span>.<a href="2000003.html" class="memberid">CommandLineArgs</a>::<a href="2000003.html#M600000D" class="memberid">GetNamedArgument</a>(<span style="color: blue;">string</span>)
+<span>           stloc.s      </span><span>V_4</span>
+<span>           nop          </span>
+<span>  IL_0007</span>: <span>ldloc.0      </span>
+<span>           ldstr        </span><span style="color: red;">&quot;--host&quot;</span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">bool</span> <span class="memberid">CilBrowser</span>.<a href="2000003.html" class="memberid">CommandLineArgs</a>::<a href="2000003.html#M600000C" class="memberid">HasNamedArgument</a>(<span style="color: blue;">string</span>)
+<span>           stloc.s      </span><span>V_16</span>
+<span>           ldloc.s      </span><span>V_16</span>
+<span>           brfalse.s    </span><span>IL_0008
+</span><span>           nop          </span>
+<span>           ldloc.0      </span>
+<span>           ldstr        </span><span style="color: red;">&quot;--host&quot;</span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">string</span> <span class="memberid">CilBrowser</span>.<a href="2000003.html" class="memberid">CommandLineArgs</a>::<a href="2000003.html#M600000D" class="memberid">GetNamedArgument</a>(<span style="color: blue;">string</span>)
+<span>           stloc.s      </span><span>V_5</span>
+<span>           nop          </span>
+<span>  IL_0008</span>: <span>ldloc.0      </span>
+<span>           ldstr        </span><span style="color: red;">&quot;--prefix&quot;</span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">bool</span> <span class="memberid">CilBrowser</span>.<a href="2000003.html" class="memberid">CommandLineArgs</a>::<a href="2000003.html#M600000C" class="memberid">HasNamedArgument</a>(<span style="color: blue;">string</span>)
+<span>           stloc.s      </span><span>V_17</span>
+<span>           ldloc.s      </span><span>V_17</span>
+<span>           brfalse.s    </span><span>IL_0009
+</span><span>           nop          </span>
+<span>           ldloc.0      </span>
+<span>           ldstr        </span><span style="color: red;">&quot;--prefix&quot;</span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">string</span> <span class="memberid">CilBrowser</span>.<a href="2000003.html" class="memberid">CommandLineArgs</a>::<a href="2000003.html#M600000D" class="memberid">GetNamedArgument</a>(<span style="color: blue;">string</span>)
+<span>           stloc.s      </span><span>V_6</span>
+<span>           nop          </span>
+<span>  IL_0009</span>: <span>ldloc.0      </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser</span>.<a href="2000003.html" class="memberid">CommandLineArgs</a>::<a href="2000003.html#M600000E" class="memberid">get_PositionalArgumentsCount</a>()
+<span>           ldc.i4.0     </span>
+<span>           cgt          </span>
+<span>           stloc.s      </span><span>V_18</span>
+<span>           ldloc.s      </span><span>V_18</span>
+<span>           brfalse.s    </span><span>IL_0010
+</span><span>           nop          </span>
+<span>           ldloc.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">string</span> <span class="memberid">CilBrowser</span>.<a href="2000003.html" class="memberid">CommandLineArgs</a>::<a href="2000003.html#M600000F" class="memberid">GetPositionalArgument</a>(<span style="color: blue;">int32</span>)
+<span>           stloc.1      </span>
+<span>           nop          </span>
+<span>  IL_0010</span>: <span>ldloc.1      </span>
+<span>           call         </span><span style="color: blue;">bool</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">IsNullOrEmpty</span>(<span style="color: blue;">string</span>)
+<span>           stloc.s      </span><span>V_19</span>
+<span>           ldloc.s      </span><span>V_19</span>
+<span>           brfalse.s    </span><span>IL_0011
+</span><span>           nop          </span>
+<span>           call         </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser</span>.<a href="2000005.html" class="memberid">Program</a>::<a href="2000005.html#M600001B" class="memberid">GenerateDemo</a>()
+<span>           pop          </span>
+<span>           ldc.i4.0     </span>
+<span>           stloc.s      </span><span>V_11</span>
+<span>           br           </span><span>IL_0037
+</span><span>  IL_0011</span>: <span>ldloc.2      </span>
+<span>           call         </span><span style="color: blue;">bool</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">IsNullOrEmpty</span>(<span style="color: blue;">string</span>)
+<span>           stloc.s      </span><span>V_20</span>
+<span>           ldloc.s      </span><span>V_20</span>
+<span>           brfalse.s    </span><span>IL_0012
+</span><span>           nop          </span>
+<span>           ldc.i4.1     </span>
+<span>           stloc.s      </span><span>V_7</span>
+<span>           nop          </span>
+<span>  IL_0012</span>: <span>ldsfld       </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Empty</span>
+<span>           stloc.s      </span><span>V_8</span>
+<span>           ldloc.s      </span><span>V_4</span>
+<span>           call         </span><span style="color: blue;">bool</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">IsNullOrEmpty</span>(<span style="color: blue;">string</span>)
+<span>           ldc.i4.0     </span>
+<span>           ceq          </span>
+<span>           stloc.s      </span><span>V_21</span>
+<span>           ldloc.s      </span><span>V_21</span>
+<span>           brfalse.s    </span><span>IL_0014
+</span><span>           nop          </span>
+<span>           ldloc.s      </span><span>V_7</span>
+<span>           stloc.s      </span><span>V_22</span>
+<span>           ldloc.s      </span><span>V_22</span>
+<span>           brfalse.s    </span><span>IL_0013
+</span><span>           nop          </span>
+<span>           ldstr        </span><span style="color: red;">&quot;Error: Custom footer is not supported in server mode&quot;</span>
+<span>           call         </span><span style="color: blue;">void</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">WriteLine</span>(<span style="color: blue;">string</span>)
+<span>           nop          </span>
+<span>           ldc.i4.1     </span>
+<span>           stloc.s      </span><span>V_11</span>
+<span>           br           </span><span>IL_0037
+</span><span>  IL_0013</span>: <span>ldloc.s      </span><span>V_4</span>
+<span>           call         </span><span style="color: blue;">string</span> [<span>System.IO.FileSystem</span>]<span class="memberid">System.IO</span>.<span class="memberid">File</span>::<span class="memberid">ReadAllText</span>(<span style="color: blue;">string</span>)
+<span>           stloc.s      </span><span>V_8</span>
+<span>           nop          </span>
+<span>  IL_0014</span>: <span>ldloc.3      </span>
+<span>           call         </span><span style="color: blue;">bool</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">IsNullOrEmpty</span>(<span style="color: blue;">string</span>)
+<span>           ldc.i4.0     </span>
+<span>           ceq          </span>
+<span>           ldloc.s      </span><span>V_7</span>
+<span>           and          </span>
+<span>           stloc.s      </span><span>V_23</span>
+<span>           ldloc.s      </span><span>V_23</span>
+<span>           brfalse.s    </span><span>IL_0015
+</span><span>           nop          </span>
+<span>           ldstr        </span><span style="color: red;">&quot;Error: Namespace filter is not supported in server mode&quot;</span>
+<span>           call         </span><span style="color: blue;">void</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">WriteLine</span>(<span style="color: blue;">string</span>)
+<span>           nop          </span>
+<span>           ldc.i4.1     </span>
+<span>           stloc.s      </span><span>V_11</span>
+<span>           br           </span><span>IL_0037
+</span><span>  IL_0015</span>: <span>ldloc.s      </span><span>V_7</span>
+<span>           stloc.s      </span><span>V_24</span>
+<span>           ldloc.s      </span><span>V_24</span>
+<span>           brfalse.s    </span><span>IL_0018
+</span><span>           nop          </span>
+<span>           ldloc.s      </span><span>V_5</span>
+<span>           call         </span><span style="color: blue;">bool</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">IsNullOrEmpty</span>(<span style="color: blue;">string</span>)
+<span>           stloc.s      </span><span>V_25</span>
+<span>           ldloc.s      </span><span>V_25</span>
+<span>           brfalse.s    </span><span>IL_0016
+</span><span>           nop          </span>
+<span>           ldstr        </span><span style="color: red;">&quot;http://localhost:8080&quot;</span>
+<span>           stloc.s      </span><span>V_5</span>
+<span>           nop          </span>
+<span>  IL_0016</span>: <span>ldloc.s      </span><span>V_6</span>
+<span>           call         </span><span style="color: blue;">bool</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">IsNullOrEmpty</span>(<span style="color: blue;">string</span>)
+<span>           stloc.s      </span><span>V_26</span>
+<span>           ldloc.s      </span><span>V_26</span>
+<span>           brfalse.s    </span><span>IL_0017
+</span><span>           nop          </span>
+<span>           ldstr        </span><span style="color: red;">&quot;/CilBrowser/&quot;</span>
+<span>           stloc.s      </span><span>V_6</span>
+<span>           nop          </span>
+<span>  IL_0017</span>: <span>nop          </span>
+<span>           br.s         </span><span>IL_0022
+</span><span>  IL_0018</span>: <span>nop          </span>
+<span>           ldloc.s      </span><span>V_5</span>
+<span>           call         </span><span style="color: blue;">bool</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">IsNullOrEmpty</span>(<span style="color: blue;">string</span>)
+<span>           brfalse.s    </span><span>IL_0019
+</span><span>           ldloc.s      </span><span>V_6</span>
+<span>           call         </span><span style="color: blue;">bool</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">IsNullOrEmpty</span>(<span style="color: blue;">string</span>)
+<span>           ldc.i4.0     </span>
+<span>           ceq          </span>
+<span>           br.s         </span><span>IL_0020
+</span><span>  IL_0019</span>: <span>ldc.i4.1     </span>
+<span>  IL_0020</span>: <span>stloc.s      </span><span>V_27</span>
+<span>           ldloc.s      </span><span>V_27</span>
+<span>           brfalse.s    </span><span>IL_0021
+</span><span>           nop          </span>
+<span>           ldstr        </span><span style="color: red;">&quot;Error: --host or --prefix should not be specified in website generator mode&quot;</span>
+<span>           call         </span><span style="color: blue;">void</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">WriteLine</span>(<span style="color: blue;">string</span>)
+<span>           nop          </span>
+<span>           ldc.i4.1     </span>
+<span>           stloc.s      </span><span>V_11</span>
+<span>           br           </span><span>IL_0037
+</span><span>  IL_0021</span>: <span>nop          </span>
+<span>  IL_0022</span>: <span>ldloc.1      </span>
+<span>           call         </span><span style="color: blue;">string</span> [<span>System.Runtime.Extensions</span>]<span class="memberid">System.IO</span>.<span class="memberid">Path</span>::<span class="memberid">GetExtension</span>(<span style="color: blue;">string</span>)
+<span>           stloc.s      </span><span>V_9</span>
+<span>           ldloc.s      </span><span>V_9</span>
+<span>           ldstr        </span><span style="color: red;">&quot;.dll&quot;</span>
+<span>           call         </span><span style="color: blue;">bool</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">Utils</span>::<span class="memberid">StrEquals</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>           brtrue.s     </span><span>IL_0023
+</span><span>           ldloc.s      </span><span>V_9</span>
+<span>           ldstr        </span><span style="color: red;">&quot;.exe&quot;</span>
+<span>           call         </span><span style="color: blue;">bool</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">Utils</span>::<span class="memberid">StrEquals</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>           brtrue.s     </span><span>IL_0023
+</span><span>           ldloc.s      </span><span>V_9</span>
+<span>           ldstr        </span><span style="color: red;">&quot;.winmd&quot;</span>
+<span>           call         </span><span style="color: blue;">bool</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">Utils</span>::<span class="memberid">StrEquals</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>           br.s         </span><span>IL_0024
+</span><span>  IL_0023</span>: <span>ldc.i4.1     </span>
+<span>  IL_0024</span>: <span>stloc.s      </span><span>V_28</span>
+<span>           ldloc.s      </span><span>V_28</span>
+<span>           brfalse      </span><span>IL_0033
+</span><span>           nop          </span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>CilTools.Metadata</span>]<span class="memberid">CilTools.Metadata</span>.<span class="memberid">AssemblyReader</span>::<span class="memberid">.ctor</span>()
+<span>           stloc.s      </span><span>V_29</span>
+<span>           ldloc.s      </span><span>V_29</span>
+<span>           stloc.s      </span><span>V_30</span>
+<span style="color: magenta;">  .try
+</span>  {
+<span>            nop          </span>
+<span>            ldloc.s      </span><span>V_29</span>
+<span>            ldloc.1      </span>
+<span>            callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Reflection</span>.<span class="memberid">Assembly</span> [<span>CilTools.Metadata</span>]<span class="memberid">CilTools.Metadata</span>.<span class="memberid">AssemblyReader</span>::<span class="memberid">LoadFrom</span>(<span style="color: blue;">string</span>)
+<span>            stloc.s      </span><span>V_31</span>
+<span>            ldloc.s      </span><span>V_7</span>
+<span>            stloc.s      </span><span>V_32</span>
+<span>            ldloc.s      </span><span>V_32</span>
+<span>            brfalse.s    </span><span>IL_0029
+</span><span>            nop          </span>
+<span>            ldstr        </span><span style="color: red;">&quot;Running server...&quot;</span>
+<span>            call         </span><span style="color: blue;">void</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">WriteLine</span>(<span style="color: blue;">string</span>)
+<span>            nop          </span>
+<span>            ldloc.s      </span><span>V_31</span>
+<span>            ldloc.s      </span><span>V_5</span>
+<span>            ldloc.s      </span><span>V_6</span>
+<span>            newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">Server</span>::<span class="memberid">.ctor</span>(<span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Reflection</span>.<span class="memberid">Assembly</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>            stloc.s      </span><span>V_33</span>
+<span>            ldloc.s      </span><span>V_33</span>
+<span>            callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">Server</span>::<span class="memberid">RunInBackground</span>()
+<span>            nop          </span>
+<span>            br.s         </span><span>IL_0027
+</span><span>   IL_0025</span>: <span>nop          </span>
+<span>            call         </span><span style="color: blue;">valuetype </span>[<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">ConsoleKeyInfo</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">ReadKey</span>()
+<span>            stloc.s      </span><span>V_34</span>
+<span>            ldloca.s     </span><span>V_34</span>
+<span>            call         </span><span style="color: blue;">instance </span><span style="color: blue;">valuetype </span>[<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">ConsoleKey</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">ConsoleKeyInfo</span>::<span class="memberid">get_Key</span>()
+<span>            ldc.i4.s     </span><span>69</span>
+<span>            ceq          </span>
+<span>            stloc.s      </span><span>V_35</span>
+<span>            ldloc.s      </span><span>V_35</span>
+<span>            brfalse.s    </span><span>IL_0026
+</span><span>            nop          </span>
+<span>            ldloc.s      </span><span>V_33</span>
+<span>            callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">Server</span>::<span class="memberid">Stop</span>()
+<span>            nop          </span>
+<span>            ldloc.s      </span><span>V_33</span>
+<span>            callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">Server</span>::<span class="memberid">Dispose</span>()
+<span>            nop          </span>
+<span>            br.s         </span><span>IL_0028
+</span><span>   IL_0026</span>: <span>nop          </span>
+<span>   IL_0027</span>: <span>ldc.i4.1     </span>
+<span>            stloc.s      </span><span>V_36</span>
+<span>            br.s         </span><span>IL_0025
+</span><span>   IL_0028</span>: <span>nop          </span>
+<span>            br.s         </span><span>IL_0030
+</span><span>   IL_0029</span>: <span>nop          </span>
+<span>            ldloc.s      </span><span>V_31</span>
+<span>            ldloc.3      </span>
+<span>            ldloc.2      </span>
+<span>            ldloc.s      </span><span>V_8</span>
+<span>            call         </span><span style="color: blue;">void</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">WebsiteGenerator</span>::<span class="memberid">GenerateFromAssembly</span>(<span style="color: blue;">class </span>[<span>System.Runtime</span>]<span class="memberid">System.Reflection</span>.<span class="memberid">Assembly</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>            nop          </span>
+<span>            ldstr        </span><span style="color: red;">&quot;Generated!&quot;</span>
+<span>            call         </span><span style="color: blue;">void</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">WriteLine</span>(<span style="color: blue;">string</span>)
+<span>            nop          </span>
+<span>            nop          </span>
+<span>   IL_0030</span>: <span>nop          </span>
+<span>            leave.s      </span><span>IL_0032
+</span>  }
+  <span style="color: blue;">finally</span>
+  {
+<span>            ldloc.s      </span><span>V_30</span>
+<span>            brfalse.s    </span><span>IL_0031
+</span><span>            ldloc.s      </span><span>V_30</span>
+<span>            callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">IDisposable</span>::<span class="memberid">Dispose</span>()
+<span>            nop          </span>
+<span>   IL_0031</span>: <span>endfinally   </span>
+  }
+<span>  IL_0032</span>: <span>nop          </span>
+<span>           br.s         </span><span>IL_0036
+</span><span>  IL_0033</span>: <span>ldloc.1      </span>
+<span>           ldstr        </span><span style="color: red;">&quot;.git&quot;</span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">bool</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">EndsWith</span>(<span style="color: blue;">string</span>)
+<span>           stloc.s      </span><span>V_37</span>
+<span>           ldloc.s      </span><span>V_37</span>
+<span>           brfalse.s    </span><span>IL_0034
+</span><span>           nop          </span>
+<span>           ldloc.1      </span>
+<span>           ldloc.2      </span>
+<span>           ldloc.s      </span><span>V_8</span>
+<span>           call         </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser</span>.<a href="2000005.html" class="memberid">Program</a>::<a href="2000005.html#M600001D" class="memberid">GenerateFromGitRepository</a>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>           stloc.s      </span><span>V_11</span>
+<span>           br.s         </span><span>IL_0037
+</span><span>  IL_0034</span>: <span>nop          </span>
+<span>           ldloc.s      </span><span>V_7</span>
+<span>           stloc.s      </span><span>V_38</span>
+<span>           ldloc.s      </span><span>V_38</span>
+<span>           brfalse.s    </span><span>IL_0035
+</span><span>           nop          </span>
+<span>           ldstr        </span><span style="color: red;">&quot;Error: Server mode is not supported for sources&quot;</span>
+<span>           call         </span><span style="color: blue;">void</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">WriteLine</span>(<span style="color: blue;">string</span>)
+<span>           nop          </span>
+<span>           ldc.i4.1     </span>
+<span>           stloc.s      </span><span>V_11</span>
+<span>           br.s         </span><span>IL_0037
+</span><span>  IL_0035</span>: <span>ldloc.1      </span>
+<span>           ldloc.2      </span>
+<span>           ldsfld       </span><span style="color: blue;">string</span> [<span>System.Runtime</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Empty</span>
+<span>           ldloc.s      </span><span>V_8</span>
+<span>           call         </span><span style="color: blue;">void</span> [<span>CilBrowser.Core</span>]<span class="memberid">CilBrowser.Core</span>.<span class="memberid">WebsiteGenerator</span>::<span class="memberid">GenerateFromSources</span>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>           nop          </span>
+<span>           ldstr        </span><span style="color: red;">&quot;Generated!&quot;</span>
+<span>           call         </span><span style="color: blue;">void</span> [<span>System.Console</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">WriteLine</span>(<span style="color: blue;">string</span>)
+<span>           nop          </span>
+<span>           nop          </span>
+<span>  IL_0036</span>: <span>ldc.i4.0     </span>
+<span>           stloc.s      </span><span>V_11</span>
+<span>           br.s         </span><span>IL_0037
+</span><span>  IL_0037</span>: <span>ldloc.s      </span><span>V_11</span>
+<span>           ret          </span>
+ }
+
+}
+</code></pre></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>
