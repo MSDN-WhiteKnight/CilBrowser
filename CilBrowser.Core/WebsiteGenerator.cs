@@ -26,11 +26,11 @@ namespace CilBrowser.Core
             ".git", "bin", "obj", "packages", ".vs", "TestResults", "Debug", "Release"
         });
 
-        static bool IsSourceFile(string name)
+        static bool IsSourceFile(string name, HashSet<string> srcExtensions)
         {
             string ext = Path.GetExtension(name).ToLower();
 
-            return ext == string.Empty || s_srcExtensions.Contains(ext);
+            return ext == string.Empty || srcExtensions.Contains(ext);
         }
 
         static bool IsDirectoryExcluded(string name)
@@ -137,7 +137,7 @@ namespace CilBrowser.Core
             File.WriteAllText(Path.Combine(outputPath, "index.html"), sb.ToString(), Encoding.UTF8);
         }
 
-        static string VisualizeNavigationPanel(string filename, string dirName, string[] dirFiles)
+        static string VisualizeNavigationPanel(string filename, string dirName, string[] dirFiles, HashSet<string> sourceExtensions)
         {
             StringBuilder sb = new StringBuilder(1000);
             HtmlBuilder html = new HtmlBuilder(sb);
@@ -146,7 +146,7 @@ namespace CilBrowser.Core
             //list of files
             for (int i = 0; i < dirFiles.Length; i++)
             {
-                if (!IsSourceFile(dirFiles[i])) continue;
+                if (!IsSourceFile(dirFiles[i], sourceExtensions)) continue;
 
                 html.StartParagraph();
                 string currFileName = Path.GetFileName(dirFiles[i]);
@@ -166,14 +166,19 @@ namespace CilBrowser.Core
             return sb.ToString();
         }
         
-        static void GenerateFromSourcesImpl(string sourcesPath, string outputPath, int level,
-            string sourceControlUrl, string customFooter)
+        static void GenerateFromSourcesImpl(string sourcesPath, string outputPath, CilBrowserOptions options, 
+            string customFooter, int level)
         {
             if (level > 50)
             {
                 Console.WriteLine("Error: directory recursion is too deep!");
                 return;
             }
+
+            HashSet<string> sourceExtensions;
+
+            if (options.SourceExtensions.Length > 0) sourceExtensions = new HashSet<string>(options.SourceExtensions);
+            else sourceExtensions = s_srcExtensions;
 
             HtmlGenerator generator = new HtmlGenerator();
             generator.CustomFooter = customFooter;
@@ -221,7 +226,7 @@ namespace CilBrowser.Core
 
             for (int i = 0; i < files.Length; i++)
             {
-                if (!IsSourceFile(files[i])) continue;
+                if (!IsSourceFile(files[i], sourceExtensions)) continue;
 
                 string name = Path.GetFileName(files[i]);
                 string html;
@@ -229,8 +234,8 @@ namespace CilBrowser.Core
                 try
                 {
                     string content = File.ReadAllText(files[i]);
-                    string navigation = VisualizeNavigationPanel(name, dirName, files);
-                    html = generator.VisualizeSourceFile(content, name, navigation, sourceControlUrl);
+                    string navigation = VisualizeNavigationPanel(name, dirName, files, sourceExtensions);
+                    html = generator.VisualizeSourceFile(content, name, navigation, options.SourceControlURL);
                 }
                 catch (IOException ex)
                 {
@@ -265,10 +270,12 @@ namespace CilBrowser.Core
 
                 if (IsDirectoryExcluded(name)) continue;
 
-                if (!string.IsNullOrEmpty(sourceControlUrl)) urlNew = Utils.UrlAppend(sourceControlUrl, name);
+                if (!string.IsNullOrEmpty(options.SourceControlURL)) urlNew = Utils.UrlAppend(options.SourceControlURL, name);
                 else urlNew = string.Empty;
 
-                GenerateFromSourcesImpl(dirs[i], Path.Combine(outputPath, name), level + 1, urlNew, customFooter);
+                CilBrowserOptions optionsNew = options.Copy();
+                optionsNew.SourceControlURL = urlNew;
+                GenerateFromSourcesImpl(dirs[i], Path.Combine(outputPath, name), optionsNew, customFooter, level + 1);
             }
 
             //write TOC
@@ -280,10 +287,10 @@ namespace CilBrowser.Core
         /// <summary>
         /// Generates a static website for the source code in the specified directory
         /// </summary>
-        public static void GenerateFromSources(string sourcesPath, string outputPath, string sourceControlUrl,
+        public static void GenerateFromSources(string sourcesPath, string outputPath, CilBrowserOptions options,
             string customFooter)
         {
-            GenerateFromSourcesImpl(sourcesPath, outputPath, 0, sourceControlUrl, customFooter);
+            GenerateFromSourcesImpl(sourcesPath, outputPath, options, customFooter, 0);
         }
     }
 }

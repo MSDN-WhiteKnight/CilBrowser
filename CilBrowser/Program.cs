@@ -50,11 +50,14 @@ namespace CilBrowser
             // Generate websites: Source code
             const string MsgTemplate = "Error: Failed to generate demo website for {0} sources. Directory not found. " +
                 "Run program from bin/(config)/(tfm) subridectory of source directory to fix this.";
+            CilBrowserOptions options = new CilBrowserOptions();
             
             if (Directory.Exists(pathCilBrowserCore))
             {
+                options.SourceControlURL = "https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser.Core/";
+
                 WebsiteGenerator.GenerateFromSources(pathCilBrowserCore, outputDir + "/CilBrowser.Core_Source/",
-                "https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser.Core/", string.Empty);
+                    options, string.Empty);
             }
             else
             {
@@ -63,8 +66,10 @@ namespace CilBrowser
 
             if (Directory.Exists(pathCilBrowser))
             {
+                options.SourceControlURL = "https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser/";
+
                 WebsiteGenerator.GenerateFromSources(pathCilBrowser, outputDir + "/CilBrowser_Source/",
-                "https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser/", string.Empty);
+                    options, string.Empty);
             }
             else
             {
@@ -90,6 +95,36 @@ namespace CilBrowser
             }
         }
 
+        static int GenerateFromSourceDirectory(string sourcesPath, string outputPath, string footerContent)
+        {
+            string cfgPath = Path.Combine(sourcesPath, "browser.cfg");
+            CilBrowserOptions options;
+
+            //try to read config from file
+            if (File.Exists(cfgPath))
+            {
+                try
+                {
+                    options = CilBrowserOptions.ReadFromFile(cfgPath);
+                    Console.WriteLine("Using config from " + cfgPath);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error when trying to read browser.cfg!");
+                    Console.WriteLine(ex.ToString());
+                    options = new CilBrowserOptions();
+                }
+            }
+            else
+            {
+                options = new CilBrowserOptions();
+            }
+
+            //run generation process
+            WebsiteGenerator.GenerateFromSources(sourcesPath, outputPath, options, footerContent);
+            return 0;
+        }
+
         static int GenerateFromGitRepository(string url, string outputPath, string footerContent)
         {
             string repoName = Path.GetFileNameWithoutExtension(url);
@@ -107,7 +142,7 @@ namespace CilBrowser
                 Console.WriteLine(output);
 
                 Console.WriteLine("Generating website from cloned sources...");
-                WebsiteGenerator.GenerateFromSources(cloneDir, outputPath, string.Empty, footerContent);
+                GenerateFromSourceDirectory(cloneDir, outputPath, footerContent);
             }
             finally
             {
@@ -292,7 +327,7 @@ namespace CilBrowser
                 }
 
                 //generate static website
-                WebsiteGenerator.GenerateFromSources(inputPath, outputPath, string.Empty, footerContent);
+                GenerateFromSourceDirectory(inputPath, outputPath, footerContent);
                 Console.WriteLine("Generated!");
             }
 

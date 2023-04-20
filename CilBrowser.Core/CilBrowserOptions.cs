@@ -102,5 +102,15 @@ namespace CilBrowser.Core
 
             return ret;
         }
+
+        public CilBrowserOptions Copy()
+        {
+            CilBrowserOptions optionsNew = new CilBrowserOptions();
+            optionsNew.SourceControlURL = this.SourceControlURL;
+            optionsNew.UseAnsiEncoding = this.UseAnsiEncoding;
+            optionsNew.AnsiCodepage = this.AnsiCodepage;
+            optionsNew.SourceExtensions = this.SourceExtensions;
+            return optionsNew;
+        }
     }
 }
