@@ -112,5 +112,11 @@ namespace CilBrowser.Core
             optionsNew.SourceExtensions = this.SourceExtensions;
             return optionsNew;
         }
+
+        public Encoding GetEncoding()
+        {
+            if (!this.UseAnsiEncoding) return Encoding.UTF8;
+            else return Encoding.GetEncoding(this.AnsiCodepage);
+        }
     }
 }
