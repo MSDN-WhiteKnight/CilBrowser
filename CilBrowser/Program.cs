@@ -4,6 +4,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Threading;
 using CilBrowser.Core;
 using CilTools.Metadata;
@@ -99,6 +100,7 @@ namespace CilBrowser
         {
             string cfgPath = Path.Combine(sourcesPath, "browser.cfg");
             CilBrowserOptions options;
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             //try to read config from file
             if (File.Exists(cfgPath))
