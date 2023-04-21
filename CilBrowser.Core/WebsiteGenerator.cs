@@ -233,7 +233,7 @@ namespace CilBrowser.Core
 
                 try
                 {
-                    string content = File.ReadAllText(files[i]);
+                    string content = File.ReadAllText(files[i], options.GetEncoding());
                     string navigation = VisualizeNavigationPanel(name, dirName, files, sourceExtensions);
                     html = generator.VisualizeSourceFile(content, name, navigation, options.SourceControlURL);
                 }
