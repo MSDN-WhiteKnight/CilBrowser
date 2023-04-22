@@ -52,6 +52,25 @@ namespace CilBrowser.Tests
         }
 
         [TestMethod]
+        public void Test_VisualizeSyntaxNodes_SpecialTextLiteral()
+        {
+            SyntaxNode[] nodes = new SyntaxNode[]
+            {
+                new SourceToken("string", TokenKind.Keyword, string.Empty, " "),
+                new SourceToken("s", TokenKind.Name, string.Empty, " "),
+                new SourceToken("=", TokenKind.Punctuation, string.Empty, " "),
+                new SourceToken("@\"Quick brown fox\"", TokenKind.SpecialTextLiteral, string.Empty, string.Empty),
+                new SourceToken(";", TokenKind.Punctuation, string.Empty, string.Empty),
+            };
+
+            string expected = Preformatted("<span style=\"color: blue;\">string </span>" +
+                "s = <span style=\"color: red;\">@&quot;Quick brown fox&quot;</span>;");
+
+            string str = Visualize(nodes);
+            Assert.AreEqual(expected, str);
+        }
+
+        [TestMethod]
         public void Test_VisualizeSyntaxNodes_MethodSignature()
         {
             SyntaxNode[] nodes = new SyntaxNode[]

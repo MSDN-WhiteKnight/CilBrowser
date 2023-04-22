@@ -231,6 +231,9 @@ namespace CilBrowser.Core
                     case TokenKind.SingleQuotLiteral:
                         target.WriteTag("span", node.ToString(), HtmlBuilder.OneAttribute("style", "color: red;"));
                         break;
+                    case TokenKind.SpecialTextLiteral:
+                        target.WriteTag("span", node.ToString(), HtmlBuilder.OneAttribute("style", "color: red;"));
+                        break;
                     case TokenKind.Comment:
                         target.WriteTag("span", node.ToString(), HtmlBuilder.OneAttribute("style", "color: green;"));
                         break;
