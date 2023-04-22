@@ -14,6 +14,8 @@ namespace CilBrowser
 {
     class Program
     {
+        const string Copyright = "Copyright (c) 2023, MSDN.WhiteKnight (https://github.com/MSDN-WhiteKnight/CilBrowser)";
+
         static NamedArgumentDefinition[] defs;
 
         static int GenerateDemo()
@@ -83,7 +85,6 @@ namespace CilBrowser
 
         static void PrintHelp()
         {
-            Console.WriteLine("*** CIL Browser {0} ***", typeof(Program).Assembly.GetName().Version);
             Console.WriteLine();
             Console.WriteLine("Command line syntax:");
             Console.WriteLine("  CilBrowser [Options] <InputPath>");
@@ -94,6 +95,15 @@ namespace CilBrowser
             {
                 Console.WriteLine(defs[i].Name + ": " + defs[i].Description);
             }
+
+            Console.WriteLine();
+            Console.WriteLine("Examples:");
+            Console.WriteLine("  CilBrowser MyLibrary.dll");
+            Console.WriteLine("Open website for MyLibrary.dll in server mode");
+            Console.WriteLine("  CilBrowser --output C:\\Websites\\MyLibrary MyLibrary.dll");
+            Console.WriteLine("Generate static website for MyLibrary.dll in the output directory");
+            Console.WriteLine("  CilBrowser --output C:\\Websites\\MyProject C:\\repos\\MyProject");
+            Console.WriteLine("Generate static website for MyProject sources in the output directory");
         }
 
         static int GenerateFromSourceDirectory(string sourcesPath, string outputPath, string footerContent)
@@ -160,11 +170,9 @@ namespace CilBrowser
 
         static int Main(string[] args)
         {
-            if (args.Length == 0)
-            {
-                GenerateDemo();
-                return 0;
-            }
+            Console.WriteLine("*** CIL Browser {0} ***", typeof(Program).Assembly.GetName().Version);
+            Console.WriteLine(Copyright);
+            Console.WriteLine();
 
             defs = new NamedArgumentDefinition[]
             {
@@ -174,10 +182,16 @@ namespace CilBrowser
                 new NamedArgumentDefinition("--host", true, "URL host (default is " + Server.DefaultUrlHost + ")"),
                 new NamedArgumentDefinition("--prefix", true, "URL prefix (default is " + Server.DefaultUrlPrefix + ")"),
             };
-
-            if (Utils.StrEquals(args[0], "help") || Utils.StrEquals(args[0], "-?") || Utils.StrEquals(args[0], "/?"))
+            
+            if (args.Length == 0 || Utils.StrEquals(args[0], "help") || Utils.StrEquals(args[0], "-?") || 
+                Utils.StrEquals(args[0], "/?"))
             {
                 PrintHelp();
+                return 0;
+            }
+            else if (Utils.StrEquals(args[0], "demo"))
+            {
+                GenerateDemo();
                 return 0;
             }
 
@@ -247,7 +261,16 @@ namespace CilBrowser
                 }
 
                 //read custom footer file
-                footerContent = File.ReadAllText(footerPath);
+                try
+                {
+                    footerContent = File.ReadAllText(footerPath);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error: Failed to read custom footer file!");
+                    Console.WriteLine(ex.ToString());
+                    return 1;
+                }
             }
 
             if (!string.IsNullOrEmpty(namespaceFilter) && server)
@@ -280,57 +303,66 @@ namespace CilBrowser
             // *** Run program ***
             string ext = Path.GetExtension(inputPath);
 
-            if (Utils.StrEquals(ext, ".dll") || Utils.StrEquals(ext, ".exe") || Utils.StrEquals(ext, ".winmd"))
+            try
             {
-                //assembly file
-                AssemblyReader reader = new AssemblyReader();
-
-                using (reader)
+                if (Utils.StrEquals(ext, ".dll") || Utils.StrEquals(ext, ".exe") || Utils.StrEquals(ext, ".winmd"))
                 {
-                    Assembly ass = reader.LoadFrom(inputPath);
+                    //assembly file
+                    AssemblyReader reader = new AssemblyReader();
 
-                    if (server)
+                    using (reader)
                     {
-                        //run server
-                        Console.WriteLine("Running server...");
-                        Server srv = new Server(ass, urlHost, urlPrefix);
-                        srv.RunInBackground();
+                        Assembly ass = reader.LoadFrom(inputPath);
 
-                        while (true)
+                        if (server)
                         {
-                            ConsoleKeyInfo key = Console.ReadKey();
+                            //run server
+                            Console.WriteLine("Running server...");
+                            Server srv = new Server(ass, urlHost, urlPrefix);
+                            srv.RunInBackground();
 
-                            if (key.Key == ConsoleKey.E)
+                            while (true)
                             {
-                                srv.Stop();
-                                srv.Dispose();
-                                break;
+                                ConsoleKeyInfo key = Console.ReadKey();
+
+                                if (key.Key == ConsoleKey.E)
+                                {
+                                    srv.Stop();
+                                    srv.Dispose();
+                                    break;
+                                }
                             }
                         }
-                    }
-                    else
-                    {
-                        //generate static website
-                        WebsiteGenerator.GenerateFromAssembly(ass, namespaceFilter, outputPath, footerContent);
-                        Console.WriteLine("Generated!");
+                        else
+                        {
+                            //generate static website
+                            WebsiteGenerator.GenerateFromAssembly(ass, namespaceFilter, outputPath, footerContent);
+                            Console.WriteLine("Generated!");
+                        }
                     }
                 }
-            }
-            else if (inputPath.EndsWith(".git"))
-            {
-                return GenerateFromGitRepository(inputPath, outputPath, footerContent);
-            }
-            else //source directory
-            {
-                if (server)
+                else if (inputPath.EndsWith(".git"))
                 {
-                    Console.WriteLine("Error: Server mode is not supported for sources");
-                    return 1;
+                    return GenerateFromGitRepository(inputPath, outputPath, footerContent);
                 }
+                else //source directory
+                {
+                    if (server)
+                    {
+                        Console.WriteLine("Error: Server mode is not supported for sources");
+                        return 1;
+                    }
 
-                //generate static website
-                GenerateFromSourceDirectory(inputPath, outputPath, footerContent);
-                Console.WriteLine("Generated!");
+                    //generate static website
+                    GenerateFromSourceDirectory(inputPath, outputPath, footerContent);
+                    Console.WriteLine("Generated!");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: CIL Browser failed!");
+                Console.WriteLine(ex.ToString());
+                return 1;
             }
 
             return 0;
