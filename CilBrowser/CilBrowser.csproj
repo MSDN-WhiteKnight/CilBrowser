@@ -4,6 +4,12 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <RollForward>Major</RollForward>
+    <PackAsTool>true</PackAsTool>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>CilBrowser</PackageId>
+    <PackageTags>dotnet dotnet-core dotnet-tool command-line il cil msil disassembler html website</PackageTags>
+    <Description>Command line tool that generates a static website to browse disassembled CIL code or source code.</Description>
+    <PackageLicenseFile>license.txt</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +19,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CilBrowser.Core\CilBrowser.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="license.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
