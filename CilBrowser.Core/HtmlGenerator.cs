@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Text;
 using CilBrowser.Core.SyntaxModel;
 using CilTools.BytecodeAnalysis;
+using CilTools.Reflection;
 using CilTools.SourceCode.Common;
 using CilTools.Syntax;
 
@@ -452,7 +453,17 @@ namespace CilBrowser.Core
         {
             if (mb.DeclaringType == null) return string.Empty;
 
-            return GenerateTypeFileName(mb.DeclaringType) + "#" + GenerateMethodAnchor(mb);
+            MethodBase targetMethod = mb;
+
+            if (mb.IsGenericMethod && !mb.IsGenericMethodDefinition && mb is ICustomMethod)
+            {
+                // if it's an instantiated generic method, we want to use method definition as link target
+                ICustomMethod cm = (ICustomMethod)mb;
+
+                if (cm.GetDefinition() != null) targetMethod = cm.GetDefinition();
+            }
+
+            return GenerateTypeFileName(mb.DeclaringType) + "#" + GenerateMethodAnchor(targetMethod);
         }
         
         public void WriteFooter(HtmlBuilder target)
