@@ -5,11 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CilBrowser.Core.SyntaxModel.Markup;
 using CilBrowser.Core.SyntaxModel.FoxPro;
+using CilBrowser.Core.SyntaxModel.Markup;
+using CilTools.SourceCode.Common;
 using CilTools.Syntax;
 using CilTools.Syntax.Tokens;
-using CilTools.SourceCode.Common;
 
 namespace CilBrowser.Core.SyntaxModel
 {
