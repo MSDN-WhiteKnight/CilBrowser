@@ -3,7 +3,6 @@
  * License: BSD 3-Clause */
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
 using CilTools.Syntax.Tokens;
 
@@ -23,11 +22,8 @@ namespace CilBrowser.Core.SyntaxModel.FoxPro
             if (Utils.StrEquals(str, "&&")) return true;
 
             if (!str.StartsWith("*")) return false;
-
-            MethodInfo mi = typeof(TokenReader).GetMethod(
-                "GetPreviousChar", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-
-            char prevChar = (char)mi.Invoke(reader, new object[] { 1 });
+            
+            char prevChar = reader.GetPreviousChar(1);
 
             return prevChar == '\n' || prevChar == 0;
         }
