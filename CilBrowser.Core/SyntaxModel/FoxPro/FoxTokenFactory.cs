@@ -23,9 +23,10 @@ namespace CilBrowser.Core.SyntaxModel.FoxPro
 
         // https://jeffpar.github.io/kbarchive/kb/130/Q130440/
         static readonly HashSet<string> foxKeywords = new HashSet<string>(new string[] {
-            "ARRAY", "CALL", "CASE", "CATCH", "CLASS", "CLOSE", "CONTINUE", "CURSOR", "DECLARE", "DO", "ELSE", "ENDCASE", 
-            "ENDIF", "ENDSCAN", "ENDTRY", "ENDWITH", "EXIT", "FORM", "FUNCTION", "IF", "GO", "GOTO", "NEXT", "PARAMETERS",
-            "PROCEDURE", "REPLACE", "RETURN", "SCAN", "SET", "SKIP", "STORE", "TABLES", "TO", "TRY", "USE", "WAIT"
+            "ARRAY", "CALL", "CASE", "CATCH", "CLASS", "CLOSE", "CONTINUE", "CURSOR", "DECLARE", "DO", "ELSE", "ENDCASE",
+            "ENDDO", "ENDIF", "ENDSCAN", "ENDTRY", "ENDWITH", "EXIT", "FORM", "FUNCTION", "IF", "GO", "GOTO", "NEXT", 
+            "PARAMETERS", "PROCEDURE", "REPLACE", "RETURN", "SCAN", "SET", "SKIP", "STORE", "TABLES", "TO", "TRY", "USE", 
+            "WAIT"
         }, StringComparer.OrdinalIgnoreCase);
 
         public static readonly FoxTokenFactory Value = new FoxTokenFactory();
