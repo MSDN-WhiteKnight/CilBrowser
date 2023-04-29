@@ -13,11 +13,19 @@ namespace CilBrowser.Core.SyntaxModel.FoxPro
     {
         private FoxTokenFactory() { }
 
-        static readonly HashSet<string> keywords = new HashSet<string>(new string[] {
-            "SET", "DO", "IF", "ELSE", "ENDIF", "DECLARE", "PROCEDURE", "SELECT", "FROM", "WHERE", "INTO",
-            "GROUP", "ORDER", "BY", "CASE", "ENDCASE", "SCAN", "ENDSCAN", "NEXT", "SKIP", "GO", "USE", "REPLACE",
-            "WITH", "IN", "WAIT", "PARAMETERS", "CLOSE", "TABLES", "ALL", "EXISTS", "TRY", "CATCH", "ENDTRY", "CREATE", "TABLE",
-            "DROP", "INSERT", "DELETE", "AND", "OR", "VALUES"
+        // https://learn.microsoft.com/en-us/sql/t-sql/language-elements/reserved-keywords-transact-sql
+        static readonly HashSet<string> sqlKeywords = new HashSet<string>(new string[] {
+            "ALL", "ALTER", "AND", "ANY", "AS", "ASC", "BETWEEN", "BY", "CREATE", "COUNT", "DATABASE", "DELETE", 
+            "DESC", "DISTINCT", "DROP", "EXISTS", "FROM", "GROUP", "HAVING", "IN", "IS", "INDEX", "INSERT", "INTO", 
+            "JOIN", "KEY", "LIKE", "NOT", "NULL", "ON", "OR", "ORDER", "SELECT", "TABLE", "VALUES", "VIEW", "UNION", 
+            "UPDATE", "WHERE", "WITH"
+        }, StringComparer.OrdinalIgnoreCase);
+
+        // https://jeffpar.github.io/kbarchive/kb/130/Q130440/
+        static readonly HashSet<string> foxKeywords = new HashSet<string>(new string[] {
+            "ARRAY", "CALL", "CASE", "CATCH", "CLASS", "CLOSE", "CONTINUE", "CURSOR", "DECLARE", "DO", "ELSE", "ENDCASE", 
+            "ENDIF", "ENDSCAN", "ENDTRY", "ENDWITH", "EXIT", "FORM", "FUNCTION", "IF", "GO", "GOTO", "NEXT", "PARAMETERS",
+            "PROCEDURE", "REPLACE", "RETURN", "SCAN", "SET", "SKIP", "STORE", "TABLES", "TO", "TRY", "USE", "WAIT"
         }, StringComparer.OrdinalIgnoreCase);
 
         public static readonly FoxTokenFactory Value = new FoxTokenFactory();
@@ -26,7 +34,7 @@ namespace CilBrowser.Core.SyntaxModel.FoxPro
         {
             if (token.Length == 0) return TokenKind.Unknown;
 
-            if (keywords.Contains(token))
+            if (sqlKeywords.Contains(token) || foxKeywords.Contains(token))
             {
                 return TokenKind.Keyword;
             }
@@ -42,7 +50,11 @@ namespace CilBrowser.Core.SyntaxModel.FoxPro
             {
                 return TokenKind.Comment;
             }
-            else if (token[0] == '\'' || token[0] == '"')
+            else if (token[0] == '\'')
+            {
+                return TokenKind.SingleQuotLiteral;
+            }
+            else if (token[0] == '"')
             {
                 return TokenKind.DoubleQuotLiteral;
             }
