@@ -18,7 +18,7 @@ namespace CilBrowser.Tests
             string[] lines = { 
                 ";Test",
                 "SourceControlURL=http://example.com/",
-                "SourceExtensions=.cs;.vb;.cpp",
+                "SourceExtensions=cs,vb,cpp",
                 "SourceEncoding=cp1251"
             };
 
@@ -34,7 +34,7 @@ namespace CilBrowser.Tests
         public void Test_CilBrowserOptions_UTF8()
         {
             string[] lines = {
-                "SourceExtensions=.js;.py;",
+                "SourceExtensions=js,py",
                 "SourceEncoding=utf8"
             };
 

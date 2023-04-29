@@ -72,7 +72,7 @@ Supported configuration options:
 
 **SourceControlURL** - URL of directory on source control server (for example, on GitHub) where the sources for this project are stored. When specified, CIL Browser renders "View in source control" link at the bottom of each file.
 
-**SourceExtensions** - List of file extensions (with leading dot) that are considered source files. Extensions are separated by semicolon (;). CIL Browser will only generate webpages for files with the specified extensions.
+**SourceExtensions** - List of file extensions that are considered source files. Extensions are separated by comma (,). CIL Browser will only generate webpages for files with the specified extensions.
 
 **SourceEncoding** - Encoding used when reading source files. Can be `utf8` or `cpN`, where N is an integer ANSI codepage number. The default value is `utf8`. This option does not affect encoding used when writing output files (it is always UTF-8).
 
@@ -81,6 +81,6 @@ Supported configuration options:
 ```
 ; CIL Browser config
 SourceControlURL=https://github.com/octocat/example/blob/main/
-SourceExtensions=.cs;.csproj;.sln
+SourceExtensions=cs,csproj,sln
 SourceEncoding=cp1251
 ```

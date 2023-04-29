@@ -68,14 +68,21 @@ namespace CilBrowser.Core
 
             if (str.Length > 0)
             {
-                string[] exts = str.Split(';');
+                string[] exts = str.Split(',');
                 List<string> exts_list = new List<string>(exts.Length);
 
                 for (int i = 0; i < exts.Length; i++)
                 {
                     string item = exts[i].Trim();
 
-                    if (item.Length > 1) exts_list.Add(item);
+                    if (item.Length == 0) continue;
+
+                    if (!item.StartsWith(".", StringComparison.Ordinal))
+                    {
+                        item = "." + item;
+                    }
+
+                    exts_list.Add(item);
                 }
 
                 if(exts_list.Count>0) ret.SourceExtensions = exts_list.ToArray();
