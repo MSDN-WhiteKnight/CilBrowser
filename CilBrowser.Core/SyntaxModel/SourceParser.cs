@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CilBrowser.Core.SyntaxModel.FoxPro;
+using CilBrowser.Core.SyntaxModel.JavaScript;
 using CilBrowser.Core.SyntaxModel.Markup;
 using CilBrowser.Core.SyntaxModel.PowerShell;
 using CilTools.SourceCode.Common;
@@ -29,6 +30,12 @@ namespace CilBrowser.Core.SyntaxModel
         static readonly SyntaxTokenDefinition[] s_psDefinitions = new SyntaxTokenDefinition[] {
             new CommonNameToken(), new PsCommentToken(), new PsMultilineCommentToken(), new PsTextLiteralToken(), 
             new PunctuationToken(), new WhitespaceToken(),new NumericLiteralToken()
+        };
+
+        static readonly SyntaxTokenDefinition[] s_jsDefinitions = new SyntaxTokenDefinition[] {
+            new CommonNameToken(), new JsRegexLiteralToken(), new PunctuationToken(), new WhitespaceToken(), 
+            new NumericLiteralToken(), new DoubleQuotLiteralToken(), new SingleQuotLiteralToken(), new CommentToken(),
+            new MultilineCommentToken()
         };
 
         static readonly HashSet<string> s_markupExts = new HashSet<string>(new string[] {
@@ -63,6 +70,10 @@ namespace CilBrowser.Core.SyntaxModel
             else if (Utils.StrEquals(ext, ".ps1"))
             {
                 return SyntaxReader.ReadAllNodes(content, s_psDefinitions, PsTokenFactory.Value);
+            }
+            else if (Utils.StrEquals(ext, ".js"))
+            {
+                return SyntaxReader.ReadAllNodes(content, s_jsDefinitions, SourceCodeUtils.GetFactory(ext));
             }
             else if (Utils.StrEquals(ext, ".prg"))
             {
