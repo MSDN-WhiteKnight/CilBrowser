@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using CilBrowser.Core.SyntaxModel.FoxPro;
 using CilBrowser.Core.SyntaxModel.Markup;
+using CilBrowser.Core.SyntaxModel.PowerShell;
 using CilTools.SourceCode.Common;
 using CilTools.Syntax;
 using CilTools.Syntax.Tokens;
@@ -23,6 +24,11 @@ namespace CilBrowser.Core.SyntaxModel
         static readonly SyntaxTokenDefinition[] s_foxDefinitions = new SyntaxTokenDefinition[] {
             new CommonNameToken(), new FoxCommentToken(), new FoxTextLiteralToken(), new PunctuationToken(),
             new WhitespaceToken(),new NumericLiteralToken()
+        };
+
+        static readonly SyntaxTokenDefinition[] s_psDefinitions = new SyntaxTokenDefinition[] {
+            new CommonNameToken(), new PsCommentToken(), new PsMultilineCommentToken(), new PsTextLiteralToken(), 
+            new PunctuationToken(), new WhitespaceToken(),new NumericLiteralToken()
         };
 
         static readonly HashSet<string> s_markupExts = new HashSet<string>(new string[] {
@@ -53,6 +59,10 @@ namespace CilBrowser.Core.SyntaxModel
             {
                 SourceToken[] tokens = ParseXmlTokens(content);
                 return SyntaxElementReader.ParseElements(tokens, SyntaxElementDefinition.GetMarkupDefs());
+            }
+            else if (Utils.StrEquals(ext, ".ps1"))
+            {
+                return SyntaxReader.ReadAllNodes(content, s_psDefinitions, PsTokenFactory.Value);
             }
             else if (Utils.StrEquals(ext, ".prg"))
             {
