@@ -20,7 +20,7 @@ namespace CilBrowser.Core.SyntaxModel.PowerShell
         static readonly HashSet<string> keywords = new HashSet<string>(new string[] {
             "begin", "break", "catch", "class", "continue", "data", "define", "do", "dynamicparam", "else", "elseif", "end",
             "enum", "exit", "filter", "finally", "for", "foreach", "from", "function", "hidden", "if", "in", "param", 
-            "process", "return", "static", "switch", "throw", "trap", "try", "until", "using", "ver", "while"
+            "process", "return", "static", "switch", "throw", "trap", "try", "until", "using", "var", "while"
         }, StringComparer.OrdinalIgnoreCase);
         
         public static readonly PsTokenFactory Value = new PsTokenFactory();
