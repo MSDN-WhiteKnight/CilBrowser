@@ -3,7 +3,6 @@
  * License: BSD 3-Clause */
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CilBrowser.Core.SyntaxModel;
@@ -39,15 +38,7 @@ namespace CilBrowser.Tests
         public void Test_SourceParser_Roundtrip(string src, string ext)
         {
             SyntaxNode[] nodes = SourceParser.Parse(src, ext);
-            StringBuilder sb = new StringBuilder(src.Length * 2);
-            StringWriter wr = new StringWriter(sb);
-
-            for (int i = 0; i < nodes.Length; i++)
-            {
-                nodes[i].ToText(wr);
-            }
-
-            Assert.AreEqual(src, sb.ToString());
+            Assert.AreEqual(src, TestUtils.SyntaxToString(nodes));
         }
 
         [TestMethod]

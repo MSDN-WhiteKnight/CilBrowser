@@ -3,13 +3,12 @@
  * License: BSD 3-Clause */
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CilBrowser.Core.SyntaxModel;
 using CilBrowser.Core.SyntaxModel.FoxPro;
-using CilTools.Syntax;
 using CilTools.SourceCode.Common;
+using CilTools.Syntax;
 
 namespace CilBrowser.Tests
 {
@@ -43,26 +42,9 @@ namespace CilBrowser.Tests
         public void Test_FoxPro_Roundtrip(string src)
         {
             SyntaxNode[] nodes = SourceParser.Parse(src, ".prg");
-            StringBuilder sb = new StringBuilder(src.Length * 2);
-            StringWriter wr = new StringWriter(sb);
-
-            for (int i = 0; i < nodes.Length; i++)
-            {
-                nodes[i].ToText(wr);
-            }
-
-            Assert.AreEqual(src, sb.ToString());
+            Assert.AreEqual(src, TestUtils.SyntaxToString(nodes));
         }
-
-        static void VerifySourceToken(SyntaxNode node, string content, TokenKind kind, string leadingWhitespace,
-            string trailingWhitespace)
-        {
-            Assert.AreEqual(content, (node as SourceToken).Content);
-            Assert.AreEqual(kind, (node as SourceToken).Kind);
-            Assert.AreEqual(leadingWhitespace, node.LeadingWhitespace);
-            Assert.AreEqual(trailingWhitespace, node.TrailingWhitespace);
-        }
-
+        
         [TestMethod]
         public void Test_Parse_FoxPro()
         {
@@ -70,29 +52,29 @@ namespace CilBrowser.Tests
             SyntaxNode[] nodes = SourceParser.Parse(src, ".prg");
 
             Assert.AreEqual(12, nodes.Length);
-            VerifySourceToken(nodes[0], "SELECT", TokenKind.Keyword, leadingWhitespace: string.Empty,
+            TestUtils.VerifySourceToken(nodes[0], "SELECT", TokenKind.Keyword, leadingWhitespace: string.Empty,
                 trailingWhitespace: " ");
-            VerifySourceToken(nodes[1], "Name", TokenKind.Name, leadingWhitespace: string.Empty,
+            TestUtils.VerifySourceToken(nodes[1], "Name", TokenKind.Name, leadingWhitespace: string.Empty,
                 trailingWhitespace: " ");
-            VerifySourceToken(nodes[2], "FROM", TokenKind.Keyword, leadingWhitespace: string.Empty,
+            TestUtils.VerifySourceToken(nodes[2], "FROM", TokenKind.Keyword, leadingWhitespace: string.Empty,
                 trailingWhitespace: " ");
-            VerifySourceToken(nodes[3], "Users", TokenKind.Name, leadingWhitespace: string.Empty,
+            TestUtils.VerifySourceToken(nodes[3], "Users", TokenKind.Name, leadingWhitespace: string.Empty,
                 trailingWhitespace: " ");
-            VerifySourceToken(nodes[4], "WHERE", TokenKind.Keyword, leadingWhitespace: string.Empty,
+            TestUtils.VerifySourceToken(nodes[4], "WHERE", TokenKind.Keyword, leadingWhitespace: string.Empty,
                 trailingWhitespace: " ");
-            VerifySourceToken(nodes[5], "LEN", TokenKind.Name, leadingWhitespace: string.Empty,
+            TestUtils.VerifySourceToken(nodes[5], "LEN", TokenKind.Name, leadingWhitespace: string.Empty,
                 trailingWhitespace: string.Empty);
-            VerifySourceToken(nodes[6], "(", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+            TestUtils.VerifySourceToken(nodes[6], "(", TokenKind.Punctuation, leadingWhitespace: string.Empty,
                 trailingWhitespace: string.Empty);
-            VerifySourceToken(nodes[7], "name", TokenKind.Name, leadingWhitespace: string.Empty,
+            TestUtils.VerifySourceToken(nodes[7], "name", TokenKind.Name, leadingWhitespace: string.Empty,
                 trailingWhitespace: string.Empty);
-            VerifySourceToken(nodes[8], ")", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+            TestUtils.VerifySourceToken(nodes[8], ")", TokenKind.Punctuation, leadingWhitespace: string.Empty,
                 trailingWhitespace: string.Empty);
-            VerifySourceToken(nodes[9], ">", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+            TestUtils.VerifySourceToken(nodes[9], ">", TokenKind.Punctuation, leadingWhitespace: string.Empty,
                 trailingWhitespace: string.Empty);
-            VerifySourceToken(nodes[10], "0", TokenKind.NumericLiteral, leadingWhitespace: string.Empty,
+            TestUtils.VerifySourceToken(nodes[10], "0", TokenKind.NumericLiteral, leadingWhitespace: string.Empty,
                 trailingWhitespace: " ");
-            VerifySourceToken(nodes[11], "&& query", TokenKind.Comment, leadingWhitespace: string.Empty,
+            TestUtils.VerifySourceToken(nodes[11], "&& query", TokenKind.Comment, leadingWhitespace: string.Empty,
                 trailingWhitespace: string.Empty);
         }
 
@@ -103,7 +85,7 @@ namespace CilBrowser.Tests
             SyntaxNode[] nodes = SourceParser.Parse(src, ".prg");
 
             Assert.AreEqual(1, nodes.Length);
-            VerifySourceToken(nodes[0], "* Quick brown fox", TokenKind.Comment, leadingWhitespace: string.Empty,
+            TestUtils.VerifySourceToken(nodes[0], "* Quick brown fox", TokenKind.Comment, leadingWhitespace: string.Empty,
                 trailingWhitespace: string.Empty);
         }
 
@@ -114,13 +96,13 @@ namespace CilBrowser.Tests
             SyntaxNode[] nodes = SourceParser.Parse(src, ".prg");
 
             Assert.AreEqual(4, nodes.Length);
-            VerifySourceToken(nodes[0], "path", TokenKind.Name, leadingWhitespace: string.Empty,
+            TestUtils.VerifySourceToken(nodes[0], "path", TokenKind.Name, leadingWhitespace: string.Empty,
                 trailingWhitespace: string.Empty);
-            VerifySourceToken(nodes[1], "=", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+            TestUtils.VerifySourceToken(nodes[1], "=", TokenKind.Punctuation, leadingWhitespace: string.Empty,
                 trailingWhitespace: string.Empty);
-            VerifySourceToken(nodes[2], "'C:\\dir'", TokenKind.SingleQuotLiteral, leadingWhitespace: string.Empty,
+            TestUtils.VerifySourceToken(nodes[2], "'C:\\dir'", TokenKind.SingleQuotLiteral, leadingWhitespace: string.Empty,
                 trailingWhitespace: "\n");
-            VerifySourceToken(nodes[3], "* set path", TokenKind.Comment, leadingWhitespace: string.Empty,
+            TestUtils.VerifySourceToken(nodes[3], "* set path", TokenKind.Comment, leadingWhitespace: string.Empty,
                 trailingWhitespace: string.Empty);
         }
     }
