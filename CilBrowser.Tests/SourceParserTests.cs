@@ -68,5 +68,34 @@ namespace CilBrowser.Tests
             TestUtils.VerifySourceToken(nodes[6], ")", TokenKind.Punctuation, leadingWhitespace: string.Empty,
                 trailingWhitespace: string.Empty);
         }
+
+        [TestMethod]
+        public void Test_JsFunction()
+        {
+            string src = "function foo(event){return 0;}";
+            SyntaxNode[] nodes = SourceParser.Parse(src, ".js");
+
+            Assert.AreEqual(10, nodes.Length);
+            TestUtils.VerifySourceToken(nodes[0], "function", TokenKind.Keyword, leadingWhitespace: string.Empty,
+                trailingWhitespace: " ");
+            TestUtils.VerifySourceToken(nodes[1], "foo", TokenKind.Name, leadingWhitespace: string.Empty,
+                trailingWhitespace: string.Empty);
+            TestUtils.VerifySourceToken(nodes[2], "(", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                trailingWhitespace: string.Empty);
+            TestUtils.VerifySourceToken(nodes[3], "event", TokenKind.Name, leadingWhitespace: string.Empty,
+                trailingWhitespace: string.Empty);
+            TestUtils.VerifySourceToken(nodes[4], ")", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                trailingWhitespace: string.Empty);
+            TestUtils.VerifySourceToken(nodes[5], "{", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                trailingWhitespace: string.Empty);
+            TestUtils.VerifySourceToken(nodes[6], "return", TokenKind.Keyword, leadingWhitespace: string.Empty,
+                trailingWhitespace: " ");
+            TestUtils.VerifySourceToken(nodes[7], "0", TokenKind.NumericLiteral, leadingWhitespace: string.Empty,
+                trailingWhitespace: string.Empty);
+            TestUtils.VerifySourceToken(nodes[8], ";", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                trailingWhitespace: string.Empty);
+            TestUtils.VerifySourceToken(nodes[9], "}", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                trailingWhitespace: string.Empty);
+        }
     }
 }

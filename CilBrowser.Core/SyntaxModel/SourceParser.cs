@@ -73,7 +73,7 @@ namespace CilBrowser.Core.SyntaxModel
             }
             else if (Utils.StrEquals(ext, ".js"))
             {
-                return SyntaxReader.ReadAllNodes(content, s_jsDefinitions, SourceCodeUtils.GetFactory(ext));
+                return SyntaxReader.ReadAllNodes(content, s_jsDefinitions, JsTokenFactory.Value);
             }
             else if (Utils.StrEquals(ext, ".prg"))
             {
@@ -83,6 +83,74 @@ namespace CilBrowser.Core.SyntaxModel
             {
                 return SyntaxReader.ReadAllNodes(content, SourceCodeUtils.GetTokenDefinitions(ext),
                     SourceCodeUtils.GetFactory(ext));
+            }
+        }
+
+        internal static TokenKind GetKindCommon(string token)
+        {
+            //common logic for C-like languages
+            //From: https://github.com/MSDN-WhiteKnight/CilTools/blob/master/CilTools.SourceCode/Common/SourceCodeUtils.cs
+            if (token.Length == 0) return TokenKind.Unknown;
+
+            if (char.IsDigit(token[0]))
+            {
+                return TokenKind.NumericLiteral;
+            }
+            else if (token[0] == '"')
+            {
+                if (token.Length < 2 || token[token.Length - 1] != '"')
+                {
+                    return TokenKind.Unknown;
+                }
+                else
+                {
+                    return TokenKind.DoubleQuotLiteral;
+                }
+            }
+            else if (token[0] == '\'')
+            {
+                if (token.Length < 2 || token[token.Length - 1] != '\'')
+                {
+                    return TokenKind.Unknown;
+                }
+                else
+                {
+                    return TokenKind.SingleQuotLiteral;
+                }
+            }
+            else if (token[0] == '/')
+            {
+                if (token.Length == 1)
+                {
+                    return TokenKind.Punctuation;
+                }
+                else if (token[1] == '*')
+                {
+                    if (!token.EndsWith("*/", StringComparison.Ordinal))
+                    {
+                        return TokenKind.Unknown;
+                    }
+                    else
+                    {
+                        return TokenKind.MultilineComment;
+                    }
+                }
+                else if (token[1] == '/')
+                {
+                    return TokenKind.Comment;
+                }
+                else
+                {
+                    return TokenKind.Unknown;
+                }
+            }
+            else if (char.IsPunctuation(token[0]) || char.IsSymbol(token[0]))
+            {
+                return TokenKind.Punctuation;
+            }
+            else
+            {
+                return TokenKind.Unknown;
             }
         }
     }
