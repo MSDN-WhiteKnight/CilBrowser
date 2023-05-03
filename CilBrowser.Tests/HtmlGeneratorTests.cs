@@ -3,6 +3,7 @@
  * License: BSD 3-Clause */
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -167,6 +168,39 @@ public class Program
             string str = gen.VisualizeSourceFile(content, "file.cs", string.Empty, string.Empty);
             
             Assert.IsTrue(str.Contains(Preformatted(expected)));
+        }
+
+        [TestMethod]
+        public void Test_VisualizeSourceText()
+        {
+            const string sourceText = @"#include <stdio.h>
+int main(int argc, char* argv[])
+{
+    printf(""Hello, world!"");
+    getchar();
+    return 0;
+}
+";
+            string expected = @"<pre style=""white-space: pre-wrap;""><code>#include &lt;stdio.h&gt;
+<span style=""color: blue;"">int </span>main(<span style=""color: blue;"">int </span>argc, <span style=""color: blue;"">char</span>* argv[])
+{
+    printf(<span style=""color: red;"">&quot;Hello, world!&quot;</span>);
+    getchar();
+    <span style=""color: blue;"">return </span>0;
+}
+</code></pre>";
+
+            StringBuilder sb = new StringBuilder();
+            StringWriter wr = new StringWriter(sb);
+            HtmlGenerator.VisualizeSourceText(sourceText, ".cpp", wr);
+            string html = sb.ToString().Trim();
+            expected = expected.Trim();
+
+            //normalize line endings
+            html = html.Replace("\r\n", "\n");
+            expected = expected.Replace("\r\n", "\n");
+
+            Assert.AreEqual(expected, html);
         }
     }
 }
