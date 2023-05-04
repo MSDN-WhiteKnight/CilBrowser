@@ -171,7 +171,7 @@ public class Program
         }
 
         [TestMethod]
-        public void Test_VisualizeSourceText()
+        public void Test_RenderSourceText()
         {
             const string sourceText = @"#include <stdio.h>
 int main(int argc, char* argv[])
@@ -192,7 +192,7 @@ int main(int argc, char* argv[])
 
             StringBuilder sb = new StringBuilder();
             StringWriter wr = new StringWriter(sb);
-            HtmlGenerator.VisualizeSourceText(sourceText, ".cpp", wr);
+            HtmlGenerator.RenderSourceText(sourceText, ".cpp", wr);
             string html = sb.ToString().Trim();
             expected = expected.Trim();
 
