@@ -17,14 +17,11 @@ namespace CilBrowser.Core.SyntaxModel
 {
     public static class SourceParser
     {
+        static Dictionary<string, SyntaxProvider> s_map = new Dictionary<string, SyntaxProvider>();
+
         static readonly SyntaxTokenDefinition[] s_markupDefinitions = new SyntaxTokenDefinition[] {
             new CommonNameToken(), new XmlCommentToken(), new PunctuationToken(), new WhitespaceToken(),
             new NumericLiteralToken(), new DoubleQuotLiteralToken()
-        };
-
-        static readonly SyntaxTokenDefinition[] s_foxDefinitions = new SyntaxTokenDefinition[] {
-            new CommonNameToken(), new FoxCommentToken(), new FoxTextLiteralToken(), new PunctuationToken(),
-            new WhitespaceToken(),new NumericLiteralToken()
         };
 
         static readonly SyntaxTokenDefinition[] s_psDefinitions = new SyntaxTokenDefinition[] {
@@ -42,6 +39,21 @@ namespace CilBrowser.Core.SyntaxModel
             ".xml", ".csproj", ".vbproj", ".vcxproj", ".proj", ".ilproj", ".htm", ".html", ".config", ".xaml"
         });
 
+        static SourceParser()
+        {
+            //initialize built-in providers
+            RegisterProvider(".prg", new FoxSyntaxProvider());
+        }
+
+        /// <summary>
+        /// Registers a syntax provider for the specified source file extension. Extension should be with a leading dot 
+        /// and in all lowercase letters.
+        /// </summary>
+        static void RegisterProvider(string ext, SyntaxProvider provider)
+        {
+            s_map[ext] = provider;
+        }
+        
         public static SourceToken[] ParseXmlTokens(string content)
         {
             return SyntaxReader.ReadAllNodes(content, s_markupDefinitions, MarkupTokenFactory.Value).
@@ -75,14 +87,21 @@ namespace CilBrowser.Core.SyntaxModel
             {
                 return SyntaxReader.ReadAllNodes(content, s_jsDefinitions, JsTokenFactory.Value);
             }
-            else if (Utils.StrEquals(ext, ".prg"))
-            {
-                return SyntaxReader.ReadAllNodes(content, s_foxDefinitions, FoxTokenFactory.Value);
-            }
             else
             {
-                return SyntaxReader.ReadAllNodes(content, SourceCodeUtils.GetTokenDefinitions(ext),
-                    SourceCodeUtils.GetFactory(ext));
+                SyntaxProvider provider;
+                
+                if (s_map.TryGetValue(ext, out provider))
+                {
+                    // CIL Browser registered syntax provider
+                    return provider.GetNodes(content);
+                }
+                else
+                {
+                    // CIL Tools built-in syntax highlighting support
+                    return SyntaxReader.ReadAllNodes(content, SourceCodeUtils.GetTokenDefinitions(ext),
+                        SourceCodeUtils.GetFactory(ext));
+                }
             }
         }
 
