@@ -55,6 +55,13 @@ namespace CilBrowser.Core.SyntaxModel.JavaScript
 
             for (int i = reader.Position + 1; i < str.Length; i++)
             {
+                if (i - reader.Position > 2000)
+                {
+                    // Line is too long - exit early to prevent slowing down on minified JS files that consist of a
+                    // single huge line.
+                    return false;
+                }
+
                 if (str[i] == '\r' || str[i] == '\n') return false;
                 else if(str[i] == '/') return true;
             }
