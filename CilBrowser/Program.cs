@@ -179,8 +179,8 @@ namespace CilBrowser
                 new NamedArgumentDefinition("--output", true, "Output directory"),
                 new NamedArgumentDefinition("--namespace", true, "Namespace filter"),
                 new NamedArgumentDefinition("--footer", true, "Custom footer file path"),
-                new NamedArgumentDefinition("--host", true, "URL host (default is " + Server.DefaultUrlHost + ")"),
-                new NamedArgumentDefinition("--prefix", true, "URL prefix (default is " + Server.DefaultUrlPrefix + ")"),
+                new NamedArgumentDefinition("--host", true, "URL host (default is " + ServerBase.DefaultUrlHost + ")"),
+                new NamedArgumentDefinition("--prefix", true, "URL prefix (default is " + ServerBase.DefaultUrlPrefix + ")"),
             };
             
             if (args.Length == 0 || Utils.StrEquals(args[0], "help") || Utils.StrEquals(args[0], "-?") || 
