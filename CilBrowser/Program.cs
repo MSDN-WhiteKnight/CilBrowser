@@ -320,18 +320,7 @@ namespace CilBrowser
                             Console.WriteLine("Running server...");
                             Server srv = new Server(ass, urlHost, urlPrefix);
                             srv.RunInBackground();
-
-                            while (true)
-                            {
-                                ConsoleKeyInfo key = Console.ReadKey();
-
-                                if (key.Key == ConsoleKey.E)
-                                {
-                                    srv.Stop();
-                                    srv.Dispose();
-                                    break;
-                                }
-                            }
+                            srv.WaitForExit();
                         }
                         else
                         {
@@ -349,13 +338,18 @@ namespace CilBrowser
                 {
                     if (server)
                     {
-                        Console.WriteLine("Error: Server mode is not supported for sources");
-                        return 1;
+                        //run server
+                        Console.WriteLine("Running server...");
+                        SourceServer srv = new SourceServer(inputPath, urlHost, urlPrefix);
+                        srv.RunInBackground();
+                        srv.WaitForExit();
                     }
-
-                    //generate static website
-                    GenerateFromSourceDirectory(inputPath, outputPath, footerContent);
-                    Console.WriteLine("Generated!");
+                    else
+                    {
+                        //generate static website
+                        GenerateFromSourceDirectory(inputPath, outputPath, footerContent);
+                        Console.WriteLine("Generated!");
+                    }
                 }
             }
             catch (Exception ex)
