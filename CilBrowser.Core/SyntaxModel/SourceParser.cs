@@ -24,17 +24,6 @@ namespace CilBrowser.Core.SyntaxModel
             new NumericLiteralToken(), new DoubleQuotLiteralToken()
         };
 
-        static readonly SyntaxTokenDefinition[] s_psDefinitions = new SyntaxTokenDefinition[] {
-            new CommonNameToken(), new PsCommentToken(), new PsMultilineCommentToken(), new PsTextLiteralToken(), 
-            new PunctuationToken(), new WhitespaceToken(),new NumericLiteralToken()
-        };
-
-        static readonly SyntaxTokenDefinition[] s_jsDefinitions = new SyntaxTokenDefinition[] {
-            new CommonNameToken(), new JsRegexLiteralToken(), new PunctuationToken(), new WhitespaceToken(), 
-            new NumericLiteralToken(), new DoubleQuotLiteralToken(), new SingleQuotLiteralToken(), new CommentToken(),
-            new MultilineCommentToken()
-        };
-
         static readonly HashSet<string> s_markupExts = new HashSet<string>(new string[] {
             ".xml", ".csproj", ".vbproj", ".vcxproj", ".proj", ".ilproj", ".htm", ".html", ".config", ".xaml"
         });
@@ -42,6 +31,8 @@ namespace CilBrowser.Core.SyntaxModel
         static SourceParser()
         {
             //initialize built-in providers
+            RegisterProvider(".js",  new JsSyntaxProvider());
+            RegisterProvider(".ps1", new PsSyntaxProvider());
             RegisterProvider(".prg", new FoxSyntaxProvider());
         }
 
@@ -78,14 +69,6 @@ namespace CilBrowser.Core.SyntaxModel
             {
                 SourceToken[] tokens = ParseXmlTokens(content);
                 return SyntaxElementReader.ParseElements(tokens, SyntaxElementDefinition.GetMarkupDefs());
-            }
-            else if (Utils.StrEquals(ext, ".ps1"))
-            {
-                return SyntaxReader.ReadAllNodes(content, s_psDefinitions, PsTokenFactory.Value);
-            }
-            else if (Utils.StrEquals(ext, ".js"))
-            {
-                return SyntaxReader.ReadAllNodes(content, s_jsDefinitions, JsTokenFactory.Value);
             }
             else
             {
