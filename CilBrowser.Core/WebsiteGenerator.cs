@@ -33,12 +33,12 @@ namespace CilBrowser.Core
             return ext == string.Empty || srcExtensions.Contains(ext);
         }
 
-        public static bool IsSourceFileDefault(string name)
+        internal static bool IsSourceFileDefault(string name)
         {
             return IsSourceFile(name, s_srcExtensions);
         }
 
-        static bool IsDirectoryExcluded(string name)
+        internal static bool IsDirectoryExcluded(string name)
         {
             return s_excludedDirs.Contains(name);
         }

@@ -78,6 +78,15 @@ namespace CilBrowser.Core
             return urlPart;
         }
 
+        internal string StripPrefix(string url)
+        {
+            int index = this._urlPrefix.Length;
+
+            if (index >= url.Length) return string.Empty;
+                        
+            return url.Substring(index);
+        }
+
         internal static void SendHtmlResponse(HttpListenerResponse response, string content)
         {
             // Get a response stream and write the response to it.
