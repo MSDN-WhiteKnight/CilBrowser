@@ -9,6 +9,10 @@ using System.Text;
 
 namespace CilBrowser.Core
 {
+    /// <summary>
+    /// Provides a server that dynamically generates HTML for source code files in the specified directory 
+    /// and returns it via HTTP
+    /// </summary>
     public sealed class SourceServer : ServerBase
     {
         string _baseDirectory;
@@ -22,11 +26,17 @@ namespace CilBrowser.Core
 
         protected override void OnStart()
         {
-            Console.WriteLine("Base directory: " + this._baseDirectory);
+            Console.WriteLine("Base source directory: " + this._baseDirectory);
         }
 
-        void RenderToc(string dir, HttpListenerResponse response)
+        void RenderToc(string dir, bool topLevel, HttpListenerResponse response)
         {
+            if (!Directory.Exists(dir))
+            {
+                SendErrorResponse(response, 404, "Not found");
+                return;
+            }
+            
             // Render table of contents
             StreamWriter wr = new StreamWriter(response.OutputStream);
             HtmlBuilder toc = new HtmlBuilder(wr);
@@ -41,6 +51,13 @@ namespace CilBrowser.Core
                 Array.Sort(dirs);
 
                 if (dirs.Length > 0) toc.WriteTag("h2", "Subdirectories");
+
+                if (!topLevel)
+                {
+                    toc.StartParagraph();
+                    toc.WriteHyperlink("../index.html", "(go to parent directory)");
+                    toc.EndParagraph();
+                }
 
                 for (int i = 0; i < dirs.Length; i++)
                 {
@@ -76,7 +93,17 @@ namespace CilBrowser.Core
 
         protected override void RenderFrontPage(HttpListenerResponse response)
         {
-            this.RenderToc(this._baseDirectory, response);
+            try
+            {
+                this.RenderToc(this._baseDirectory, true, response);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("SourceServer error when rendering frontpage!");
+                Console.WriteLine(ex.ToString());
+                Console.WriteLine();
+                SendErrorResponse(response, 500, "Internal server error");
+            }
         }
 
         static bool IsUrlInvalid(string url)
@@ -95,40 +122,57 @@ namespace CilBrowser.Core
 
         protected override void RenderPage(string url, HttpListenerResponse response)
         {
-            string relativePath = StripURL(url);
-
-            if (IsUrlInvalid(relativePath))
+            try
             {
-                SendErrorResponse(response, 404, "Not found");
-                return;
-            }
+                string relativePath = StripURL(url);
 
-            if (url.EndsWith("index.html", StringComparison.OrdinalIgnoreCase))
-            {
-                //directory table of contents
-                if (relativePath.Length < 5)
+                if (IsUrlInvalid(relativePath))
                 {
                     SendErrorResponse(response, 404, "Not found");
                     return;
                 }
 
-                string dir = relativePath.Substring(0, relativePath.Length - 5);
-                this.RenderToc(Path.Combine(this._baseDirectory, dir), response);
+                if (url.EndsWith("index.html", StringComparison.OrdinalIgnoreCase))
+                {
+                    //directory table of contents
+                    if (relativePath.Length < 5)
+                    {
+                        SendErrorResponse(response, 404, "Not found");
+                        return;
+                    }
+
+                    string dir = relativePath.Substring(0, relativePath.Length - 5);
+                    this.RenderToc(Path.Combine(this._baseDirectory, dir), false, response);
+                }
+                else if (url.Length > 0 && url[url.Length - 1] == '/')
+                {
+                    //directory table of contents
+                    this.RenderToc(Path.Combine(this._baseDirectory, StripPrefix(url)), false, response);
+                }
+                else
+                {
+                    //regular page
+                    string filepath = Path.Combine(this._baseDirectory, relativePath);
+
+                    if (!File.Exists(filepath))
+                    {
+                        SendErrorResponse(response, 404, "Not found");
+                        return;
+                    }
+
+                    string src = File.ReadAllText(filepath);
+                    string filename = Path.GetFileName(relativePath);
+                    string html = this._gen.VisualizeSourceFile(src, filename, string.Empty, string.Empty);
+                    this.AddToCache(url, html);
+                    SendHtmlResponse(response, html);
+                }
             }
-            else if (url.Length > 0 && url[url.Length - 1] == '/')
+            catch (Exception ex)
             {
-                //directory table of contents
-                this.RenderToc(Path.Combine(this._baseDirectory, StripPrefix(url)), response);
-            }
-            else
-            {
-                //regular page
-                string filepath = Path.Combine(this._baseDirectory, relativePath);
-                string src = File.ReadAllText(filepath);
-                string filename = Path.GetFileName(relativePath);
-                string html = this._gen.VisualizeSourceFile(src, filename, string.Empty, string.Empty);
-                this.AddToCache(url, html);
-                SendHtmlResponse(response, html);
+                Console.WriteLine("SourceServer error when rendering page!");
+                Console.WriteLine(ex.ToString());
+                Console.WriteLine();
+                SendErrorResponse(response, 500, "Internal server error");
             }
         }
     }
