@@ -68,7 +68,7 @@ namespace CilBrowser.Core
 
             //Strip prefix
             string urlPart = url.Substring(index);
-            index = urlPart.IndexOf('.');
+            index = urlPart.LastIndexOf('.');
 
             if (index < 0) index = urlPart.Length;
 
@@ -76,6 +76,15 @@ namespace CilBrowser.Core
             urlPart = urlPart.Substring(0, index);
 
             return urlPart;
+        }
+
+        internal string StripPrefix(string url)
+        {
+            int index = this._urlPrefix.Length;
+
+            if (index >= url.Length) return string.Empty;
+                        
+            return url.Substring(index);
         }
 
         internal static void SendHtmlResponse(HttpListenerResponse response, string content)
@@ -178,6 +187,21 @@ namespace CilBrowser.Core
             Thread th = new Thread(Run);
             th.IsBackground = true;
             th.Start();
+        }
+
+        public void WaitForExit()
+        {
+            while (true)
+            {
+                ConsoleKeyInfo key = Console.ReadKey();
+
+                if (key.Key == ConsoleKey.E)
+                {
+                    this.Stop();
+                    this.Dispose();
+                    break;
+                }
+            }
         }
     }
 }
