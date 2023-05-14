@@ -38,6 +38,7 @@ namespace CilBrowser.Core
             }
             
             // Render table of contents
+            response.ContentType = "text/html; charset=utf-8";
             StreamWriter wr = new StreamWriter(response.OutputStream);
             HtmlBuilder toc = new HtmlBuilder(wr);
 
@@ -124,6 +125,7 @@ namespace CilBrowser.Core
         {
             try
             {
+                url = WebUtility.UrlDecode(url);
                 string relativePath = StripURL(url);
 
                 if (IsUrlInvalid(relativePath))
