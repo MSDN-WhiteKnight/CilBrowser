@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Text;
 
@@ -218,7 +219,7 @@ namespace CilBrowser.Core
 
                 //TOC entry
                 toc.StartParagraph();
-                toc.WriteHyperlink("./" + name + "/index.html", name);
+                toc.WriteHyperlink("./" + WebUtility.UrlEncode(name) + "/index.html", name);
                 toc.EndParagraph();
             }
 
@@ -258,7 +259,7 @@ namespace CilBrowser.Core
 
                     //TOC entry
                     toc.StartParagraph();
-                    toc.WriteHyperlink(name + ".html", name);
+                    toc.WriteHyperlink(WebUtility.UrlEncode(name) + ".html", name);
                     toc.EndParagraph();
                 }
                 else

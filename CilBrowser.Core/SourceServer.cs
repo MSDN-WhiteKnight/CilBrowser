@@ -67,7 +67,7 @@ namespace CilBrowser.Core
                     if (WebsiteGenerator.IsDirectoryExcluded(name)) continue;
                     
                     toc.StartParagraph();
-                    toc.WriteHyperlink("./" + name + "/index.html", name);
+                    toc.WriteHyperlink("./" + WebUtility.UrlEncode(name) + "/index.html", name);
                     toc.EndParagraph();
                 }
 
@@ -83,7 +83,7 @@ namespace CilBrowser.Core
 
                     string name = Path.GetFileName(files[i]);
                     toc.StartParagraph();
-                    toc.WriteHyperlink(name + ".html", name);
+                    toc.WriteHyperlink(WebUtility.UrlEncode(name) + ".html", name);
                     toc.EndParagraph();
                 }
 
