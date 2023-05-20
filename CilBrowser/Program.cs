@@ -106,31 +106,35 @@ namespace CilBrowser
             Console.WriteLine("Generate static website for MyProject sources in the output directory");
         }
 
-        static int GenerateFromSourceDirectory(string sourcesPath, string outputPath, string footerContent)
+        static CilBrowserOptions ReadOptionsFromPath(string sourcesPath)
         {
             string cfgPath = Path.Combine(sourcesPath, "browser.cfg");
-            CilBrowserOptions options;
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             //try to read config from file
             if (File.Exists(cfgPath))
             {
                 try
                 {
-                    options = CilBrowserOptions.ReadFromFile(cfgPath);
                     Console.WriteLine("Using config from " + cfgPath);
+                    return CilBrowserOptions.ReadFromFile(cfgPath);
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error when trying to read browser.cfg!");
                     Console.WriteLine(ex.ToString());
-                    options = new CilBrowserOptions();
+                    return new CilBrowserOptions(); //use default
                 }
             }
             else
             {
-                options = new CilBrowserOptions();
+                return new CilBrowserOptions(); //use default
             }
+        }
+
+        static int GenerateFromSourceDirectory(string sourcesPath, string outputPath, string footerContent)
+        {
+            //read config
+            CilBrowserOptions options = ReadOptionsFromPath(sourcesPath);
 
             //run generation process
             WebsiteGenerator.GenerateFromSources(sourcesPath, outputPath, options, footerContent);
@@ -139,6 +143,7 @@ namespace CilBrowser
 
         static int GenerateFromGitRepository(string url, string outputPath, string footerContent)
         {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             string repoName = Path.GetFileNameWithoutExtension(url);
 
             if (string.IsNullOrEmpty(repoName)) repoName = "repo";
@@ -336,11 +341,16 @@ namespace CilBrowser
                 }
                 else //source directory
                 {
+                    Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                    
                     if (server)
                     {
+                        //read config
+                        CilBrowserOptions options = ReadOptionsFromPath(inputPath);
+
                         //run server
                         Console.WriteLine("Running server...");
-                        SourceServer srv = new SourceServer(inputPath, urlHost, urlPrefix);
+                        SourceServer srv = new SourceServer(inputPath, options, urlHost, urlPrefix);
                         srv.RunInBackground();
                         srv.WaitForExit();
                     }

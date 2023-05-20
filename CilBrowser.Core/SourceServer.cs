@@ -17,10 +17,13 @@ namespace CilBrowser.Core
     {
         string _baseDirectory;
         HtmlGenerator _gen;
+        CilBrowserOptions _options;
 
-        public SourceServer(string baseDirectory, string urlHost, string urlPrefix) : base(urlHost, urlPrefix)
+        public SourceServer(string baseDirectory, CilBrowserOptions options, string urlHost, string urlPrefix) : 
+            base(urlHost, urlPrefix)
         {
             this._baseDirectory = baseDirectory;
+            this._options = options;
             this._gen = new HtmlGenerator();
         }
 
@@ -37,6 +40,17 @@ namespace CilBrowser.Core
                 return;
             }
             
+            HashSet<string> sourceExtensions;
+
+            if (this._options.SourceExtensions.Length > 0)
+            {
+                sourceExtensions = new HashSet<string>(this._options.SourceExtensions);
+            }
+            else
+            {
+                sourceExtensions = FileUtils.GetDefaultExtensions();
+            }
+
             // Render table of contents
             response.ContentType = "text/html; charset=utf-8";
             StreamWriter wr = new StreamWriter(response.OutputStream);
@@ -79,7 +93,7 @@ namespace CilBrowser.Core
 
                 for (int i = 0; i < files.Length; i++)
                 {
-                    if (!FileUtils.IsSourceFileDefault(files[i])) continue;
+                    if (!FileUtils.IsSourceFile(files[i], sourceExtensions)) continue;
 
                     string name = Path.GetFileName(files[i]);
                     toc.StartParagraph();
@@ -162,7 +176,7 @@ namespace CilBrowser.Core
                         return;
                     }
 
-                    string src = File.ReadAllText(filepath);
+                    string src = File.ReadAllText(filepath, this._options.GetEncoding());
                     string filename = Path.GetFileName(relativePath);
                     string html = this._gen.VisualizeSourceFile(src, filename, string.Empty, string.Empty);
                     this.AddToCache(url, html);
