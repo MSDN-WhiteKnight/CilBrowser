@@ -10,7 +10,7 @@ using CilBrowser.Core.SyntaxModel.Markup;
 using CilTools.Syntax;
 using CilTools.SourceCode.Common;
 
-namespace CilBrowser.Tests
+namespace CilBrowser.Tests.SyntaxModel
 {
     [TestClass]
     public class MarkupTokenFactoryTests

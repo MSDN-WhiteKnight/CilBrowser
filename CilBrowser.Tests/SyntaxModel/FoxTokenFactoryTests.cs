@@ -10,7 +10,7 @@ using CilBrowser.Core.SyntaxModel.FoxPro;
 using CilTools.SourceCode.Common;
 using CilTools.Syntax;
 
-namespace CilBrowser.Tests
+namespace CilBrowser.Tests.SyntaxModel
 {
     [TestClass]
     public class FoxTokenFactoryTests
