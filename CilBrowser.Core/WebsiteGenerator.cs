@@ -17,33 +17,6 @@ namespace CilBrowser.Core
     /// </summary>
     public static class WebsiteGenerator
     {
-        static HashSet<string> s_srcExtensions = new HashSet<string>(new string[] {
-            ".il", ".cil", ".cs", ".vb", ".c", ".cpp", ".h", ".hpp", ".js", ".ts", ".fs", ".txt", ".md", ".htm", ".html",
-            ".css", ".xml", ".csproj", ".vbproj", ".vcxproj", ".proj", ".rc", ".cmd", ".bat", ".sh", ".ps1", ".xaml",
-            ".config", ".json", ".yml", ".sln", ".props", ".targets"
-        });
-
-        static HashSet<string> s_excludedDirs = new HashSet<string>(new string[] {
-            ".git", "bin", "obj", "packages", ".vs", "TestResults", "Debug", "Release"
-        });
-
-        static bool IsSourceFile(string name, HashSet<string> srcExtensions)
-        {
-            string ext = Path.GetExtension(name).ToLower();
-
-            return ext == string.Empty || srcExtensions.Contains(ext);
-        }
-
-        internal static bool IsSourceFileDefault(string name)
-        {
-            return IsSourceFile(name, s_srcExtensions);
-        }
-
-        internal static bool IsDirectoryExcluded(string name)
-        {
-            return s_excludedDirs.Contains(name);
-        }
-
         /// <summary>
         /// Generates a static website that contains disassembled CIL for the specified assembly
         /// </summary>
@@ -152,7 +125,7 @@ namespace CilBrowser.Core
             //list of files
             for (int i = 0; i < dirFiles.Length; i++)
             {
-                if (!IsSourceFile(dirFiles[i], sourceExtensions)) continue;
+                if (!FileUtils.IsSourceFile(dirFiles[i], sourceExtensions)) continue;
 
                 html.StartParagraph();
                 string currFileName = Path.GetFileName(dirFiles[i]);
@@ -184,7 +157,7 @@ namespace CilBrowser.Core
             HashSet<string> sourceExtensions;
 
             if (options.SourceExtensions.Length > 0) sourceExtensions = new HashSet<string>(options.SourceExtensions);
-            else sourceExtensions = s_srcExtensions;
+            else sourceExtensions = FileUtils.GetDefaultExtensions();
 
             HtmlGenerator generator = new HtmlGenerator();
             generator.CustomFooter = customFooter;
@@ -215,7 +188,7 @@ namespace CilBrowser.Core
             {
                 string name = Utils.GetDirectoryNameFromPath(dirs[i]);
 
-                if (IsDirectoryExcluded(name)) continue;
+                if (FileUtils.IsDirectoryExcluded(name)) continue;
 
                 //TOC entry
                 toc.StartParagraph();
@@ -232,7 +205,7 @@ namespace CilBrowser.Core
 
             for (int i = 0; i < files.Length; i++)
             {
-                if (!IsSourceFile(files[i], sourceExtensions)) continue;
+                if (!FileUtils.IsSourceFile(files[i], sourceExtensions)) continue;
 
                 string name = Path.GetFileName(files[i]);
                 string html;
@@ -274,7 +247,7 @@ namespace CilBrowser.Core
                 string name = Utils.GetDirectoryNameFromPath(dirs[i]);
                 string urlNew;
 
-                if (IsDirectoryExcluded(name)) continue;
+                if (FileUtils.IsDirectoryExcluded(name)) continue;
 
                 if (!string.IsNullOrEmpty(options.SourceControlURL)) urlNew = Utils.UrlAppend(options.SourceControlURL, name);
                 else urlNew = string.Empty;
