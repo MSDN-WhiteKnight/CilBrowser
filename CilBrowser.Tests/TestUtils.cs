@@ -41,5 +41,16 @@ namespace CilBrowser.Tests
             Assert.AreEqual(leadingWhitespace, node.LeadingWhitespace);
             Assert.AreEqual(trailingWhitespace, node.TrailingWhitespace);
         }
+
+        public static void AssertSourceTokens(SourceToken[] expected, SyntaxNode[] actual)
+        {
+            Assert.AreEqual(expected.Length, actual.Length, "Array length does not match expected value");
+
+            for (int i = 0; i < expected.Length; i++)
+            {
+                VerifySourceToken(actual[i], expected[i].Content, expected[i].Kind, expected[i].LeadingWhitespace,
+                    expected[i].TrailingWhitespace);
+            }
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CilBrowser.Core.SyntaxModel.FoxPro;
+using CilBrowser.Core.SyntaxModel.Java;
 using CilBrowser.Core.SyntaxModel.JavaScript;
 using CilBrowser.Core.SyntaxModel.Markup;
 using CilBrowser.Core.SyntaxModel.PowerShell;
@@ -33,6 +34,7 @@ namespace CilBrowser.Core.SyntaxModel
             //initialize built-in providers
             RegisterProvider(".js",  new JsSyntaxProvider());
             RegisterProvider(".ps1", new PsSyntaxProvider());
+            RegisterProvider(".java", new JavaSyntaxProvider());
             RegisterProvider(".prg", new FoxSyntaxProvider());
         }
 

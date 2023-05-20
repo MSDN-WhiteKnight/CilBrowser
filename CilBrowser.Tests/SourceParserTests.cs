@@ -97,5 +97,97 @@ namespace CilBrowser.Tests
             TestUtils.VerifySourceToken(nodes[9], "}", TokenKind.Punctuation, leadingWhitespace: string.Empty,
                 trailingWhitespace: string.Empty);
         }
+
+        [TestMethod]
+        public void Test_Java_Class()
+        {
+            string src = "class MyWindowAdapter extends WindowAdapter implements ActionListener {";
+            SyntaxNode[] nodes = SourceParser.Parse(src, ".java");
+            
+            TestUtils.AssertSourceTokens(new SourceToken[] { 
+                new SourceToken("class", TokenKind.Keyword, leadingWhitespace: string.Empty, 
+                    trailingWhitespace: " "),
+                new SourceToken("MyWindowAdapter", TokenKind.Name, leadingWhitespace: string.Empty, 
+                    trailingWhitespace: " "),
+                new SourceToken("extends", TokenKind.Keyword, leadingWhitespace: string.Empty,
+                    trailingWhitespace: " "),
+                new SourceToken("WindowAdapter", TokenKind.Name, leadingWhitespace: string.Empty,
+                    trailingWhitespace: " "),
+                new SourceToken("implements", TokenKind.Keyword, leadingWhitespace: string.Empty,
+                    trailingWhitespace: " "),
+                new SourceToken("ActionListener", TokenKind.Name, leadingWhitespace: string.Empty,
+                    trailingWhitespace: " "),
+                new SourceToken("{", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+            }, nodes);
+        }
+
+        [TestMethod]
+        public void Test_Java_Arithmetic()
+        {
+            string src = "x*=(x-k)/(k+1.0);";
+            SyntaxNode[] nodes = SourceParser.Parse(src, ".java");
+
+            TestUtils.AssertSourceTokens(new SourceToken[] {
+                new SourceToken("x", TokenKind.Name, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+                new SourceToken("*", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+                new SourceToken("=", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+                new SourceToken("(", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+                new SourceToken("x", TokenKind.Name, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+                new SourceToken("-", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+                new SourceToken("k", TokenKind.Name, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+                new SourceToken(")", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+                new SourceToken("/", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+                new SourceToken("(", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+                new SourceToken("k", TokenKind.Name, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+                new SourceToken("+", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+                new SourceToken("1.0", TokenKind.NumericLiteral, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+                new SourceToken(")", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+                new SourceToken(";", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+            }, nodes);
+        }
+
+        [TestMethod]
+        public void Test_Java_StringLiteral()
+        {
+            string src = "fr = new Window(\"'Window title'\"); //create window";
+            SyntaxNode[] nodes = SourceParser.Parse(src, ".java");
+
+            TestUtils.AssertSourceTokens(new SourceToken[] {
+                new SourceToken("fr", TokenKind.Name, leadingWhitespace: string.Empty,
+                    trailingWhitespace: " "),
+                new SourceToken("=", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                    trailingWhitespace: " "),
+                new SourceToken("new", TokenKind.Keyword, leadingWhitespace: string.Empty,
+                    trailingWhitespace: " "),
+                 new SourceToken("Window", TokenKind.Name, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+                 new SourceToken("(", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+                 new SourceToken("\"'Window title'\"", TokenKind.DoubleQuotLiteral, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+                 new SourceToken(")", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+                 new SourceToken(";", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                    trailingWhitespace: " "),
+                 new SourceToken("//create window", TokenKind.Comment, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+            }, nodes);
+        }
     }
 }
