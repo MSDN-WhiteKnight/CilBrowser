@@ -288,12 +288,12 @@ namespace CilBrowser
             {
                 if (string.IsNullOrEmpty(urlHost))
                 {
-                    urlHost = Server.DefaultUrlHost;
+                    urlHost = AssemblyServer.DefaultUrlHost;
                 }
 
                 if (string.IsNullOrEmpty(urlPrefix))
                 {
-                    urlPrefix = Server.DefaultUrlPrefix;
+                    urlPrefix = AssemblyServer.DefaultUrlPrefix;
                 }
             }
             else
@@ -323,7 +323,7 @@ namespace CilBrowser
                         {
                             //run server
                             Console.WriteLine("Running server...");
-                            Server srv = new Server(ass, urlHost, urlPrefix);
+                            AssemblyServer srv = new AssemblyServer(ass, urlHost, urlPrefix);
                             srv.RunInBackground();
                             srv.WaitForExit();
                         }

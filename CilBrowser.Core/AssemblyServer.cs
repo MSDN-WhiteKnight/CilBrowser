@@ -16,13 +16,13 @@ namespace CilBrowser.Core
     /// <summary>
     /// Provides a server that dynamically generates HTML for a disassembled IL and returns it via HTTP
     /// </summary>
-    public sealed class Server : ServerBase
+    public sealed class AssemblyServer : ServerBase
     {
         Assembly _ass;        
         HtmlGenerator _gen;        
         Dictionary<string, List<Type>> _typeMap;
         
-        public Server(Assembly ass, string urlHost, string urlPrefix) : base(urlHost, urlPrefix)
+        public AssemblyServer(Assembly ass, string urlHost, string urlPrefix) : base(urlHost, urlPrefix)
         {
             this._ass = ass;
             this._gen = new HtmlGenerator(ass);
