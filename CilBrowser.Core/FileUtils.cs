@@ -42,5 +42,10 @@ namespace CilBrowser.Core
         {
             return s_srcExtensions;
         }
+
+        internal static string FileNameToPageName(string filename)
+        {
+            return filename + ".html";
+        }
     }
 }

@@ -136,7 +136,8 @@ namespace CilBrowser.Core
                 }
                 else
                 {
-                    html.WriteHyperlink(currFileName + ".html", currFileName);
+                    string pageName = FileUtils.FileNameToPageName(currFileName);
+                    html.WriteHyperlink(WebUtility.UrlEncode(pageName), currFileName);
                 }
 
                 html.EndParagraph();
@@ -238,11 +239,12 @@ namespace CilBrowser.Core
                     Console.WriteLine(name);
 
                     //file content
-                    File.WriteAllText(Path.Combine(outputPath, name + ".html"), html, Encoding.UTF8);
+                    string pageName = FileUtils.FileNameToPageName(name);
+                    File.WriteAllText(Path.Combine(outputPath, pageName), html, Encoding.UTF8);
 
                     //TOC entry
                     toc.StartParagraph();
-                    toc.WriteHyperlink(WebUtility.UrlEncode(name) + ".html", name);
+                    toc.WriteHyperlink(WebUtility.UrlEncode(pageName), name);
                     toc.EndParagraph();
                 }
                 else
