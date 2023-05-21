@@ -145,6 +145,16 @@ namespace CilBrowser.Core
             return sb.ToString();
         }
         
+        internal static string RenderNavigationPanel(string filepath, string filename, HashSet<string> sourceExtensions)
+        {
+            string dirpath = Path.GetDirectoryName(filepath);
+            string dirname = Utils.GetDirectoryNameFromPath(dirpath);
+            string[] files = Directory.GetFiles(dirpath);
+
+            if (files.Length > 1) return VisualizeNavigationPanel(filename, dirname, files, sourceExtensions);
+            else return string.Empty;
+        }
+
         static void GenerateFromSourcesImpl(string sourcesPath, string outputPath, CilBrowserOptions options, 
             string customFooter, int level)
         {

@@ -18,6 +18,7 @@ namespace CilBrowser.Core
         string _baseDirectory;
         HtmlGenerator _gen;
         CilBrowserOptions _options;
+        HashSet<string> _sourceExtensions;
 
         public SourceServer(string baseDirectory, CilBrowserOptions options, string urlHost, string urlPrefix) : 
             base(urlHost, urlPrefix)
@@ -25,6 +26,15 @@ namespace CilBrowser.Core
             this._baseDirectory = baseDirectory;
             this._options = options;
             this._gen = new HtmlGenerator();
+
+            if (options.SourceExtensions.Length > 0)
+            {
+                this._sourceExtensions = new HashSet<string>(this._options.SourceExtensions);
+            }
+            else
+            {
+                this._sourceExtensions = FileUtils.GetDefaultExtensions();
+            }
         }
 
         protected override void OnStart()
@@ -40,17 +50,6 @@ namespace CilBrowser.Core
                 return;
             }
             
-            HashSet<string> sourceExtensions;
-
-            if (this._options.SourceExtensions.Length > 0)
-            {
-                sourceExtensions = new HashSet<string>(this._options.SourceExtensions);
-            }
-            else
-            {
-                sourceExtensions = FileUtils.GetDefaultExtensions();
-            }
-
             // Render table of contents
             response.ContentType = "text/html; charset=utf-8";
             StreamWriter wr = new StreamWriter(response.OutputStream);
@@ -93,7 +92,7 @@ namespace CilBrowser.Core
 
                 for (int i = 0; i < files.Length; i++)
                 {
-                    if (!FileUtils.IsSourceFile(files[i], sourceExtensions)) continue;
+                    if (!FileUtils.IsSourceFile(files[i], this._sourceExtensions)) continue;
 
                     string name = Path.GetFileName(files[i]);
                     toc.StartParagraph();
@@ -178,7 +177,13 @@ namespace CilBrowser.Core
 
                     string src = File.ReadAllText(filepath, this._options.GetEncoding());
                     string filename = Path.GetFileName(relativePath);
-                    string html = this._gen.VisualizeSourceFile(src, filename, string.Empty, string.Empty);
+
+                    //render left navigation panel
+                    string navigation = WebsiteGenerator.RenderNavigationPanel(filepath, filename, this._sourceExtensions);
+
+                    //render page body
+                    string html = this._gen.VisualizeSourceFile(src, filename, navigation, string.Empty);
+
                     this.AddToCache(url, html);
                     SendHtmlResponse(response, html);
                 }
