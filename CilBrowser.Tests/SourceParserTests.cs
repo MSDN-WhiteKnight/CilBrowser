@@ -189,5 +189,34 @@ namespace CilBrowser.Tests
                     trailingWhitespace: string.Empty),
             }, nodes);
         }
+
+        [TestMethod]
+        public void Test_Xml_AttributeValue()
+        {
+            string src = "<Folder Include=\"Properties\\\" />";
+            SyntaxNode[] nodes = SourceParser.Parse(src, ".xml");
+
+            Assert.AreEqual(1, nodes.Length);
+            Assert.IsTrue(nodes[0] is SyntaxElement);
+            Assert.AreEqual(SyntaxKind.TagStart, ((SyntaxElement)nodes[0]).Kind);
+            SyntaxNode[] tokens = nodes[0].GetChildNodes();
+            
+            TestUtils.AssertSourceTokens(new SourceToken[] {
+                new SourceToken("<", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+                new SourceToken("Folder", TokenKind.Name, leadingWhitespace: string.Empty,
+                    trailingWhitespace: " "),
+                new SourceToken("Include", TokenKind.Name, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+                new SourceToken("=", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+                new SourceToken("\"Properties\\\"", TokenKind.DoubleQuotLiteral, leadingWhitespace: string.Empty,
+                    trailingWhitespace: " "),
+                new SourceToken("/", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+                new SourceToken(">", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+            }, tokens);
+        }
     }
 }

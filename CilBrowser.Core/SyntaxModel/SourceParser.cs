@@ -22,7 +22,7 @@ namespace CilBrowser.Core.SyntaxModel
 
         static readonly SyntaxTokenDefinition[] s_markupDefinitions = new SyntaxTokenDefinition[] {
             new CommonNameToken(), new XmlCommentToken(), new PunctuationToken(), new WhitespaceToken(),
-            new NumericLiteralToken(), new DoubleQuotLiteralToken()
+            new NumericLiteralToken(), new XmlTextLiteralToken()
         };
 
         static readonly HashSet<string> s_markupExts = new HashSet<string>(new string[] {
