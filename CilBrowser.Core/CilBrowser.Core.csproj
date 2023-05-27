@@ -2,7 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <EnableDefaultNoneItems>false</EnableDefaultNoneItems>
   </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Images\dir.png"/>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CilTools.BytecodeAnalysis" Version="2.7.0" />

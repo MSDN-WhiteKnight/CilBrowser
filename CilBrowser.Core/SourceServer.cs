@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Text;
 
 namespace CilBrowser.Core
@@ -19,6 +20,7 @@ namespace CilBrowser.Core
         HtmlGenerator _gen;
         CilBrowserOptions _options;
         HashSet<string> _sourceExtensions;
+        byte[] _dirIconContent;
 
         public SourceServer(string baseDirectory, CilBrowserOptions options, string urlHost, string urlPrefix) : 
             base(urlHost, urlPrefix)
@@ -35,6 +37,9 @@ namespace CilBrowser.Core
             {
                 this._sourceExtensions = FileUtils.GetDefaultExtensions();
             }
+
+            Assembly ass = typeof(WebsiteGenerator).Assembly;
+            this._dirIconContent = FileUtils.ReadFromResource(ass, "CilBrowser.Core.Images", "dir.png");
         }
 
         protected override void OnStart()
@@ -73,16 +78,7 @@ namespace CilBrowser.Core
                     toc.EndParagraph();
                 }
 
-                for (int i = 0; i < dirs.Length; i++)
-                {
-                    string name = Utils.GetDirectoryNameFromPath(dirs[i]);
-
-                    if (FileUtils.IsDirectoryExcluded(name)) continue;
-                    
-                    toc.StartParagraph();
-                    toc.WriteHyperlink("./" + WebUtility.UrlEncode(name) + "/index.html", name);
-                    toc.EndParagraph();
-                }
+                WebsiteGenerator.RenderDirsList(dirs, "dir.png", toc);
 
                 // Index files in directory
                 string[] files = Directory.GetFiles(dir);
@@ -163,6 +159,13 @@ namespace CilBrowser.Core
                 {
                     //directory table of contents
                     this.RenderToc(Path.Combine(this._baseDirectory, StripPrefix(url)), false, response);
+                }
+                else if (url.EndsWith("dir.png"))
+                {
+                    //image
+                    response.ContentType = "image/png";
+                    response.OutputStream.Write(this._dirIconContent, 0, this._dirIconContent.Length);
+                    response.Close();
                 }
                 else
                 {

@@ -4,6 +4,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace CilBrowser.Core
@@ -46,6 +47,22 @@ namespace CilBrowser.Core
         internal static string FileNameToPageName(string filename)
         {
             return filename + ".html";
+        }
+
+        /// <summary>
+        /// Reads contents of the embedded resource file
+        /// </summary>
+        /// <param name="ass">Assembly in which file is embedded</param>
+        /// <param name="ns">Namespace of the embedded resource file</param>
+        /// <param name="name">Name of the embedded resource file</param>
+        internal static byte[] ReadFromResource(Assembly ass, string ns, string name)
+        {
+            using (Stream stream = ass.GetManifestResourceStream(ns + "." + name))
+            using (MemoryStream ms = new MemoryStream())
+            {
+                stream.CopyTo(ms);
+                return ms.ToArray();
+            }
         }
     }
 }

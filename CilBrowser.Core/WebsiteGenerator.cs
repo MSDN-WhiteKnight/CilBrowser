@@ -156,6 +156,41 @@ namespace CilBrowser.Core
             else return string.Empty;
         }
 
+        static string GetImagesURL(int level)
+        {
+            StringBuilder sb = new StringBuilder(level * 3);
+
+            for (int i = 0; i < level; i++) sb.Append("../");
+
+            sb.Append("img/");
+            return sb.ToString();
+        }
+
+        internal static void RenderDirsList(string[] dirs, string dirIconURL, HtmlBuilder toc)
+        {
+            toc.WriteTagStart("table", HtmlBuilder.OneAttribute("cellpadding", "2px"));
+
+            for (int i = 0; i < dirs.Length; i++)
+            {
+                string name = Utils.GetDirectoryNameFromPath(dirs[i]);
+
+                if (FileUtils.IsDirectoryExcluded(name)) continue;
+
+                //TOC entry
+                toc.WriteTagStart("tr");
+                toc.WriteTagStart("td");
+                toc.WriteTag("img", string.Empty, HtmlBuilder.OneAttribute("src", dirIconURL));
+                toc.WriteTagEnd("td");
+                toc.WriteTagStart("td");
+                toc.WriteHyperlink("./" + WebUtility.UrlEncode(name) + "/index.html", name);
+                toc.WriteTagEnd("td");
+                toc.WriteTagEnd("tr");
+                toc.EndParagraph();
+            }
+
+            toc.WriteTagEnd("table");
+        }
+
         static void GenerateFromSourcesImpl(string sourcesPath, string outputPath, CilBrowserOptions options, 
             string customFooter, int level)
         {
@@ -195,20 +230,12 @@ namespace CilBrowser.Core
                 toc.EndParagraph();
             }
 
-            for (int i = 0; i < dirs.Length; i++)
-            {
-                string name = Utils.GetDirectoryNameFromPath(dirs[i]);
-
-                if (FileUtils.IsDirectoryExcluded(name)) continue;
-
-                //TOC entry
-                toc.StartParagraph();
-                toc.WriteHyperlink("./" + WebUtility.UrlEncode(name) + "/index.html", name);
-                toc.EndParagraph();
-            }
+            //render TOC entries for subdirectories
+            string dirIconURL = GetImagesURL(level) + "dir.png";
+            RenderDirsList(dirs, dirIconURL, toc);
+            toc.WriteRaw(Environment.NewLine);
 
             //write source files
-            toc.WriteRaw(Environment.NewLine);
             string[] files = Directory.GetFiles(sourcesPath);
             Array.Sort(files);
 
@@ -281,7 +308,14 @@ namespace CilBrowser.Core
         public static void GenerateFromSources(string sourcesPath, string outputPath, CilBrowserOptions options,
             string customFooter)
         {
+            //generate HTML files
             GenerateFromSourcesImpl(sourcesPath, outputPath, options, customFooter, 0);
+
+            //write directory icon
+            Directory.CreateDirectory(Path.Combine(outputPath, "img"));
+            Assembly ass = typeof(WebsiteGenerator).Assembly;
+            byte[] imgContent = FileUtils.ReadFromResource(ass, "CilBrowser.Core.Images", "dir.png");
+            File.WriteAllBytes(Path.Combine(outputPath, "img/dir.png"), imgContent);
         }
     }
 }
