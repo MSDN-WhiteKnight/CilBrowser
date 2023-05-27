@@ -1,6 +1,6 @@
 # CIL Browser
 
-**License:** [BSD 3-Clause](./LICENSE)
+**License:** [BSD 3-Clause](https://gitflic.ru/project/smallsoft/cilbrowser/blob?file=LICENSE&branch=main)
 
 **Required runtime:** .NET Core 2.1+ or .NET 5+
 
