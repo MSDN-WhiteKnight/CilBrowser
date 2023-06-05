@@ -191,6 +191,18 @@ namespace CilBrowser.Core
             toc.WriteTagEnd("table");
         }
 
+        internal static void RenderTocEntry(string name, string pageName, string fileIconURL, HtmlBuilder toc)
+        {
+            toc.WriteTagStart("tr");
+            toc.WriteTagStart("td");
+            toc.WriteTag("img", string.Empty, HtmlBuilder.OneAttribute("src", fileIconURL));
+            toc.WriteTagEnd("td");
+            toc.WriteTagStart("td");
+            toc.WriteHyperlink(WebUtility.UrlEncode(pageName), name);
+            toc.WriteTagEnd("td");
+            toc.WriteTagEnd("tr");
+        }
+
         static void GenerateFromSourcesImpl(string sourcesPath, string outputPath, CilBrowserOptions options, 
             string customFooter, int level)
         {
@@ -236,10 +248,13 @@ namespace CilBrowser.Core
             toc.WriteRaw(Environment.NewLine);
 
             //write source files
+            string fileIconURL = GetImagesURL(level) + "file.png";
             string[] files = Directory.GetFiles(sourcesPath);
             Array.Sort(files);
 
             if (files.Length > 0) toc.WriteTag("h2", "Files");
+
+            toc.WriteTagStart("table", HtmlBuilder.OneAttribute("cellpadding", "2px"));
 
             for (int i = 0; i < files.Length; i++)
             {
@@ -270,15 +285,15 @@ namespace CilBrowser.Core
                     File.WriteAllText(Path.Combine(outputPath, pageName), html, Encoding.UTF8);
 
                     //TOC entry
-                    toc.StartParagraph();
-                    toc.WriteHyperlink(WebUtility.UrlEncode(pageName), name);
-                    toc.EndParagraph();
+                    RenderTocEntry(name, pageName, fileIconURL, toc);
                 }
                 else
                 {
                     Console.WriteLine(name + " - empty");
                 }
             }//end for
+
+            toc.WriteTagEnd("table");
 
             //subdirectories
             for (int i = 0; i < dirs.Length; i++)
@@ -311,11 +326,13 @@ namespace CilBrowser.Core
             //generate HTML files
             GenerateFromSourcesImpl(sourcesPath, outputPath, options, customFooter, 0);
 
-            //write directory icon
+            //write icons
             Directory.CreateDirectory(Path.Combine(outputPath, "img"));
             Assembly ass = typeof(WebsiteGenerator).Assembly;
             byte[] imgContent = FileUtils.ReadFromResource(ass, "CilBrowser.Core.Images", "dir.png");
             File.WriteAllBytes(Path.Combine(outputPath, "img/dir.png"), imgContent);
+            imgContent = FileUtils.ReadFromResource(ass, "CilBrowser.Core.Images", "file.png");
+            File.WriteAllBytes(Path.Combine(outputPath, "img/file.png"), imgContent);
         }
     }
 }

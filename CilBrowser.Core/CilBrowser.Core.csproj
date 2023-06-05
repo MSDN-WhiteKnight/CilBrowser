@@ -6,9 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Images\dir.png"/>
+    <EmbeddedResource Include="Images\dir.png" />
+    <EmbeddedResource Include="Images\file.png" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="CilTools.BytecodeAnalysis" Version="2.7.0" />
     <PackageReference Include="CilTools.Metadata" Version="2.6.1" />

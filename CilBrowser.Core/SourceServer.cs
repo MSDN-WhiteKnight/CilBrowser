@@ -20,7 +20,7 @@ namespace CilBrowser.Core
         HtmlGenerator _gen;
         CilBrowserOptions _options;
         HashSet<string> _sourceExtensions;
-        byte[] _dirIconContent;
+        Dictionary<string, byte[]> _resources;
 
         public SourceServer(string baseDirectory, CilBrowserOptions options, string urlHost, string urlPrefix) : 
             base(urlHost, urlPrefix)
@@ -38,8 +38,12 @@ namespace CilBrowser.Core
                 this._sourceExtensions = FileUtils.GetDefaultExtensions();
             }
 
+            this._resources = new Dictionary<string, byte[]>(2);
             Assembly ass = typeof(WebsiteGenerator).Assembly;
-            this._dirIconContent = FileUtils.ReadFromResource(ass, "CilBrowser.Core.Images", "dir.png");
+            byte[] imageData = FileUtils.ReadFromResource(ass, "CilBrowser.Core.Images", "dir.png");
+            this._resources["dir.png"] = imageData;
+            imageData = FileUtils.ReadFromResource(ass, "CilBrowser.Core.Images", "file.png");
+            this._resources["file.png"] = imageData;
         }
 
         protected override void OnStart()
@@ -86,15 +90,18 @@ namespace CilBrowser.Core
 
                 if (files.Length > 0) toc.WriteTag("h2", "Files");
 
+                toc.WriteTagStart("table", HtmlBuilder.OneAttribute("cellpadding", "2px"));
+
                 for (int i = 0; i < files.Length; i++)
                 {
                     if (!FileUtils.IsSourceFile(files[i], this._sourceExtensions)) continue;
 
                     string name = Path.GetFileName(files[i]);
-                    toc.StartParagraph();
-                    toc.WriteHyperlink(WebUtility.UrlEncode(name) + ".html", name);
-                    toc.EndParagraph();
+                    string pageName = FileUtils.FileNameToPageName(name);
+                    WebsiteGenerator.RenderTocEntry(name, pageName, "file.png", toc);
                 }
+
+                toc.WriteTagEnd("table");
 
                 this._gen.WriteFooter(toc);
                 toc.EndDocument();
@@ -160,12 +167,22 @@ namespace CilBrowser.Core
                     //directory table of contents
                     this.RenderToc(Path.Combine(this._baseDirectory, StripPrefix(url)), false, response);
                 }
-                else if (url.EndsWith("dir.png"))
+                else if (url.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
                 {
                     //image
-                    response.ContentType = "image/png";
-                    response.OutputStream.Write(this._dirIconContent, 0, this._dirIconContent.Length);
-                    response.Close();
+                    string imageName = Path.GetFileName(StripPrefix(url)).ToLower();
+                    byte[] imageContent;
+
+                    if (this._resources.TryGetValue(imageName, out imageContent))
+                    {
+                        response.ContentType = "image/png";
+                        response.OutputStream.Write(imageContent, 0, imageContent.Length);
+                        response.Close();
+                    }
+                    else
+                    {
+                        SendErrorResponse(response, 404, "Not found");
+                    }
                 }
                 else
                 {
