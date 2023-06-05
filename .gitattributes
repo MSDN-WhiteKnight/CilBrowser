@@ -1,2 +1,9 @@
 # Exclude generated HTML from language stats
 html/** linguist-generated
+
+# Line endings
+* text=auto
+*.cs text
+*.csproj text
+*.sln text eol=crlf
+*.png binary
