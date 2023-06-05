@@ -185,7 +185,6 @@ namespace CilBrowser.Core
                 toc.WriteHyperlink("./" + WebUtility.UrlEncode(name) + "/index.html", name);
                 toc.WriteTagEnd("td");
                 toc.WriteTagEnd("tr");
-                toc.EndParagraph();
             }
 
             toc.WriteTagEnd("table");
