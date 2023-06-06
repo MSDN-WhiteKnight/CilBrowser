@@ -112,7 +112,9 @@ namespace CilBrowser.Core
             {
                 int x = rnd.Next();
                 string uniqueNumber = x.ToString("X");
-                ret = Path.Combine(t, uniqueNumber, dirname);
+
+                if (!string.IsNullOrEmpty(dirname)) ret = Path.Combine(t, uniqueNumber, dirname);
+                else ret = Path.Combine(t, uniqueNumber);
 
                 if (!File.Exists(ret) && !Directory.Exists(ret))
                 {

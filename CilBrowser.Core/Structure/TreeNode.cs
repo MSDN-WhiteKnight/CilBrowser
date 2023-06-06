@@ -8,6 +8,10 @@ using System.Text;
 
 namespace CilBrowser.Core.Structure
 {
+    /// <summary>
+    /// Provides a base class for nodes in the website structure tree. Each node represents a page in generated website and 
+    /// its correspoding Table of contents (ToC) entry.
+    /// </summary>
     public abstract class TreeNode
     {
         protected string _name;
@@ -17,12 +21,18 @@ namespace CilBrowser.Core.Structure
 
         protected TreeNode(){}
 
+        /// <summary>
+        /// Gets or sets a ToC display name of this node
+        /// </summary>
         public string Name
         {
             get { return this._name; }
             set { this._name = value; }
         }
 
+        /// <summary>
+        /// Gets or sets a parent node of this node, or <c>null</c> if this node is a root.
+        /// </summary>
         public TreeNode Parent
         {
             get { return this._parent; }
@@ -31,8 +41,14 @@ namespace CilBrowser.Core.Structure
 
         public virtual TreeNodeKind Kind { get; } 
 
+        /// <summary>
+        /// Gets a collection of this node's child nodes, or an empty collection if it's a leaf node.
+        /// </summary>
         public abstract IEnumerable<TreeNode> EnumChildNodes();
 
+        /// <summary>
+        /// Generates HTML output for this node into the specified TextWriter
+        /// </summary>
         public abstract void Render(HtmlGenerator generator, CilBrowserOptions options, TextWriter target);
     }
 

@@ -8,6 +8,9 @@ using System.Text;
 
 namespace CilBrowser.Core.Structure
 {
+    /// <summary>
+    /// Represents a file in website structure
+    /// </summary>
     public sealed class FileNode : TreeNode
     {
         string _filepath;
@@ -18,6 +21,9 @@ namespace CilBrowser.Core.Structure
             this._name = Path.GetFileName(filePath);
         }
 
+        /// <summary>
+        /// Gets a full path to file represented by this node
+        /// </summary>
         public string FilePath
         {
             get { return this._filepath; }
@@ -25,11 +31,13 @@ namespace CilBrowser.Core.Structure
 
         public override TreeNodeKind Kind => TreeNodeKind.File;
 
+        /// <inheritdoc/>
         public override IEnumerable<TreeNode> EnumChildNodes()
         {
             return TreeNode.EmptyArray;
         }
 
+        /// <inheritdoc/>
         public override void Render(HtmlGenerator generator, CilBrowserOptions options, TextWriter target)
         {
             string content = File.ReadAllText(this._filepath, options.GetEncoding());
