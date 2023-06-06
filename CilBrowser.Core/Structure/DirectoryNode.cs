@@ -11,12 +11,14 @@ namespace CilBrowser.Core.Structure
     public sealed class DirectoryNode : TreeNode
     {
         List<FileNode> _files;
+        List<DirectoryNode> _dirs;
 
         public DirectoryNode(string name, TreeNode parent)
         {
             this._name = name;
             this._parent = parent;
             this._files = new List<FileNode>();
+            this._dirs = new List<DirectoryNode>();
         }
 
         public override TreeNodeKind Kind => TreeNodeKind.Directory;
@@ -26,9 +28,27 @@ namespace CilBrowser.Core.Structure
             this._files.Add(file);
             file.Parent = this;
         }
-        
+
+        public void AddDirectory(DirectoryNode dir)
+        {
+            this._dirs.Add(dir);
+            dir.Parent = this;
+        }
+
+        public IEnumerable<DirectoryNode> Directories
+        {
+            get { foreach (DirectoryNode node in this._dirs) yield return node; }
+        }
+
+        public IEnumerable<FileNode> Files 
+        {
+            get { foreach (FileNode node in this._files) yield return node; }
+        }
+
         public override IEnumerable<TreeNode> EnumChildNodes()
         {
+            foreach (DirectoryNode node in this._dirs) yield return node;
+
             foreach (FileNode node in this._files) yield return node;
         }
 
