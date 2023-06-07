@@ -1,0 +1,110 @@
+﻿<html><head><title>Type: CilBrowser.Core.Structure.FileNode</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">CilBrowser.Core</a></p>
+<h2>Type: CilBrowser.Core.Structure.FileNode</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Types in CilBrowser.Core.Structure namespace:</p><p><a href="2000026.html">DirectoryNode</a></p><p><a href="2000032.html">&lt;EnumChildNodes&gt;d__11</a></p><p><a href="2000030.html">&lt;get_Directories&gt;d__8</a></p><p><a href="2000031.html">&lt;get_Files&gt;d__10</a></p><p><b>FileNode</b></p><p><a href="2000028.html">SourceIndexer</a></p><p><a href="2000029.html">TreeNode</a></p><p><a href="200002A.html">TreeNodeKind</a></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: magenta;">.class </span><span style="color: blue;">public </span><span style="color: blue;">auto </span><span style="color: blue;">ansi </span><span style="color: blue;">sealed </span><span style="color: blue;">beforefieldinit </span><a href="2000027.html" class="memberid">CilBrowser.Core.Structure.FileNode</a>
+<span style="color: blue;">extends </span><span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000029.html" class="memberid">TreeNode</a>
+{
+
+<span style="color: magenta;"> .field </span><span style="color: blue;">private </span><span style="color: blue;">string</span><span class="memberid"> _filepath</span>
+
+<span style="color: magenta;"> .property </span><span style="color: blue;">instance </span><span style="color: blue;">string</span><span class="memberid"> FilePath</span>()
+ {
+<span style="color: magenta;">  .get </span><span style="color: blue;">instance </span><span style="color: blue;">string</span> <span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000027.html" class="memberid">FileNode</a>::<a href="2000027.html#M60000E1" class="memberid">get_FilePath</a>()
+ }
+
+<span style="color: magenta;"> .property </span><span style="color: blue;">instance </span><span style="color: blue;">valuetype </span><span class="memberid">CilBrowser.Core.Structure</span>.<a href="200002A.html" class="memberid">TreeNodeKind</a><span class="memberid"> Kind</span>()
+ {
+<span style="color: magenta;">  .get </span><span style="color: blue;">instance </span><span style="color: blue;">valuetype </span><span class="memberid">CilBrowser.Core.Structure</span>.<a href="200002A.html" class="memberid">TreeNodeKind</a> <span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000027.html" class="memberid">FileNode</a>::<a href="2000027.html#M60000E2" class="memberid">get_Kind</a>()
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> rtspecialname</span><span style="color: blue;"> instance </span><span style="color: blue;">void</span><a name="M60000E0" href="2000027.html#M60000E0" class="memberid"> .ctor</a>(
+     <span style="color: blue;">string</span><span> filePath</span>
+ )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 8
+
+<span>           ldarg.0      </span>
+<span>           call         </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000029.html" class="memberid">TreeNode</a>::<a href="2000029.html#M60000E7" class="memberid">.ctor</a>()
+<span>           nop          </span>
+<span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           ldarg.1      </span>
+<span>           stfld        </span><span style="color: blue;">string</span> <span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000027.html" class="memberid">FileNode</a>::<span class="memberid">_filepath</span>
+<span>           ldarg.0      </span>
+<span>           ldarg.1      </span>
+<span>           call         </span><span style="color: blue;">string</span> [<span>netstandard</span>]<span class="memberid">System.IO</span>.<span class="memberid">Path</span>::<span class="memberid">GetFileName</span>(<span style="color: blue;">string</span>)
+<span>           stfld        </span><span style="color: blue;">string</span> <span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000029.html" class="memberid">TreeNode</a>::<span class="memberid">_name</span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> instance </span><span style="color: blue;">string</span><a name="M60000E1" href="2000027.html#M60000E1" class="memberid"> get_FilePath</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 1
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">string</span><span> V_0</span>)
+
+<span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           ldfld        </span><span style="color: blue;">string</span> <span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000027.html" class="memberid">FileNode</a>::<span class="memberid">_filepath</span>
+<span>           stloc.0      </span>
+<span>           br.s         </span><span>IL_0001
+</span><span>  IL_0001</span>: <span>ldloc.0      </span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> virtual</span><span style="color: blue;"> specialname</span><span style="color: blue;"> instance </span><span style="color: blue;">valuetype </span><span class="memberid">CilBrowser.Core.Structure</span>.<a href="200002A.html" class="memberid">TreeNodeKind</a><a name="M60000E2" href="2000027.html#M60000E2" class="memberid"> get_Kind</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 8
+
+<span>           ldc.i4.1     </span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> virtual</span><span style="color: blue;"> instance </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000029.html" class="memberid">TreeNode</a>&gt;<a name="M60000E3" href="2000027.html#M60000E3" class="memberid"> EnumChildNodes</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 1
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000029.html" class="memberid">TreeNode</a>&gt;<span> V_0</span>)
+
+<span>           nop          </span>
+<span>           ldsfld       </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000029.html" class="memberid">TreeNode</a>[] <span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000029.html" class="memberid">TreeNode</a>::<span class="memberid">EmptyArray</span>
+<span>           stloc.0      </span>
+<span>           br.s         </span><span>IL_0001
+</span><span>  IL_0001</span>: <span>ldloc.0      </span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> virtual</span><span style="color: blue;"> instance </span><span style="color: blue;">void</span><a name="M60000E4" href="2000027.html#M60000E4" class="memberid"> Render</a>(
+     <span style="color: blue;">class </span><span class="memberid">CilBrowser.Core</span>.<a href="2000009.html" class="memberid">HtmlGenerator</a><span> generator</span>, 
+     <span style="color: blue;">class </span><span class="memberid">CilBrowser.Core</span>.<a href="2000005.html" class="memberid">CilBrowserOptions</a><span> options</span>, 
+     <span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.IO</span>.<span class="memberid">TextWriter</span><span> target</span>
+ )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 5
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">string</span><span> V_0</span>,
+     <span style="color: blue;">string</span><span> V_1</span>)
+
+<span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           ldfld        </span><span style="color: blue;">string</span> <span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000027.html" class="memberid">FileNode</a>::<span class="memberid">_filepath</span>
+<span>           ldarg.2      </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Text</span>.<span class="memberid">Encoding</span> <span class="memberid">CilBrowser.Core</span>.<a href="2000005.html" class="memberid">CilBrowserOptions</a>::<a href="2000005.html#M6000019" class="memberid">GetEncoding</a>()
+<span>           call         </span><span style="color: blue;">string</span> [<span>netstandard</span>]<span class="memberid">System.IO</span>.<span class="memberid">File</span>::<span class="memberid">ReadAllText</span>(<span style="color: blue;">string</span>, <span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Text</span>.<span class="memberid">Encoding</span>)
+<span>           stloc.0      </span>
+<span>           ldarg.1      </span>
+<span>           ldloc.0      </span>
+<span>           ldarg.0      </span>
+<span>           ldfld        </span><span style="color: blue;">string</span> <span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000029.html" class="memberid">TreeNode</a>::<span class="memberid">_name</span>
+<span>           ldsfld       </span><span style="color: blue;">string</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">Empty</span>
+<span>           ldarg.2      </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">string</span> <span class="memberid">CilBrowser.Core</span>.<a href="2000005.html" class="memberid">CilBrowserOptions</a>::<a href="2000005.html#M600000E" class="memberid">get_SourceControlURL</a>()
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">string</span> <span class="memberid">CilBrowser.Core</span>.<a href="2000009.html" class="memberid">HtmlGenerator</a>::<a href="2000009.html#M600004D" class="memberid">VisualizeSourceFile</a>(<span style="color: blue;">string</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>           stloc.1      </span>
+<span>           ldarg.3      </span>
+<span>           ldloc.1      </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System.IO</span>.<span class="memberid">TextWriter</span>::<span class="memberid">Write</span>(<span style="color: blue;">string</span>)
+<span>           nop          </span>
+<span>           ret          </span>
+ }
+
+}
+</code></pre></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>

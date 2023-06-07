@@ -1,6 +1,6 @@
 ﻿<html><head><title>Source file: MarkupTokenFactory.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
 <body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
-<h2>Source file: MarkupTokenFactory.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in Markup directory:</p><p><b>MarkupTokenFactory.cs</b></p><p><a href="XmlCommentToken.cs.html">XmlCommentToken.cs</a></p></td>
+<h2>Source file: MarkupTokenFactory.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in Markup directory:</p><p><b>MarkupTokenFactory.cs</b></p><p><a href="XmlCommentToken.cs.html">XmlCommentToken.cs</a></p><p><a href="XmlTextLiteralToken.cs.html">XmlTextLiteralToken.cs</a></p></td>
 <td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
  * Copyright (c) 2023,  MSDN.WhiteKnight 
  * License: BSD 3-Clause */
@@ -21,74 +21,6 @@
 
         <span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">readonly </span>MarkupTokenFactory Value = <span style="color: blue;">new </span>MarkupTokenFactory();
 
-        <span style="color: blue;">static </span>TokenKind GetKindCommon(<span style="color: blue;">string </span>token)
-        {
-            <span style="color: green;">//common logic for C-like languages
-            </span><span style="color: green;">//From: https://github.com/MSDN-WhiteKnight/CilTools/blob/master/CilTools.SourceCode/Common/SourceCodeUtils.cs
-            </span><span style="color: blue;">if </span>(token.Length == 0) <span style="color: blue;">return </span>TokenKind.Unknown;
-
-            <span style="color: blue;">if </span>(<span style="color: blue;">char</span>.IsDigit(token[0]))
-            {
-                <span style="color: blue;">return </span>TokenKind.NumericLiteral;
-            }
-            <span style="color: blue;">else </span><span style="color: blue;">if </span>(token[0] == <span style="color: red;">&#39;&quot;&#39;</span>)
-            {
-                <span style="color: blue;">if </span>(token.Length &lt; 2 || token[token.Length - 1] != <span style="color: red;">&#39;&quot;&#39;</span>)
-                {
-                    <span style="color: blue;">return </span>TokenKind.Unknown;
-                }
-                <span style="color: blue;">else
-                </span>{
-                    <span style="color: blue;">return </span>TokenKind.DoubleQuotLiteral;
-                }
-            }
-            <span style="color: blue;">else </span><span style="color: blue;">if </span>(token[0] == <span style="color: red;">&#39;\&#39;&#39;</span>)
-            {
-                <span style="color: blue;">if </span>(token.Length &lt; 2 || token[token.Length - 1] != <span style="color: red;">&#39;\&#39;&#39;</span>)
-                {
-                    <span style="color: blue;">return </span>TokenKind.Unknown;
-                }
-                <span style="color: blue;">else
-                </span>{
-                    <span style="color: blue;">return </span>TokenKind.SingleQuotLiteral;
-                }
-            }
-            <span style="color: blue;">else </span><span style="color: blue;">if </span>(token[0] == <span style="color: red;">&#39;/&#39;</span>)
-            {
-                <span style="color: blue;">if </span>(token.Length == 1)
-                {
-                    <span style="color: blue;">return </span>TokenKind.Punctuation;
-                }
-                <span style="color: blue;">else </span><span style="color: blue;">if </span>(token[1] == <span style="color: red;">&#39;*&#39;</span>)
-                {
-                    <span style="color: blue;">if </span>(!token.EndsWith(<span style="color: red;">&quot;*/&quot;</span>, StringComparison.Ordinal))
-                    {
-                        <span style="color: blue;">return </span>TokenKind.Unknown;
-                    }
-                    <span style="color: blue;">else
-                    </span>{
-                        <span style="color: blue;">return </span>TokenKind.MultilineComment;
-                    }
-                }
-                <span style="color: blue;">else </span><span style="color: blue;">if </span>(token[1] == <span style="color: red;">&#39;/&#39;</span>)
-                {
-                    <span style="color: blue;">return </span>TokenKind.Comment;
-                }
-                <span style="color: blue;">else
-                </span>{
-                    <span style="color: blue;">return </span>TokenKind.Unknown;
-                }
-            }
-            <span style="color: blue;">else </span><span style="color: blue;">if </span>(<span style="color: blue;">char</span>.IsPunctuation(token[0]) || <span style="color: blue;">char</span>.IsSymbol(token[0]))
-            {
-                <span style="color: blue;">return </span>TokenKind.Punctuation;
-            }
-            <span style="color: blue;">else
-            </span>{
-                <span style="color: blue;">return </span>TokenKind.Unknown;
-            }
-        }
-
         <span style="color: blue;">static </span>TokenKind GetKind(<span style="color: blue;">string </span>token)
         {
             <span style="color: blue;">if </span>(token.Length == 0) <span style="color: blue;">return </span>TokenKind.Unknown;
@@ -101,7 +33,7 @@
             {
                 <span style="color: blue;">return </span>TokenKind.Comment;
             }
-            <span style="color: blue;">else </span><span style="color: blue;">return </span>GetKindCommon(token);
+            <span style="color: blue;">else </span><span style="color: blue;">return </span>SourceParser.GetKindCommon(token);
         }
 
         <span style="color: blue;">public </span><span style="color: blue;">override </span>SyntaxNode CreateNode(<span style="color: blue;">string </span>content, <span style="color: blue;">string </span>leadingWhitespace, <span style="color: blue;">string </span>trailingWhitespace)

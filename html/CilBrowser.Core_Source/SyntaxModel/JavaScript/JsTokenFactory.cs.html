@@ -1,0 +1,54 @@
+﻿<html><head><title>Source file: JsTokenFactory.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
+<h2>Source file: JsTokenFactory.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in JavaScript directory:</p><p><a href="JsRegexLiteralToken.cs.html">JsRegexLiteralToken.cs</a></p><p><a href="JsSyntaxProvider.cs.html">JsSyntaxProvider.cs</a></p><p><b>JsTokenFactory.cs</b></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
+ * Copyright (c) 2023,  MSDN.WhiteKnight 
+ * License: BSD 3-Clause */
+</span><span style="color: blue;">using </span>System;
+<span style="color: blue;">using </span>System.Collections.Generic;
+<span style="color: blue;">using </span>System.Text;
+<span style="color: blue;">using </span>CilTools.Syntax;
+<span style="color: blue;">using </span>CilTools.SourceCode.Common;
+
+<span style="color: blue;">namespace </span>CilBrowser.Core.SyntaxModel.JavaScript
+{
+    <span style="color: green;">/// &lt;summary&gt;
+    </span><span style="color: green;">/// Produces &lt;see cref=&quot;SourceToken&quot;/&gt; instances for JavaScript
+    </span><span style="color: green;">/// &lt;/summary&gt;
+    </span><span style="color: blue;">public </span><span style="color: blue;">sealed </span><span style="color: blue;">class </span>JsTokenFactory : SyntaxFactory
+    {
+        <span style="color: blue;">private </span>JsTokenFactory() { }
+
+        <span style="color: green;">// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#keywords
+        </span><span style="color: blue;">static </span><span style="color: blue;">readonly </span>HashSet&lt;<span style="color: blue;">string</span>&gt; keywords = <span style="color: blue;">new </span>HashSet&lt;<span style="color: blue;">string</span>&gt;(<span style="color: blue;">new </span><span style="color: blue;">string</span>[] {
+            <span style="color: red;">&quot;break&quot;</span>, <span style="color: red;">&quot;case&quot;</span>, <span style="color: red;">&quot;catch&quot;</span>, <span style="color: red;">&quot;class&quot;</span>, <span style="color: red;">&quot;const&quot;</span>, <span style="color: red;">&quot;continue&quot;</span>, <span style="color: red;">&quot;debugger&quot;</span>, <span style="color: red;">&quot;default&quot;</span>, <span style="color: red;">&quot;delete&quot;</span>, <span style="color: red;">&quot;do&quot;</span>, <span style="color: red;">&quot;else&quot;</span>,
+            <span style="color: red;">&quot;export&quot;</span>, <span style="color: red;">&quot;extends&quot;</span>, <span style="color: red;">&quot;false&quot;</span>, <span style="color: red;">&quot;finally&quot;</span>, <span style="color: red;">&quot;for&quot;</span>, <span style="color: red;">&quot;function&quot;</span>, <span style="color: red;">&quot;if&quot;</span>, <span style="color: red;">&quot;import&quot;</span>, <span style="color: red;">&quot;in&quot;</span>, <span style="color: red;">&quot;instanceof&quot;</span>, <span style="color: red;">&quot;new&quot;</span>, <span style="color: red;">&quot;null&quot;</span>,
+            <span style="color: red;">&quot;return&quot;</span>, <span style="color: red;">&quot;super&quot;</span>, <span style="color: red;">&quot;switch&quot;</span>, <span style="color: red;">&quot;this&quot;</span>, <span style="color: red;">&quot;throw&quot;</span>, <span style="color: red;">&quot;true&quot;</span>, <span style="color: red;">&quot;try&quot;</span>, <span style="color: red;">&quot;typeof&quot;</span>, <span style="color: red;">&quot;var&quot;</span>, <span style="color: red;">&quot;void&quot;</span>, <span style="color: red;">&quot;while&quot;</span>, <span style="color: red;">&quot;with&quot;
+        </span>});
+
+        <span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">readonly </span>JsTokenFactory Value = <span style="color: blue;">new </span>JsTokenFactory();
+
+        <span style="color: blue;">static </span>TokenKind GetKind(<span style="color: blue;">string </span>token)
+        {
+            <span style="color: blue;">if </span>(token.Length == 0) <span style="color: blue;">return </span>TokenKind.Unknown;
+
+            <span style="color: blue;">if </span>(<span style="color: blue;">char</span>.IsLetter(token[0]) || token[0] == <span style="color: red;">&#39;_&#39;</span>)
+            {
+                <span style="color: blue;">if </span>(keywords.Contains(token)) <span style="color: blue;">return </span>TokenKind.Keyword;
+                <span style="color: blue;">else </span><span style="color: blue;">return </span>TokenKind.Name;
+            }
+            <span style="color: blue;">else
+            </span>{
+                <span style="color: blue;">return </span>SourceParser.GetKindCommon(token);
+            }
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span>SyntaxNode CreateNode(<span style="color: blue;">string </span>content, <span style="color: blue;">string </span>leadingWhitespace, <span style="color: blue;">string </span>trailingWhitespace)
+        {
+            TokenKind kind = GetKind(content);
+            <span style="color: blue;">return </span><span style="color: blue;">new </span>SourceToken(content, kind, leadingWhitespace, trailingWhitespace);
+        }
+    }
+}
+</code></pre><a href="https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser.Core/SyntaxModel/JavaScript/JsTokenFactory.cs">View in source control</a></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>

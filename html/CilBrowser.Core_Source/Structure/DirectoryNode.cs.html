@@ -1,0 +1,82 @@
+﻿<html><head><title>Source file: DirectoryNode.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
+<h2>Source file: DirectoryNode.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in Structure directory:</p><p><b>DirectoryNode.cs</b></p><p><a href="FileNode.cs.html">FileNode.cs</a></p><p><a href="SourceIndexer.cs.html">SourceIndexer.cs</a></p><p><a href="TreeNode.cs.html">TreeNode.cs</a></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
+ * Copyright (c) 2023,  MSDN.WhiteKnight 
+ * License: BSD 3-Clause */
+</span><span style="color: blue;">using </span>System;
+<span style="color: blue;">using </span>System.Collections.Generic;
+<span style="color: blue;">using </span>System.IO;
+<span style="color: blue;">using </span>System.Text;
+
+<span style="color: blue;">namespace </span>CilBrowser.Core.Structure
+{
+    <span style="color: green;">/// &lt;summary&gt;
+    </span><span style="color: green;">/// Represents a directory in website structure. Directory can contain child nodes for files and subdirectories.
+    </span><span style="color: green;">/// &lt;/summary&gt;
+    </span><span style="color: blue;">public </span><span style="color: blue;">sealed </span><span style="color: blue;">class </span>DirectoryNode : TreeNode
+    {
+        List&lt;FileNode&gt; _files;
+        List&lt;DirectoryNode&gt; _dirs;
+
+        <span style="color: blue;">public </span>DirectoryNode(<span style="color: blue;">string </span>name, TreeNode parent)
+        {
+            <span style="color: blue;">this</span>._name = name;
+            <span style="color: blue;">this</span>._parent = parent;
+            <span style="color: blue;">this</span>._files = <span style="color: blue;">new </span>List&lt;FileNode&gt;();
+            <span style="color: blue;">this</span>._dirs = <span style="color: blue;">new </span>List&lt;DirectoryNode&gt;();
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span>TreeNodeKind Kind =&gt; TreeNodeKind.Directory;
+
+        <span style="color: green;">/// &lt;summary&gt;
+        </span><span style="color: green;">/// Adds a specified file node into the collection of child nodes. Also sets its parent node to this one.
+        </span><span style="color: green;">/// &lt;/summary&gt;
+        </span><span style="color: blue;">public </span><span style="color: blue;">void </span>AddFile(FileNode file)
+        {
+            <span style="color: blue;">this</span>._files.Add(file);
+            file.Parent = <span style="color: blue;">this</span>;
+        }
+
+        <span style="color: green;">/// &lt;summary&gt;
+        </span><span style="color: green;">/// Adds a specified directory node into the collection of child nodes. Also sets its parent node to this one.
+        </span><span style="color: green;">/// &lt;/summary&gt;
+        </span><span style="color: blue;">public </span><span style="color: blue;">void </span>AddDirectory(DirectoryNode dir)
+        {
+            <span style="color: blue;">this</span>._dirs.Add(dir);
+            dir.Parent = <span style="color: blue;">this</span>;
+        }
+
+        <span style="color: green;">/// &lt;summary&gt;
+        </span><span style="color: green;">/// Gets the collection of subdirectory child nodes for this directory
+        </span><span style="color: green;">/// &lt;/summary&gt;
+        </span><span style="color: blue;">public </span>IEnumerable&lt;DirectoryNode&gt; Directories
+        {
+            get { <span style="color: blue;">foreach </span>(DirectoryNode node <span style="color: blue;">in </span><span style="color: blue;">this</span>._dirs) yield <span style="color: blue;">return </span>node; }
+        }
+
+        <span style="color: green;">/// &lt;summary&gt;
+        </span><span style="color: green;">/// Gets the collection of file child nodes for this directory
+        </span><span style="color: green;">/// &lt;/summary&gt;
+        </span><span style="color: blue;">public </span>IEnumerable&lt;FileNode&gt; Files 
+        {
+            get { <span style="color: blue;">foreach </span>(FileNode node <span style="color: blue;">in </span><span style="color: blue;">this</span>._files) yield <span style="color: blue;">return </span>node; }
+        }
+
+        <span style="color: green;">/// &lt;inheritdoc/&gt;
+        </span><span style="color: blue;">public </span><span style="color: blue;">override </span>IEnumerable&lt;TreeNode&gt; EnumChildNodes()
+        {
+            <span style="color: blue;">foreach </span>(DirectoryNode node <span style="color: blue;">in </span><span style="color: blue;">this</span>._dirs) yield <span style="color: blue;">return </span>node;
+
+            <span style="color: blue;">foreach </span>(FileNode node <span style="color: blue;">in </span><span style="color: blue;">this</span>._files) yield <span style="color: blue;">return </span>node;
+        }
+
+        <span style="color: green;">/// &lt;inheritdoc/&gt;
+        </span><span style="color: blue;">public </span><span style="color: blue;">override </span><span style="color: blue;">void </span>Render(HtmlGenerator generator, CilBrowserOptions options, TextWriter target)
+        {
+            <span style="color: green;">//empty by design
+        </span>}
+    }
+}
+</code></pre><a href="https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser.Core/Structure/DirectoryNode.cs">View in source control</a></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>

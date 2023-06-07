@@ -1,6 +1,6 @@
 ﻿<html><head><title>Source file: HtmlGenerator.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
 <body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
-<h2>Source file: HtmlGenerator.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in CilBrowser.Core directory:</p><p><a href="CilBrowser.Core.csproj.html">CilBrowser.Core.csproj</a></p><p><a href="HtmlAttribute.cs.html">HtmlAttribute.cs</a></p><p><a href="HtmlBuilder.cs.html">HtmlBuilder.cs</a></p><p><b>HtmlGenerator.cs</b></p><p><a href="Server.cs.html">Server.cs</a></p><p><a href="Utils.cs.html">Utils.cs</a></p><p><a href="WebsiteGenerator.cs.html">WebsiteGenerator.cs</a></p></td>
+<h2>Source file: HtmlGenerator.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in CilBrowser.Core directory:</p><p><a href="AssemblyServer.cs.html">AssemblyServer.cs</a></p><p><a href="CilBrowser.Core.csproj.html">CilBrowser.Core.csproj</a></p><p><a href="CilBrowserOptions.cs.html">CilBrowserOptions.cs</a></p><p><a href="FileUtils.cs.html">FileUtils.cs</a></p><p><a href="HtmlAttribute.cs.html">HtmlAttribute.cs</a></p><p><a href="HtmlBuilder.cs.html">HtmlBuilder.cs</a></p><p><b>HtmlGenerator.cs</b></p><p><a href="ServerBase.cs.html">ServerBase.cs</a></p><p><a href="SourceServer.cs.html">SourceServer.cs</a></p><p><a href="Utils.cs.html">Utils.cs</a></p><p><a href="WebsiteGenerator.cs.html">WebsiteGenerator.cs</a></p></td>
 <td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
  * Copyright (c) 2022,  MSDN.WhiteKnight 
  * License: BSD 3-Clause */
@@ -15,6 +15,7 @@
 <span style="color: blue;">using </span>System.Text;
 <span style="color: blue;">using </span>CilBrowser.Core.SyntaxModel;
 <span style="color: blue;">using </span>CilTools.BytecodeAnalysis;
+<span style="color: blue;">using </span>CilTools.Reflection;
 <span style="color: blue;">using </span>CilTools.SourceCode.Common;
 <span style="color: blue;">using </span>CilTools.Syntax;
 
@@ -234,6 +235,9 @@
                     <span style="color: blue;">case </span>TokenKind.SingleQuotLiteral:
                         target.WriteTag(<span style="color: red;">&quot;span&quot;</span>, node.ToString(), HtmlBuilder.OneAttribute(<span style="color: red;">&quot;style&quot;</span>, <span style="color: red;">&quot;color: red;&quot;</span>));
                         <span style="color: blue;">break</span>;
+                    <span style="color: blue;">case </span>TokenKind.SpecialTextLiteral:
+                        target.WriteTag(<span style="color: red;">&quot;span&quot;</span>, node.ToString(), HtmlBuilder.OneAttribute(<span style="color: red;">&quot;style&quot;</span>, <span style="color: red;">&quot;color: red;&quot;</span>));
+                        <span style="color: blue;">break</span>;
                     <span style="color: blue;">case </span>TokenKind.Comment:
                         target.WriteTag(<span style="color: red;">&quot;span&quot;</span>, node.ToString(), HtmlBuilder.OneAttribute(<span style="color: red;">&quot;style&quot;</span>, <span style="color: red;">&quot;color: green;&quot;</span>));
                         <span style="color: blue;">break</span>;
@@ -414,19 +418,24 @@
 
             <span style="color: blue;">return </span>sb.ToString();
         }
-        
+
+        <span style="color: blue;">void </span>VisualizeSourceTextImpl(<span style="color: blue;">string </span>content, <span style="color: blue;">string </span>ext, HtmlBuilder html)
+        {
+            <span style="color: green;">//convert source text into tokens
+            </span>SyntaxNode[] nodes = SourceParser.Parse(content, ext);
+
+            <span style="color: green;">//convert tokens to HTML
+            </span><span style="color: blue;">this</span>.VisualizeSyntaxNodes(nodes, html);
+        }
+
         <span style="color: blue;">public </span><span style="color: blue;">string </span>VisualizeSourceFile(<span style="color: blue;">string </span>content, <span style="color: blue;">string </span>filename, <span style="color: blue;">string </span>navigation, <span style="color: blue;">string </span>sourceControlUrl)
         {
             <span style="color: blue;">string </span>ext = Path.GetExtension(filename);
             StringBuilder sb = <span style="color: blue;">new </span>StringBuilder(5000);
             HtmlBuilder html = <span style="color: blue;">new </span>HtmlBuilder(sb);
-
-            <span style="color: green;">//convert source text into tokens
-            </span>SyntaxNode[] nodes = SourceParser.Parse(content, ext);
-
-            <span style="color: green;">//convert tokens to HTML
-            </span><span style="color: blue;">this</span>.WriteLayoutStart(html, <span style="color: red;">&quot;Source file: &quot; </span>+ filename, navigation);
-            <span style="color: blue;">this</span>.VisualizeSyntaxNodes(nodes, html);
+            
+            <span style="color: blue;">this</span>.WriteLayoutStart(html, <span style="color: red;">&quot;Source file: &quot; </span>+ filename, navigation);
+            <span style="color: blue;">this</span>.VisualizeSourceTextImpl(content, ext, html);
 
             <span style="color: blue;">if </span>(!<span style="color: blue;">string</span>.IsNullOrEmpty(sourceControlUrl))
             {
@@ -436,6 +445,67 @@
             WriteLayoutEnd(html);
 
             <span style="color: blue;">return </span>sb.ToString();
+        }
+
+        <span style="color: green;">/// &lt;summary&gt;
+        </span><span style="color: green;">/// Generates HTML markup with syntax highlighting for the specified source text and writes it into TextWriter. 
+        </span><span style="color: green;">/// &lt;/summary&gt;
+        </span><span style="color: green;">/// &lt;param name=&quot;sourceText&quot;&gt;Source text to render&lt;/param&gt;
+        </span><span style="color: green;">/// &lt;param name=&quot;ext&quot;&gt;
+        </span><span style="color: green;">/// Source file extension (with leading dot) that defines programming language. For example, &lt;c&gt;.cs&lt;/c&gt; for C#.
+        </span><span style="color: green;">/// &lt;/param&gt;
+        </span><span style="color: green;">/// &lt;param name=&quot;target&quot;&gt;Text writer where to output the resulting HTML&lt;/param&gt;
+        </span><span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">void </span>RenderSourceText(<span style="color: blue;">string </span>sourceText, <span style="color: blue;">string </span>ext, TextWriter target)
+        {
+            <span style="color: blue;">if </span>(<span style="color: blue;">string</span>.IsNullOrEmpty(sourceText)) <span style="color: blue;">return</span>;
+
+            <span style="color: blue;">if </span>(target == <span style="color: blue;">null</span>) <span style="color: blue;">throw </span><span style="color: blue;">new </span>ArgumentNullException(<span style="color: red;">&quot;target&quot;</span>);
+
+            HtmlGenerator generator = <span style="color: blue;">new </span>HtmlGenerator();
+            HtmlBuilder builder = <span style="color: blue;">new </span>HtmlBuilder(target);
+            generator.VisualizeSourceTextImpl(sourceText, ext, builder);
+            target.Flush();
+        }
+
+        <span style="color: green;">/// &lt;summary&gt;
+        </span><span style="color: green;">/// Generates HTML markup with syntax highlighting for the specified source text.
+        </span><span style="color: green;">/// &lt;/summary&gt;
+        </span><span style="color: green;">/// &lt;param name=&quot;sourceText&quot;&gt;Source text to render&lt;/param&gt;
+        </span><span style="color: green;">/// &lt;param name=&quot;ext&quot;&gt;
+        </span><span style="color: green;">/// Source file extension (with leading dot) that defines programming language. For example, &lt;c&gt;.cs&lt;/c&gt; for C#.
+        </span><span style="color: green;">/// &lt;/param&gt;
+        </span><span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">string </span>RenderSourceText(<span style="color: blue;">string </span>sourceText, <span style="color: blue;">string </span>ext)
+        {
+            <span style="color: blue;">if </span>(<span style="color: blue;">string</span>.IsNullOrEmpty(sourceText)) <span style="color: blue;">return </span><span style="color: blue;">string</span>.Empty;
+
+            StringBuilder sb = <span style="color: blue;">new </span>StringBuilder(sourceText.Length * 2);
+            StringWriter wr = <span style="color: blue;">new </span>StringWriter(sb);
+            HtmlGenerator generator = <span style="color: blue;">new </span>HtmlGenerator();
+            HtmlBuilder builder = <span style="color: blue;">new </span>HtmlBuilder(wr);
+            generator.VisualizeSourceTextImpl(sourceText, ext, builder);
+            <span style="color: blue;">return </span>sb.ToString();
+        }
+
+        <span style="color: green;">/// &lt;summary&gt;
+        </span><span style="color: green;">/// Writes CSS code containing syntax highlighting styles into the specified TextWriter. 
+        </span><span style="color: green;">/// These styles are used in markup generated by &lt;see cref=&quot;RenderSourceText&quot;/&gt; method.
+        </span><span style="color: green;">/// &lt;/summary&gt;
+        </span><span style="color: green;">/// &lt;param name=&quot;target&quot;&gt;Text writer where to output the resulting CSS&lt;/param&gt;
+        </span><span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">void </span>GetVisualStyles(TextWriter target)
+        {
+            <span style="color: blue;">if </span>(target == <span style="color: blue;">null</span>) <span style="color: blue;">throw </span><span style="color: blue;">new </span>ArgumentNullException(<span style="color: red;">&quot;target&quot;</span>);
+
+            target.WriteLine(GlobalStyles);
+            target.Flush();
+        }
+
+        <span style="color: green;">/// &lt;summary&gt;
+        </span><span style="color: green;">/// Gets CSS code containing syntax highlighting styles. These styles are used in markup generated by 
+        </span><span style="color: green;">/// &lt;see cref=&quot;RenderSourceText&quot;/&gt; method.
+        </span><span style="color: green;">/// &lt;/summary&gt;
+        </span><span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">string </span>GetVisualStyles()
+        {
+            <span style="color: blue;">return </span>GlobalStyles;
         }
 
         <span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">string </span>GenerateTypeFileName(Type t)
@@ -452,7 +522,17 @@
         {
             <span style="color: blue;">if </span>(mb.DeclaringType == <span style="color: blue;">null</span>) <span style="color: blue;">return </span><span style="color: blue;">string</span>.Empty;
 
-            <span style="color: blue;">return </span>GenerateTypeFileName(mb.DeclaringType) + <span style="color: red;">&quot;#&quot; </span>+ GenerateMethodAnchor(mb);
+            MethodBase targetMethod = mb;
+
+            <span style="color: blue;">if </span>(mb.IsGenericMethod &amp;&amp; !mb.IsGenericMethodDefinition &amp;&amp; mb <span style="color: blue;">is </span>ICustomMethod)
+            {
+                <span style="color: green;">// if it&#39;s an instantiated generic method, we want to use method definition as link target
+                </span>ICustomMethod cm = (ICustomMethod)mb;
+
+                <span style="color: blue;">if </span>(cm.GetDefinition() != <span style="color: blue;">null</span>) targetMethod = cm.GetDefinition();
+            }
+
+            <span style="color: blue;">return </span>GenerateTypeFileName(mb.DeclaringType) + <span style="color: red;">&quot;#&quot; </span>+ GenerateMethodAnchor(targetMethod);
         }
         
         <span style="color: blue;">public </span><span style="color: blue;">void </span>WriteFooter(HtmlBuilder target)

@@ -1,6 +1,6 @@
 ﻿<html><head><title>Source file: Utils.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
 <body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
-<h2>Source file: Utils.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in CilBrowser.Core directory:</p><p><a href="CilBrowser.Core.csproj.html">CilBrowser.Core.csproj</a></p><p><a href="HtmlAttribute.cs.html">HtmlAttribute.cs</a></p><p><a href="HtmlBuilder.cs.html">HtmlBuilder.cs</a></p><p><a href="HtmlGenerator.cs.html">HtmlGenerator.cs</a></p><p><a href="Server.cs.html">Server.cs</a></p><p><b>Utils.cs</b></p><p><a href="WebsiteGenerator.cs.html">WebsiteGenerator.cs</a></p></td>
+<h2>Source file: Utils.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in CilBrowser.Core directory:</p><p><a href="AssemblyServer.cs.html">AssemblyServer.cs</a></p><p><a href="CilBrowser.Core.csproj.html">CilBrowser.Core.csproj</a></p><p><a href="CilBrowserOptions.cs.html">CilBrowserOptions.cs</a></p><p><a href="FileUtils.cs.html">FileUtils.cs</a></p><p><a href="HtmlAttribute.cs.html">HtmlAttribute.cs</a></p><p><a href="HtmlBuilder.cs.html">HtmlBuilder.cs</a></p><p><a href="HtmlGenerator.cs.html">HtmlGenerator.cs</a></p><p><a href="ServerBase.cs.html">ServerBase.cs</a></p><p><a href="SourceServer.cs.html">SourceServer.cs</a></p><p><b>Utils.cs</b></p><p><a href="WebsiteGenerator.cs.html">WebsiteGenerator.cs</a></p></td>
 <td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
  * Copyright (c) 2022,  MSDN.WhiteKnight 
  * License: BSD 3-Clause */
@@ -115,7 +115,9 @@
             {
                 <span style="color: blue;">int </span>x = rnd.Next();
                 <span style="color: blue;">string </span>uniqueNumber = x.ToString(<span style="color: red;">&quot;X&quot;</span>);
-                ret = Path.Combine(t, uniqueNumber, dirname);
+
+                <span style="color: blue;">if </span>(!<span style="color: blue;">string</span>.IsNullOrEmpty(dirname)) ret = Path.Combine(t, uniqueNumber, dirname);
+                <span style="color: blue;">else </span>ret = Path.Combine(t, uniqueNumber);
 
                 <span style="color: blue;">if </span>(!File.Exists(ret) &amp;&amp; !Directory.Exists(ret))
                 {

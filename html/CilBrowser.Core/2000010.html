@@ -1,54 +1,133 @@
-﻿<html><head><title>Type: CilBrowser.Core.SyntaxModel.Markup.MarkupTokenFactory</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+﻿<html><head><title>Type: CilBrowser.Core.SyntaxModel.SyntaxElementDefinition</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
 <body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">CilBrowser.Core</a></p>
-<h2>Type: CilBrowser.Core.SyntaxModel.Markup.MarkupTokenFactory</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Types in CilBrowser.Core.SyntaxModel.Markup namespace:</p><p><b>MarkupTokenFactory</b></p><p><a href="2000011.html">XmlCommentToken</a></p></td>
-<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: magenta;">.class </span><span style="color: blue;">public </span><span style="color: blue;">auto </span><span style="color: blue;">ansi </span><span style="color: blue;">sealed </span><span style="color: blue;">beforefieldinit </span><a href="2000010.html" class="memberid">CilBrowser.Core.SyntaxModel.Markup.MarkupTokenFactory</a>
-<span style="color: blue;">extends </span>[<span>CilTools.BytecodeAnalysis</span>]<span class="memberid">CilTools.Syntax</span>.<span class="memberid">SyntaxFactory</span>
+<h2>Type: CilBrowser.Core.SyntaxModel.SyntaxElementDefinition</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Types in CilBrowser.Core.SyntaxModel namespace:</p><p><a href="200000E.html">SourceParser</a></p><p><a href="200000F.html">SyntaxElement</a></p><p><a href="200002C.html">&lt;EnumerateChildNodes&gt;d__6</a></p><p><b>SyntaxElementDefinition</b></p><p><a href="200002E.html">&lt;get_End&gt;d__7</a></p><p><a href="200002D.html">&lt;get_Start&gt;d__5</a></p><p><a href="2000012.html">SyntaxElementReader</a></p><p><a href="200002F.html">&lt;ReadAll&gt;d__6</a></p><p><a href="2000011.html">SyntaxFilter</a></p><p><a href="2000013.html">SyntaxKind</a></p><p><a href="2000014.html">SyntaxProvider</a></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: magenta;">.class </span><span style="color: blue;">public </span><span style="color: blue;">auto </span><span style="color: blue;">ansi </span><span style="color: blue;">beforefieldinit </span><a href="2000010.html" class="memberid">CilBrowser.Core.SyntaxModel.SyntaxElementDefinition</a>
+<span style="color: blue;">extends </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Object</span>
 {
 
-<span style="color: magenta;"> .field </span><span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">initonly </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel.Markup</span>.<a href="2000010.html" class="memberid">MarkupTokenFactory</a><span class="memberid"> Value</span>
+<span style="color: magenta;"> .field </span><span style="color: blue;">private </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>[]<span class="memberid"> start</span>
+<span style="color: magenta;"> .field </span><span style="color: blue;">private </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>[]<span class="memberid"> end</span>
+<span style="color: magenta;"> .field </span><span style="color: blue;">private </span><span style="color: blue;">valuetype </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000013.html" class="memberid">SyntaxKind</a><span class="memberid"> kind</span>
 
-<span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> rtspecialname</span><span style="color: blue;"> instance </span><span style="color: blue;">void</span><a name="M6000072" href="2000010.html#M6000072" class="memberid"> .ctor</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+<span style="color: magenta;"> .property </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt;<span class="memberid"> Start</span>()
+ {
+<span style="color: magenta;">  .get </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt; <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>::<a href="2000010.html#M600008C" class="memberid">get_Start</a>()
+ }
+
+<span style="color: magenta;"> .property </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt;<span class="memberid"> End</span>()
+ {
+<span style="color: magenta;">  .get </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt; <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>::<a href="2000010.html#M600008D" class="memberid">get_End</a>()
+ }
+
+<span style="color: magenta;"> .property </span><span style="color: blue;">instance </span><span style="color: blue;">valuetype </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000013.html" class="memberid">SyntaxKind</a><span class="memberid"> Kind</span>()
+ {
+<span style="color: magenta;">  .get </span><span style="color: blue;">instance </span><span style="color: blue;">valuetype </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000013.html" class="memberid">SyntaxKind</a> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>::<a href="2000010.html#M600008E" class="memberid">get_Kind</a>()
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> rtspecialname</span><span style="color: blue;"> instance </span><span style="color: blue;">void</span><a name="M600008B" href="2000010.html#M600008B" class="memberid"> .ctor</a>(
+     <span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt;<span> startSequence</span>, 
+     <span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt;<span> endSequence</span>, 
+     <span style="color: blue;">valuetype </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000013.html" class="memberid">SyntaxKind</a><span> syntaxKind</span>
+ )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
  {
 <span style="color: magenta;">  .maxstack </span> 8
 
 <span>           ldarg.0      </span>
-<span>           call         </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>CilTools.BytecodeAnalysis</span>]<span class="memberid">CilTools.Syntax</span>.<span class="memberid">SyntaxFactory</span>::<span class="memberid">.ctor</span>()
+<span>           call         </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Object</span>::<span class="memberid">.ctor</span>()
 <span>           nop          </span>
 <span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           ldarg.1      </span>
+<span>           call         </span>!!0[] [<span>netstandard</span>]<span class="memberid">System.Linq</span>.<span class="memberid">Enumerable</span>::<span class="memberid">ToArray</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt;(<span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;!!0&gt;)
+<span>           stfld        </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>[] <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>::<span class="memberid">start</span>
+<span>           ldarg.0      </span>
+<span>           ldarg.2      </span>
+<span>           call         </span>!!0[] [<span>netstandard</span>]<span class="memberid">System.Linq</span>.<span class="memberid">Enumerable</span>::<span class="memberid">ToArray</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt;(<span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;!!0&gt;)
+<span>           stfld        </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>[] <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>::<span class="memberid">end</span>
+<span>           ldarg.0      </span>
+<span>           ldarg.3      </span>
+<span>           stfld        </span><span style="color: blue;">valuetype </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000013.html" class="memberid">SyntaxKind</a> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>::<span class="memberid">kind</span>
 <span>           ret          </span>
  }
 
-<span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> rtspecialname</span><span style="color: blue;"> static </span><span style="color: blue;">void</span><a name="M6000076" href="2000010.html#M6000076" class="memberid"> .cctor</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> instance </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt;<a name="M600008C" href="2000010.html#M600008C" class="memberid"> get_Start</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
  {
-<span style="color: magenta;">  .maxstack </span> 8
+<span style="color: magenta;">  .custom </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System.Runtime.CompilerServices</span>.<span class="memberid">IteratorStateMachineAttribute</span>::<span class="memberid">.ctor</span>(<span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Type</span>) = ( 01 00 43 43 69 6C 42 72 6F 77 73 65 72 2E 43 6F 72 65 2E 53 79 6E 74 61 78 4D 6F 64 65 6C 2E 53 79 6E 74 61 78 45 6C 65 6D 65 6E 74 44 65 66 69 6E 69 74 69 6F 6E 2B 3C 67 65 74 5F 53 74 61 72 74 3E 64 5F 5F 35 00 00 )
+<span style="color: magenta;">  .maxstack </span> 2
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a><span> V_0</span>,
+     <span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt;<span> V_1</span>)
 
-<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser.Core.SyntaxModel.Markup</span>.<a href="2000010.html" class="memberid">MarkupTokenFactory</a>::<a href="2000010.html#M6000072" class="memberid">.ctor</a>()
-<span>           stsfld       </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel.Markup</span>.<a href="2000010.html" class="memberid">MarkupTokenFactory</a> <span class="memberid">CilBrowser.Core.SyntaxModel.Markup</span>.<a href="2000010.html" class="memberid">MarkupTokenFactory</a>::<span class="memberid">Value</span>
+<span>           ldc.i4.s     </span><span>-2</span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>::<a href="200002D.html#M60000FA" class="memberid">.ctor</a>(<span style="color: blue;">int32</span>)
+<span>           stloc.0      </span>
+<span>           ldloc.0      </span>
+<span>           ldarg.0      </span>
+<span>           stfld        </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>::<span class="memberid">&#39;&lt;&gt;4__this&#39;</span>
+<span>           ldloc.0      </span>
+<span>           stloc.1      </span>
+<span>           ldloc.1      </span>
 <span>           ret          </span>
  }
 
-<span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> static </span><span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span><a name="M6000073" href="2000010.html#M6000073" class="memberid"> GetKindCommon</a>(
-     <span style="color: blue;">string</span><span> token</span>
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> instance </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt;<a name="M600008D" href="2000010.html#M600008D" class="memberid"> get_End</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .custom </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System.Runtime.CompilerServices</span>.<span class="memberid">IteratorStateMachineAttribute</span>::<span class="memberid">.ctor</span>(<span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Type</span>) = ( 01 00 41 43 69 6C 42 72 6F 77 73 65 72 2E 43 6F 72 65 2E 53 79 6E 74 61 78 4D 6F 64 65 6C 2E 53 79 6E 74 61 78 45 6C 65 6D 65 6E 74 44 65 66 69 6E 69 74 69 6F 6E 2B 3C 67 65 74 5F 45 6E 64 3E 64 5F 5F 37 00 00 )
+<span style="color: magenta;">  .maxstack </span> 2
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a><span> V_0</span>,
+     <span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt;<span> V_1</span>)
+
+<span>           ldc.i4.s     </span><span>-2</span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>::<a href="200002E.html#M6000102" class="memberid">.ctor</a>(<span style="color: blue;">int32</span>)
+<span>           stloc.0      </span>
+<span>           ldloc.0      </span>
+<span>           ldarg.0      </span>
+<span>           stfld        </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>::<span class="memberid">&#39;&lt;&gt;4__this&#39;</span>
+<span>           ldloc.0      </span>
+<span>           stloc.1      </span>
+<span>           ldloc.1      </span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> instance </span><span style="color: blue;">valuetype </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000013.html" class="memberid">SyntaxKind</a><a name="M600008E" href="2000010.html#M600008E" class="memberid"> get_Kind</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 1
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">valuetype </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000013.html" class="memberid">SyntaxKind</a><span> V_0</span>)
+
+<span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           ldfld        </span><span style="color: blue;">valuetype </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000013.html" class="memberid">SyntaxKind</a> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>::<span class="memberid">kind</span>
+<span>           stloc.0      </span>
+<span>           br.s         </span><span>IL_0001
+</span><span>  IL_0001</span>: <span>ldloc.0      </span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> static </span><span style="color: blue;">bool</span><a name="M600008F" href="2000010.html#M600008F" class="memberid"> IsMatch</a>(
+     <span style="color: blue;">class </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">SourceToken</span>[]<span> arr</span>, 
+     <span style="color: blue;">int32</span><span> index</span>, 
+     <span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>[]<span> filters</span>
  )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
  {
 <span style="color: magenta;">  .maxstack </span> 3
 <span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">bool</span><span> V_0</span>,
-     <span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span><span> V_1</span>,
+     <span style="color: blue;">bool</span><span> V_1</span>,
      <span style="color: blue;">bool</span><span> V_2</span>,
-     <span style="color: blue;">bool</span><span> V_3</span>,
-     <span style="color: blue;">bool</span><span> V_4</span>,
-     <span style="color: blue;">bool</span><span> V_5</span>,
+     <span style="color: blue;">int32</span><span> V_3</span>,
+     <span style="color: blue;">class </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">SourceToken</span><span> V_4</span>,
+     <span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a><span> V_5</span>,
      <span style="color: blue;">bool</span><span> V_6</span>,
-     <span style="color: blue;">bool</span><span> V_7</span>,
-     <span style="color: blue;">bool</span><span> V_8</span>,
-     <span style="color: blue;">bool</span><span> V_9</span>,
-     <span style="color: blue;">bool</span><span> V_10</span>,
-     <span style="color: blue;">bool</span><span> V_11</span>,
-     <span style="color: blue;">bool</span><span> V_12</span>)
+     <span style="color: blue;">bool</span><span> V_7</span>)
 
 <span>           nop          </span>
+<span>           ldarg.1      </span>
+<span>           ldarg.2      </span>
+<span>           ldlen        </span>
+<span>           conv.i4      </span>
+<span>           add          </span>
 <span>           ldarg.0      </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Length</span>()
+<span>           ldlen        </span>
+<span>           conv.i4      </span>
+<span>           clt          </span>
 <span>           ldc.i4.0     </span>
 <span>           ceq          </span>
 <span>           stloc.0      </span>
@@ -56,259 +135,591 @@
 <span>           brfalse.s    </span><span>IL_0001
 </span><span>           ldc.i4.0     </span>
 <span>           stloc.1      </span>
-<span>           br           </span><span>IL_0019
-</span><span>  IL_0001</span>: <span>ldarg.0      </span>
+<span>           br.s         </span><span>IL_0006
+</span><span>  IL_0001</span>: <span>ldarg.1      </span>
 <span>           ldc.i4.0     </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
-<span>           call         </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Char</span>::<span class="memberid">IsDigit</span>(<span style="color: blue;">char</span>)
+<span>           clt          </span>
 <span>           stloc.2      </span>
 <span>           ldloc.2      </span>
 <span>           brfalse.s    </span><span>IL_0002
-</span><span>           nop          </span>
-<span>           ldc.i4.s     </span><span>9</span>
-<span>           stloc.1      </span>
-<span>           br           </span><span>IL_0019
-</span><span>  IL_0002</span>: <span>ldarg.0      </span>
-<span>           ldc.i4.0     </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
-<span>           ldc.i4.s     </span><span>34</span>
-<span>           ceq          </span>
-<span>           stloc.3      </span>
-<span>           ldloc.3      </span>
-<span>           brfalse.s    </span><span>IL_0006
-</span><span>           nop          </span>
-<span>           ldarg.0      </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Length</span>()
-<span>           ldc.i4.2     </span>
-<span>           blt.s        </span><span>IL_0003
-</span><span>           ldarg.0      </span>
-<span>           ldarg.0      </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Length</span>()
-<span>           ldc.i4.1     </span>
-<span>           sub          </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
-<span>           ldc.i4.s     </span><span>34</span>
-<span>           ceq          </span>
-<span>           ldc.i4.0     </span>
-<span>           ceq          </span>
-<span>           br.s         </span><span>IL_0004
-</span><span>  IL_0003</span>: <span>ldc.i4.1     </span>
-<span>  IL_0004</span>: <span>stloc.s      </span><span>V_4</span>
-<span>           ldloc.s      </span><span>V_4</span>
-<span>           brfalse.s    </span><span>IL_0005
-</span><span>           nop          </span>
-<span>           ldc.i4.0     </span>
-<span>           stloc.1      </span>
-<span>           br           </span><span>IL_0019
-</span><span>  IL_0005</span>: <span>nop          </span>
-<span>           ldc.i4.7     </span>
-<span>           stloc.1      </span>
-<span>           br           </span><span>IL_0019
-</span><span>  IL_0006</span>: <span>ldarg.0      </span>
-<span>           ldc.i4.0     </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
-<span>           ldc.i4.s     </span><span>39</span>
-<span>           ceq          </span>
-<span>           stloc.s      </span><span>V_5</span>
-<span>           ldloc.s      </span><span>V_5</span>
-<span>           brfalse.s    </span><span>IL_0010
-</span><span>           nop          </span>
-<span>           ldarg.0      </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Length</span>()
-<span>           ldc.i4.2     </span>
-<span>           blt.s        </span><span>IL_0007
-</span><span>           ldarg.0      </span>
-<span>           ldarg.0      </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Length</span>()
-<span>           ldc.i4.1     </span>
-<span>           sub          </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
-<span>           ldc.i4.s     </span><span>39</span>
-<span>           ceq          </span>
-<span>           ldc.i4.0     </span>
-<span>           ceq          </span>
-<span>           br.s         </span><span>IL_0008
-</span><span>  IL_0007</span>: <span>ldc.i4.1     </span>
-<span>  IL_0008</span>: <span>stloc.s      </span><span>V_6</span>
-<span>           ldloc.s      </span><span>V_6</span>
-<span>           brfalse.s    </span><span>IL_0009
-</span><span>           nop          </span>
-<span>           ldc.i4.0     </span>
-<span>           stloc.1      </span>
-<span>           br           </span><span>IL_0019
-</span><span>  IL_0009</span>: <span>nop          </span>
-<span>           ldc.i4.6     </span>
-<span>           stloc.1      </span>
-<span>           br           </span><span>IL_0019
-</span><span>  IL_0010</span>: <span>ldarg.0      </span>
-<span>           ldc.i4.0     </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
-<span>           ldc.i4.s     </span><span>47</span>
-<span>           ceq          </span>
-<span>           stloc.s      </span><span>V_7</span>
-<span>           ldloc.s      </span><span>V_7</span>
-<span>           brfalse.s    </span><span>IL_0015
-</span><span>           nop          </span>
-<span>           ldarg.0      </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Length</span>()
-<span>           ldc.i4.1     </span>
-<span>           ceq          </span>
-<span>           stloc.s      </span><span>V_8</span>
-<span>           ldloc.s      </span><span>V_8</span>
-<span>           brfalse.s    </span><span>IL_0011
-</span><span>           nop          </span>
-<span>           ldc.i4.5     </span>
-<span>           stloc.1      </span>
-<span>           br.s         </span><span>IL_0019
-</span><span>  IL_0011</span>: <span>ldarg.0      </span>
-<span>           ldc.i4.1     </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
-<span>           ldc.i4.s     </span><span>42</span>
-<span>           ceq          </span>
-<span>           stloc.s      </span><span>V_9</span>
-<span>           ldloc.s      </span><span>V_9</span>
-<span>           brfalse.s    </span><span>IL_0013
-</span><span>           nop          </span>
-<span>           ldarg.0      </span>
-<span>           ldstr        </span><span style="color: red;">&quot;*/&quot;</span>
-<span>           ldc.i4.4     </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">EndsWith</span>(<span style="color: blue;">string</span>, <span style="color: blue;">valuetype </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">StringComparison</span>)
-<span>           ldc.i4.0     </span>
-<span>           ceq          </span>
-<span>           stloc.s      </span><span>V_10</span>
-<span>           ldloc.s      </span><span>V_10</span>
-<span>           brfalse.s    </span><span>IL_0012
-</span><span>           nop          </span>
-<span>           ldc.i4.0     </span>
-<span>           stloc.1      </span>
-<span>           br.s         </span><span>IL_0019
-</span><span>  IL_0012</span>: <span>nop          </span>
-<span>           ldc.i4.s     </span><span>11</span>
-<span>           stloc.1      </span>
-<span>           br.s         </span><span>IL_0019
-</span><span>  IL_0013</span>: <span>ldarg.0      </span>
-<span>           ldc.i4.1     </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
-<span>           ldc.i4.s     </span><span>47</span>
-<span>           ceq          </span>
-<span>           stloc.s      </span><span>V_11</span>
-<span>           ldloc.s      </span><span>V_11</span>
-<span>           brfalse.s    </span><span>IL_0014
-</span><span>           nop          </span>
-<span>           ldc.i4.s     </span><span>10</span>
-<span>           stloc.1      </span>
-<span>           br.s         </span><span>IL_0019
-</span><span>  IL_0014</span>: <span>nop          </span>
-<span>           ldc.i4.0     </span>
-<span>           stloc.1      </span>
-<span>           br.s         </span><span>IL_0019
-</span><span>  IL_0015</span>: <span>ldarg.0      </span>
-<span>           ldc.i4.0     </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
-<span>           call         </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Char</span>::<span class="memberid">IsPunctuation</span>(<span style="color: blue;">char</span>)
-<span>           brtrue.s     </span><span>IL_0016
-</span><span>           ldarg.0      </span>
-<span>           ldc.i4.0     </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
-<span>           call         </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Char</span>::<span class="memberid">IsSymbol</span>(<span style="color: blue;">char</span>)
-<span>           br.s         </span><span>IL_0017
-</span><span>  IL_0016</span>: <span>ldc.i4.1     </span>
-<span>  IL_0017</span>: <span>stloc.s      </span><span>V_12</span>
-<span>           ldloc.s      </span><span>V_12</span>
-<span>           brfalse.s    </span><span>IL_0018
-</span><span>           nop          </span>
-<span>           ldc.i4.5     </span>
-<span>           stloc.1      </span>
-<span>           br.s         </span><span>IL_0019
-</span><span>  IL_0018</span>: <span>nop          </span>
-<span>           ldc.i4.0     </span>
-<span>           stloc.1      </span>
-<span>           br.s         </span><span>IL_0019
-</span><span>  IL_0019</span>: <span>ldloc.1      </span>
-<span>           ret          </span>
- }
-
-<span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> static </span><span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span><a name="M6000074" href="2000010.html#M6000074" class="memberid"> GetKind</a>(
-     <span style="color: blue;">string</span><span> token</span>
- )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
- {
-<span style="color: magenta;">  .maxstack </span> 2
-<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">bool</span><span> V_0</span>,
-     <span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span><span> V_1</span>,
-     <span style="color: blue;">bool</span><span> V_2</span>,
-     <span style="color: blue;">bool</span><span> V_3</span>)
-
-<span>           nop          </span>
-<span>           ldarg.0      </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Length</span>()
-<span>           ldc.i4.0     </span>
-<span>           ceq          </span>
-<span>           stloc.0      </span>
-<span>           ldloc.0      </span>
-<span>           brfalse.s    </span><span>IL_0001
 </span><span>           ldc.i4.0     </span>
 <span>           stloc.1      </span>
 <span>           br.s         </span><span>IL_0006
-</span><span>  IL_0001</span>: <span>ldarg.0      </span>
-<span>           ldc.i4.0     </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
-<span>           call         </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Char</span>::<span class="memberid">IsLetter</span>(<span style="color: blue;">char</span>)
-<span>           brtrue.s     </span><span>IL_0002
-</span><span>           ldarg.0      </span>
-<span>           ldc.i4.0     </span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
-<span>           ldc.i4.s     </span><span>95</span>
-<span>           ceq          </span>
-<span>           br.s         </span><span>IL_0003
-</span><span>  IL_0002</span>: <span>ldc.i4.1     </span>
-<span>  IL_0003</span>: <span>stloc.2      </span>
-<span>           ldloc.2      </span>
-<span>           brfalse.s    </span><span>IL_0004
-</span><span>           nop          </span>
-<span>           ldc.i4.1     </span>
-<span>           stloc.1      </span>
-<span>           br.s         </span><span>IL_0006
-</span><span>  IL_0004</span>: <span>ldarg.0      </span>
-<span>           ldstr        </span><span style="color: red;">&quot;&lt;!--&quot;</span>
-<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">StartsWith</span>(<span style="color: blue;">string</span>)
+</span><span>  IL_0002</span>: <span>ldc.i4.0     </span>
 <span>           stloc.3      </span>
+<span>           br.s         </span><span>IL_0005
+</span><span>  IL_0003</span>: <span>nop          </span>
+<span>           ldarg.0      </span>
+<span>           ldarg.1      </span>
 <span>           ldloc.3      </span>
-<span>           brfalse.s    </span><span>IL_0005
-</span><span>           nop          </span>
-<span>           ldc.i4.s     </span><span>10</span>
+<span>           add          </span>
+<span>           ldelem.ref   </span>
+<span>           stloc.s      </span><span>V_4</span>
+<span>           ldarg.2      </span>
+<span>           ldloc.3      </span>
+<span>           ldelem.ref   </span>
+<span>           stloc.s      </span><span>V_5</span>
+<span>           ldloc.s      </span><span>V_5</span>
+<span>           ldloc.s      </span><span>V_4</span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">bool</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>::<a href="2000011.html#M6000098" class="memberid">IsMatch</a>(<span style="color: blue;">class </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">SourceToken</span>)
+<span>           ldc.i4.0     </span>
+<span>           ceq          </span>
+<span>           stloc.s      </span><span>V_6</span>
+<span>           ldloc.s      </span><span>V_6</span>
+<span>           brfalse.s    </span><span>IL_0004
+</span><span>           ldc.i4.0     </span>
 <span>           stloc.1      </span>
 <span>           br.s         </span><span>IL_0006
-</span><span>  IL_0005</span>: <span>ldarg.0      </span>
-<span>           call         </span><span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span> <span class="memberid">CilBrowser.Core.SyntaxModel.Markup</span>.<a href="2000010.html" class="memberid">MarkupTokenFactory</a>::<a href="2000010.html#M6000073" class="memberid">GetKindCommon</a>(<span style="color: blue;">string</span>)
+</span><span>  IL_0004</span>: <span>nop          </span>
+<span>           ldloc.3      </span>
+<span>           ldc.i4.1     </span>
+<span>           add          </span>
+<span>           stloc.3      </span>
+<span>  IL_0005</span>: <span>ldloc.3      </span>
+<span>           ldarg.2      </span>
+<span>           ldlen        </span>
+<span>           conv.i4      </span>
+<span>           clt          </span>
+<span>           stloc.s      </span><span>V_7</span>
+<span>           ldloc.s      </span><span>V_7</span>
+<span>           brtrue.s     </span><span>IL_0003
+</span><span>           ldc.i4.1     </span>
 <span>           stloc.1      </span>
 <span>           br.s         </span><span>IL_0006
 </span><span>  IL_0006</span>: <span>ldloc.1      </span>
 <span>           ret          </span>
  }
 
-<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> virtual</span><span style="color: blue;"> instance </span><span style="color: blue;">class </span>[<span>CilTools.BytecodeAnalysis</span>]<span class="memberid">CilTools.Syntax</span>.<span class="memberid">SyntaxNode</span><a name="M6000075" href="2000010.html#M6000075" class="memberid"> CreateNode</a>(
-     <span style="color: blue;">string</span><span> content</span>, 
-     <span style="color: blue;">string</span><span> leadingWhitespace</span>, 
-     <span style="color: blue;">string</span><span> trailingWhitespace</span>
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> instance </span><span style="color: blue;">bool</span><a name="M6000090" href="2000010.html#M6000090" class="memberid"> HasStart</a>(
+     <span style="color: blue;">class </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">SourceToken</span>[]<span> arr</span>, 
+     <span style="color: blue;">int32</span><span> index</span>
  )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
  {
-<span style="color: magenta;">  .maxstack </span> 4
-<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span><span> V_0</span>,
-     <span style="color: blue;">class </span>[<span>CilTools.BytecodeAnalysis</span>]<span class="memberid">CilTools.Syntax</span>.<span class="memberid">SyntaxNode</span><span> V_1</span>)
+<span style="color: magenta;">  .maxstack </span> 3
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">bool</span><span> V_0</span>)
 
 <span>           nop          </span>
 <span>           ldarg.1      </span>
-<span>           call         </span><span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span> <span class="memberid">CilBrowser.Core.SyntaxModel.Markup</span>.<a href="2000010.html" class="memberid">MarkupTokenFactory</a>::<a href="2000010.html#M6000074" class="memberid">GetKind</a>(<span style="color: blue;">string</span>)
-<span>           stloc.0      </span>
-<span>           ldarg.1      </span>
-<span>           ldloc.0      </span>
 <span>           ldarg.2      </span>
-<span>           ldarg.3      </span>
-<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">SourceToken</span>::<span class="memberid">.ctor</span>(<span style="color: blue;">string</span>, <span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
-<span>           stloc.1      </span>
+<span>           ldarg.0      </span>
+<span>           ldfld        </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>[] <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>::<span class="memberid">start</span>
+<span>           call         </span><span style="color: blue;">bool</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>::<a href="2000010.html#M600008F" class="memberid">IsMatch</a>(<span style="color: blue;">class </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">SourceToken</span>[], <span style="color: blue;">int32</span>, <span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>[])
+<span>           stloc.0      </span>
 <span>           br.s         </span><span>IL_0001
-</span><span>  IL_0001</span>: <span>ldloc.1      </span>
+</span><span>  IL_0001</span>: <span>ldloc.0      </span>
 <span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> instance </span><span style="color: blue;">bool</span><a name="M6000091" href="2000010.html#M6000091" class="memberid"> HasEnd</a>(
+     <span style="color: blue;">class </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">SourceToken</span>[]<span> arr</span>, 
+     <span style="color: blue;">int32</span><span> index</span>
+ )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 3
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">bool</span><span> V_0</span>)
+
+<span>           nop          </span>
+<span>           ldarg.1      </span>
+<span>           ldarg.2      </span>
+<span>           ldarg.0      </span>
+<span>           ldfld        </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>[] <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>::<span class="memberid">end</span>
+<span>           ldlen        </span>
+<span>           conv.i4      </span>
+<span>           sub          </span>
+<span>           ldarg.0      </span>
+<span>           ldfld        </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>[] <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>::<span class="memberid">end</span>
+<span>           call         </span><span style="color: blue;">bool</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>::<a href="2000010.html#M600008F" class="memberid">IsMatch</a>(<span style="color: blue;">class </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">SourceToken</span>[], <span style="color: blue;">int32</span>, <span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>[])
+<span>           stloc.0      </span>
+<span>           br.s         </span><span>IL_0001
+</span><span>  IL_0001</span>: <span>ldloc.0      </span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> static </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>[]<a name="M6000092" href="2000010.html#M6000092" class="memberid"> GetMarkupDefs</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 6
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a><span> V_0</span>,
+     <span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a><span> V_1</span>,
+     <span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>[]<span> V_2</span>)
+
+<span>           nop          </span>
+<span>           ldc.i4.2     </span>
+<span>           newarr       </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>
+<span>           dup          </span>
+<span>           ldc.i4.0     </span>
+<span>           ldc.i4.5     </span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span style="color: blue;">valuetype </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Nullable`1</span>&lt;<span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span>&gt;::<span class="memberid">.ctor</span>(!0)
+<span>           ldstr        </span><span style="color: red;">&quot;&lt;&quot;</span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>::<a href="2000011.html#M6000097" class="memberid">.ctor</a>(<span style="color: blue;">valuetype </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Nullable`1</span>&lt;<span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span>&gt;, <span style="color: blue;">string</span>)
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.1     </span>
+<span>           ldc.i4.1     </span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span style="color: blue;">valuetype </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Nullable`1</span>&lt;<span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span>&gt;::<span class="memberid">.ctor</span>(!0)
+<span>           ldnull       </span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>::<a href="2000011.html#M6000097" class="memberid">.ctor</a>(<span style="color: blue;">valuetype </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Nullable`1</span>&lt;<span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span>&gt;, <span style="color: blue;">string</span>)
+<span>           stelem.ref   </span>
+<span>           ldc.i4.1     </span>
+<span>           newarr       </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>
+<span>           dup          </span>
+<span>           ldc.i4.0     </span>
+<span>           ldc.i4.5     </span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span style="color: blue;">valuetype </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Nullable`1</span>&lt;<span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span>&gt;::<span class="memberid">.ctor</span>(!0)
+<span>           ldstr        </span><span style="color: red;">&quot;&gt;&quot;</span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>::<a href="2000011.html#M6000097" class="memberid">.ctor</a>(<span style="color: blue;">valuetype </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Nullable`1</span>&lt;<span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span>&gt;, <span style="color: blue;">string</span>)
+<span>           stelem.ref   </span>
+<span>           ldc.i4.1     </span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>::<a href="2000010.html#M600008B" class="memberid">.ctor</a>(<span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt;, <span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt;, <span style="color: blue;">valuetype </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000013.html" class="memberid">SyntaxKind</a>)
+<span>           stloc.0      </span>
+<span>           ldc.i4.3     </span>
+<span>           newarr       </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>
+<span>           dup          </span>
+<span>           ldc.i4.0     </span>
+<span>           ldc.i4.5     </span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span style="color: blue;">valuetype </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Nullable`1</span>&lt;<span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span>&gt;::<span class="memberid">.ctor</span>(!0)
+<span>           ldstr        </span><span style="color: red;">&quot;&lt;&quot;</span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>::<a href="2000011.html#M6000097" class="memberid">.ctor</a>(<span style="color: blue;">valuetype </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Nullable`1</span>&lt;<span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span>&gt;, <span style="color: blue;">string</span>)
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.1     </span>
+<span>           ldc.i4.5     </span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span style="color: blue;">valuetype </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Nullable`1</span>&lt;<span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span>&gt;::<span class="memberid">.ctor</span>(!0)
+<span>           ldstr        </span><span style="color: red;">&quot;/&quot;</span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>::<a href="2000011.html#M6000097" class="memberid">.ctor</a>(<span style="color: blue;">valuetype </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Nullable`1</span>&lt;<span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span>&gt;, <span style="color: blue;">string</span>)
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.2     </span>
+<span>           ldc.i4.1     </span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span style="color: blue;">valuetype </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Nullable`1</span>&lt;<span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span>&gt;::<span class="memberid">.ctor</span>(!0)
+<span>           ldnull       </span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>::<a href="2000011.html#M6000097" class="memberid">.ctor</a>(<span style="color: blue;">valuetype </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Nullable`1</span>&lt;<span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span>&gt;, <span style="color: blue;">string</span>)
+<span>           stelem.ref   </span>
+<span>           ldc.i4.1     </span>
+<span>           newarr       </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>
+<span>           dup          </span>
+<span>           ldc.i4.0     </span>
+<span>           ldc.i4.5     </span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span style="color: blue;">valuetype </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Nullable`1</span>&lt;<span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span>&gt;::<span class="memberid">.ctor</span>(!0)
+<span>           ldstr        </span><span style="color: red;">&quot;&gt;&quot;</span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>::<a href="2000011.html#M6000097" class="memberid">.ctor</a>(<span style="color: blue;">valuetype </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Nullable`1</span>&lt;<span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span>&gt;, <span style="color: blue;">string</span>)
+<span>           stelem.ref   </span>
+<span>           ldc.i4.2     </span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>::<a href="2000010.html#M600008B" class="memberid">.ctor</a>(<span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt;, <span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt;, <span style="color: blue;">valuetype </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000013.html" class="memberid">SyntaxKind</a>)
+<span>           stloc.1      </span>
+<span>           ldc.i4.2     </span>
+<span>           newarr       </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>
+<span>           dup          </span>
+<span>           ldc.i4.0     </span>
+<span>           ldloc.0      </span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.1     </span>
+<span>           ldloc.1      </span>
+<span>           stelem.ref   </span>
+<span>           stloc.2      </span>
+<span>           br.s         </span><span>IL_0001
+</span><span>  IL_0001</span>: <span>ldloc.2      </span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .class </span><span style="color: blue;">nested </span><span style="color: blue;">private </span><span style="color: blue;">auto </span><span style="color: blue;">ansi </span><span style="color: blue;">sealed </span><span style="color: blue;">beforefieldinit </span><a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>
+<span style="color: blue;"> extends </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Object</span>
+<span style="color: blue;"> implements </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt;,
+[<span>netstandard</span>]<span class="memberid">System.Collections</span>.<span class="memberid">IEnumerable</span>,
+<span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerator`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt;,
+[<span>netstandard</span>]<span class="memberid">System.Collections</span>.<span class="memberid">IEnumerator</span>,
+[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">IDisposable</span>
+ {
+<span style="color: magenta;">  .custom </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System.Runtime.CompilerServices</span>.<span class="memberid">CompilerGeneratedAttribute</span>::<span class="memberid">.ctor</span>() = ( 01 00 00 00 )
+
+<span style="color: magenta;">  .field </span><span style="color: blue;">private </span><span style="color: blue;">int32</span><span class="memberid"> &#39;&lt;&gt;1__state&#39;</span>
+<span style="color: magenta;">  .field </span><span style="color: blue;">private </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a><span class="memberid"> &#39;&lt;&gt;2__current&#39;</span>
+<span style="color: magenta;">  .field </span><span style="color: blue;">private </span><span style="color: blue;">int32</span><span class="memberid"> &#39;&lt;&gt;l__initialThreadId&#39;</span>
+<span style="color: magenta;">  .field </span><span style="color: blue;">public </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a><span class="memberid"> &#39;&lt;&gt;4__this&#39;</span>
+<span style="color: magenta;">  .field </span><span style="color: blue;">private </span><span style="color: blue;">int32</span><span class="memberid"> &#39;&lt;i&gt;5__1&#39;</span>
+
+<span style="color: magenta;">  .property </span><span style="color: blue;">instance </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a><span class="memberid"> &#39;System.Collections.Generic.IEnumerator&lt;CilBrowser.Core.SyntaxModel.SyntaxFilter&gt;.Current&#39;</span>()
+  {
+  }
+
+<span style="color: magenta;">  .property </span><span style="color: blue;">instance </span><span style="color: blue;">object</span><span class="memberid"> System.Collections.IEnumerator.Current</span>()
+  {
+  }
+
+<span style="color: magenta;">  .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> rtspecialname</span><span style="color: blue;"> instance </span><span style="color: blue;">void</span><a name="M60000FA" href="200002D.html#M60000FA" class="memberid"> .ctor</a>(
+      <span style="color: blue;">int32</span><span> &#39;&lt;&gt;1__state&#39;</span>
+  )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+  {
+<span style="color: magenta;">   .custom </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">DebuggerHiddenAttribute</span>::<span class="memberid">.ctor</span>() = ( 01 00 00 00 )
+<span style="color: magenta;">   .maxstack </span> 8
+
+<span>            ldarg.0      </span>
+<span>            call         </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Object</span>::<span class="memberid">.ctor</span>()
+<span>            nop          </span>
+<span>            ldarg.0      </span>
+<span>            ldarg.1      </span>
+<span>            stfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>::<span class="memberid">&#39;&lt;&gt;1__state&#39;</span>
+<span>            ldarg.0      </span>
+<span>            call         </span><span style="color: blue;">int32</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Environment</span>::<span class="memberid">get_CurrentManagedThreadId</span>()
+<span>            stfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>::<span class="memberid">&#39;&lt;&gt;l__initialThreadId&#39;</span>
+<span>            ret          </span>
+  }
+
+<span style="color: magenta;">  .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> newslot</span><span style="color: blue;"> virtual</span><span style="color: blue;"> final</span><span style="color: blue;"> instance </span><span style="color: blue;">void</span><a name="M60000FB" href="200002D.html#M60000FB" class="memberid"> System.IDisposable.Dispose</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+  {
+<span style="color: magenta;">   .custom </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">DebuggerHiddenAttribute</span>::<span class="memberid">.ctor</span>() = ( 01 00 00 00 )
+<span style="color: magenta;">   .override </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">IDisposable</span>::<span class="memberid">Dispose
+</span><span style="color: magenta;">   .maxstack </span> 8
+
+<span>            ret          </span>
+  }
+
+<span style="color: magenta;">  .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> newslot</span><span style="color: blue;"> virtual</span><span style="color: blue;"> final</span><span style="color: blue;"> instance </span><span style="color: blue;">bool</span><a name="M60000FC" href="200002D.html#M60000FC" class="memberid"> MoveNext</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+  {
+<span style="color: magenta;">   .override </span>[<span>netstandard</span>]<span class="memberid">System.Collections</span>.<span class="memberid">IEnumerator</span>::<span class="memberid">MoveNext
+</span><span style="color: magenta;">   .maxstack </span> 3
+<span style="color: magenta;">   .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">int32</span><span> V_0</span>,
+      <span style="color: blue;">int32</span><span> V_1</span>,
+      <span style="color: blue;">bool</span><span> V_2</span>)
+
+<span>            ldarg.0      </span>
+<span>            ldfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>::<span class="memberid">&#39;&lt;&gt;1__state&#39;</span>
+<span>            stloc.0      </span>
+<span>            ldloc.0      </span>
+<span>            brfalse.s    </span><span>IL_0002
+</span><span>            br.s         </span><span>IL_0001
+</span><span>   IL_0001</span>: <span>ldloc.0      </span>
+<span>            ldc.i4.1     </span>
+<span>            beq.s        </span><span>IL_0003
+</span><span>            br.s         </span><span>IL_0004
+</span><span>   IL_0002</span>: <span>br.s         </span><span>IL_0005
+</span><span>   IL_0003</span>: <span>br.s         </span><span>IL_0007
+</span><span>   IL_0004</span>: <span>ldc.i4.0     </span>
+<span>            ret          </span>
+<span>   IL_0005</span>: <span>ldarg.0      </span>
+<span>            ldc.i4.m1    </span>
+<span>            stfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>::<span class="memberid">&#39;&lt;&gt;1__state&#39;</span>
+<span>            nop          </span>
+<span>            ldarg.0      </span>
+<span>            ldc.i4.0     </span>
+<span>            stfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>::<span class="memberid">&#39;&lt;i&gt;5__1&#39;</span>
+<span>            br.s         </span><span>IL_0008
+</span><span>   IL_0006</span>: <span>nop          </span>
+<span>            ldarg.0      </span>
+<span>            ldarg.0      </span>
+<span>            ldfld        </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>::<span class="memberid">&#39;&lt;&gt;4__this&#39;</span>
+<span>            ldfld        </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>[] <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>::<span class="memberid">start</span>
+<span>            ldarg.0      </span>
+<span>            ldfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>::<span class="memberid">&#39;&lt;i&gt;5__1&#39;</span>
+<span>            ldelem.ref   </span>
+<span>            stfld        </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>::<span class="memberid">&#39;&lt;&gt;2__current&#39;</span>
+<span>            ldarg.0      </span>
+<span>            ldc.i4.1     </span>
+<span>            stfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>::<span class="memberid">&#39;&lt;&gt;1__state&#39;</span>
+<span>            ldc.i4.1     </span>
+<span>            ret          </span>
+<span>   IL_0007</span>: <span>ldarg.0      </span>
+<span>            ldc.i4.m1    </span>
+<span>            stfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>::<span class="memberid">&#39;&lt;&gt;1__state&#39;</span>
+<span>            nop          </span>
+<span>            ldarg.0      </span>
+<span>            ldfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>::<span class="memberid">&#39;&lt;i&gt;5__1&#39;</span>
+<span>            stloc.1      </span>
+<span>            ldarg.0      </span>
+<span>            ldloc.1      </span>
+<span>            ldc.i4.1     </span>
+<span>            add          </span>
+<span>            stfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>::<span class="memberid">&#39;&lt;i&gt;5__1&#39;</span>
+<span>   IL_0008</span>: <span>ldarg.0      </span>
+<span>            ldfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>::<span class="memberid">&#39;&lt;i&gt;5__1&#39;</span>
+<span>            ldarg.0      </span>
+<span>            ldfld        </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>::<span class="memberid">&#39;&lt;&gt;4__this&#39;</span>
+<span>            ldfld        </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>[] <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>::<span class="memberid">start</span>
+<span>            ldlen        </span>
+<span>            conv.i4      </span>
+<span>            clt          </span>
+<span>            stloc.2      </span>
+<span>            ldloc.2      </span>
+<span>            brtrue.s     </span><span>IL_0006
+</span><span>            ldc.i4.0     </span>
+<span>            ret          </span>
+  }
+
+<span style="color: magenta;">  .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> newslot</span><span style="color: blue;"> virtual</span><span style="color: blue;"> final</span><span style="color: blue;"> specialname</span><span style="color: blue;"> instance </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a><a name="M60000FD" href="200002D.html#M60000FD" class="memberid"> &#39;System.Collections.Generic.IEnumerator&lt;CilBrowser.Core.SyntaxModel.SyntaxFilter&gt;.get_Current&#39;</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+  {
+<span style="color: magenta;">   .custom </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">DebuggerHiddenAttribute</span>::<span class="memberid">.ctor</span>() = ( 01 00 00 00 )
+<span style="color: magenta;">   .override </span><span style="color: blue;">method </span><span style="color: blue;">instance </span>!0 <span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerator`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt;::<span class="memberid">get_Current</span>()
+<span style="color: magenta;">   .maxstack </span> 8
+
+<span>            ldarg.0      </span>
+<span>            ldfld        </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>::<span class="memberid">&#39;&lt;&gt;2__current&#39;</span>
+<span>            ret          </span>
+  }
+
+<span style="color: magenta;">  .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> newslot</span><span style="color: blue;"> virtual</span><span style="color: blue;"> final</span><span style="color: blue;"> instance </span><span style="color: blue;">void</span><a name="M60000FE" href="200002D.html#M60000FE" class="memberid"> System.Collections.IEnumerator.Reset</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+  {
+<span style="color: magenta;">   .custom </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">DebuggerHiddenAttribute</span>::<span class="memberid">.ctor</span>() = ( 01 00 00 00 )
+<span style="color: magenta;">   .override </span>[<span>netstandard</span>]<span class="memberid">System.Collections</span>.<span class="memberid">IEnumerator</span>::<span class="memberid">Reset
+</span><span style="color: magenta;">   .maxstack </span> 8
+
+<span>            newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">NotSupportedException</span>::<span class="memberid">.ctor</span>()
+<span>            throw        </span>
+  }
+
+<span style="color: magenta;">  .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> newslot</span><span style="color: blue;"> virtual</span><span style="color: blue;"> final</span><span style="color: blue;"> specialname</span><span style="color: blue;"> instance </span><span style="color: blue;">object</span><a name="M60000FF" href="200002D.html#M60000FF" class="memberid"> System.Collections.IEnumerator.get_Current</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+  {
+<span style="color: magenta;">   .custom </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">DebuggerHiddenAttribute</span>::<span class="memberid">.ctor</span>() = ( 01 00 00 00 )
+<span style="color: magenta;">   .override </span>[<span>netstandard</span>]<span class="memberid">System.Collections</span>.<span class="memberid">IEnumerator</span>::<span class="memberid">get_Current
+</span><span style="color: magenta;">   .maxstack </span> 8
+
+<span>            ldarg.0      </span>
+<span>            ldfld        </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>::<span class="memberid">&#39;&lt;&gt;2__current&#39;</span>
+<span>            ret          </span>
+  }
+
+<span style="color: magenta;">  .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> newslot</span><span style="color: blue;"> virtual</span><span style="color: blue;"> final</span><span style="color: blue;"> instance </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerator`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt;<a name="M6000100" href="200002D.html#M6000100" class="memberid"> &#39;System.Collections.Generic.IEnumerable&lt;CilBrowser.Core.SyntaxModel.SyntaxFilter&gt;.GetEnumerator&#39;</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+  {
+<span style="color: magenta;">   .custom </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">DebuggerHiddenAttribute</span>::<span class="memberid">.ctor</span>() = ( 01 00 00 00 )
+<span style="color: magenta;">   .override </span><span style="color: blue;">method </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerator`1</span>&lt;!0&gt; <span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt;::<span class="memberid">GetEnumerator</span>()
+<span style="color: magenta;">   .maxstack </span> 2
+<span style="color: magenta;">   .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a><span> V_0</span>)
+
+<span>            ldarg.0      </span>
+<span>            ldfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>::<span class="memberid">&#39;&lt;&gt;1__state&#39;</span>
+<span>            ldc.i4.s     </span><span>-2</span>
+<span>            bne.un.s     </span><span>IL_0001
+</span><span>            ldarg.0      </span>
+<span>            ldfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>::<span class="memberid">&#39;&lt;&gt;l__initialThreadId&#39;</span>
+<span>            call         </span><span style="color: blue;">int32</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Environment</span>::<span class="memberid">get_CurrentManagedThreadId</span>()
+<span>            bne.un.s     </span><span>IL_0001
+</span><span>            ldarg.0      </span>
+<span>            ldc.i4.0     </span>
+<span>            stfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>::<span class="memberid">&#39;&lt;&gt;1__state&#39;</span>
+<span>            ldarg.0      </span>
+<span>            stloc.0      </span>
+<span>            br.s         </span><span>IL_0002
+</span><span>   IL_0001</span>: <span>ldc.i4.0     </span>
+<span>            newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>::<a href="200002D.html#M60000FA" class="memberid">.ctor</a>(<span style="color: blue;">int32</span>)
+<span>            stloc.0      </span>
+<span>            ldloc.0      </span>
+<span>            ldarg.0      </span>
+<span>            ldfld        </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>::<span class="memberid">&#39;&lt;&gt;4__this&#39;</span>
+<span>            stfld        </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>::<span class="memberid">&#39;&lt;&gt;4__this&#39;</span>
+<span>   IL_0002</span>: <span>ldloc.0      </span>
+<span>            ret          </span>
+  }
+
+<span style="color: magenta;">  .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> newslot</span><span style="color: blue;"> virtual</span><span style="color: blue;"> final</span><span style="color: blue;"> instance </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections</span>.<span class="memberid">IEnumerator</span><a name="M6000101" href="200002D.html#M6000101" class="memberid"> System.Collections.IEnumerable.GetEnumerator</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+  {
+<span style="color: magenta;">   .custom </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">DebuggerHiddenAttribute</span>::<span class="memberid">.ctor</span>() = ( 01 00 00 00 )
+<span style="color: magenta;">   .override </span>[<span>netstandard</span>]<span class="memberid">System.Collections</span>.<span class="memberid">IEnumerable</span>::<span class="memberid">GetEnumerator
+</span><span style="color: magenta;">   .maxstack </span> 8
+
+<span>            ldarg.0      </span>
+<span>            call         </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerator`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt; <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002D.html" class="memberid">&#39;&lt;get_Start&gt;d__5&#39;</a>::<a href="200002D.html#M6000100" class="memberid">&#39;System.Collections.Generic.IEnumerable&lt;CilBrowser.Core.SyntaxModel.SyntaxFilter&gt;.GetEnumerator&#39;</a>()
+<span>            ret          </span>
+  }
+
+ }
+
+<span style="color: magenta;"> .class </span><span style="color: blue;">nested </span><span style="color: blue;">private </span><span style="color: blue;">auto </span><span style="color: blue;">ansi </span><span style="color: blue;">sealed </span><span style="color: blue;">beforefieldinit </span><a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>
+<span style="color: blue;"> extends </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Object</span>
+<span style="color: blue;"> implements </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt;,
+[<span>netstandard</span>]<span class="memberid">System.Collections</span>.<span class="memberid">IEnumerable</span>,
+<span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerator`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt;,
+[<span>netstandard</span>]<span class="memberid">System.Collections</span>.<span class="memberid">IEnumerator</span>,
+[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">IDisposable</span>
+ {
+<span style="color: magenta;">  .custom </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System.Runtime.CompilerServices</span>.<span class="memberid">CompilerGeneratedAttribute</span>::<span class="memberid">.ctor</span>() = ( 01 00 00 00 )
+
+<span style="color: magenta;">  .field </span><span style="color: blue;">private </span><span style="color: blue;">int32</span><span class="memberid"> &#39;&lt;&gt;1__state&#39;</span>
+<span style="color: magenta;">  .field </span><span style="color: blue;">private </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a><span class="memberid"> &#39;&lt;&gt;2__current&#39;</span>
+<span style="color: magenta;">  .field </span><span style="color: blue;">private </span><span style="color: blue;">int32</span><span class="memberid"> &#39;&lt;&gt;l__initialThreadId&#39;</span>
+<span style="color: magenta;">  .field </span><span style="color: blue;">public </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a><span class="memberid"> &#39;&lt;&gt;4__this&#39;</span>
+<span style="color: magenta;">  .field </span><span style="color: blue;">private </span><span style="color: blue;">int32</span><span class="memberid"> &#39;&lt;i&gt;5__1&#39;</span>
+
+<span style="color: magenta;">  .property </span><span style="color: blue;">instance </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a><span class="memberid"> &#39;System.Collections.Generic.IEnumerator&lt;CilBrowser.Core.SyntaxModel.SyntaxFilter&gt;.Current&#39;</span>()
+  {
+  }
+
+<span style="color: magenta;">  .property </span><span style="color: blue;">instance </span><span style="color: blue;">object</span><span class="memberid"> System.Collections.IEnumerator.Current</span>()
+  {
+  }
+
+<span style="color: magenta;">  .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> rtspecialname</span><span style="color: blue;"> instance </span><span style="color: blue;">void</span><a name="M6000102" href="200002E.html#M6000102" class="memberid"> .ctor</a>(
+      <span style="color: blue;">int32</span><span> &#39;&lt;&gt;1__state&#39;</span>
+  )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+  {
+<span style="color: magenta;">   .custom </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">DebuggerHiddenAttribute</span>::<span class="memberid">.ctor</span>() = ( 01 00 00 00 )
+<span style="color: magenta;">   .maxstack </span> 8
+
+<span>            ldarg.0      </span>
+<span>            call         </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Object</span>::<span class="memberid">.ctor</span>()
+<span>            nop          </span>
+<span>            ldarg.0      </span>
+<span>            ldarg.1      </span>
+<span>            stfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>::<span class="memberid">&#39;&lt;&gt;1__state&#39;</span>
+<span>            ldarg.0      </span>
+<span>            call         </span><span style="color: blue;">int32</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Environment</span>::<span class="memberid">get_CurrentManagedThreadId</span>()
+<span>            stfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>::<span class="memberid">&#39;&lt;&gt;l__initialThreadId&#39;</span>
+<span>            ret          </span>
+  }
+
+<span style="color: magenta;">  .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> newslot</span><span style="color: blue;"> virtual</span><span style="color: blue;"> final</span><span style="color: blue;"> instance </span><span style="color: blue;">void</span><a name="M6000103" href="200002E.html#M6000103" class="memberid"> System.IDisposable.Dispose</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+  {
+<span style="color: magenta;">   .custom </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">DebuggerHiddenAttribute</span>::<span class="memberid">.ctor</span>() = ( 01 00 00 00 )
+<span style="color: magenta;">   .override </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">IDisposable</span>::<span class="memberid">Dispose
+</span><span style="color: magenta;">   .maxstack </span> 8
+
+<span>            ret          </span>
+  }
+
+<span style="color: magenta;">  .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> newslot</span><span style="color: blue;"> virtual</span><span style="color: blue;"> final</span><span style="color: blue;"> instance </span><span style="color: blue;">bool</span><a name="M6000104" href="200002E.html#M6000104" class="memberid"> MoveNext</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+  {
+<span style="color: magenta;">   .override </span>[<span>netstandard</span>]<span class="memberid">System.Collections</span>.<span class="memberid">IEnumerator</span>::<span class="memberid">MoveNext
+</span><span style="color: magenta;">   .maxstack </span> 3
+<span style="color: magenta;">   .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">int32</span><span> V_0</span>,
+      <span style="color: blue;">int32</span><span> V_1</span>,
+      <span style="color: blue;">bool</span><span> V_2</span>)
+
+<span>            ldarg.0      </span>
+<span>            ldfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>::<span class="memberid">&#39;&lt;&gt;1__state&#39;</span>
+<span>            stloc.0      </span>
+<span>            ldloc.0      </span>
+<span>            brfalse.s    </span><span>IL_0002
+</span><span>            br.s         </span><span>IL_0001
+</span><span>   IL_0001</span>: <span>ldloc.0      </span>
+<span>            ldc.i4.1     </span>
+<span>            beq.s        </span><span>IL_0003
+</span><span>            br.s         </span><span>IL_0004
+</span><span>   IL_0002</span>: <span>br.s         </span><span>IL_0005
+</span><span>   IL_0003</span>: <span>br.s         </span><span>IL_0007
+</span><span>   IL_0004</span>: <span>ldc.i4.0     </span>
+<span>            ret          </span>
+<span>   IL_0005</span>: <span>ldarg.0      </span>
+<span>            ldc.i4.m1    </span>
+<span>            stfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>::<span class="memberid">&#39;&lt;&gt;1__state&#39;</span>
+<span>            nop          </span>
+<span>            ldarg.0      </span>
+<span>            ldc.i4.0     </span>
+<span>            stfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>::<span class="memberid">&#39;&lt;i&gt;5__1&#39;</span>
+<span>            br.s         </span><span>IL_0008
+</span><span>   IL_0006</span>: <span>nop          </span>
+<span>            ldarg.0      </span>
+<span>            ldarg.0      </span>
+<span>            ldfld        </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>::<span class="memberid">&#39;&lt;&gt;4__this&#39;</span>
+<span>            ldfld        </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>[] <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>::<span class="memberid">end</span>
+<span>            ldarg.0      </span>
+<span>            ldfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>::<span class="memberid">&#39;&lt;i&gt;5__1&#39;</span>
+<span>            ldelem.ref   </span>
+<span>            stfld        </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>::<span class="memberid">&#39;&lt;&gt;2__current&#39;</span>
+<span>            ldarg.0      </span>
+<span>            ldc.i4.1     </span>
+<span>            stfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>::<span class="memberid">&#39;&lt;&gt;1__state&#39;</span>
+<span>            ldc.i4.1     </span>
+<span>            ret          </span>
+<span>   IL_0007</span>: <span>ldarg.0      </span>
+<span>            ldc.i4.m1    </span>
+<span>            stfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>::<span class="memberid">&#39;&lt;&gt;1__state&#39;</span>
+<span>            nop          </span>
+<span>            ldarg.0      </span>
+<span>            ldfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>::<span class="memberid">&#39;&lt;i&gt;5__1&#39;</span>
+<span>            stloc.1      </span>
+<span>            ldarg.0      </span>
+<span>            ldloc.1      </span>
+<span>            ldc.i4.1     </span>
+<span>            add          </span>
+<span>            stfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>::<span class="memberid">&#39;&lt;i&gt;5__1&#39;</span>
+<span>   IL_0008</span>: <span>ldarg.0      </span>
+<span>            ldfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>::<span class="memberid">&#39;&lt;i&gt;5__1&#39;</span>
+<span>            ldarg.0      </span>
+<span>            ldfld        </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>::<span class="memberid">&#39;&lt;&gt;4__this&#39;</span>
+<span>            ldfld        </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>[] <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>::<span class="memberid">end</span>
+<span>            ldlen        </span>
+<span>            conv.i4      </span>
+<span>            clt          </span>
+<span>            stloc.2      </span>
+<span>            ldloc.2      </span>
+<span>            brtrue.s     </span><span>IL_0006
+</span><span>            ldc.i4.0     </span>
+<span>            ret          </span>
+  }
+
+<span style="color: magenta;">  .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> newslot</span><span style="color: blue;"> virtual</span><span style="color: blue;"> final</span><span style="color: blue;"> specialname</span><span style="color: blue;"> instance </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a><a name="M6000105" href="200002E.html#M6000105" class="memberid"> &#39;System.Collections.Generic.IEnumerator&lt;CilBrowser.Core.SyntaxModel.SyntaxFilter&gt;.get_Current&#39;</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+  {
+<span style="color: magenta;">   .custom </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">DebuggerHiddenAttribute</span>::<span class="memberid">.ctor</span>() = ( 01 00 00 00 )
+<span style="color: magenta;">   .override </span><span style="color: blue;">method </span><span style="color: blue;">instance </span>!0 <span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerator`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt;::<span class="memberid">get_Current</span>()
+<span style="color: magenta;">   .maxstack </span> 8
+
+<span>            ldarg.0      </span>
+<span>            ldfld        </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>::<span class="memberid">&#39;&lt;&gt;2__current&#39;</span>
+<span>            ret          </span>
+  }
+
+<span style="color: magenta;">  .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> newslot</span><span style="color: blue;"> virtual</span><span style="color: blue;"> final</span><span style="color: blue;"> instance </span><span style="color: blue;">void</span><a name="M6000106" href="200002E.html#M6000106" class="memberid"> System.Collections.IEnumerator.Reset</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+  {
+<span style="color: magenta;">   .custom </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">DebuggerHiddenAttribute</span>::<span class="memberid">.ctor</span>() = ( 01 00 00 00 )
+<span style="color: magenta;">   .override </span>[<span>netstandard</span>]<span class="memberid">System.Collections</span>.<span class="memberid">IEnumerator</span>::<span class="memberid">Reset
+</span><span style="color: magenta;">   .maxstack </span> 8
+
+<span>            newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">NotSupportedException</span>::<span class="memberid">.ctor</span>()
+<span>            throw        </span>
+  }
+
+<span style="color: magenta;">  .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> newslot</span><span style="color: blue;"> virtual</span><span style="color: blue;"> final</span><span style="color: blue;"> specialname</span><span style="color: blue;"> instance </span><span style="color: blue;">object</span><a name="M6000107" href="200002E.html#M6000107" class="memberid"> System.Collections.IEnumerator.get_Current</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+  {
+<span style="color: magenta;">   .custom </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">DebuggerHiddenAttribute</span>::<span class="memberid">.ctor</span>() = ( 01 00 00 00 )
+<span style="color: magenta;">   .override </span>[<span>netstandard</span>]<span class="memberid">System.Collections</span>.<span class="memberid">IEnumerator</span>::<span class="memberid">get_Current
+</span><span style="color: magenta;">   .maxstack </span> 8
+
+<span>            ldarg.0      </span>
+<span>            ldfld        </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>::<span class="memberid">&#39;&lt;&gt;2__current&#39;</span>
+<span>            ret          </span>
+  }
+
+<span style="color: magenta;">  .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> newslot</span><span style="color: blue;"> virtual</span><span style="color: blue;"> final</span><span style="color: blue;"> instance </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerator`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt;<a name="M6000108" href="200002E.html#M6000108" class="memberid"> &#39;System.Collections.Generic.IEnumerable&lt;CilBrowser.Core.SyntaxModel.SyntaxFilter&gt;.GetEnumerator&#39;</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+  {
+<span style="color: magenta;">   .custom </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">DebuggerHiddenAttribute</span>::<span class="memberid">.ctor</span>() = ( 01 00 00 00 )
+<span style="color: magenta;">   .override </span><span style="color: blue;">method </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerator`1</span>&lt;!0&gt; <span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt;::<span class="memberid">GetEnumerator</span>()
+<span style="color: magenta;">   .maxstack </span> 2
+<span style="color: magenta;">   .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a><span> V_0</span>)
+
+<span>            ldarg.0      </span>
+<span>            ldfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>::<span class="memberid">&#39;&lt;&gt;1__state&#39;</span>
+<span>            ldc.i4.s     </span><span>-2</span>
+<span>            bne.un.s     </span><span>IL_0001
+</span><span>            ldarg.0      </span>
+<span>            ldfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>::<span class="memberid">&#39;&lt;&gt;l__initialThreadId&#39;</span>
+<span>            call         </span><span style="color: blue;">int32</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Environment</span>::<span class="memberid">get_CurrentManagedThreadId</span>()
+<span>            bne.un.s     </span><span>IL_0001
+</span><span>            ldarg.0      </span>
+<span>            ldc.i4.0     </span>
+<span>            stfld        </span><span style="color: blue;">int32</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>::<span class="memberid">&#39;&lt;&gt;1__state&#39;</span>
+<span>            ldarg.0      </span>
+<span>            stloc.0      </span>
+<span>            br.s         </span><span>IL_0002
+</span><span>   IL_0001</span>: <span>ldc.i4.0     </span>
+<span>            newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>::<a href="200002E.html#M6000102" class="memberid">.ctor</a>(<span style="color: blue;">int32</span>)
+<span>            stloc.0      </span>
+<span>            ldloc.0      </span>
+<span>            ldarg.0      </span>
+<span>            ldfld        </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>::<span class="memberid">&#39;&lt;&gt;4__this&#39;</span>
+<span>            stfld        </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>::<span class="memberid">&#39;&lt;&gt;4__this&#39;</span>
+<span>   IL_0002</span>: <span>ldloc.0      </span>
+<span>            ret          </span>
+  }
+
+<span style="color: magenta;">  .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> newslot</span><span style="color: blue;"> virtual</span><span style="color: blue;"> final</span><span style="color: blue;"> instance </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections</span>.<span class="memberid">IEnumerator</span><a name="M6000109" href="200002E.html#M6000109" class="memberid"> System.Collections.IEnumerable.GetEnumerator</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+  {
+<span style="color: magenta;">   .custom </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System.Diagnostics</span>.<span class="memberid">DebuggerHiddenAttribute</span>::<span class="memberid">.ctor</span>() = ( 01 00 00 00 )
+<span style="color: magenta;">   .override </span>[<span>netstandard</span>]<span class="memberid">System.Collections</span>.<span class="memberid">IEnumerable</span>::<span class="memberid">GetEnumerator
+</span><span style="color: magenta;">   .maxstack </span> 8
+
+<span>            ldarg.0      </span>
+<span>            call         </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerator`1</span>&lt;<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000011.html" class="memberid">SyntaxFilter</a>&gt; <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000010.html" class="memberid">SyntaxElementDefinition</a>/<a href="200002E.html" class="memberid">&#39;&lt;get_End&gt;d__7&#39;</a>::<a href="200002E.html#M6000108" class="memberid">&#39;System.Collections.Generic.IEnumerable&lt;CilBrowser.Core.SyntaxModel.SyntaxFilter&gt;.GetEnumerator&#39;</a>()
+<span>            ret          </span>
+  }
+
  }
 
 }

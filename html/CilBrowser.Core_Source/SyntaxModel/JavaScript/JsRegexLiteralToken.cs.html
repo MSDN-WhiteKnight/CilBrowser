@@ -1,0 +1,77 @@
+﻿<html><head><title>Source file: JsRegexLiteralToken.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
+<h2>Source file: JsRegexLiteralToken.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in JavaScript directory:</p><p><b>JsRegexLiteralToken.cs</b></p><p><a href="JsSyntaxProvider.cs.html">JsSyntaxProvider.cs</a></p><p><a href="JsTokenFactory.cs.html">JsTokenFactory.cs</a></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
+ * Copyright (c) 2023,  MSDN.WhiteKnight 
+ * License: BSD 3-Clause */
+</span><span style="color: blue;">using </span>System;
+<span style="color: blue;">using </span>System.Collections.Generic;
+<span style="color: blue;">using </span>System.Text;
+<span style="color: blue;">using </span>CilTools.Syntax.Tokens;
+
+<span style="color: blue;">namespace </span>CilBrowser.Core.SyntaxModel.JavaScript
+{
+    <span style="color: blue;">class </span>JsRegexLiteralToken : SyntaxTokenDefinition
+    {
+        <span style="color: blue;">static </span><span style="color: blue;">bool </span>IsEscaped(<span style="color: blue;">string </span>str, <span style="color: blue;">int </span>i)
+        {
+            <span style="color: blue;">if </span>(i &lt;= 0) <span style="color: blue;">return </span><span style="color: blue;">false</span>;
+
+            <span style="color: blue;">char </span>c1 = str[i - 1];
+
+            <span style="color: blue;">if </span>(c1 != <span style="color: red;">&#39;\\&#39;</span>) <span style="color: blue;">return </span><span style="color: blue;">false</span>;
+
+            <span style="color: green;">//check if the slash itself is not escaped
+            </span><span style="color: blue;">return </span>!IsEscaped(str, i - 1);
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span><span style="color: blue;">bool </span>HasContinuation(<span style="color: blue;">string </span>prevPart, TokenReader reader)
+        {
+            <span style="color: blue;">if </span>(prevPart.Length &lt;= 1) <span style="color: blue;">return </span><span style="color: blue;">true</span>;
+
+            <span style="color: blue;">char </span>c = prevPart[prevPart.Length - 1];
+
+            <span style="color: blue;">if </span>(c == <span style="color: red;">&#39;/&#39;</span>)
+            {
+                <span style="color: blue;">if </span>(IsEscaped(prevPart, prevPart.Length - 1)) <span style="color: blue;">return </span><span style="color: blue;">true</span>;
+                <span style="color: blue;">else </span><span style="color: blue;">return </span><span style="color: blue;">false</span>;
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">return </span><span style="color: blue;">true</span>;
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span><span style="color: blue;">bool </span>HasStart(TokenReader reader)
+        {
+            <span style="color: blue;">char </span>c = reader.PeekChar();
+
+            <span style="color: blue;">if </span>(c != <span style="color: red;">&#39;/&#39;</span>) <span style="color: blue;">return </span><span style="color: blue;">false</span>; <span style="color: green;">//JS regex literal starts with slash
+
+            </span><span style="color: blue;">string </span>s = reader.PeekString(2);
+
+            <span style="color: blue;">if </span>(s.Length &lt; 2) <span style="color: blue;">return </span><span style="color: blue;">false</span>; <span style="color: green;">//too short for regex literal
+
+            </span><span style="color: blue;">if </span>(s[1] == <span style="color: red;">&#39;/&#39; </span>|| s[1] == <span style="color: red;">&#39;*&#39;</span>) <span style="color: blue;">return </span><span style="color: blue;">false</span>; <span style="color: green;">//comments
+
+            </span><span style="color: green;">// Now the interesting part begins... Fully detecting division vs. regex literals is too complex, but if 
+            </span><span style="color: green;">// there&#39;s a newline after the starting slash and before the following slash, likely it is NOT a regex literal.
+
+            </span><span style="color: blue;">string </span>str = reader.GetSourceString();
+
+            <span style="color: blue;">for </span>(<span style="color: blue;">int </span>i = reader.Position + 1; i &lt; str.Length; i++)
+            {
+                <span style="color: blue;">if </span>(i - reader.Position &gt; 2000)
+                {
+                    <span style="color: green;">// Line is too long - exit early to prevent slowing down on minified JS files that consist of a
+                    </span><span style="color: green;">// single huge line.
+                    </span><span style="color: blue;">return </span><span style="color: blue;">false</span>;
+                }
+
+                <span style="color: blue;">if </span>(str[i] == <span style="color: red;">&#39;\r&#39; </span>|| str[i] == <span style="color: red;">&#39;\n&#39;</span>) <span style="color: blue;">return </span><span style="color: blue;">false</span>;
+                <span style="color: blue;">else </span><span style="color: blue;">if</span>(str[i] == <span style="color: red;">&#39;/&#39;</span>) <span style="color: blue;">return </span><span style="color: blue;">true</span>;
+            }
+
+            <span style="color: blue;">return </span><span style="color: blue;">false</span>;
+        }
+    }
+}
+</code></pre><a href="https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser.Core/SyntaxModel/JavaScript/JsRegexLiteralToken.cs">View in source control</a></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>

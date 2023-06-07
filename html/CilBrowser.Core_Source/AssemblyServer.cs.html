@@ -1,0 +1,154 @@
+﻿<html><head><title>Source file: AssemblyServer.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
+<h2>Source file: AssemblyServer.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in CilBrowser.Core directory:</p><p><b>AssemblyServer.cs</b></p><p><a href="CilBrowser.Core.csproj.html">CilBrowser.Core.csproj</a></p><p><a href="CilBrowserOptions.cs.html">CilBrowserOptions.cs</a></p><p><a href="FileUtils.cs.html">FileUtils.cs</a></p><p><a href="HtmlAttribute.cs.html">HtmlAttribute.cs</a></p><p><a href="HtmlBuilder.cs.html">HtmlBuilder.cs</a></p><p><a href="HtmlGenerator.cs.html">HtmlGenerator.cs</a></p><p><a href="ServerBase.cs.html">ServerBase.cs</a></p><p><a href="SourceServer.cs.html">SourceServer.cs</a></p><p><a href="Utils.cs.html">Utils.cs</a></p><p><a href="WebsiteGenerator.cs.html">WebsiteGenerator.cs</a></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
+ * Copyright (c) 2023,  MSDN.WhiteKnight 
+ * License: BSD 3-Clause */
+</span><span style="color: blue;">using </span>System;
+<span style="color: blue;">using </span>System.Collections.Generic;
+<span style="color: blue;">using </span>System.IO;
+<span style="color: blue;">using </span>System.Globalization;
+<span style="color: blue;">using </span>System.Linq;
+<span style="color: blue;">using </span>System.Net;
+<span style="color: blue;">using </span>System.Reflection;
+<span style="color: blue;">using </span>System.Text;
+<span style="color: blue;">using </span>CilTools.Reflection;
+
+<span style="color: blue;">namespace </span>CilBrowser.Core
+{
+    <span style="color: green;">/// &lt;summary&gt;
+    </span><span style="color: green;">/// Provides a server that dynamically generates HTML for a disassembled IL and returns it via HTTP
+    </span><span style="color: green;">/// &lt;/summary&gt;
+    </span><span style="color: blue;">public </span><span style="color: blue;">sealed </span><span style="color: blue;">class </span>AssemblyServer : ServerBase
+    {
+        Assembly _ass;        
+        HtmlGenerator _gen;        
+        Dictionary&lt;<span style="color: blue;">string</span>, List&lt;Type&gt;&gt; _typeMap;
+        
+        <span style="color: blue;">public </span>AssemblyServer(Assembly ass, <span style="color: blue;">string </span>urlHost, <span style="color: blue;">string </span>urlPrefix) : <span style="color: blue;">base</span>(urlHost, urlPrefix)
+        {
+            <span style="color: blue;">this</span>._ass = ass;
+            <span style="color: blue;">this</span>._gen = <span style="color: blue;">new </span>HtmlGenerator(ass);
+
+            Type[] types = ass.GetTypes();
+            <span style="color: blue;">this</span>._typeMap = Utils.GroupByNamespace(types);
+        }
+        
+        <span style="color: blue;">int </span>ResolveTokenFromUrl(<span style="color: blue;">string </span>url)
+        {
+            <span style="color: blue;">string </span>urlPart = StripURL(url);
+
+            <span style="color: green;">//Parse hexadecimal metadata token from URL
+            </span><span style="color: blue;">int </span>ret;
+
+            <span style="color: blue;">if </span>(<span style="color: blue;">int</span>.TryParse(urlPart, NumberStyles.HexNumber, CultureInfo.InvariantCulture, <span style="color: blue;">out </span>ret))
+            {
+                <span style="color: blue;">return </span>ret;
+            }
+            <span style="color: blue;">else
+            </span>{
+                <span style="color: blue;">return </span>0;
+            }
+        }
+
+        <span style="color: blue;">static </span>Type ResolveType(Assembly ass, <span style="color: blue;">int </span>metadataToken)
+        {
+            <span style="color: blue;">if </span>(ass <span style="color: blue;">is </span>ITokenResolver)
+            {
+                ITokenResolver resolver = (ITokenResolver)ass;
+                <span style="color: blue;">return </span>resolver.ResolveType(metadataToken);
+            }
+            <span style="color: blue;">else
+            </span>{
+                <span style="color: blue;">return </span>ass.ManifestModule.ResolveType(metadataToken);
+            }
+        }
+        
+        <span style="color: blue;">protected </span><span style="color: blue;">override </span><span style="color: blue;">void </span>OnStart()
+        {
+            Console.WriteLine(<span style="color: red;">&quot;Assembly: &quot; </span>+ <span style="color: blue;">this</span>._ass.GetName().Name);
+        }
+
+        <span style="color: blue;">protected </span><span style="color: blue;">override </span><span style="color: blue;">void </span>RenderFrontPage(HttpListenerResponse response)
+        {
+            <span style="color: green;">// Table of contents
+            </span>response.ContentType = <span style="color: red;">&quot;text/html; charset=utf-8&quot;</span>;
+            <span style="color: blue;">string</span>[] namespaces = <span style="color: blue;">this</span>._typeMap.Keys.ToArray();
+            Array.Sort(namespaces);
+
+            <span style="color: green;">// Write the response to output stream.
+            </span>StreamWriter wr = <span style="color: blue;">new </span>StreamWriter(response.OutputStream);
+            HtmlBuilder toc = <span style="color: blue;">new </span>HtmlBuilder(wr);
+
+            <span style="color: blue;">using </span>(wr)
+            {
+                HtmlGenerator.WriteTocStart(toc, <span style="color: blue;">this</span>._ass);
+
+                <span style="color: blue;">for </span>(<span style="color: blue;">int </span>i = 0; i &lt; namespaces.Length; i++)
+                {
+                    <span style="color: blue;">string </span>nsText = namespaces[i];
+                    List&lt;Type&gt; nsTypes = <span style="color: blue;">this</span>._typeMap[namespaces[i]];
+
+                    <span style="color: blue;">if </span>(nsTypes.Count == 0) <span style="color: blue;">continue</span>;
+
+                    <span style="color: blue;">if </span>(<span style="color: blue;">string</span>.IsNullOrEmpty(nsText)) nsText = <span style="color: red;">&quot;(No namespace)&quot;</span>;
+                    <span style="color: blue;">else </span>nsText = nsText + <span style="color: red;">&quot; namespace&quot;</span>;
+
+                    toc.WriteTag(<span style="color: red;">&quot;h2&quot;</span>, nsText);
+
+                    <span style="color: blue;">for </span>(<span style="color: blue;">int </span>j = 0; j &lt; nsTypes.Count; j++)
+                    {
+                        <span style="color: blue;">string </span>fname = HtmlGenerator.GenerateTypeFileName(nsTypes[j]);
+
+                        <span style="color: green;">//TOC entry
+                        </span>toc.StartParagraph();
+                        toc.WriteHyperlink(fname, nsTypes[j].FullName);
+                        toc.EndParagraph();
+                    }
+                }<span style="color: green;">//end for
+
+                </span><span style="color: blue;">this</span>._gen.WriteFooter(toc);
+                toc.EndDocument();
+            }<span style="color: green;">//end using
+        </span>}
+
+        <span style="color: blue;">protected </span><span style="color: blue;">override </span><span style="color: blue;">void </span>RenderPage(<span style="color: blue;">string </span>url, HttpListenerResponse response)
+        {
+            <span style="color: blue;">string </span>content;
+
+            <span style="color: blue;">if </span>(Utils.StrEquals(url, <span style="color: blue;">this</span>._urlPrefix + <span style="color: red;">&quot;assembly.html&quot;</span>))
+            {
+                <span style="color: green;">// Assembly manifest
+                </span>content = <span style="color: blue;">this</span>._gen.VisualizeAssemblyManifest(<span style="color: blue;">this</span>._ass);
+                SendHtmlResponse(response, content);
+                <span style="color: blue;">this</span>.AddToCache(url, content);
+                <span style="color: blue;">return</span>;
+            }
+
+            <span style="color: green;">// Type
+            </span><span style="color: blue;">int </span>metadataToken = ResolveTokenFromUrl(url);
+
+            <span style="color: blue;">if </span>(metadataToken == 0)
+            {
+                <span style="color: green;">//вернуть ошибку при неверном URL
+                </span>SendErrorResponse(response, 404, <span style="color: red;">&quot;Not found&quot;</span>);
+                <span style="color: blue;">return</span>;
+            }
+
+            Type t = ResolveType(<span style="color: blue;">this</span>._ass, metadataToken);
+
+            <span style="color: blue;">if </span>(t == <span style="color: blue;">null</span>)
+            {
+                <span style="color: green;">//вернуть ошибку при неверном URL
+                </span>SendErrorResponse(response, 404, <span style="color: red;">&quot;Not found&quot;</span>);
+                <span style="color: blue;">return</span>;
+            }
+
+            content = <span style="color: blue;">this</span>._gen.VisualizeType(t, <span style="color: blue;">this</span>._typeMap);
+            SendHtmlResponse(response, content);
+            <span style="color: blue;">this</span>.AddToCache(url, content);
+        }
+    }
+}
+</code></pre><a href="https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser.Core/AssemblyServer.cs">View in source control</a></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>

@@ -1,0 +1,39 @@
+﻿<html><head><title>Type: CilBrowser.Core.SyntaxModel.Java.JavaSyntaxProvider</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">CilBrowser.Core</a></p>
+<h2>Type: CilBrowser.Core.SyntaxModel.Java.JavaSyntaxProvider</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Types in CilBrowser.Core.SyntaxModel.Java namespace:</p><p><b>JavaSyntaxProvider</b></p><p><a href="200001E.html">JavaTokenFactory</a></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: magenta;">.class </span><span style="color: blue;">private </span><span style="color: blue;">auto </span><span style="color: blue;">ansi </span><span style="color: blue;">beforefieldinit </span><a href="200001D.html" class="memberid">CilBrowser.Core.SyntaxModel.Java.JavaSyntaxProvider</a>
+<span style="color: blue;">extends </span><span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000014.html" class="memberid">SyntaxProvider</a>
+{
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> rtspecialname</span><span style="color: blue;"> instance </span><span style="color: blue;">void</span><a name="M60000BB" href="200001D.html#M60000BB" class="memberid"> .ctor</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 8
+
+<span>           ldarg.0      </span>
+<span>           call         </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser.Core.SyntaxModel</span>.<a href="2000014.html" class="memberid">SyntaxProvider</a>::<a href="2000014.html#M600009F" class="memberid">.ctor</a>()
+<span>           nop          </span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> virtual</span><span style="color: blue;"> instance </span><span style="color: blue;">class </span>[<span>CilTools.BytecodeAnalysis</span>]<span class="memberid">CilTools.Syntax</span>.<span class="memberid">SyntaxNode</span>[]<a name="M60000BA" href="200001D.html#M60000BA" class="memberid"> GetNodes</a>(
+     <span style="color: blue;">string</span><span> sourceText</span>
+ )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 3
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">class </span>[<span>CilTools.BytecodeAnalysis</span>]<span class="memberid">CilTools.Syntax</span>.<span class="memberid">SyntaxNode</span>[]<span> V_0</span>)
+
+<span>           nop          </span>
+<span>           ldarg.1      </span>
+<span>           ldstr        </span><span style="color: red;">&quot;.java&quot;</span>
+<span>           call         </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;<span style="color: blue;">class </span>[<span>CilTools.BytecodeAnalysis</span>]<span class="memberid">CilTools.Syntax.Tokens</span>.<span class="memberid">SyntaxTokenDefinition</span>&gt; [<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">SourceCodeUtils</span>::<span class="memberid">GetTokenDefinitions</span>(<span style="color: blue;">string</span>)
+<span>           ldsfld       </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel.Java</span>.<a href="200001E.html" class="memberid">JavaTokenFactory</a> <span class="memberid">CilBrowser.Core.SyntaxModel.Java</span>.<a href="200001E.html" class="memberid">JavaTokenFactory</a>::<span class="memberid">Value</span>
+<span>           call         </span><span style="color: blue;">class </span>[<span>CilTools.BytecodeAnalysis</span>]<span class="memberid">CilTools.Syntax</span>.<span class="memberid">SyntaxNode</span>[] [<span>CilTools.BytecodeAnalysis</span>]<span class="memberid">CilTools.Syntax.Tokens</span>.<span class="memberid">SyntaxReader</span>::<span class="memberid">ReadAllNodes</span>(<span style="color: blue;">string</span>, <span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;<span style="color: blue;">class </span>[<span>CilTools.BytecodeAnalysis</span>]<span class="memberid">CilTools.Syntax.Tokens</span>.<span class="memberid">SyntaxTokenDefinition</span>&gt;, <span style="color: blue;">class </span>[<span>CilTools.BytecodeAnalysis</span>]<span class="memberid">CilTools.Syntax</span>.<span class="memberid">SyntaxFactory</span>)
+<span>           stloc.0      </span>
+<span>           br.s         </span><span>IL_0001
+</span><span>  IL_0001</span>: <span>ldloc.0      </span>
+<span>           ret          </span>
+ }
+
+}
+</code></pre></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>

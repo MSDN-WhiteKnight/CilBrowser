@@ -1,6 +1,6 @@
 ﻿<html><head><title>Source file: SourceParser.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
 <body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
-<h2>Source file: SourceParser.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in SyntaxModel directory:</p><p><b>SourceParser.cs</b></p><p><a href="SyntaxElement.cs.html">SyntaxElement.cs</a></p><p><a href="SyntaxElementDefinition.cs.html">SyntaxElementDefinition.cs</a></p><p><a href="SyntaxElementReader.cs.html">SyntaxElementReader.cs</a></p><p><a href="SyntaxKind.cs.html">SyntaxKind.cs</a></p></td>
+<h2>Source file: SourceParser.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in SyntaxModel directory:</p><p><b>SourceParser.cs</b></p><p><a href="SyntaxElement.cs.html">SyntaxElement.cs</a></p><p><a href="SyntaxElementDefinition.cs.html">SyntaxElementDefinition.cs</a></p><p><a href="SyntaxElementReader.cs.html">SyntaxElementReader.cs</a></p><p><a href="SyntaxKind.cs.html">SyntaxKind.cs</a></p><p><a href="SyntaxProvider.cs.html">SyntaxProvider.cs</a></p></td>
 <td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
  * Copyright (c) 2023,  MSDN.WhiteKnight 
  * License: BSD 3-Clause */
@@ -8,24 +8,48 @@
 <span style="color: blue;">using </span>System.Collections.Generic;
 <span style="color: blue;">using </span>System.Linq;
 <span style="color: blue;">using </span>System.Text;
+<span style="color: blue;">using </span>CilBrowser.Core.SyntaxModel.FoxPro;
+<span style="color: blue;">using </span>CilBrowser.Core.SyntaxModel.Java;
+<span style="color: blue;">using </span>CilBrowser.Core.SyntaxModel.JavaScript;
 <span style="color: blue;">using </span>CilBrowser.Core.SyntaxModel.Markup;
+<span style="color: blue;">using </span>CilBrowser.Core.SyntaxModel.PowerShell;
+<span style="color: blue;">using </span>CilTools.SourceCode.Common;
 <span style="color: blue;">using </span>CilTools.Syntax;
 <span style="color: blue;">using </span>CilTools.Syntax.Tokens;
-<span style="color: blue;">using </span>CilTools.SourceCode.Common;
 
 <span style="color: blue;">namespace </span>CilBrowser.Core.SyntaxModel
 {
     <span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">class </span>SourceParser
     {
+        <span style="color: blue;">static </span>Dictionary&lt;<span style="color: blue;">string</span>, SyntaxProvider&gt; s_map = <span style="color: blue;">new </span>Dictionary&lt;<span style="color: blue;">string</span>, SyntaxProvider&gt;();
+
         <span style="color: blue;">static </span><span style="color: blue;">readonly </span>SyntaxTokenDefinition[] s_markupDefinitions = <span style="color: blue;">new </span>SyntaxTokenDefinition[] {
             <span style="color: blue;">new </span>CommonNameToken(), <span style="color: blue;">new </span>XmlCommentToken(), <span style="color: blue;">new </span>PunctuationToken(), <span style="color: blue;">new </span>WhitespaceToken(),
-            <span style="color: blue;">new </span>NumericLiteralToken(), <span style="color: blue;">new </span>DoubleQuotLiteralToken()
+            <span style="color: blue;">new </span>NumericLiteralToken(), <span style="color: blue;">new </span>XmlTextLiteralToken()
         };
 
         <span style="color: blue;">static </span><span style="color: blue;">readonly </span>HashSet&lt;<span style="color: blue;">string</span>&gt; s_markupExts = <span style="color: blue;">new </span>HashSet&lt;<span style="color: blue;">string</span>&gt;(<span style="color: blue;">new </span><span style="color: blue;">string</span>[] {
             <span style="color: red;">&quot;.xml&quot;</span>, <span style="color: red;">&quot;.csproj&quot;</span>, <span style="color: red;">&quot;.vbproj&quot;</span>, <span style="color: red;">&quot;.vcxproj&quot;</span>, <span style="color: red;">&quot;.proj&quot;</span>, <span style="color: red;">&quot;.ilproj&quot;</span>, <span style="color: red;">&quot;.htm&quot;</span>, <span style="color: red;">&quot;.html&quot;</span>, <span style="color: red;">&quot;.config&quot;</span>, <span style="color: red;">&quot;.xaml&quot;
         </span>});
 
+        <span style="color: blue;">static </span>SourceParser()
+        {
+            <span style="color: green;">//initialize built-in providers
+            </span>RegisterProvider(<span style="color: red;">&quot;.js&quot;</span>,  <span style="color: blue;">new </span>JsSyntaxProvider());
+            RegisterProvider(<span style="color: red;">&quot;.ps1&quot;</span>, <span style="color: blue;">new </span>PsSyntaxProvider());
+            RegisterProvider(<span style="color: red;">&quot;.java&quot;</span>, <span style="color: blue;">new </span>JavaSyntaxProvider());
+            RegisterProvider(<span style="color: red;">&quot;.prg&quot;</span>, <span style="color: blue;">new </span>FoxSyntaxProvider());
+        }
+
+        <span style="color: green;">/// &lt;summary&gt;
+        </span><span style="color: green;">/// Registers a syntax provider for the specified source file extension. Extension should be with a leading dot 
+        </span><span style="color: green;">/// and in all lowercase letters.
+        </span><span style="color: green;">/// &lt;/summary&gt;
+        </span><span style="color: blue;">static </span><span style="color: blue;">void </span>RegisterProvider(<span style="color: blue;">string </span>ext, SyntaxProvider provider)
+        {
+            s_map[ext] = provider;
+        }
+        
         <span style="color: blue;">public </span><span style="color: blue;">static </span>SourceToken[] ParseXmlTokens(<span style="color: blue;">string </span>content)
         {
             <span style="color: blue;">return </span>SyntaxReader.ReadAllNodes(content, s_markupDefinitions, MarkupTokenFactory.Value).
@@ -53,8 +77,87 @@
             }
             <span style="color: blue;">else
             </span>{
-                <span style="color: blue;">return </span>SyntaxReader.ReadAllNodes(content, SourceCodeUtils.GetTokenDefinitions(ext),
-                    SourceCodeUtils.GetFactory(ext));
+                SyntaxProvider provider;
+                
+                <span style="color: blue;">if </span>(s_map.TryGetValue(ext, <span style="color: blue;">out </span>provider))
+                {
+                    <span style="color: green;">// CIL Browser registered syntax provider
+                    </span><span style="color: blue;">return </span>provider.GetNodes(content);
+                }
+                <span style="color: blue;">else
+                </span>{
+                    <span style="color: green;">// CIL Tools built-in syntax highlighting support
+                    </span><span style="color: blue;">return </span>SyntaxReader.ReadAllNodes(content, SourceCodeUtils.GetTokenDefinitions(ext),
+                        SourceCodeUtils.GetFactory(ext));
+                }
+            }
+        }
+
+        <span style="color: blue;">internal </span><span style="color: blue;">static </span>TokenKind GetKindCommon(<span style="color: blue;">string </span>token)
+        {
+            <span style="color: green;">//common logic for C-like languages
+            </span><span style="color: green;">//From: https://github.com/MSDN-WhiteKnight/CilTools/blob/master/CilTools.SourceCode/Common/SourceCodeUtils.cs
+            </span><span style="color: blue;">if </span>(token.Length == 0) <span style="color: blue;">return </span>TokenKind.Unknown;
+
+            <span style="color: blue;">if </span>(<span style="color: blue;">char</span>.IsDigit(token[0]))
+            {
+                <span style="color: blue;">return </span>TokenKind.NumericLiteral;
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(token[0] == <span style="color: red;">&#39;&quot;&#39;</span>)
+            {
+                <span style="color: blue;">if </span>(token.Length &lt; 2 || token[token.Length - 1] != <span style="color: red;">&#39;&quot;&#39;</span>)
+                {
+                    <span style="color: blue;">return </span>TokenKind.Unknown;
+                }
+                <span style="color: blue;">else
+                </span>{
+                    <span style="color: blue;">return </span>TokenKind.DoubleQuotLiteral;
+                }
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(token[0] == <span style="color: red;">&#39;\&#39;&#39;</span>)
+            {
+                <span style="color: blue;">if </span>(token.Length &lt; 2 || token[token.Length - 1] != <span style="color: red;">&#39;\&#39;&#39;</span>)
+                {
+                    <span style="color: blue;">return </span>TokenKind.Unknown;
+                }
+                <span style="color: blue;">else
+                </span>{
+                    <span style="color: blue;">return </span>TokenKind.SingleQuotLiteral;
+                }
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(token[0] == <span style="color: red;">&#39;/&#39;</span>)
+            {
+                <span style="color: blue;">if </span>(token.Length == 1)
+                {
+                    <span style="color: blue;">return </span>TokenKind.Punctuation;
+                }
+                <span style="color: blue;">else </span><span style="color: blue;">if </span>(token[1] == <span style="color: red;">&#39;*&#39;</span>)
+                {
+                    <span style="color: blue;">if </span>(!token.EndsWith(<span style="color: red;">&quot;*/&quot;</span>, StringComparison.Ordinal))
+                    {
+                        <span style="color: blue;">return </span>TokenKind.Unknown;
+                    }
+                    <span style="color: blue;">else
+                    </span>{
+                        <span style="color: blue;">return </span>TokenKind.MultilineComment;
+                    }
+                }
+                <span style="color: blue;">else </span><span style="color: blue;">if </span>(token[1] == <span style="color: red;">&#39;/&#39;</span>)
+                {
+                    <span style="color: blue;">return </span>TokenKind.Comment;
+                }
+                <span style="color: blue;">else
+                </span>{
+                    <span style="color: blue;">return </span>TokenKind.Unknown;
+                }
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(<span style="color: blue;">char</span>.IsPunctuation(token[0]) || <span style="color: blue;">char</span>.IsSymbol(token[0]))
+            {
+                <span style="color: blue;">return </span>TokenKind.Punctuation;
+            }
+            <span style="color: blue;">else
+            </span>{
+                <span style="color: blue;">return </span>TokenKind.Unknown;
             }
         }
     }

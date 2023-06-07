@@ -1,0 +1,81 @@
+﻿<html><head><title>Source file: PsTokenFactory.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
+<h2>Source file: PsTokenFactory.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in PowerShell directory:</p><p><a href="PsCommentToken.cs.html">PsCommentToken.cs</a></p><p><a href="PsMultilineCommentToken.cs.html">PsMultilineCommentToken.cs</a></p><p><a href="PsSyntaxProvider.cs.html">PsSyntaxProvider.cs</a></p><p><a href="PsTextLiteral.cs.html">PsTextLiteral.cs</a></p><p><b>PsTokenFactory.cs</b></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
+ * Copyright (c) 2023,  MSDN.WhiteKnight 
+ * License: BSD 3-Clause */
+</span><span style="color: blue;">using </span>System;
+<span style="color: blue;">using </span>System.Collections.Generic;
+<span style="color: blue;">using </span>System.Text;
+<span style="color: blue;">using </span>CilTools.Syntax;
+<span style="color: blue;">using </span>CilTools.SourceCode.Common;
+
+<span style="color: blue;">namespace </span>CilBrowser.Core.SyntaxModel.PowerShell
+{
+    <span style="color: green;">/// &lt;summary&gt;
+    </span><span style="color: green;">/// Produces &lt;see cref=&quot;SourceToken&quot;/&gt; instances for PowerShell scripting language
+    </span><span style="color: green;">/// &lt;/summary&gt;
+    </span><span style="color: blue;">public </span><span style="color: blue;">sealed </span><span style="color: blue;">class </span>PsTokenFactory : SyntaxFactory
+    {
+        <span style="color: blue;">private </span>PsTokenFactory() { }
+
+        <span style="color: green;">// https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_language_keywords
+        </span><span style="color: blue;">static </span><span style="color: blue;">readonly </span>HashSet&lt;<span style="color: blue;">string</span>&gt; keywords = <span style="color: blue;">new </span>HashSet&lt;<span style="color: blue;">string</span>&gt;(<span style="color: blue;">new </span><span style="color: blue;">string</span>[] {
+            <span style="color: red;">&quot;begin&quot;</span>, <span style="color: red;">&quot;break&quot;</span>, <span style="color: red;">&quot;catch&quot;</span>, <span style="color: red;">&quot;class&quot;</span>, <span style="color: red;">&quot;continue&quot;</span>, <span style="color: red;">&quot;data&quot;</span>, <span style="color: red;">&quot;define&quot;</span>, <span style="color: red;">&quot;do&quot;</span>, <span style="color: red;">&quot;dynamicparam&quot;</span>, <span style="color: red;">&quot;else&quot;</span>, <span style="color: red;">&quot;elseif&quot;</span>, <span style="color: red;">&quot;end&quot;</span>,
+            <span style="color: red;">&quot;enum&quot;</span>, <span style="color: red;">&quot;exit&quot;</span>, <span style="color: red;">&quot;filter&quot;</span>, <span style="color: red;">&quot;finally&quot;</span>, <span style="color: red;">&quot;for&quot;</span>, <span style="color: red;">&quot;foreach&quot;</span>, <span style="color: red;">&quot;from&quot;</span>, <span style="color: red;">&quot;function&quot;</span>, <span style="color: red;">&quot;hidden&quot;</span>, <span style="color: red;">&quot;if&quot;</span>, <span style="color: red;">&quot;in&quot;</span>, <span style="color: red;">&quot;param&quot;</span>, 
+            <span style="color: red;">&quot;process&quot;</span>, <span style="color: red;">&quot;return&quot;</span>, <span style="color: red;">&quot;static&quot;</span>, <span style="color: red;">&quot;switch&quot;</span>, <span style="color: red;">&quot;throw&quot;</span>, <span style="color: red;">&quot;trap&quot;</span>, <span style="color: red;">&quot;try&quot;</span>, <span style="color: red;">&quot;until&quot;</span>, <span style="color: red;">&quot;using&quot;</span>, <span style="color: red;">&quot;var&quot;</span>, <span style="color: red;">&quot;while&quot;
+        </span>}, StringComparer.OrdinalIgnoreCase);
+        
+        <span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">readonly </span>PsTokenFactory Value = <span style="color: blue;">new </span>PsTokenFactory();
+
+        <span style="color: blue;">static </span>TokenKind GetKind(<span style="color: blue;">string </span>token)
+        {
+            <span style="color: blue;">if </span>(token.Length == 0) <span style="color: blue;">return </span>TokenKind.Unknown;
+
+            <span style="color: blue;">if </span>(keywords.Contains(token))
+            {
+                <span style="color: blue;">return </span>TokenKind.Keyword;
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(<span style="color: blue;">char</span>.IsLetter(token[0]) || token[0] == <span style="color: red;">&#39;_&#39;</span>)
+            {
+                <span style="color: blue;">return </span>TokenKind.Name;
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(token[0] == <span style="color: red;">&#39;#&#39;</span>)
+            {
+                <span style="color: blue;">return </span>TokenKind.Comment;
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(token.StartsWith(<span style="color: red;">&quot;&lt;#&quot;</span>, StringComparison.Ordinal))
+            {
+                <span style="color: blue;">return </span>TokenKind.MultilineComment;
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(token[0] == <span style="color: red;">&#39;\&#39;&#39;</span>)
+            {
+                <span style="color: blue;">return </span>TokenKind.SingleQuotLiteral;
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(token[0] == <span style="color: red;">&#39;&quot;&#39;</span>)
+            {
+                <span style="color: blue;">return </span>TokenKind.DoubleQuotLiteral;
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(<span style="color: blue;">char</span>.IsPunctuation(token[0]) || <span style="color: blue;">char</span>.IsSymbol(token[0]))
+            {
+                <span style="color: blue;">return </span>TokenKind.Punctuation;
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(<span style="color: blue;">char</span>.IsDigit(token[0]))
+            {
+                <span style="color: blue;">return </span>TokenKind.NumericLiteral;
+            }
+            <span style="color: blue;">else
+            </span>{
+                <span style="color: blue;">return </span>TokenKind.Unknown;
+            }
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span>SyntaxNode CreateNode(<span style="color: blue;">string </span>content, <span style="color: blue;">string </span>leadingWhitespace, <span style="color: blue;">string </span>trailingWhitespace)
+        {
+            TokenKind kind = GetKind(content);
+            <span style="color: blue;">return </span><span style="color: blue;">new </span>SourceToken(content, kind, leadingWhitespace, trailingWhitespace);
+        }
+    }
+}
+</code></pre><a href="https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser.Core/SyntaxModel/PowerShell/PsTokenFactory.cs">View in source control</a></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>

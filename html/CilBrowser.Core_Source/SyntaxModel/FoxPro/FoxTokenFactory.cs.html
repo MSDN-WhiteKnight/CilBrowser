@@ -1,0 +1,87 @@
+﻿<html><head><title>Source file: FoxTokenFactory.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
+<h2>Source file: FoxTokenFactory.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in FoxPro directory:</p><p><a href="FoxCommentToken.cs.html">FoxCommentToken.cs</a></p><p><a href="FoxSyntaxProvider.cs.html">FoxSyntaxProvider.cs</a></p><p><a href="FoxTextLiteralToken.cs.html">FoxTextLiteralToken.cs</a></p><p><b>FoxTokenFactory.cs</b></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
+ * Copyright (c) 2023,  MSDN.WhiteKnight 
+ * License: BSD 3-Clause */
+</span><span style="color: blue;">using </span>System;
+<span style="color: blue;">using </span>System.Collections.Generic;
+<span style="color: blue;">using </span>System.Text;
+<span style="color: blue;">using </span>CilTools.Syntax;
+<span style="color: blue;">using </span>CilTools.SourceCode.Common;
+
+<span style="color: blue;">namespace </span>CilBrowser.Core.SyntaxModel.FoxPro
+{
+    <span style="color: blue;">public </span><span style="color: blue;">sealed </span><span style="color: blue;">class </span>FoxTokenFactory : SyntaxFactory
+    {
+        <span style="color: blue;">private </span>FoxTokenFactory() { }
+
+        <span style="color: green;">// https://learn.microsoft.com/en-us/sql/t-sql/language-elements/reserved-keywords-transact-sql
+        </span><span style="color: blue;">static </span><span style="color: blue;">readonly </span>HashSet&lt;<span style="color: blue;">string</span>&gt; sqlKeywords = <span style="color: blue;">new </span>HashSet&lt;<span style="color: blue;">string</span>&gt;(<span style="color: blue;">new </span><span style="color: blue;">string</span>[] {
+            <span style="color: red;">&quot;ALL&quot;</span>, <span style="color: red;">&quot;ALTER&quot;</span>, <span style="color: red;">&quot;AND&quot;</span>, <span style="color: red;">&quot;ANY&quot;</span>, <span style="color: red;">&quot;AS&quot;</span>, <span style="color: red;">&quot;ASC&quot;</span>, <span style="color: red;">&quot;BETWEEN&quot;</span>, <span style="color: red;">&quot;BY&quot;</span>, <span style="color: red;">&quot;CREATE&quot;</span>, <span style="color: red;">&quot;COUNT&quot;</span>, <span style="color: red;">&quot;DATABASE&quot;</span>, <span style="color: red;">&quot;DELETE&quot;</span>, 
+            <span style="color: red;">&quot;DESC&quot;</span>, <span style="color: red;">&quot;DISTINCT&quot;</span>, <span style="color: red;">&quot;DROP&quot;</span>, <span style="color: red;">&quot;EXISTS&quot;</span>, <span style="color: red;">&quot;FROM&quot;</span>, <span style="color: red;">&quot;GROUP&quot;</span>, <span style="color: red;">&quot;HAVING&quot;</span>, <span style="color: red;">&quot;IN&quot;</span>, <span style="color: red;">&quot;IS&quot;</span>, <span style="color: red;">&quot;INDEX&quot;</span>, <span style="color: red;">&quot;INSERT&quot;</span>, <span style="color: red;">&quot;INTO&quot;</span>, 
+            <span style="color: red;">&quot;JOIN&quot;</span>, <span style="color: red;">&quot;KEY&quot;</span>, <span style="color: red;">&quot;LIKE&quot;</span>, <span style="color: red;">&quot;NOT&quot;</span>, <span style="color: red;">&quot;NULL&quot;</span>, <span style="color: red;">&quot;ON&quot;</span>, <span style="color: red;">&quot;OR&quot;</span>, <span style="color: red;">&quot;ORDER&quot;</span>, <span style="color: red;">&quot;SELECT&quot;</span>, <span style="color: red;">&quot;TABLE&quot;</span>, <span style="color: red;">&quot;VALUES&quot;</span>, <span style="color: red;">&quot;VIEW&quot;</span>, <span style="color: red;">&quot;UNION&quot;</span>, 
+            <span style="color: red;">&quot;UPDATE&quot;</span>, <span style="color: red;">&quot;WHERE&quot;</span>, <span style="color: red;">&quot;WITH&quot;
+        </span>}, StringComparer.OrdinalIgnoreCase);
+
+        <span style="color: green;">// https://jeffpar.github.io/kbarchive/kb/130/Q130440/
+        </span><span style="color: blue;">static </span><span style="color: blue;">readonly </span>HashSet&lt;<span style="color: blue;">string</span>&gt; foxKeywords = <span style="color: blue;">new </span>HashSet&lt;<span style="color: blue;">string</span>&gt;(<span style="color: blue;">new </span><span style="color: blue;">string</span>[] {
+            <span style="color: red;">&quot;ARRAY&quot;</span>, <span style="color: red;">&quot;CALL&quot;</span>, <span style="color: red;">&quot;CASE&quot;</span>, <span style="color: red;">&quot;CATCH&quot;</span>, <span style="color: red;">&quot;CLASS&quot;</span>, <span style="color: red;">&quot;CLOSE&quot;</span>, <span style="color: red;">&quot;CONTINUE&quot;</span>, <span style="color: red;">&quot;CURSOR&quot;</span>, <span style="color: red;">&quot;DECLARE&quot;</span>, <span style="color: red;">&quot;DO&quot;</span>, <span style="color: red;">&quot;ELSE&quot;</span>, <span style="color: red;">&quot;ENDCASE&quot;</span>,
+            <span style="color: red;">&quot;ENDDO&quot;</span>, <span style="color: red;">&quot;ENDIF&quot;</span>, <span style="color: red;">&quot;ENDSCAN&quot;</span>, <span style="color: red;">&quot;ENDTRY&quot;</span>, <span style="color: red;">&quot;ENDWITH&quot;</span>, <span style="color: red;">&quot;EXIT&quot;</span>, <span style="color: red;">&quot;FORM&quot;</span>, <span style="color: red;">&quot;FUNCTION&quot;</span>, <span style="color: red;">&quot;IF&quot;</span>, <span style="color: red;">&quot;GO&quot;</span>, <span style="color: red;">&quot;GOTO&quot;</span>, <span style="color: red;">&quot;NEXT&quot;</span>, 
+            <span style="color: red;">&quot;PARAMETERS&quot;</span>, <span style="color: red;">&quot;PROCEDURE&quot;</span>, <span style="color: red;">&quot;REPLACE&quot;</span>, <span style="color: red;">&quot;RETURN&quot;</span>, <span style="color: red;">&quot;SCAN&quot;</span>, <span style="color: red;">&quot;SET&quot;</span>, <span style="color: red;">&quot;SKIP&quot;</span>, <span style="color: red;">&quot;STORE&quot;</span>, <span style="color: red;">&quot;TABLES&quot;</span>, <span style="color: red;">&quot;TO&quot;</span>, <span style="color: red;">&quot;TRY&quot;</span>, <span style="color: red;">&quot;USE&quot;</span>, 
+            <span style="color: red;">&quot;WAIT&quot;
+        </span>}, StringComparer.OrdinalIgnoreCase);
+
+        <span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">readonly </span>FoxTokenFactory Value = <span style="color: blue;">new </span>FoxTokenFactory();
+        
+        <span style="color: blue;">static </span>TokenKind GetKind(<span style="color: blue;">string </span>token)
+        {
+            <span style="color: blue;">if </span>(token.Length == 0) <span style="color: blue;">return </span>TokenKind.Unknown;
+
+            <span style="color: blue;">if </span>(sqlKeywords.Contains(token) || foxKeywords.Contains(token))
+            {
+                <span style="color: blue;">return </span>TokenKind.Keyword;
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(<span style="color: blue;">char</span>.IsLetter(token[0]) || token[0] == <span style="color: red;">&#39;_&#39;</span>)
+            {
+                <span style="color: blue;">return </span>TokenKind.Name;
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(token.StartsWith(<span style="color: red;">&quot;&amp;&amp;&quot;</span>))
+            {
+                <span style="color: blue;">return </span>TokenKind.Comment;
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(token[0] == <span style="color: red;">&#39;*&#39; </span>&amp;&amp; token.Length &gt;= 2)
+            {
+                <span style="color: blue;">return </span>TokenKind.Comment;
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(token[0] == <span style="color: red;">&#39;\&#39;&#39;</span>)
+            {
+                <span style="color: blue;">return </span>TokenKind.SingleQuotLiteral;
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(token[0] == <span style="color: red;">&#39;&quot;&#39;</span>)
+            {
+                <span style="color: blue;">return </span>TokenKind.DoubleQuotLiteral;
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(<span style="color: blue;">char</span>.IsPunctuation(token[0]) || <span style="color: blue;">char</span>.IsSymbol(token[0]))
+            {
+                <span style="color: blue;">return </span>TokenKind.Punctuation;
+            }
+            <span style="color: blue;">else </span><span style="color: blue;">if </span>(<span style="color: blue;">char</span>.IsDigit(token[0]))
+            {
+                <span style="color: blue;">return </span>TokenKind.NumericLiteral;
+            }
+            <span style="color: blue;">else
+            </span>{
+                <span style="color: blue;">return </span>TokenKind.Unknown;
+            }
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span>SyntaxNode CreateNode(<span style="color: blue;">string </span>content, <span style="color: blue;">string </span>leadingWhitespace, <span style="color: blue;">string </span>trailingWhitespace)
+        {
+            TokenKind kind = GetKind(content);
+            <span style="color: blue;">return </span><span style="color: blue;">new </span>SourceToken(content, kind, leadingWhitespace, trailingWhitespace);
+        }
+    }
+}
+</code></pre><a href="https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser.Core/SyntaxModel/FoxPro/FoxTokenFactory.cs">View in source control</a></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>

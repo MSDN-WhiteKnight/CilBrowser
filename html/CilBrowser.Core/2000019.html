@@ -1,0 +1,343 @@
+﻿<html><head><title>Type: CilBrowser.Core.SyntaxModel.PowerShell.PsTokenFactory</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">CilBrowser.Core</a></p>
+<h2>Type: CilBrowser.Core.SyntaxModel.PowerShell.PsTokenFactory</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Types in CilBrowser.Core.SyntaxModel.PowerShell namespace:</p><p><a href="2000015.html">PsCommentToken</a></p><p><a href="2000016.html">PsMultilineCommentToken</a></p><p><a href="2000017.html">PsSyntaxProvider</a></p><p><a href="2000018.html">PsTextLiteralToken</a></p><p><b>PsTokenFactory</b></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: magenta;">.class </span><span style="color: blue;">public </span><span style="color: blue;">auto </span><span style="color: blue;">ansi </span><span style="color: blue;">sealed </span><span style="color: blue;">beforefieldinit </span><a href="2000019.html" class="memberid">CilBrowser.Core.SyntaxModel.PowerShell.PsTokenFactory</a>
+<span style="color: blue;">extends </span>[<span>CilTools.BytecodeAnalysis</span>]<span class="memberid">CilTools.Syntax</span>.<span class="memberid">SyntaxFactory</span>
+{
+
+<span style="color: magenta;"> .field </span><span style="color: blue;">private </span><span style="color: blue;">static </span><span style="color: blue;">initonly </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">HashSet`1</span>&lt;<span style="color: blue;">string</span>&gt;<span class="memberid"> keywords</span>
+<span style="color: magenta;"> .field </span><span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">initonly </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel.PowerShell</span>.<a href="2000019.html" class="memberid">PsTokenFactory</a><span class="memberid"> Value</span>
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> rtspecialname</span><span style="color: blue;"> instance </span><span style="color: blue;">void</span><a name="M60000AC" href="2000019.html#M60000AC" class="memberid"> .ctor</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 8
+
+<span>           ldarg.0      </span>
+<span>           call         </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>CilTools.BytecodeAnalysis</span>]<span class="memberid">CilTools.Syntax</span>.<span class="memberid">SyntaxFactory</span>::<span class="memberid">.ctor</span>()
+<span>           nop          </span>
+<span>           nop          </span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> specialname</span><span style="color: blue;"> rtspecialname</span><span style="color: blue;"> static </span><span style="color: blue;">void</span><a name="M60000AF" href="2000019.html#M60000AF" class="memberid"> .cctor</a>()<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 4
+
+<span>           ldc.i4.s     </span><span>35</span>
+<span>           newarr       </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>
+<span>           dup          </span>
+<span>           ldc.i4.0     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;begin&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.1     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;break&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.2     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;catch&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.3     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;class&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.4     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;continue&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.5     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;data&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.6     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;define&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.7     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;do&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.8     </span>
+<span>           ldstr        </span><span style="color: red;">&quot;dynamicparam&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>9</span>
+<span>           ldstr        </span><span style="color: red;">&quot;else&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>10</span>
+<span>           ldstr        </span><span style="color: red;">&quot;elseif&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>11</span>
+<span>           ldstr        </span><span style="color: red;">&quot;end&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>12</span>
+<span>           ldstr        </span><span style="color: red;">&quot;enum&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>13</span>
+<span>           ldstr        </span><span style="color: red;">&quot;exit&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>14</span>
+<span>           ldstr        </span><span style="color: red;">&quot;filter&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>15</span>
+<span>           ldstr        </span><span style="color: red;">&quot;finally&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>16</span>
+<span>           ldstr        </span><span style="color: red;">&quot;for&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>17</span>
+<span>           ldstr        </span><span style="color: red;">&quot;foreach&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>18</span>
+<span>           ldstr        </span><span style="color: red;">&quot;from&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>19</span>
+<span>           ldstr        </span><span style="color: red;">&quot;function&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>20</span>
+<span>           ldstr        </span><span style="color: red;">&quot;hidden&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>21</span>
+<span>           ldstr        </span><span style="color: red;">&quot;if&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>22</span>
+<span>           ldstr        </span><span style="color: red;">&quot;in&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>23</span>
+<span>           ldstr        </span><span style="color: red;">&quot;param&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>24</span>
+<span>           ldstr        </span><span style="color: red;">&quot;process&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>25</span>
+<span>           ldstr        </span><span style="color: red;">&quot;return&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>26</span>
+<span>           ldstr        </span><span style="color: red;">&quot;static&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>27</span>
+<span>           ldstr        </span><span style="color: red;">&quot;switch&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>28</span>
+<span>           ldstr        </span><span style="color: red;">&quot;throw&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>29</span>
+<span>           ldstr        </span><span style="color: red;">&quot;trap&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>30</span>
+<span>           ldstr        </span><span style="color: red;">&quot;try&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>31</span>
+<span>           ldstr        </span><span style="color: red;">&quot;until&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>32</span>
+<span>           ldstr        </span><span style="color: red;">&quot;using&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>33</span>
+<span>           ldstr        </span><span style="color: red;">&quot;var&quot;</span>
+<span>           stelem.ref   </span>
+<span>           dup          </span>
+<span>           ldc.i4.s     </span><span>34</span>
+<span>           ldstr        </span><span style="color: red;">&quot;while&quot;</span>
+<span>           stelem.ref   </span>
+<span>           call         </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">StringComparer</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">StringComparer</span>::<span class="memberid">get_OrdinalIgnoreCase</span>()
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">HashSet`1</span>&lt;<span style="color: blue;">string</span>&gt;::<span class="memberid">.ctor</span>(<span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEnumerable`1</span>&lt;!0&gt;, <span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">IEqualityComparer`1</span>&lt;!0&gt;)
+<span>           stsfld       </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">HashSet`1</span>&lt;<span style="color: blue;">string</span>&gt; <span class="memberid">CilBrowser.Core.SyntaxModel.PowerShell</span>.<a href="2000019.html" class="memberid">PsTokenFactory</a>::<span class="memberid">keywords</span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser.Core.SyntaxModel.PowerShell</span>.<a href="2000019.html" class="memberid">PsTokenFactory</a>::<a href="2000019.html#M60000AC" class="memberid">.ctor</a>()
+<span>           stsfld       </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.SyntaxModel.PowerShell</span>.<a href="2000019.html" class="memberid">PsTokenFactory</a> <span class="memberid">CilBrowser.Core.SyntaxModel.PowerShell</span>.<a href="2000019.html" class="memberid">PsTokenFactory</a>::<span class="memberid">Value</span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> static </span><span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span><a name="M60000AD" href="2000019.html#M60000AD" class="memberid"> GetKind</a>(
+     <span style="color: blue;">string</span><span> token</span>
+ )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 3
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">bool</span><span> V_0</span>,
+     <span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span><span> V_1</span>,
+     <span style="color: blue;">bool</span><span> V_2</span>,
+     <span style="color: blue;">bool</span><span> V_3</span>,
+     <span style="color: blue;">bool</span><span> V_4</span>,
+     <span style="color: blue;">bool</span><span> V_5</span>,
+     <span style="color: blue;">bool</span><span> V_6</span>,
+     <span style="color: blue;">bool</span><span> V_7</span>,
+     <span style="color: blue;">bool</span><span> V_8</span>,
+     <span style="color: blue;">bool</span><span> V_9</span>)
+
+<span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">int32</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Length</span>()
+<span>           ldc.i4.0     </span>
+<span>           ceq          </span>
+<span>           stloc.0      </span>
+<span>           ldloc.0      </span>
+<span>           brfalse.s    </span><span>IL_0001
+</span><span>           ldc.i4.0     </span>
+<span>           stloc.1      </span>
+<span>           br           </span><span>IL_0014
+</span><span>  IL_0001</span>: <span>ldsfld       </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">HashSet`1</span>&lt;<span style="color: blue;">string</span>&gt; <span class="memberid">CilBrowser.Core.SyntaxModel.PowerShell</span>.<a href="2000019.html" class="memberid">PsTokenFactory</a>::<span class="memberid">keywords</span>
+<span>           ldarg.0      </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">bool</span> <span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">HashSet`1</span>&lt;<span style="color: blue;">string</span>&gt;::<span class="memberid">Contains</span>(!0)
+<span>           stloc.2      </span>
+<span>           ldloc.2      </span>
+<span>           brfalse.s    </span><span>IL_0002
+</span><span>           nop          </span>
+<span>           ldc.i4.4     </span>
+<span>           stloc.1      </span>
+<span>           br           </span><span>IL_0014
+</span><span>  IL_0002</span>: <span>ldarg.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           call         </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Char</span>::<span class="memberid">IsLetter</span>(<span style="color: blue;">char</span>)
+<span>           brtrue.s     </span><span>IL_0003
+</span><span>           ldarg.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           ldc.i4.s     </span><span>95</span>
+<span>           ceq          </span>
+<span>           br.s         </span><span>IL_0004
+</span><span>  IL_0003</span>: <span>ldc.i4.1     </span>
+<span>  IL_0004</span>: <span>stloc.3      </span>
+<span>           ldloc.3      </span>
+<span>           brfalse.s    </span><span>IL_0005
+</span><span>           nop          </span>
+<span>           ldc.i4.1     </span>
+<span>           stloc.1      </span>
+<span>           br           </span><span>IL_0014
+</span><span>  IL_0005</span>: <span>ldarg.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           ldc.i4.s     </span><span>35</span>
+<span>           ceq          </span>
+<span>           stloc.s      </span><span>V_4</span>
+<span>           ldloc.s      </span><span>V_4</span>
+<span>           brfalse.s    </span><span>IL_0006
+</span><span>           nop          </span>
+<span>           ldc.i4.s     </span><span>10</span>
+<span>           stloc.1      </span>
+<span>           br           </span><span>IL_0014
+</span><span>  IL_0006</span>: <span>ldarg.0      </span>
+<span>           ldstr        </span><span style="color: red;">&quot;&lt;#&quot;</span>
+<span>           ldc.i4.4     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">StartsWith</span>(<span style="color: blue;">string</span>, <span style="color: blue;">valuetype </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">StringComparison</span>)
+<span>           stloc.s      </span><span>V_5</span>
+<span>           ldloc.s      </span><span>V_5</span>
+<span>           brfalse.s    </span><span>IL_0007
+</span><span>           nop          </span>
+<span>           ldc.i4.s     </span><span>11</span>
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0014
+</span><span>  IL_0007</span>: <span>ldarg.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           ldc.i4.s     </span><span>39</span>
+<span>           ceq          </span>
+<span>           stloc.s      </span><span>V_6</span>
+<span>           ldloc.s      </span><span>V_6</span>
+<span>           brfalse.s    </span><span>IL_0008
+</span><span>           nop          </span>
+<span>           ldc.i4.6     </span>
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0014
+</span><span>  IL_0008</span>: <span>ldarg.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           ldc.i4.s     </span><span>34</span>
+<span>           ceq          </span>
+<span>           stloc.s      </span><span>V_7</span>
+<span>           ldloc.s      </span><span>V_7</span>
+<span>           brfalse.s    </span><span>IL_0009
+</span><span>           nop          </span>
+<span>           ldc.i4.7     </span>
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0014
+</span><span>  IL_0009</span>: <span>ldarg.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           call         </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Char</span>::<span class="memberid">IsPunctuation</span>(<span style="color: blue;">char</span>)
+<span>           brtrue.s     </span><span>IL_0010
+</span><span>           ldarg.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           call         </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Char</span>::<span class="memberid">IsSymbol</span>(<span style="color: blue;">char</span>)
+<span>           br.s         </span><span>IL_0011
+</span><span>  IL_0010</span>: <span>ldc.i4.1     </span>
+<span>  IL_0011</span>: <span>stloc.s      </span><span>V_8</span>
+<span>           ldloc.s      </span><span>V_8</span>
+<span>           brfalse.s    </span><span>IL_0012
+</span><span>           nop          </span>
+<span>           ldc.i4.5     </span>
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0014
+</span><span>  IL_0012</span>: <span>ldarg.0      </span>
+<span>           ldc.i4.0     </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">char</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">String</span>::<span class="memberid">get_Chars</span>(<span style="color: blue;">int32</span>)
+<span>           call         </span><span style="color: blue;">bool</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Char</span>::<span class="memberid">IsDigit</span>(<span style="color: blue;">char</span>)
+<span>           stloc.s      </span><span>V_9</span>
+<span>           ldloc.s      </span><span>V_9</span>
+<span>           brfalse.s    </span><span>IL_0013
+</span><span>           nop          </span>
+<span>           ldc.i4.s     </span><span>9</span>
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0014
+</span><span>  IL_0013</span>: <span>nop          </span>
+<span>           ldc.i4.0     </span>
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0014
+</span><span>  IL_0014</span>: <span>ldloc.1      </span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> virtual</span><span style="color: blue;"> instance </span><span style="color: blue;">class </span>[<span>CilTools.BytecodeAnalysis</span>]<span class="memberid">CilTools.Syntax</span>.<span class="memberid">SyntaxNode</span><a name="M60000AE" href="2000019.html#M60000AE" class="memberid"> CreateNode</a>(
+     <span style="color: blue;">string</span><span> content</span>, 
+     <span style="color: blue;">string</span><span> leadingWhitespace</span>, 
+     <span style="color: blue;">string</span><span> trailingWhitespace</span>
+ )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 4
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span><span> V_0</span>,
+     <span style="color: blue;">class </span>[<span>CilTools.BytecodeAnalysis</span>]<span class="memberid">CilTools.Syntax</span>.<span class="memberid">SyntaxNode</span><span> V_1</span>)
+
+<span>           nop          </span>
+<span>           ldarg.1      </span>
+<span>           call         </span><span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span> <span class="memberid">CilBrowser.Core.SyntaxModel.PowerShell</span>.<a href="2000019.html" class="memberid">PsTokenFactory</a>::<a href="2000019.html#M60000AD" class="memberid">GetKind</a>(<span style="color: blue;">string</span>)
+<span>           stloc.0      </span>
+<span>           ldarg.1      </span>
+<span>           ldloc.0      </span>
+<span>           ldarg.2      </span>
+<span>           ldarg.3      </span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> [<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">SourceToken</span>::<span class="memberid">.ctor</span>(<span style="color: blue;">string</span>, <span style="color: blue;">valuetype </span>[<span>CilTools.SourceCode</span>]<span class="memberid">CilTools.SourceCode.Common</span>.<span class="memberid">TokenKind</span>, <span style="color: blue;">string</span>, <span style="color: blue;">string</span>)
+<span>           stloc.1      </span>
+<span>           br.s         </span><span>IL_0001
+</span><span>  IL_0001</span>: <span>ldloc.1      </span>
+<span>           ret          </span>
+ }
+
+}
+</code></pre></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>

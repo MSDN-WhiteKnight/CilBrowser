@@ -1,0 +1,73 @@
+﻿<html><head><title>Source file: FileUtils.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
+<h2>Source file: FileUtils.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in CilBrowser.Core directory:</p><p><a href="AssemblyServer.cs.html">AssemblyServer.cs</a></p><p><a href="CilBrowser.Core.csproj.html">CilBrowser.Core.csproj</a></p><p><a href="CilBrowserOptions.cs.html">CilBrowserOptions.cs</a></p><p><b>FileUtils.cs</b></p><p><a href="HtmlAttribute.cs.html">HtmlAttribute.cs</a></p><p><a href="HtmlBuilder.cs.html">HtmlBuilder.cs</a></p><p><a href="HtmlGenerator.cs.html">HtmlGenerator.cs</a></p><p><a href="ServerBase.cs.html">ServerBase.cs</a></p><p><a href="SourceServer.cs.html">SourceServer.cs</a></p><p><a href="Utils.cs.html">Utils.cs</a></p><p><a href="WebsiteGenerator.cs.html">WebsiteGenerator.cs</a></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
+ * Copyright (c) 2023,  MSDN.WhiteKnight 
+ * License: BSD 3-Clause */
+</span><span style="color: blue;">using </span>System;
+<span style="color: blue;">using </span>System.IO;
+<span style="color: blue;">using </span>System.Collections.Generic;
+<span style="color: blue;">using </span>System.Reflection;
+<span style="color: blue;">using </span>System.Text;
+
+<span style="color: blue;">namespace </span>CilBrowser.Core
+{
+    <span style="color: blue;">static </span><span style="color: blue;">class </span>FileUtils
+    {
+        <span style="color: green;">// Default source file extensions list
+        </span><span style="color: blue;">static </span>HashSet&lt;<span style="color: blue;">string</span>&gt; s_srcExtensions = <span style="color: blue;">new </span>HashSet&lt;<span style="color: blue;">string</span>&gt;(<span style="color: blue;">new </span><span style="color: blue;">string</span>[] {
+            <span style="color: red;">&quot;.il&quot;</span>, <span style="color: red;">&quot;.cil&quot;</span>, <span style="color: red;">&quot;.cs&quot;</span>, <span style="color: red;">&quot;.vb&quot;</span>, <span style="color: red;">&quot;.c&quot;</span>, <span style="color: red;">&quot;.cpp&quot;</span>, <span style="color: red;">&quot;.h&quot;</span>, <span style="color: red;">&quot;.hpp&quot;</span>, <span style="color: red;">&quot;.js&quot;</span>, <span style="color: red;">&quot;.ts&quot;</span>, <span style="color: red;">&quot;.fs&quot;</span>, <span style="color: red;">&quot;.txt&quot;</span>, <span style="color: red;">&quot;.md&quot;</span>, <span style="color: red;">&quot;.htm&quot;</span>, <span style="color: red;">&quot;.html&quot;</span>,
+            <span style="color: red;">&quot;.css&quot;</span>, <span style="color: red;">&quot;.xml&quot;</span>, <span style="color: red;">&quot;.csproj&quot;</span>, <span style="color: red;">&quot;.vbproj&quot;</span>, <span style="color: red;">&quot;.vcxproj&quot;</span>, <span style="color: red;">&quot;.proj&quot;</span>, <span style="color: red;">&quot;.rc&quot;</span>, <span style="color: red;">&quot;.cmd&quot;</span>, <span style="color: red;">&quot;.bat&quot;</span>, <span style="color: red;">&quot;.sh&quot;</span>, <span style="color: red;">&quot;.ps1&quot;</span>, <span style="color: red;">&quot;.xaml&quot;</span>,
+            <span style="color: red;">&quot;.config&quot;</span>, <span style="color: red;">&quot;.json&quot;</span>, <span style="color: red;">&quot;.yml&quot;</span>, <span style="color: red;">&quot;.sln&quot;</span>, <span style="color: red;">&quot;.props&quot;</span>, <span style="color: red;">&quot;.targets&quot;
+        </span>});
+
+        <span style="color: blue;">static </span>HashSet&lt;<span style="color: blue;">string</span>&gt; s_excludedDirs = <span style="color: blue;">new </span>HashSet&lt;<span style="color: blue;">string</span>&gt;(<span style="color: blue;">new </span><span style="color: blue;">string</span>[] {
+            <span style="color: red;">&quot;.git&quot;</span>, <span style="color: red;">&quot;bin&quot;</span>, <span style="color: red;">&quot;obj&quot;</span>, <span style="color: red;">&quot;packages&quot;</span>, <span style="color: red;">&quot;.vs&quot;</span>, <span style="color: red;">&quot;TestResults&quot;</span>, <span style="color: red;">&quot;Debug&quot;</span>, <span style="color: red;">&quot;Release&quot;
+        </span>});
+
+        <span style="color: blue;">internal </span><span style="color: blue;">static </span><span style="color: blue;">bool </span>IsSourceFile(<span style="color: blue;">string </span>name, HashSet&lt;<span style="color: blue;">string</span>&gt; srcExtensions)
+        {
+            <span style="color: blue;">string </span>ext = Path.GetExtension(name).ToLower();
+
+            <span style="color: blue;">return </span>ext == <span style="color: blue;">string</span>.Empty || srcExtensions.Contains(ext);
+        }
+
+        <span style="color: blue;">internal </span><span style="color: blue;">static </span><span style="color: blue;">bool </span>IsSourceFileDefault(<span style="color: blue;">string </span>name)
+        {
+            <span style="color: blue;">return </span>IsSourceFile(name, s_srcExtensions);
+        }
+
+        <span style="color: blue;">internal </span><span style="color: blue;">static </span><span style="color: blue;">bool </span>IsDirectoryExcluded(<span style="color: blue;">string </span>name)
+        {
+            <span style="color: blue;">return </span>s_excludedDirs.Contains(name);
+        }
+
+        <span style="color: blue;">internal </span><span style="color: blue;">static </span>HashSet&lt;<span style="color: blue;">string</span>&gt; GetDefaultExtensions()
+        {
+            <span style="color: blue;">return </span>s_srcExtensions;
+        }
+
+        <span style="color: blue;">internal </span><span style="color: blue;">static </span><span style="color: blue;">string </span>FileNameToPageName(<span style="color: blue;">string </span>filename)
+        {
+            <span style="color: blue;">return </span>filename + <span style="color: red;">&quot;.html&quot;</span>;
+        }
+
+        <span style="color: green;">/// &lt;summary&gt;
+        </span><span style="color: green;">/// Reads contents of the embedded resource file
+        </span><span style="color: green;">/// &lt;/summary&gt;
+        </span><span style="color: green;">/// &lt;param name=&quot;ass&quot;&gt;Assembly in which file is embedded&lt;/param&gt;
+        </span><span style="color: green;">/// &lt;param name=&quot;ns&quot;&gt;Namespace of the embedded resource file&lt;/param&gt;
+        </span><span style="color: green;">/// &lt;param name=&quot;name&quot;&gt;Name of the embedded resource file&lt;/param&gt;
+        </span><span style="color: blue;">internal </span><span style="color: blue;">static </span><span style="color: blue;">byte</span>[] ReadFromResource(Assembly ass, <span style="color: blue;">string </span>ns, <span style="color: blue;">string </span>name)
+        {
+            <span style="color: blue;">using </span>(Stream stream = ass.GetManifestResourceStream(ns + <span style="color: red;">&quot;.&quot; </span>+ name))
+            <span style="color: blue;">using </span>(MemoryStream ms = <span style="color: blue;">new </span>MemoryStream())
+            {
+                stream.CopyTo(ms);
+                <span style="color: blue;">return </span>ms.ToArray();
+            }
+        }
+    }
+}
+</code></pre><a href="https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser.Core/FileUtils.cs">View in source control</a></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>

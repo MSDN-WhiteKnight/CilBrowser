@@ -1,0 +1,212 @@
+﻿<html><head><title>Source file: ServerBase.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
+<h2>Source file: ServerBase.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in CilBrowser.Core directory:</p><p><a href="AssemblyServer.cs.html">AssemblyServer.cs</a></p><p><a href="CilBrowser.Core.csproj.html">CilBrowser.Core.csproj</a></p><p><a href="CilBrowserOptions.cs.html">CilBrowserOptions.cs</a></p><p><a href="FileUtils.cs.html">FileUtils.cs</a></p><p><a href="HtmlAttribute.cs.html">HtmlAttribute.cs</a></p><p><a href="HtmlBuilder.cs.html">HtmlBuilder.cs</a></p><p><a href="HtmlGenerator.cs.html">HtmlGenerator.cs</a></p><p><b>ServerBase.cs</b></p><p><a href="SourceServer.cs.html">SourceServer.cs</a></p><p><a href="Utils.cs.html">Utils.cs</a></p><p><a href="WebsiteGenerator.cs.html">WebsiteGenerator.cs</a></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
+ * Copyright (c) 2023,  MSDN.WhiteKnight 
+ * License: BSD 3-Clause */
+</span><span style="color: blue;">using </span>System;
+<span style="color: blue;">using </span>System.Collections.Generic;
+<span style="color: blue;">using </span>System.IO;
+<span style="color: blue;">using </span>System.Net;
+<span style="color: blue;">using </span>System.Text;
+<span style="color: blue;">using </span>System.Threading;
+
+<span style="color: blue;">namespace </span>CilBrowser.Core
+{
+    <span style="color: green;">/// &lt;summary&gt;
+    </span><span style="color: green;">/// Provides a base class for servers that dynamically generate HTML and return it via HTTP. Derived classes 
+    </span><span style="color: green;">/// should be sealed and not add any more disposable resources!
+    </span><span style="color: green;">/// &lt;/summary&gt;
+    </span><span style="color: blue;">public </span><span style="color: blue;">abstract </span><span style="color: blue;">class </span>ServerBase : IDisposable
+    {
+        <span style="color: blue;">protected </span><span style="color: blue;">string </span>_urlHost;
+        <span style="color: blue;">protected </span><span style="color: blue;">string </span>_urlPrefix;
+        HttpListener _listener;
+        Dictionary&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt; _cache = <span style="color: blue;">new </span>Dictionary&lt;<span style="color: blue;">string</span>, <span style="color: blue;">string</span>&gt;(CacheCapacity);
+
+        <span style="color: blue;">public </span><span style="color: blue;">const </span><span style="color: blue;">string </span>DefaultUrlHost = <span style="color: red;">&quot;http://localhost:8080&quot;</span>;
+        <span style="color: blue;">public </span><span style="color: blue;">const </span><span style="color: blue;">string </span>DefaultUrlPrefix = <span style="color: red;">&quot;/CilBrowser/&quot;</span>;
+        <span style="color: blue;">const </span><span style="color: blue;">int </span>CacheCapacity = 200;
+
+        <span style="color: blue;">protected </span>ServerBase(<span style="color: blue;">string </span>urlHost, <span style="color: blue;">string </span>urlPrefix)
+        {
+            <span style="color: blue;">this</span>._urlHost = urlHost;
+            <span style="color: blue;">this</span>._urlPrefix = urlPrefix;
+            
+            <span style="color: green;">// Create a listener.
+            </span><span style="color: blue;">this</span>._listener = <span style="color: blue;">new </span>HttpListener();
+        }
+
+        <span style="color: blue;">protected </span><span style="color: blue;">abstract </span><span style="color: blue;">void </span>OnStart();
+
+        <span style="color: blue;">protected </span><span style="color: blue;">abstract </span><span style="color: blue;">void </span>RenderFrontPage(HttpListenerResponse response);
+
+        <span style="color: blue;">protected </span><span style="color: blue;">abstract </span><span style="color: blue;">void </span>RenderPage(<span style="color: blue;">string </span>url, HttpListenerResponse response);
+
+        <span style="color: blue;">internal </span><span style="color: blue;">void </span>AddToCache(<span style="color: blue;">string </span>url, <span style="color: blue;">string </span>content)
+        {
+            <span style="color: blue;">if </span>(<span style="color: blue;">string</span>.IsNullOrEmpty(content) || content.Length &lt; 20) <span style="color: blue;">return</span>;
+
+            <span style="color: blue;">if </span>(<span style="color: blue;">this</span>._cache.Count &gt;= CacheCapacity) <span style="color: blue;">this</span>._cache.Clear();
+
+            <span style="color: blue;">this</span>._cache[url] = content;
+        }
+
+        <span style="color: blue;">string </span>TryGetFromCache(<span style="color: blue;">string </span>url)
+        {
+            <span style="color: blue;">string </span>ret;
+
+            <span style="color: blue;">if </span>(<span style="color: blue;">this</span>._cache.TryGetValue(url, <span style="color: blue;">out </span>ret)) <span style="color: blue;">return </span>ret;
+            <span style="color: blue;">else </span><span style="color: blue;">return </span><span style="color: blue;">string</span>.Empty;
+        }
+
+        <span style="color: green;">/// &lt;summary&gt;
+        </span><span style="color: green;">/// Strips prefix and file extension from the specified URL
+        </span><span style="color: green;">/// &lt;/summary&gt;
+        </span><span style="color: blue;">internal </span><span style="color: blue;">string </span>StripURL(<span style="color: blue;">string </span>url)
+        {
+            <span style="color: blue;">int </span>index = <span style="color: blue;">this</span>._urlPrefix.Length;
+
+            <span style="color: blue;">if </span>(index &gt;= url.Length) <span style="color: blue;">return </span><span style="color: blue;">string</span>.Empty;
+
+            <span style="color: green;">//Strip prefix
+            </span><span style="color: blue;">string </span>urlPart = url.Substring(index);
+            index = urlPart.LastIndexOf(<span style="color: red;">&#39;.&#39;</span>);
+
+            <span style="color: blue;">if </span>(index &lt; 0) index = urlPart.Length;
+
+            <span style="color: green;">//Strip extension
+            </span>urlPart = urlPart.Substring(0, index);
+
+            <span style="color: blue;">return </span>urlPart;
+        }
+
+        <span style="color: blue;">internal </span><span style="color: blue;">string </span>StripPrefix(<span style="color: blue;">string </span>url)
+        {
+            <span style="color: blue;">int </span>index = <span style="color: blue;">this</span>._urlPrefix.Length;
+
+            <span style="color: blue;">if </span>(index &gt;= url.Length) <span style="color: blue;">return </span><span style="color: blue;">string</span>.Empty;
+                        
+            <span style="color: blue;">return </span>url.Substring(index);
+        }
+
+        <span style="color: blue;">internal </span><span style="color: blue;">static </span><span style="color: blue;">void </span>SendHtmlResponse(HttpListenerResponse response, <span style="color: blue;">string </span>content)
+        {
+            <span style="color: green;">// Get a response stream and write the response to it.
+            </span>response.ContentType = <span style="color: red;">&quot;text/html; charset=utf-8&quot;</span>;
+            Stream output = response.OutputStream;
+            StreamWriter wr = <span style="color: blue;">new </span>StreamWriter(output);
+
+            <span style="color: blue;">using </span>(wr)
+            {
+                wr.Write(content);
+            }
+
+            response.Close();
+        }
+
+        <span style="color: blue;">internal </span><span style="color: blue;">static </span><span style="color: blue;">void </span>SendErrorResponse(HttpListenerResponse response, <span style="color: blue;">int </span>code, <span style="color: blue;">string </span>status)
+        {
+            response.StatusCode = code;
+            response.StatusDescription = status;
+            response.Close();
+        }
+        
+        <span style="color: blue;">public </span><span style="color: blue;">void </span>Run()
+        {
+            HttpListener listener = <span style="color: blue;">this</span>._listener;
+            
+            <span style="color: green;">// Add the prefixes.
+            </span>listener.Prefixes.Add(<span style="color: blue;">this</span>._urlHost + <span style="color: blue;">this</span>._urlPrefix);
+            listener.Start();
+            <span style="color: blue;">this</span>.OnStart();
+            Console.WriteLine(<span style="color: red;">&quot;Displaying web UI on &quot; </span>+ <span style="color: blue;">this</span>._urlHost + <span style="color: blue;">this</span>._urlPrefix);
+            Console.WriteLine(<span style="color: red;">&quot;Press E to stop server&quot;</span>);
+
+            <span style="color: blue;">while </span>(<span style="color: blue;">true</span>)
+            {
+                HttpListenerContext context = listener.GetContext();
+
+                <span style="color: blue;">if </span>(!listener.IsListening)
+                {
+                    Console.WriteLine(<span style="color: red;">&quot;Server was stopped&quot;</span>);
+                    <span style="color: blue;">break</span>;
+                }
+
+                HttpListenerRequest request = context.Request;
+                <span style="color: blue;">string </span>url = request.RawUrl;
+
+                HttpListenerResponse response = context.Response;
+
+                <span style="color: green;">// Construct a response.
+
+                </span><span style="color: blue;">if </span>(!url.StartsWith(<span style="color: blue;">this</span>._urlPrefix))
+                {
+                    <span style="color: green;">//вернуть ошибку при неверном URL
+                    </span>SendErrorResponse(response, 404, <span style="color: red;">&quot;Not found&quot;</span>);
+                    <span style="color: blue;">continue</span>;
+                }
+
+                response.Headers.Add(<span style="color: red;">&quot;Expires: Tue, 01 Jul 2000 06:00:00 GMT&quot;</span>);
+                response.Headers.Add(<span style="color: red;">&quot;Cache-Control: max-age=0, no-cache, must-revalidate&quot;</span>);
+
+                <span style="color: green;">// Try from cache
+                </span><span style="color: blue;">string </span>cached = <span style="color: blue;">this</span>.TryGetFromCache(url);
+
+                <span style="color: blue;">if </span>(cached.Length &gt; 0)
+                {
+                    SendHtmlResponse(response, cached);
+                    <span style="color: blue;">continue</span>;
+                }
+
+                <span style="color: green;">// Write output to the response.
+                </span><span style="color: blue;">if </span>(Utils.StrEquals(url, <span style="color: blue;">this</span>._urlPrefix) || Utils.StrEquals(url, <span style="color: blue;">this</span>._urlPrefix + <span style="color: red;">&quot;index.html&quot;</span>))
+                {
+                    <span style="color: green;">// Table of contents
+                    </span><span style="color: blue;">this</span>.RenderFrontPage(response);
+                    response.Close();
+                }
+                <span style="color: blue;">else
+                </span>{
+                    <span style="color: green;">// Regular page
+                    </span><span style="color: blue;">this</span>.RenderPage(url, response);
+                    response.Close();
+                }
+            }<span style="color: green;">//end while
+        </span>}
+
+        <span style="color: blue;">public </span><span style="color: blue;">void </span>Stop()
+        {
+            <span style="color: blue;">this</span>._listener.Stop();
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">void </span>Dispose()
+        {
+            <span style="color: blue;">this</span>._listener.Close();
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">void </span>RunInBackground()
+        {
+            Thread th = <span style="color: blue;">new </span>Thread(Run);
+            th.IsBackground = <span style="color: blue;">true</span>;
+            th.Start();
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">void </span>WaitForExit()
+        {
+            <span style="color: blue;">while </span>(<span style="color: blue;">true</span>)
+            {
+                ConsoleKeyInfo key = Console.ReadKey();
+
+                <span style="color: blue;">if </span>(key.Key == ConsoleKey.E)
+                {
+                    <span style="color: blue;">this</span>.Stop();
+                    <span style="color: blue;">this</span>.Dispose();
+                    <span style="color: blue;">break</span>;
+                }
+            }
+        }
+    }
+}
+</code></pre><a href="https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser.Core/ServerBase.cs">View in source control</a></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>

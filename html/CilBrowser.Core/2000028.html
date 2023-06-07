@@ -1,0 +1,174 @@
+﻿<html><head><title>Type: CilBrowser.Core.Structure.SourceIndexer</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">CilBrowser.Core</a></p>
+<h2>Type: CilBrowser.Core.Structure.SourceIndexer</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Types in CilBrowser.Core.Structure namespace:</p><p><a href="2000026.html">DirectoryNode</a></p><p><a href="2000032.html">&lt;EnumChildNodes&gt;d__11</a></p><p><a href="2000030.html">&lt;get_Directories&gt;d__8</a></p><p><a href="2000031.html">&lt;get_Files&gt;d__10</a></p><p><a href="2000027.html">FileNode</a></p><p><b>SourceIndexer</b></p><p><a href="2000029.html">TreeNode</a></p><p><a href="200002A.html">TreeNodeKind</a></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: magenta;">.class </span><span style="color: blue;">public </span><span style="color: blue;">abstract </span><span style="color: blue;">auto </span><span style="color: blue;">ansi </span><span style="color: blue;">sealed </span><span style="color: blue;">beforefieldinit </span><a href="2000028.html" class="memberid">CilBrowser.Core.Structure.SourceIndexer</a>
+<span style="color: blue;">extends </span>[<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Object</span>
+{
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">public</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> static </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000026.html" class="memberid">DirectoryNode</a><a name="M60000E5" href="2000028.html#M60000E5" class="memberid"> SourceDirectoryToTree</a>(
+     <span style="color: blue;">string</span><span> sourcesPath</span>, 
+     <span style="color: blue;">class </span><span class="memberid">CilBrowser.Core</span>.<a href="2000005.html" class="memberid">CilBrowserOptions</a><span> options</span>
+ )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 3
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000026.html" class="memberid">DirectoryNode</a><span> V_0</span>)
+
+<span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           ldarg.1      </span>
+<span>           ldc.i4.0     </span>
+<span>           call         </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000026.html" class="memberid">DirectoryNode</a> <span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000028.html" class="memberid">SourceIndexer</a>::<a href="2000028.html#M60000E6" class="memberid">SourceDirectoryToTreeImpl</a>(<span style="color: blue;">string</span>, <span style="color: blue;">class </span><span class="memberid">CilBrowser.Core</span>.<a href="2000005.html" class="memberid">CilBrowserOptions</a>, <span style="color: blue;">int32</span>)
+<span>           stloc.0      </span>
+<span>           br.s         </span><span>IL_0001
+</span><span>  IL_0001</span>: <span>ldloc.0      </span>
+<span>           ret          </span>
+ }
+
+<span style="color: magenta;"> .method </span><span style="color: blue;">private</span><span style="color: blue;"> hidebysig</span><span style="color: blue;"> static </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000026.html" class="memberid">DirectoryNode</a><a name="M60000E6" href="2000028.html#M60000E6" class="memberid"> SourceDirectoryToTreeImpl</a>(
+     <span style="color: blue;">string</span><span> sourcesPath</span>, 
+     <span style="color: blue;">class </span><span class="memberid">CilBrowser.Core</span>.<a href="2000005.html" class="memberid">CilBrowserOptions</a><span> options</span>, 
+     <span style="color: blue;">int32</span><span> level</span>
+ )<span style="color: blue;"> cil</span><span style="color: blue;"> managed</span>
+ {
+<span style="color: magenta;">  .maxstack </span> 4
+<span style="color: magenta;">  .locals </span><span style="color: blue;"> init</span> (<span style="color: blue;">string</span><span> V_0</span>,
+     <span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000026.html" class="memberid">DirectoryNode</a><span> V_1</span>,
+     <span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">HashSet`1</span>&lt;<span style="color: blue;">string</span>&gt;<span> V_2</span>,
+     <span style="color: blue;">string</span>[]<span> V_3</span>,
+     <span style="color: blue;">string</span>[]<span> V_4</span>,
+     <span style="color: blue;">bool</span><span> V_5</span>,
+     <span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000026.html" class="memberid">DirectoryNode</a><span> V_6</span>,
+     <span style="color: blue;">int32</span><span> V_7</span>,
+     <span style="color: blue;">string</span><span> V_8</span>,
+     <span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000026.html" class="memberid">DirectoryNode</a><span> V_9</span>,
+     <span style="color: blue;">bool</span><span> V_10</span>,
+     <span style="color: blue;">bool</span><span> V_11</span>,
+     <span style="color: blue;">int32</span><span> V_12</span>,
+     <span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000027.html" class="memberid">FileNode</a><span> V_13</span>,
+     <span style="color: blue;">bool</span><span> V_14</span>,
+     <span style="color: blue;">bool</span><span> V_15</span>)
+
+<span>           nop          </span>
+<span>           ldarg.0      </span>
+<span>           call         </span><span style="color: blue;">string</span> <span class="memberid">CilBrowser.Core</span>.<a href="200000C.html" class="memberid">Utils</a>::<a href="200000C.html#M6000070" class="memberid">GetDirectoryNameFromPath</a>(<span style="color: blue;">string</span>)
+<span>           stloc.0      </span>
+<span>           ldloc.0      </span>
+<span>           ldnull       </span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000026.html" class="memberid">DirectoryNode</a>::<a href="2000026.html#M60000D8" class="memberid">.ctor</a>(<span style="color: blue;">string</span>, <span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000029.html" class="memberid">TreeNode</a>)
+<span>           stloc.1      </span>
+<span>           ldarg.2      </span>
+<span>           ldc.i4.s     </span><span>50</span>
+<span>           cgt          </span>
+<span>           stloc.s      </span><span>V_5</span>
+<span>           ldloc.s      </span><span>V_5</span>
+<span>           brfalse.s    </span><span>IL_0001
+</span><span>           nop          </span>
+<span>           ldstr        </span><span style="color: red;">&quot;Error: directory recursion is too deep!&quot;</span>
+<span>           call         </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Console</span>::<span class="memberid">WriteLine</span>(<span style="color: blue;">string</span>)
+<span>           nop          </span>
+<span>           ldloc.1      </span>
+<span>           stloc.s      </span><span>V_6</span>
+<span>           br           </span><span>IL_0010
+</span><span>  IL_0001</span>: <span>ldarg.1      </span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">HashSet`1</span>&lt;<span style="color: blue;">string</span>&gt; <span class="memberid">CilBrowser.Core</span>.<a href="2000005.html" class="memberid">CilBrowserOptions</a>::<a href="2000005.html#M6000010" class="memberid">get_SourceExtensions</a>()
+<span>           stloc.2      </span>
+<span>           ldarg.0      </span>
+<span>           call         </span><span style="color: blue;">string</span>[] [<span>netstandard</span>]<span class="memberid">System.IO</span>.<span class="memberid">Directory</span>::<span class="memberid">GetDirectories</span>(<span style="color: blue;">string</span>)
+<span>           stloc.3      </span>
+<span>           ldloc.3      </span>
+<span>           call         </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Array</span>::<span class="memberid">Sort</span>&lt;<span style="color: blue;">string</span>&gt;(!!0[])
+<span>           nop          </span>
+<span>           ldc.i4.0     </span>
+<span>           stloc.s      </span><span>V_7</span>
+<span>           br.s         </span><span>IL_0005
+</span><span>  IL_0002</span>: <span>nop          </span>
+<span>           ldloc.3      </span>
+<span>           ldloc.s      </span><span>V_7</span>
+<span>           ldelem.ref   </span>
+<span>           call         </span><span style="color: blue;">string</span> <span class="memberid">CilBrowser.Core</span>.<a href="200000C.html" class="memberid">Utils</a>::<a href="200000C.html#M6000070" class="memberid">GetDirectoryNameFromPath</a>(<span style="color: blue;">string</span>)
+<span>           stloc.s      </span><span>V_8</span>
+<span>           ldloc.s      </span><span>V_8</span>
+<span>           call         </span><span style="color: blue;">bool</span> <span class="memberid">CilBrowser.Core</span>.<a href="2000006.html" class="memberid">FileUtils</a>::<a href="2000006.html#M600001C" class="memberid">IsDirectoryExcluded</a>(<span style="color: blue;">string</span>)
+<span>           stloc.s      </span><span>V_10</span>
+<span>           ldloc.s      </span><span>V_10</span>
+<span>           brfalse.s    </span><span>IL_0003
+</span><span>           br.s         </span><span>IL_0004
+</span><span>  IL_0003</span>: <span>ldloc.3      </span>
+<span>           ldloc.s      </span><span>V_7</span>
+<span>           ldelem.ref   </span>
+<span>           ldarg.1      </span>
+<span>           ldarg.2      </span>
+<span>           ldc.i4.1     </span>
+<span>           add          </span>
+<span>           call         </span><span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000026.html" class="memberid">DirectoryNode</a> <span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000028.html" class="memberid">SourceIndexer</a>::<a href="2000028.html#M60000E6" class="memberid">SourceDirectoryToTreeImpl</a>(<span style="color: blue;">string</span>, <span style="color: blue;">class </span><span class="memberid">CilBrowser.Core</span>.<a href="2000005.html" class="memberid">CilBrowserOptions</a>, <span style="color: blue;">int32</span>)
+<span>           stloc.s      </span><span>V_9</span>
+<span>           ldloc.1      </span>
+<span>           ldloc.s      </span><span>V_9</span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000026.html" class="memberid">DirectoryNode</a>::<a href="2000026.html#M60000DB" class="memberid">AddDirectory</a>(<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000026.html" class="memberid">DirectoryNode</a>)
+<span>           nop          </span>
+<span>           nop          </span>
+<span>  IL_0004</span>: <span>ldloc.s      </span><span>V_7</span>
+<span>           ldc.i4.1     </span>
+<span>           add          </span>
+<span>           stloc.s      </span><span>V_7</span>
+<span>  IL_0005</span>: <span>ldloc.s      </span><span>V_7</span>
+<span>           ldloc.3      </span>
+<span>           ldlen        </span>
+<span>           conv.i4      </span>
+<span>           clt          </span>
+<span>           stloc.s      </span><span>V_11</span>
+<span>           ldloc.s      </span><span>V_11</span>
+<span>           brtrue.s     </span><span>IL_0002
+</span><span>           ldarg.0      </span>
+<span>           call         </span><span style="color: blue;">string</span>[] [<span>netstandard</span>]<span class="memberid">System.IO</span>.<span class="memberid">Directory</span>::<span class="memberid">GetFiles</span>(<span style="color: blue;">string</span>)
+<span>           stloc.s      </span><span>V_4</span>
+<span>           ldloc.s      </span><span>V_4</span>
+<span>           call         </span><span style="color: blue;">void</span> [<span>netstandard</span>]<span class="memberid">System</span>.<span class="memberid">Array</span>::<span class="memberid">Sort</span>&lt;<span style="color: blue;">string</span>&gt;(!!0[])
+<span>           nop          </span>
+<span>           ldc.i4.0     </span>
+<span>           stloc.s      </span><span>V_12</span>
+<span>           br.s         </span><span>IL_0009
+</span><span>  IL_0006</span>: <span>nop          </span>
+<span>           ldloc.s      </span><span>V_4</span>
+<span>           ldloc.s      </span><span>V_12</span>
+<span>           ldelem.ref   </span>
+<span>           ldloc.2      </span>
+<span>           call         </span><span style="color: blue;">bool</span> <span class="memberid">CilBrowser.Core</span>.<a href="2000006.html" class="memberid">FileUtils</a>::<a href="2000006.html#M600001A" class="memberid">IsSourceFile</a>(<span style="color: blue;">string</span>, <span style="color: blue;">class </span>[<span>netstandard</span>]<span class="memberid">System.Collections.Generic</span>.<span class="memberid">HashSet`1</span>&lt;<span style="color: blue;">string</span>&gt;)
+<span>           ldc.i4.0     </span>
+<span>           ceq          </span>
+<span>           stloc.s      </span><span>V_14</span>
+<span>           ldloc.s      </span><span>V_14</span>
+<span>           brfalse.s    </span><span>IL_0007
+</span><span>           br.s         </span><span>IL_0008
+</span><span>  IL_0007</span>: <span>ldloc.s      </span><span>V_4</span>
+<span>           ldloc.s      </span><span>V_12</span>
+<span>           ldelem.ref   </span>
+<span>           newobj       </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000027.html" class="memberid">FileNode</a>::<a href="2000027.html#M60000E0" class="memberid">.ctor</a>(<span style="color: blue;">string</span>)
+<span>           stloc.s      </span><span>V_13</span>
+<span>           ldloc.1      </span>
+<span>           ldloc.s      </span><span>V_13</span>
+<span>           callvirt     </span><span style="color: blue;">instance </span><span style="color: blue;">void</span> <span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000026.html" class="memberid">DirectoryNode</a>::<a href="2000026.html#M60000DA" class="memberid">AddFile</a>(<span style="color: blue;">class </span><span class="memberid">CilBrowser.Core.Structure</span>.<a href="2000027.html" class="memberid">FileNode</a>)
+<span>           nop          </span>
+<span>           nop          </span>
+<span>  IL_0008</span>: <span>ldloc.s      </span><span>V_12</span>
+<span>           ldc.i4.1     </span>
+<span>           add          </span>
+<span>           stloc.s      </span><span>V_12</span>
+<span>  IL_0009</span>: <span>ldloc.s      </span><span>V_12</span>
+<span>           ldloc.s      </span><span>V_4</span>
+<span>           ldlen        </span>
+<span>           conv.i4      </span>
+<span>           clt          </span>
+<span>           stloc.s      </span><span>V_15</span>
+<span>           ldloc.s      </span><span>V_15</span>
+<span>           brtrue.s     </span><span>IL_0006
+</span><span>           ldloc.1      </span>
+<span>           stloc.s      </span><span>V_6</span>
+<span>           br.s         </span><span>IL_0010
+</span><span>  IL_0010</span>: <span>ldloc.s      </span><span>V_6</span>
+<span>           ret          </span>
+ }
+
+}
+</code></pre></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>

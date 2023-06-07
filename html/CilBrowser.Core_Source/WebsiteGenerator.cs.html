@@ -1,6 +1,6 @@
 ﻿<html><head><title>Source file: WebsiteGenerator.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
 <body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
-<h2>Source file: WebsiteGenerator.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in CilBrowser.Core directory:</p><p><a href="CilBrowser.Core.csproj.html">CilBrowser.Core.csproj</a></p><p><a href="HtmlAttribute.cs.html">HtmlAttribute.cs</a></p><p><a href="HtmlBuilder.cs.html">HtmlBuilder.cs</a></p><p><a href="HtmlGenerator.cs.html">HtmlGenerator.cs</a></p><p><a href="Server.cs.html">Server.cs</a></p><p><a href="Utils.cs.html">Utils.cs</a></p><p><b>WebsiteGenerator.cs</b></p></td>
+<h2>Source file: WebsiteGenerator.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in CilBrowser.Core directory:</p><p><a href="AssemblyServer.cs.html">AssemblyServer.cs</a></p><p><a href="CilBrowser.Core.csproj.html">CilBrowser.Core.csproj</a></p><p><a href="CilBrowserOptions.cs.html">CilBrowserOptions.cs</a></p><p><a href="FileUtils.cs.html">FileUtils.cs</a></p><p><a href="HtmlAttribute.cs.html">HtmlAttribute.cs</a></p><p><a href="HtmlBuilder.cs.html">HtmlBuilder.cs</a></p><p><a href="HtmlGenerator.cs.html">HtmlGenerator.cs</a></p><p><a href="ServerBase.cs.html">ServerBase.cs</a></p><p><a href="SourceServer.cs.html">SourceServer.cs</a></p><p><a href="Utils.cs.html">Utils.cs</a></p><p><b>WebsiteGenerator.cs</b></p></td>
 <td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
  * Copyright (c) 2023,  MSDN.WhiteKnight 
  * License: BSD 3-Clause */
@@ -8,6 +8,7 @@
 <span style="color: blue;">using </span>System.Collections.Generic;
 <span style="color: blue;">using </span>System.IO;
 <span style="color: blue;">using </span>System.Linq;
+<span style="color: blue;">using </span>System.Net;
 <span style="color: blue;">using </span>System.Reflection;
 <span style="color: blue;">using </span>System.Text;
 
@@ -19,28 +20,6 @@
     </span><span style="color: green;">/// &lt;/summary&gt;
     </span><span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">class </span>WebsiteGenerator
     {
-        <span style="color: blue;">static </span>HashSet&lt;<span style="color: blue;">string</span>&gt; s_srcExtensions = <span style="color: blue;">new </span>HashSet&lt;<span style="color: blue;">string</span>&gt;(<span style="color: blue;">new </span><span style="color: blue;">string</span>[] {
-            <span style="color: red;">&quot;.il&quot;</span>, <span style="color: red;">&quot;.cil&quot;</span>, <span style="color: red;">&quot;.cs&quot;</span>, <span style="color: red;">&quot;.vb&quot;</span>, <span style="color: red;">&quot;.c&quot;</span>, <span style="color: red;">&quot;.cpp&quot;</span>, <span style="color: red;">&quot;.h&quot;</span>, <span style="color: red;">&quot;.hpp&quot;</span>, <span style="color: red;">&quot;.js&quot;</span>, <span style="color: red;">&quot;.ts&quot;</span>, <span style="color: red;">&quot;.fs&quot;</span>, <span style="color: red;">&quot;.txt&quot;</span>, <span style="color: red;">&quot;.md&quot;</span>, <span style="color: red;">&quot;.htm&quot;</span>, <span style="color: red;">&quot;.html&quot;</span>,
-            <span style="color: red;">&quot;.css&quot;</span>, <span style="color: red;">&quot;.xml&quot;</span>, <span style="color: red;">&quot;.csproj&quot;</span>, <span style="color: red;">&quot;.vbproj&quot;</span>, <span style="color: red;">&quot;.vcxproj&quot;</span>, <span style="color: red;">&quot;.proj&quot;</span>, <span style="color: red;">&quot;.rc&quot;</span>, <span style="color: red;">&quot;.cmd&quot;</span>, <span style="color: red;">&quot;.bat&quot;</span>, <span style="color: red;">&quot;.sh&quot;</span>, <span style="color: red;">&quot;.ps1&quot;</span>, <span style="color: red;">&quot;.xaml&quot;</span>,
-            <span style="color: red;">&quot;.config&quot;</span>, <span style="color: red;">&quot;.json&quot;</span>, <span style="color: red;">&quot;.yml&quot;</span>, <span style="color: red;">&quot;.sln&quot;</span>, <span style="color: red;">&quot;.props&quot;</span>, <span style="color: red;">&quot;.targets&quot;
-        </span>});
-
-        <span style="color: blue;">static </span>HashSet&lt;<span style="color: blue;">string</span>&gt; s_excludedDirs = <span style="color: blue;">new </span>HashSet&lt;<span style="color: blue;">string</span>&gt;(<span style="color: blue;">new </span><span style="color: blue;">string</span>[] {
-            <span style="color: red;">&quot;.git&quot;</span>, <span style="color: red;">&quot;bin&quot;</span>, <span style="color: red;">&quot;obj&quot;</span>, <span style="color: red;">&quot;packages&quot;</span>, <span style="color: red;">&quot;.vs&quot;</span>, <span style="color: red;">&quot;TestResults&quot;</span>, <span style="color: red;">&quot;Debug&quot;</span>, <span style="color: red;">&quot;Release&quot;
-        </span>});
-
-        <span style="color: blue;">static </span><span style="color: blue;">bool </span>IsSourceFile(<span style="color: blue;">string </span>name)
-        {
-            <span style="color: blue;">string </span>ext = Path.GetExtension(name).ToLower();
-
-            <span style="color: blue;">return </span>ext == <span style="color: blue;">string</span>.Empty || s_srcExtensions.Contains(ext);
-        }
-
-        <span style="color: blue;">static </span><span style="color: blue;">bool </span>IsDirectoryExcluded(<span style="color: blue;">string </span>name)
-        {
-            <span style="color: blue;">return </span>s_excludedDirs.Contains(name);
-        }
-
         <span style="color: green;">/// &lt;summary&gt;
         </span><span style="color: green;">/// Generates a static website that contains disassembled CIL for the specified assembly
         </span><span style="color: green;">/// &lt;/summary&gt;
@@ -140,7 +119,7 @@
             File.WriteAllText(Path.Combine(outputPath, <span style="color: red;">&quot;index.html&quot;</span>), sb.ToString(), Encoding.UTF8);
         }
 
-        <span style="color: blue;">static </span><span style="color: blue;">string </span>VisualizeNavigationPanel(<span style="color: blue;">string </span>filename, <span style="color: blue;">string </span>dirName, <span style="color: blue;">string</span>[] dirFiles)
+        <span style="color: blue;">static </span><span style="color: blue;">string </span>VisualizeNavigationPanel(<span style="color: blue;">string </span>filename, <span style="color: blue;">string </span>dirName, <span style="color: blue;">string</span>[] dirFiles, HashSet&lt;<span style="color: blue;">string</span>&gt; sourceExtensions)
         {
             StringBuilder sb = <span style="color: blue;">new </span>StringBuilder(1000);
             HtmlBuilder html = <span style="color: blue;">new </span>HtmlBuilder(sb);
@@ -149,7 +128,7 @@
             <span style="color: green;">//list of files
             </span><span style="color: blue;">for </span>(<span style="color: blue;">int </span>i = 0; i &lt; dirFiles.Length; i++)
             {
-                <span style="color: blue;">if </span>(!IsSourceFile(dirFiles[i])) <span style="color: blue;">continue</span>;
+                <span style="color: blue;">if </span>(!FileUtils.IsSourceFile(dirFiles[i], sourceExtensions)) <span style="color: blue;">continue</span>;
 
                 html.StartParagraph();
                 <span style="color: blue;">string </span>currFileName = Path.GetFileName(dirFiles[i]);
@@ -160,7 +139,8 @@
                 }
                 <span style="color: blue;">else
                 </span>{
-                    html.WriteHyperlink(currFileName + <span style="color: red;">&quot;.html&quot;</span>, currFileName);
+                    <span style="color: blue;">string </span>pageName = FileUtils.FileNameToPageName(currFileName);
+                    html.WriteHyperlink(WebUtility.UrlEncode(pageName), currFileName);
                 }
 
                 html.EndParagraph();
@@ -169,8 +149,64 @@
             <span style="color: blue;">return </span>sb.ToString();
         }
         
-        <span style="color: blue;">static </span><span style="color: blue;">void </span>GenerateFromSourcesImpl(<span style="color: blue;">string </span>sourcesPath, <span style="color: blue;">string </span>outputPath, <span style="color: blue;">int </span>level,
-            <span style="color: blue;">string </span>sourceControlUrl, <span style="color: blue;">string </span>customFooter)
+        <span style="color: blue;">internal </span><span style="color: blue;">static </span><span style="color: blue;">string </span>RenderNavigationPanel(<span style="color: blue;">string </span>filepath, <span style="color: blue;">string </span>filename, HashSet&lt;<span style="color: blue;">string</span>&gt; sourceExtensions)
+        {
+            <span style="color: blue;">string </span>dirpath = Path.GetDirectoryName(filepath);
+            <span style="color: blue;">string </span>dirname = Utils.GetDirectoryNameFromPath(dirpath);
+            <span style="color: blue;">string</span>[] files = Directory.GetFiles(dirpath);
+
+            <span style="color: blue;">if </span>(files.Length &gt; 1) <span style="color: blue;">return </span>VisualizeNavigationPanel(filename, dirname, files, sourceExtensions);
+            <span style="color: blue;">else </span><span style="color: blue;">return </span><span style="color: blue;">string</span>.Empty;
+        }
+
+        <span style="color: blue;">static </span><span style="color: blue;">string </span>GetImagesURL(<span style="color: blue;">int </span>level)
+        {
+            StringBuilder sb = <span style="color: blue;">new </span>StringBuilder(level * 3);
+
+            <span style="color: blue;">for </span>(<span style="color: blue;">int </span>i = 0; i &lt; level; i++) sb.Append(<span style="color: red;">&quot;../&quot;</span>);
+
+            sb.Append(<span style="color: red;">&quot;img/&quot;</span>);
+            <span style="color: blue;">return </span>sb.ToString();
+        }
+
+        <span style="color: blue;">internal </span><span style="color: blue;">static </span><span style="color: blue;">void </span>RenderDirsList(<span style="color: blue;">string</span>[] dirs, <span style="color: blue;">string </span>dirIconURL, HtmlBuilder toc)
+        {
+            toc.WriteTagStart(<span style="color: red;">&quot;table&quot;</span>, HtmlBuilder.OneAttribute(<span style="color: red;">&quot;cellpadding&quot;</span>, <span style="color: red;">&quot;2px&quot;</span>));
+
+            <span style="color: blue;">for </span>(<span style="color: blue;">int </span>i = 0; i &lt; dirs.Length; i++)
+            {
+                <span style="color: blue;">string </span>name = Utils.GetDirectoryNameFromPath(dirs[i]);
+
+                <span style="color: blue;">if </span>(FileUtils.IsDirectoryExcluded(name)) <span style="color: blue;">continue</span>;
+
+                <span style="color: green;">//TOC entry
+                </span>toc.WriteTagStart(<span style="color: red;">&quot;tr&quot;</span>);
+                toc.WriteTagStart(<span style="color: red;">&quot;td&quot;</span>);
+                toc.WriteTag(<span style="color: red;">&quot;img&quot;</span>, <span style="color: blue;">string</span>.Empty, HtmlBuilder.OneAttribute(<span style="color: red;">&quot;src&quot;</span>, dirIconURL));
+                toc.WriteTagEnd(<span style="color: red;">&quot;td&quot;</span>);
+                toc.WriteTagStart(<span style="color: red;">&quot;td&quot;</span>);
+                toc.WriteHyperlink(<span style="color: red;">&quot;./&quot; </span>+ WebUtility.UrlEncode(name) + <span style="color: red;">&quot;/index.html&quot;</span>, name);
+                toc.WriteTagEnd(<span style="color: red;">&quot;td&quot;</span>);
+                toc.WriteTagEnd(<span style="color: red;">&quot;tr&quot;</span>);
+            }
+
+            toc.WriteTagEnd(<span style="color: red;">&quot;table&quot;</span>);
+        }
+
+        <span style="color: blue;">internal </span><span style="color: blue;">static </span><span style="color: blue;">void </span>RenderTocEntry(<span style="color: blue;">string </span>name, <span style="color: blue;">string </span>pageName, <span style="color: blue;">string </span>fileIconURL, HtmlBuilder toc)
+        {
+            toc.WriteTagStart(<span style="color: red;">&quot;tr&quot;</span>);
+            toc.WriteTagStart(<span style="color: red;">&quot;td&quot;</span>);
+            toc.WriteTag(<span style="color: red;">&quot;img&quot;</span>, <span style="color: blue;">string</span>.Empty, HtmlBuilder.OneAttribute(<span style="color: red;">&quot;src&quot;</span>, fileIconURL));
+            toc.WriteTagEnd(<span style="color: red;">&quot;td&quot;</span>);
+            toc.WriteTagStart(<span style="color: red;">&quot;td&quot;</span>);
+            toc.WriteHyperlink(WebUtility.UrlEncode(pageName), name);
+            toc.WriteTagEnd(<span style="color: red;">&quot;td&quot;</span>);
+            toc.WriteTagEnd(<span style="color: red;">&quot;tr&quot;</span>);
+        }
+
+        <span style="color: blue;">static </span><span style="color: blue;">void </span>GenerateFromSourcesImpl(<span style="color: blue;">string </span>sourcesPath, <span style="color: blue;">string </span>outputPath, CilBrowserOptions options, 
+            <span style="color: blue;">string </span>customFooter, <span style="color: blue;">int </span>level)
         {
             <span style="color: blue;">if </span>(level &gt; 50)
             {
@@ -178,6 +214,7 @@
                 <span style="color: blue;">return</span>;
             }
 
+            HashSet&lt;<span style="color: blue;">string</span>&gt; sourceExtensions = options.SourceExtensions;
             HtmlGenerator generator = <span style="color: blue;">new </span>HtmlGenerator();
             generator.CustomFooter = customFooter;
             Directory.CreateDirectory(outputPath);
@@ -203,37 +240,32 @@
                 toc.EndParagraph();
             }
 
-            <span style="color: blue;">for </span>(<span style="color: blue;">int </span>i = 0; i &lt; dirs.Length; i++)
-            {
-                <span style="color: blue;">string </span>name = Utils.GetDirectoryNameFromPath(dirs[i]);
-
-                <span style="color: blue;">if </span>(IsDirectoryExcluded(name)) <span style="color: blue;">continue</span>;
-
-                <span style="color: green;">//TOC entry
-                </span>toc.StartParagraph();
-                toc.WriteHyperlink(<span style="color: red;">&quot;./&quot; </span>+ name + <span style="color: red;">&quot;/index.html&quot;</span>, name);
-                toc.EndParagraph();
-            }
+            <span style="color: green;">//render TOC entries for subdirectories
+            </span><span style="color: blue;">string </span>dirIconURL = GetImagesURL(level) + <span style="color: red;">&quot;dir.png&quot;</span>;
+            RenderDirsList(dirs, dirIconURL, toc);
+            toc.WriteRaw(Environment.NewLine);
 
             <span style="color: green;">//write source files
-            </span>toc.WriteRaw(Environment.NewLine);
+            </span><span style="color: blue;">string </span>fileIconURL = GetImagesURL(level) + <span style="color: red;">&quot;file.png&quot;</span>;
             <span style="color: blue;">string</span>[] files = Directory.GetFiles(sourcesPath);
             Array.Sort(files);
 
             <span style="color: blue;">if </span>(files.Length &gt; 0) toc.WriteTag(<span style="color: red;">&quot;h2&quot;</span>, <span style="color: red;">&quot;Files&quot;</span>);
 
+            toc.WriteTagStart(<span style="color: red;">&quot;table&quot;</span>, HtmlBuilder.OneAttribute(<span style="color: red;">&quot;cellpadding&quot;</span>, <span style="color: red;">&quot;2px&quot;</span>));
+
             <span style="color: blue;">for </span>(<span style="color: blue;">int </span>i = 0; i &lt; files.Length; i++)
             {
-                <span style="color: blue;">if </span>(!IsSourceFile(files[i])) <span style="color: blue;">continue</span>;
+                <span style="color: blue;">if </span>(!FileUtils.IsSourceFile(files[i], sourceExtensions)) <span style="color: blue;">continue</span>;
 
                 <span style="color: blue;">string </span>name = Path.GetFileName(files[i]);
                 <span style="color: blue;">string </span>html;
 
                 <span style="color: blue;">try
                 </span>{
-                    <span style="color: blue;">string </span>content = File.ReadAllText(files[i]);
-                    <span style="color: blue;">string </span>navigation = VisualizeNavigationPanel(name, dirName, files);
-                    html = generator.VisualizeSourceFile(content, name, navigation, sourceControlUrl);
+                    <span style="color: blue;">string </span>content = File.ReadAllText(files[i], options.GetEncoding());
+                    <span style="color: blue;">string </span>navigation = VisualizeNavigationPanel(name, dirName, files, sourceExtensions);
+                    html = generator.VisualizeSourceFile(content, name, navigation, options.SourceControlURL);
                 }
                 <span style="color: blue;">catch </span>(IOException ex)
                 {
@@ -247,12 +279,11 @@
                     Console.WriteLine(name);
 
                     <span style="color: green;">//file content
-                    </span>File.WriteAllText(Path.Combine(outputPath, name + <span style="color: red;">&quot;.html&quot;</span>), html, Encoding.UTF8);
+                    </span><span style="color: blue;">string </span>pageName = FileUtils.FileNameToPageName(name);
+                    File.WriteAllText(Path.Combine(outputPath, pageName), html, Encoding.UTF8);
 
                     <span style="color: green;">//TOC entry
-                    </span>toc.StartParagraph();
-                    toc.WriteHyperlink(name + <span style="color: red;">&quot;.html&quot;</span>, name);
-                    toc.EndParagraph();
+                    </span>RenderTocEntry(name, pageName, fileIconURL, toc);
                 }
                 <span style="color: blue;">else
                 </span>{
@@ -260,18 +291,22 @@
                 }
             }<span style="color: green;">//end for
 
-            </span><span style="color: green;">//subdirectories
+            </span>toc.WriteTagEnd(<span style="color: red;">&quot;table&quot;</span>);
+
+            <span style="color: green;">//subdirectories
             </span><span style="color: blue;">for </span>(<span style="color: blue;">int </span>i = 0; i &lt; dirs.Length; i++)
             {
                 <span style="color: blue;">string </span>name = Utils.GetDirectoryNameFromPath(dirs[i]);
                 <span style="color: blue;">string </span>urlNew;
 
-                <span style="color: blue;">if </span>(IsDirectoryExcluded(name)) <span style="color: blue;">continue</span>;
+                <span style="color: blue;">if </span>(FileUtils.IsDirectoryExcluded(name)) <span style="color: blue;">continue</span>;
 
-                <span style="color: blue;">if </span>(!<span style="color: blue;">string</span>.IsNullOrEmpty(sourceControlUrl)) urlNew = Utils.UrlAppend(sourceControlUrl, name);
+                <span style="color: blue;">if </span>(!<span style="color: blue;">string</span>.IsNullOrEmpty(options.SourceControlURL)) urlNew = Utils.UrlAppend(options.SourceControlURL, name);
                 <span style="color: blue;">else </span>urlNew = <span style="color: blue;">string</span>.Empty;
 
-                GenerateFromSourcesImpl(dirs[i], Path.Combine(outputPath, name), level + 1, urlNew, customFooter);
+                CilBrowserOptions optionsNew = options.Copy();
+                optionsNew.SourceControlURL = urlNew;
+                GenerateFromSourcesImpl(dirs[i], Path.Combine(outputPath, name), optionsNew, customFooter, level + 1);
             }
 
             <span style="color: green;">//write TOC
@@ -283,10 +318,19 @@
         <span style="color: green;">/// &lt;summary&gt;
         </span><span style="color: green;">/// Generates a static website for the source code in the specified directory
         </span><span style="color: green;">/// &lt;/summary&gt;
-        </span><span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">void </span>GenerateFromSources(<span style="color: blue;">string </span>sourcesPath, <span style="color: blue;">string </span>outputPath, <span style="color: blue;">string </span>sourceControlUrl,
+        </span><span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">void </span>GenerateFromSources(<span style="color: blue;">string </span>sourcesPath, <span style="color: blue;">string </span>outputPath, CilBrowserOptions options,
             <span style="color: blue;">string </span>customFooter)
         {
-            GenerateFromSourcesImpl(sourcesPath, outputPath, 0, sourceControlUrl, customFooter);
+            <span style="color: green;">//generate HTML files
+            </span>GenerateFromSourcesImpl(sourcesPath, outputPath, options, customFooter, 0);
+
+            <span style="color: green;">//write icons
+            </span>Directory.CreateDirectory(Path.Combine(outputPath, <span style="color: red;">&quot;img&quot;</span>));
+            Assembly ass = <span style="color: blue;">typeof</span>(WebsiteGenerator).Assembly;
+            <span style="color: blue;">byte</span>[] imgContent = FileUtils.ReadFromResource(ass, <span style="color: red;">&quot;CilBrowser.Core.Images&quot;</span>, <span style="color: red;">&quot;dir.png&quot;</span>);
+            File.WriteAllBytes(Path.Combine(outputPath, <span style="color: red;">&quot;img/dir.png&quot;</span>), imgContent);
+            imgContent = FileUtils.ReadFromResource(ass, <span style="color: red;">&quot;CilBrowser.Core.Images&quot;</span>, <span style="color: red;">&quot;file.png&quot;</span>);
+            File.WriteAllBytes(Path.Combine(outputPath, <span style="color: red;">&quot;img/file.png&quot;</span>), imgContent);
         }
     }
 }

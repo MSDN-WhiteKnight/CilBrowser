@@ -1,0 +1,55 @@
+﻿<html><head><title>Source file: JavaTokenFactory.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
+<body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
+<h2>Source file: JavaTokenFactory.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in Java directory:</p><p><a href="JavaSyntaxProvider.cs.html">JavaSyntaxProvider.cs</a></p><p><b>JavaTokenFactory.cs</b></p></td>
+<td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
+ * Copyright (c) 2023,  MSDN.WhiteKnight 
+ * License: BSD 3-Clause */
+</span><span style="color: blue;">using </span>System;
+<span style="color: blue;">using </span>System.Collections.Generic;
+<span style="color: blue;">using </span>System.Text;
+<span style="color: blue;">using </span>CilTools.Syntax;
+<span style="color: blue;">using </span>CilTools.SourceCode.Common;
+
+<span style="color: blue;">namespace </span>CilBrowser.Core.SyntaxModel.Java
+{
+    <span style="color: blue;">public </span><span style="color: blue;">sealed </span><span style="color: blue;">class </span>JavaTokenFactory : SyntaxFactory
+    {
+        <span style="color: blue;">private </span>JavaTokenFactory() { }
+
+        <span style="color: green;">// https://docs.oracle.com/javase/tutorial/java/nutsandbolts/_keywords.html
+        </span><span style="color: blue;">static </span><span style="color: blue;">readonly </span>HashSet&lt;<span style="color: blue;">string</span>&gt; keywords = <span style="color: blue;">new </span>HashSet&lt;<span style="color: blue;">string</span>&gt;(<span style="color: blue;">new </span><span style="color: blue;">string</span>[] {
+            <span style="color: red;">&quot;abstract&quot;</span>, <span style="color: red;">&quot;assert&quot;</span>, <span style="color: red;">&quot;boolean&quot;</span>, <span style="color: red;">&quot;break&quot;</span>, <span style="color: red;">&quot;byte&quot;</span>, <span style="color: red;">&quot;case&quot;</span>, <span style="color: red;">&quot;catch&quot;</span>, <span style="color: red;">&quot;char&quot;</span>, <span style="color: red;">&quot;class&quot;</span>, <span style="color: red;">&quot;continue&quot;</span>, 
+            <span style="color: red;">&quot;default&quot;</span>, <span style="color: red;">&quot;do&quot;</span>, <span style="color: red;">&quot;double&quot;</span>, <span style="color: red;">&quot;else&quot;</span>, <span style="color: red;">&quot;enum&quot;</span>, <span style="color: red;">&quot;extends&quot;</span>, <span style="color: red;">&quot;final&quot;</span>, <span style="color: red;">&quot;finally&quot;</span>, <span style="color: red;">&quot;float&quot;</span>, <span style="color: red;">&quot;for&quot;</span>, 
+            <span style="color: red;">&quot;if&quot;</span>, <span style="color: red;">&quot;implements&quot;</span>, <span style="color: red;">&quot;import&quot;</span>, <span style="color: red;">&quot;instanceof&quot;</span>, <span style="color: red;">&quot;int&quot;</span>, <span style="color: red;">&quot;interface&quot;</span>, <span style="color: red;">&quot;long&quot;</span>, <span style="color: red;">&quot;native&quot;</span>, <span style="color: red;">&quot;new&quot;</span>, 
+            <span style="color: red;">&quot;package&quot;</span>, <span style="color: red;">&quot;private&quot;</span>, <span style="color: red;">&quot;protected&quot;</span>, <span style="color: red;">&quot;public&quot;</span>, <span style="color: red;">&quot;return&quot;</span>, 
+            <span style="color: red;">&quot;short&quot;</span>, <span style="color: red;">&quot;static&quot;</span>, <span style="color: red;">&quot;strictfp&quot;</span>, <span style="color: red;">&quot;super&quot;</span>, <span style="color: red;">&quot;switch&quot;</span>, <span style="color: red;">&quot;synchronized&quot;</span>,
+            <span style="color: red;">&quot;this&quot;</span>, <span style="color: red;">&quot;throw&quot;</span>, <span style="color: red;">&quot;throws&quot;</span>, <span style="color: red;">&quot;transient&quot;</span>, <span style="color: red;">&quot;try&quot;</span>, <span style="color: red;">&quot;void&quot;</span>, <span style="color: red;">&quot;volatile&quot;</span>, <span style="color: red;">&quot;while&quot;</span>,
+            <span style="color: red;">&quot;true&quot;</span>, <span style="color: red;">&quot;false&quot;</span>, <span style="color: red;">&quot;null&quot;
+        </span>});
+
+        <span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">readonly </span>JavaTokenFactory Value = <span style="color: blue;">new </span>JavaTokenFactory();
+
+        <span style="color: blue;">static </span>TokenKind GetKind(<span style="color: blue;">string </span>token)
+        {
+            <span style="color: blue;">if </span>(token.Length == 0) <span style="color: blue;">return </span>TokenKind.Unknown;
+
+            <span style="color: blue;">if </span>(<span style="color: blue;">char</span>.IsLetter(token[0]) || token[0] == <span style="color: red;">&#39;_&#39;</span>)
+            {
+                <span style="color: blue;">if </span>(keywords.Contains(token)) <span style="color: blue;">return </span>TokenKind.Keyword;
+                <span style="color: blue;">else </span><span style="color: blue;">return </span>TokenKind.Name;
+            }
+            <span style="color: blue;">else
+            </span>{
+                <span style="color: blue;">return </span>SourceParser.GetKindCommon(token);
+            }
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">override </span>SyntaxNode CreateNode(<span style="color: blue;">string </span>content, <span style="color: blue;">string </span>leadingWhitespace, <span style="color: blue;">string </span>trailingWhitespace)
+        {
+            TokenKind kind = GetKind(content);
+            <span style="color: blue;">return </span><span style="color: blue;">new </span>SourceToken(content, kind, leadingWhitespace, trailingWhitespace);
+        }
+    }
+}
+</code></pre><a href="https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser.Core/SyntaxModel/Java/JavaTokenFactory.cs">View in source control</a></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>
+</body></html>
