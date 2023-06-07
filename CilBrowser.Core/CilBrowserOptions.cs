@@ -13,7 +13,7 @@ namespace CilBrowser.Core
     {
         public CilBrowserOptions()
         {
-            this.SourceExtensions = new string[0];
+            this.SourceExtensions = FileUtils.GetDefaultExtensions();
             this.UseAnsiEncoding = false;
         }
 
@@ -24,10 +24,10 @@ namespace CilBrowser.Core
         public string SourceControlURL { get; set; }
 
         /// <summary>
-        /// Gets or sets the array of file extensions (with leading dot) that are considered source files. When empty, 
+        /// Gets or sets the collection of file extensions (with leading dot) that are considered source files. When empty, 
         /// the default set of extensions is used.
         /// </summary>
-        public string[] SourceExtensions { get; set; }
+        public HashSet<string> SourceExtensions { get; set; }
 
         /// <summary>
         /// Gets or sets the value indicating whether ANSI encoding is used when reading source files. When set to true, 
@@ -42,7 +42,7 @@ namespace CilBrowser.Core
 
         /// <summary>
         /// Reads options from the text configuration file with "key=value" lines
-        /// </summary>        
+        /// </summary>
         public static CilBrowserOptions ReadFromFile(string filePath)
         {
             string[] lines = File.ReadAllLines(filePath, Encoding.UTF8);
@@ -85,7 +85,7 @@ namespace CilBrowser.Core
                     exts_list.Add(item);
                 }
 
-                if(exts_list.Count>0) ret.SourceExtensions = exts_list.ToArray();
+                if (exts_list.Count > 0) ret.SourceExtensions = new HashSet<string>(exts_list);
             }
 
             //encoding

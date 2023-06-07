@@ -211,11 +211,7 @@ namespace CilBrowser.Core
                 return;
             }
 
-            HashSet<string> sourceExtensions;
-
-            if (options.SourceExtensions.Length > 0) sourceExtensions = new HashSet<string>(options.SourceExtensions);
-            else sourceExtensions = FileUtils.GetDefaultExtensions();
-
+            HashSet<string> sourceExtensions = options.SourceExtensions;
             HtmlGenerator generator = new HtmlGenerator();
             generator.CustomFooter = customFooter;
             Directory.CreateDirectory(outputPath);

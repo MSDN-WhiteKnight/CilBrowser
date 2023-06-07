@@ -26,10 +26,7 @@ namespace CilBrowser.Core.Structure
                 return ret;
             }
 
-            HashSet<string> sourceExtensions;
-
-            if (options.SourceExtensions.Length > 0) sourceExtensions = new HashSet<string>(options.SourceExtensions);
-            else sourceExtensions = FileUtils.GetDefaultExtensions();
+            HashSet<string> sourceExtensions = options.SourceExtensions;
             
             string[] dirs = Directory.GetDirectories(sourcesPath);
             Array.Sort(dirs);

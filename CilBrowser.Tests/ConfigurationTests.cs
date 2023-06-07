@@ -3,6 +3,7 @@
  * License: BSD 3-Clause */
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CilBrowser.Core;
@@ -25,7 +26,7 @@ namespace CilBrowser.Tests
             CilBrowserOptions options = CilBrowserOptions.ReadValues(lines);
 
             Assert.AreEqual("http://example.com/", options.SourceControlURL);
-            CollectionAssert.AreEqual(new string[] { ".cs", ".vb", ".cpp" }, options.SourceExtensions);
+            CollectionAssert.AreEquivalent(new string[] { ".cs", ".vb", ".cpp" }, options.SourceExtensions.ToArray());
             Assert.IsTrue(options.UseAnsiEncoding);
             Assert.AreEqual(1251, options.AnsiCodepage);
         }
@@ -40,7 +41,7 @@ namespace CilBrowser.Tests
 
             CilBrowserOptions options = CilBrowserOptions.ReadValues(lines);
 
-            CollectionAssert.AreEqual(new string[] { ".js", ".py"}, options.SourceExtensions);
+            CollectionAssert.AreEquivalent(new string[] { ".js", ".py"}, options.SourceExtensions.ToArray());
             Assert.IsFalse(options.UseAnsiEncoding);
         }
 
@@ -51,7 +52,6 @@ namespace CilBrowser.Tests
             CilBrowserOptions options = CilBrowserOptions.ReadValues(lines);
 
             Assert.AreEqual(string.Empty, options.SourceControlURL);
-            Assert.AreEqual(0, options.SourceExtensions.Length);
             Assert.IsFalse(options.UseAnsiEncoding);
         }
     }

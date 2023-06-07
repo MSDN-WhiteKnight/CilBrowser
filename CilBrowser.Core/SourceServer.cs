@@ -28,16 +28,8 @@ namespace CilBrowser.Core
             this._baseDirectory = baseDirectory;
             this._options = options;
             this._gen = new HtmlGenerator();
-
-            if (options.SourceExtensions.Length > 0)
-            {
-                this._sourceExtensions = new HashSet<string>(this._options.SourceExtensions);
-            }
-            else
-            {
-                this._sourceExtensions = FileUtils.GetDefaultExtensions();
-            }
-
+            this._sourceExtensions = this._options.SourceExtensions;
+            
             this._resources = new Dictionary<string, byte[]>(2);
             Assembly ass = typeof(WebsiteGenerator).Assembly;
             byte[] imageData = FileUtils.ReadFromResource(ass, "CilBrowser.Core.Images", "dir.png");
