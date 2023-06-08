@@ -50,6 +50,28 @@ namespace CilBrowser.Core.Structure
         /// Generates HTML output for this node into the specified TextWriter
         /// </summary>
         public abstract void Render(HtmlGenerator generator, CilBrowserOptions options, TextWriter target);
+
+        public string RenderToString(HtmlGenerator generator, CilBrowserOptions options)
+        {
+            StringBuilder sb = new StringBuilder(5000);
+            StringWriter wr = new StringWriter(sb);
+            this.Render(generator, options, wr);
+            return sb.ToString();
+        }
+
+        internal int GetLevel()
+        {
+            int level = 0;
+            TreeNode root = this._parent;
+
+            while (true)
+            {
+                if (root == null) return level;
+
+                root = root.Parent;
+                level++;
+            }
+        }
     }
 
     public enum TreeNodeKind

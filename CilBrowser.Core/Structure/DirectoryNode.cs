@@ -15,16 +15,22 @@ namespace CilBrowser.Core.Structure
     {
         List<FileNode> _files;
         List<DirectoryNode> _dirs;
+        string _path;
 
-        public DirectoryNode(string name, TreeNode parent)
+        public DirectoryNode(string name, string path)
         {
             this._name = name;
-            this._parent = parent;
+            this._path = path;
             this._files = new List<FileNode>();
             this._dirs = new List<DirectoryNode>();
         }
 
         public override TreeNodeKind Kind => TreeNodeKind.Directory;
+
+        public string Path
+        {
+            get { return this._path; }
+        }
 
         /// <summary>
         /// Adds a specified file node into the collection of child nodes. Also sets its parent node to this one.
@@ -68,10 +74,58 @@ namespace CilBrowser.Core.Structure
             foreach (FileNode node in this._files) yield return node;
         }
 
+        string[] GetDirsAsStrings()
+        {
+            string[] ret = new string[this._dirs.Count];
+
+            for (int i = 0; i < ret.Length; i++)
+            {
+                ret[i] = this._dirs[i].Path;
+            }
+
+            return ret;
+        }
+
         /// <inheritdoc/>
         public override void Render(HtmlGenerator generator, CilBrowserOptions options, TextWriter target)
         {
-            //empty by design
+            //render ToC for this directory
+            int level = this.GetLevel();
+            HtmlBuilder toc = new HtmlBuilder(target);
+            HtmlGenerator.WriteTocStart(toc, this._name);
+
+            //render ToC entries for subdirectories
+            if (this._dirs.Count > 0) toc.WriteTag("h2", "Subdirectories");
+
+            if (level > 0)
+            {
+                toc.StartParagraph();
+                toc.WriteHyperlink("../index.html", "(go to parent directory)");
+                toc.EndParagraph();
+            }
+            
+            string dirIconURL = WebsiteGenerator.GetImagesURL(level) + "dir.png";
+            WebsiteGenerator.RenderDirsList(this.GetDirsAsStrings(), dirIconURL, toc);
+            toc.WriteRaw(Environment.NewLine);
+
+            //render ToC entries for files
+            string fileIconURL = WebsiteGenerator.GetImagesURL(level) + "file.png";
+
+            if (this._files.Count > 0) toc.WriteTag("h2", "Files");
+
+            toc.WriteTagStart("table", HtmlBuilder.OneAttribute("cellpadding", "2px"));
+
+            for (int i = 0; i < this._files.Count; i++)
+            {
+                string name = this._files[i].Name;
+                string pageName = FileUtils.FileNameToPageName(name);
+                WebsiteGenerator.RenderTocEntry(name, pageName, fileIconURL, toc);
+            }
+
+            toc.WriteTagEnd("table");
+            generator.WriteFooter(toc);
+            toc.EndDocument();
+            target.Flush();
         }
     }
 }

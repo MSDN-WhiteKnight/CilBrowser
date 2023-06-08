@@ -156,7 +156,7 @@ namespace CilBrowser.Core
             else return string.Empty;
         }
 
-        static string GetImagesURL(int level)
+        internal static string GetImagesURL(int level)
         {
             StringBuilder sb = new StringBuilder(level * 3);
 
