@@ -7,6 +7,7 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using CilBrowser.Core.Structure;
 
 namespace CilBrowser.Core
 {
@@ -90,7 +91,7 @@ namespace CilBrowser.Core
 
                     string name = Path.GetFileName(files[i]);
                     string pageName = FileUtils.FileNameToPageName(name);
-                    WebsiteGenerator.RenderTocEntry(name, pageName, "file.png", toc);
+                    WebsiteGenerator.RenderTocEntry(name, pageName, "file.png", TreeNodeKind.File, toc);
                 }
 
                 toc.WriteTagEnd("table");

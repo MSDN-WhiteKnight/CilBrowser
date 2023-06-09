@@ -8,6 +8,9 @@ using System.Text;
 
 namespace CilBrowser.Core.Structure
 {
+    /// <summary>
+    /// Represents a disassembled CLR type in website structure
+    /// </summary>
     public sealed class TypeNode : PageNode
     {
         Type _t;
@@ -16,7 +19,7 @@ namespace CilBrowser.Core.Structure
         public TypeNode(Type t, Dictionary<string, List<Type>> typeMap)
         {
             this._name = HtmlGenerator.GenerateTypeFileNameShort(t);
-            this._displayName = t.Name;
+            this._displayName = t.FullName;
             this._t = t;
             this._typeMap = typeMap;
         }

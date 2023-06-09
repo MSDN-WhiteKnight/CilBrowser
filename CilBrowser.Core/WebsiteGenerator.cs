@@ -117,6 +117,14 @@ namespace CilBrowser.Core
             File.WriteAllText(Path.Combine(outputPath, "index.html"), sb.ToString(), Encoding.UTF8);
         }
 
+        public static void GenerateFromAssembly_Structure(Assembly ass, string nsFilter, string outputPath, string customFooter)
+        {
+            HtmlGenerator generator = new HtmlGenerator(ass, nsFilter, customFooter);
+            generator.EnableStructure = true;
+            DirectoryNode root = AssemblyIndexer.AssemblyToTree(ass, nsFilter);
+            GenerateFromTreeImpl(root, outputPath, new CilBrowserOptions(), generator, 0);
+        }
+
         internal static string VisualizeNavigationPanel(string filename, string dirName, string[] dirFiles, 
             HashSet<string> sourceExtensions)
         {
@@ -237,9 +245,14 @@ namespace CilBrowser.Core
                 
                 //TOC entry
                 toc.WriteTagStart("tr");
-                toc.WriteTagStart("td");
-                toc.WriteTag("img", string.Empty, HtmlBuilder.OneAttribute("src", dirIconURL));
-                toc.WriteTagEnd("td");
+
+                if (dirs[i].Kind == TreeNodeKind.Directory)
+                {
+                    toc.WriteTagStart("td");
+                    toc.WriteTag("img", string.Empty, HtmlBuilder.OneAttribute("src", dirIconURL));
+                    toc.WriteTagEnd("td");
+                }
+                
                 toc.WriteTagStart("td");
                 toc.WriteHyperlink("./" + WebUtility.UrlEncode(name) + "/index.html", name);
                 toc.WriteTagEnd("td");
@@ -249,12 +262,18 @@ namespace CilBrowser.Core
             toc.WriteTagEnd("table");
         }
 
-        internal static void RenderTocEntry(string displayName, string pageName, string fileIconURL, HtmlBuilder toc)
+        internal static void RenderTocEntry(string displayName, string pageName, string fileIconURL, TreeNodeKind kind,
+            HtmlBuilder toc)
         {
             toc.WriteTagStart("tr");
-            toc.WriteTagStart("td");
-            toc.WriteTag("img", string.Empty, HtmlBuilder.OneAttribute("src", fileIconURL));
-            toc.WriteTagEnd("td");
+
+            if (kind == TreeNodeKind.File)
+            {
+                toc.WriteTagStart("td");
+                toc.WriteTag("img", string.Empty, HtmlBuilder.OneAttribute("src", fileIconURL));
+                toc.WriteTagEnd("td");
+            }
+
             toc.WriteTagStart("td");
             toc.WriteHyperlink(WebUtility.UrlEncode(pageName), displayName);
             toc.WriteTagEnd("td");
@@ -268,8 +287,10 @@ namespace CilBrowser.Core
             string customFooter)
         {
             //generate HTML files
+            HtmlGenerator generator = new HtmlGenerator();
+            generator.CustomFooter = customFooter;
             DirectoryNode root = SourceIndexer.SourceDirectoryToTree(sourcesPath, options);
-            GenerateFromTreeImpl(root, outputPath, options, customFooter, 0);
+            GenerateFromTreeImpl(root, outputPath, options, generator, 0);
 
             //write icons
             Directory.CreateDirectory(Path.Combine(outputPath, "img"));
@@ -281,7 +302,7 @@ namespace CilBrowser.Core
         }
 
         static void GenerateFromTreeImpl(DirectoryNode currentNode, string outputPath, CilBrowserOptions options,
-            string customFooter, int level)
+            HtmlGenerator generator, int level)
         {
             if (level > 50)
             {
@@ -293,17 +314,12 @@ namespace CilBrowser.Core
             {
                 return; //this directory does not have anything interesting
             }
-
-            Console.WriteLine("Generating website from source directory tree: " + currentNode.Name);
-            Console.WriteLine("Output path: " + outputPath);
-            HtmlGenerator generator = new HtmlGenerator();
-            generator.CustomFooter = customFooter;
+            
             Directory.CreateDirectory(outputPath);
 
             //files
-            foreach (FileNode fileNode in currentNode.Pages)
+            foreach (PageNode fileNode in currentNode.Pages)
             {
-                Console.WriteLine(fileNode.Name);
                 string pageName = FileUtils.FileNameToPageName(fileNode.Name);
                 string html = fileNode.RenderToString(generator, options);
                 File.WriteAllText(Path.Combine(outputPath, pageName), html, Encoding.UTF8);
@@ -320,7 +336,7 @@ namespace CilBrowser.Core
 
                 CilBrowserOptions optionsNew = options.Copy();
                 optionsNew.SourceControlURL = urlNew;
-                GenerateFromTreeImpl(dir, Path.Combine(outputPath, name), optionsNew, customFooter, level + 1);
+                GenerateFromTreeImpl(dir, Path.Combine(outputPath, name), optionsNew, generator, level + 1);
             }
 
             //TOC for current directory

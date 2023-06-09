@@ -177,5 +177,18 @@ namespace CilBrowser.Core
 
             return success;
         }
+
+        public static string StrToIdentifier(string s)
+        {
+            StringBuilder sb = new StringBuilder(s.Length);
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (char.IsLetterOrDigit(s[i]) || s[i] == '.') sb.Append(s[i]);
+                else sb.Append('_');
+            }
+
+            return sb.ToString();
+        }
     }
 }

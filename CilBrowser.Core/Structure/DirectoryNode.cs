@@ -86,12 +86,25 @@ namespace CilBrowser.Core.Structure
             //render ToC for this directory
             int level = this.GetLevel();
             HtmlBuilder toc = new HtmlBuilder(target);
-            HtmlGenerator.WriteTocStart(toc, this._name);
+
+            if (this._kind == TreeNodeKind.Directory)
+            {
+                HtmlGenerator.WriteTocStart(toc, this._name);
+            }
+            else if (this._kind == TreeNodeKind.Assembly)
+            {
+                HtmlGenerator.WriteTocStart(toc, this._displayName, "Assembly: " + this._displayName);
+            }
+            else
+            {
+                HtmlGenerator.WriteTocStart(toc, this._displayName, this._displayName);
+            }
 
             //render ToC entries for subdirectories
             if (this._dirs.Count > 0)
             {
-                if(this.Kind == TreeNodeKind.Directory) toc.WriteTag("h2", "Subdirectories");
+                if (this.Kind == TreeNodeKind.Directory) toc.WriteTag("h2", "Subdirectories");
+                else if (this.Kind == TreeNodeKind.Assembly) toc.WriteTag("h2", "Namespaces");
                 else toc.WriteTag("h2", "Sections");
             }
 
@@ -112,6 +125,7 @@ namespace CilBrowser.Core.Structure
             if (this._pages.Count > 0)
             {
                 if (this.Kind == TreeNodeKind.Directory) toc.WriteTag("h2", "Files");
+                else if(this.Kind == TreeNodeKind.Namespace) toc.WriteTag("h2", "Types");
                 else toc.WriteTag("h2", "Pages");
             }
 
@@ -121,7 +135,7 @@ namespace CilBrowser.Core.Structure
             {
                 string name = this._pages[i].Name;
                 string pageName = FileUtils.FileNameToPageName(name);
-                WebsiteGenerator.RenderTocEntry(this._pages[i].DisplayName, pageName, fileIconURL, toc);
+                WebsiteGenerator.RenderTocEntry(this._pages[i].DisplayName, pageName, fileIconURL, this._pages[i].Kind, toc);
             }
 
             toc.WriteTagEnd("table");
