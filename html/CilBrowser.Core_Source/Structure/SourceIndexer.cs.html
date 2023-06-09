@@ -1,6 +1,6 @@
 ﻿<html><head><title>Source file: SourceIndexer.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
 <body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
-<h2>Source file: SourceIndexer.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in Structure directory:</p><p><a href="DirectoryNode.cs.html">DirectoryNode.cs</a></p><p><a href="FileNode.cs.html">FileNode.cs</a></p><p><b>SourceIndexer.cs</b></p><p><a href="TreeNode.cs.html">TreeNode.cs</a></p></td>
+<h2>Source file: SourceIndexer.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in Structure directory:</p><p><a href="DirectoryNode.cs.html">DirectoryNode.cs</a></p><p><a href="FileNode.cs.html">FileNode.cs</a></p><p><a href="PageNode.cs.html">PageNode.cs</a></p><p><b>SourceIndexer.cs</b></p><p><a href="TreeNode.cs.html">TreeNode.cs</a></p><p><a href="TypeNode.cs.html">TypeNode.cs</a></p></td>
 <td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
  * Copyright (c) 2023,  MSDN.WhiteKnight 
  * License: BSD 3-Clause */
@@ -11,9 +11,15 @@
 
 <span style="color: blue;">namespace </span>CilBrowser.Core.Structure
 {
-    <span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">class </span>SourceIndexer
+    <span style="color: green;">/// &lt;summary&gt;
+    </span><span style="color: green;">/// Indexes source code in file system directories and provides a tree structure that can be used to generate website
+    </span><span style="color: green;">/// &lt;/summary&gt;
+    </span><span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">class </span>SourceIndexer
     {
-        <span style="color: blue;">public </span><span style="color: blue;">static </span>DirectoryNode SourceDirectoryToTree(<span style="color: blue;">string </span>sourcesPath, CilBrowserOptions options)
+        <span style="color: green;">/// &lt;summary&gt;
+        </span><span style="color: green;">/// Gets a website structure tree for the specified source directory and all its subdirectories
+        </span><span style="color: green;">/// &lt;/summary&gt;
+        </span><span style="color: blue;">public </span><span style="color: blue;">static </span>DirectoryNode SourceDirectoryToTree(<span style="color: blue;">string </span>sourcesPath, CilBrowserOptions options)
         {
             <span style="color: blue;">return </span>SourceDirectoryToTreeImpl(sourcesPath, options, 0);
         }
@@ -21,7 +27,7 @@
         <span style="color: blue;">static </span>DirectoryNode SourceDirectoryToTreeImpl(<span style="color: blue;">string </span>sourcesPath, CilBrowserOptions options, <span style="color: blue;">int </span>level)
         {
             <span style="color: blue;">string </span>dirName = Utils.GetDirectoryNameFromPath(sourcesPath);
-            DirectoryNode ret = <span style="color: blue;">new </span>DirectoryNode(dirName, <span style="color: blue;">null</span>);
+            DirectoryNode ret = <span style="color: blue;">new </span>DirectoryNode(dirName, TreeNodeKind.Directory);
 
             <span style="color: blue;">if </span>(level &gt; 50)
             {
@@ -41,6 +47,12 @@
                 <span style="color: blue;">if </span>(FileUtils.IsDirectoryExcluded(name)) <span style="color: blue;">continue</span>;
 
                 DirectoryNode node = SourceDirectoryToTreeImpl(dirs[i], options, level + 1);
+
+                <span style="color: blue;">if </span>(node.DirectoriesCount + node.PagesCount == 0)
+                {
+                    <span style="color: blue;">continue</span>; <span style="color: green;">//not interested in empty directories
+                </span>}
+
                 ret.AddDirectory(node);
             }
 
@@ -52,7 +64,7 @@
                 <span style="color: blue;">if </span>(!FileUtils.IsSourceFile(files[i], sourceExtensions)) <span style="color: blue;">continue</span>;
 
                 FileNode node = <span style="color: blue;">new </span>FileNode(files[i]);
-                ret.AddFile(node);
+                ret.AddPage(node);
             }
 
             <span style="color: blue;">return </span>ret;

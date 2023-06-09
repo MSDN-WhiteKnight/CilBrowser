@@ -1,12 +1,13 @@
 ﻿<html><head><title>Source file: FileNode.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
 <body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
-<h2>Source file: FileNode.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in Structure directory:</p><p><a href="DirectoryNode.cs.html">DirectoryNode.cs</a></p><p><b>FileNode.cs</b></p><p><a href="SourceIndexer.cs.html">SourceIndexer.cs</a></p><p><a href="TreeNode.cs.html">TreeNode.cs</a></p></td>
+<h2>Source file: FileNode.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in Structure directory:</p><p><a href="DirectoryNode.cs.html">DirectoryNode.cs</a></p><p><b>FileNode.cs</b></p><p><a href="PageNode.cs.html">PageNode.cs</a></p><p><a href="SourceIndexer.cs.html">SourceIndexer.cs</a></p><p><a href="TreeNode.cs.html">TreeNode.cs</a></p><p><a href="TypeNode.cs.html">TypeNode.cs</a></p></td>
 <td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
  * Copyright (c) 2023,  MSDN.WhiteKnight 
  * License: BSD 3-Clause */
 </span><span style="color: blue;">using </span>System;
 <span style="color: blue;">using </span>System.Collections.Generic;
 <span style="color: blue;">using </span>System.IO;
+<span style="color: blue;">using </span>System.Linq;
 <span style="color: blue;">using </span>System.Text;
 
 <span style="color: blue;">namespace </span>CilBrowser.Core.Structure
@@ -14,7 +15,7 @@
     <span style="color: green;">/// &lt;summary&gt;
     </span><span style="color: green;">/// Represents a file in website structure
     </span><span style="color: green;">/// &lt;/summary&gt;
-    </span><span style="color: blue;">public </span><span style="color: blue;">sealed </span><span style="color: blue;">class </span>FileNode : TreeNode
+    </span><span style="color: blue;">public </span><span style="color: blue;">sealed </span><span style="color: blue;">class </span>FileNode : PageNode
     {
         <span style="color: blue;">string </span>_filepath;
 
@@ -22,6 +23,7 @@
         {
             <span style="color: blue;">this</span>._filepath = filePath;
             <span style="color: blue;">this</span>._name = Path.GetFileName(filePath);
+            <span style="color: blue;">this</span>._displayName = <span style="color: blue;">this</span>._name;
         }
 
         <span style="color: green;">/// &lt;summary&gt;
@@ -35,18 +37,38 @@
         <span style="color: blue;">public </span><span style="color: blue;">override </span>TreeNodeKind Kind =&gt; TreeNodeKind.File;
 
         <span style="color: green;">/// &lt;inheritdoc/&gt;
-        </span><span style="color: blue;">public </span><span style="color: blue;">override </span>IEnumerable&lt;TreeNode&gt; EnumChildNodes()
-        {
-            <span style="color: blue;">return </span>TreeNode.EmptyArray;
-        }
-
-        <span style="color: green;">/// &lt;inheritdoc/&gt;
         </span><span style="color: blue;">public </span><span style="color: blue;">override </span><span style="color: blue;">void </span>Render(HtmlGenerator generator, CilBrowserOptions options, TextWriter target)
         {
-            <span style="color: blue;">string </span>content = File.ReadAllText(<span style="color: blue;">this</span>._filepath, options.GetEncoding());
+            <span style="color: blue;">string </span>html;
 
-            <span style="color: green;">// DRAFT: Add navigation panel
-            </span><span style="color: blue;">string </span>html = generator.VisualizeSourceFile(content, <span style="color: blue;">this</span>._name, <span style="color: blue;">string</span>.Empty, options.SourceControlURL);
+            <span style="color: blue;">try
+            </span>{
+                <span style="color: green;">//content
+                </span><span style="color: blue;">string </span>content = File.ReadAllText(<span style="color: blue;">this</span>._filepath, options.GetEncoding());
+
+                <span style="color: green;">//navigation panel
+                </span><span style="color: blue;">string </span>navigation = <span style="color: blue;">string</span>.Empty;
+                DirectoryNode dir = <span style="color: blue;">this</span>._parent <span style="color: blue;">as </span>DirectoryNode;
+
+                <span style="color: blue;">if </span>(dir != <span style="color: blue;">null</span>)
+                {
+                    PageNode[] files = dir.Pages.ToArray();
+
+                    <span style="color: blue;">if </span>(files.Length &gt; 1)
+                    {
+                        navigation = WebsiteGenerator.VisualizeNavigationPanel(<span style="color: blue;">this</span>, dir.Name, files, dir.Kind);
+                    }
+                }
+
+                html = generator.VisualizeSourceFile(content, <span style="color: blue;">this</span>._name, navigation, options.SourceControlURL);
+            }
+            <span style="color: blue;">catch </span>(IOException ex)
+            {
+                html = HtmlGenerator.VisualizeException(ex);
+                Console.WriteLine(<span style="color: red;">&quot;Failed to render HTML for: &quot; </span>+ <span style="color: blue;">this</span>._name);
+                Console.WriteLine(ex.ToString());
+            }
+
             target.Write(html);
         }
     }

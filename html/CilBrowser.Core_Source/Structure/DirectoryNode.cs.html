@@ -1,6 +1,6 @@
 ﻿<html><head><title>Source file: DirectoryNode.cs</title><style>.memberid { color: rgb(43, 145, 175); text-decoration: none; }</style></head>
 <body><p>.NET CIL Browser&nbsp;-&nbsp;<a href="index.html">Back to table of contents</a></p>
-<h2>Source file: DirectoryNode.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in Structure directory:</p><p><b>DirectoryNode.cs</b></p><p><a href="FileNode.cs.html">FileNode.cs</a></p><p><a href="SourceIndexer.cs.html">SourceIndexer.cs</a></p><p><a href="TreeNode.cs.html">TreeNode.cs</a></p></td>
+<h2>Source file: DirectoryNode.cs</h2><table width="100%" cellpadding="5" cellspacing="5"><tr><td width="200" valign="top" style="border: thin solid;"><p>Files in Structure directory:</p><p><b>DirectoryNode.cs</b></p><p><a href="FileNode.cs.html">FileNode.cs</a></p><p><a href="PageNode.cs.html">PageNode.cs</a></p><p><a href="SourceIndexer.cs.html">SourceIndexer.cs</a></p><p><a href="TreeNode.cs.html">TreeNode.cs</a></p><p><a href="TypeNode.cs.html">TypeNode.cs</a></p></td>
 <td valign="top"><pre style="white-space: pre-wrap;"><code><span style="color: green;">/* CIL Browser (https://github.com/MSDN-WhiteKnight/CilBrowser)
  * Copyright (c) 2023,  MSDN.WhiteKnight 
  * License: BSD 3-Clause */
@@ -16,26 +16,28 @@
     </span><span style="color: green;">/// &lt;/summary&gt;
     </span><span style="color: blue;">public </span><span style="color: blue;">sealed </span><span style="color: blue;">class </span>DirectoryNode : TreeNode
     {
-        List&lt;FileNode&gt; _files;
+        List&lt;PageNode&gt; _pages;
         List&lt;DirectoryNode&gt; _dirs;
+        TreeNodeKind _kind;
 
-        <span style="color: blue;">public </span>DirectoryNode(<span style="color: blue;">string </span>name, TreeNode parent)
+        <span style="color: blue;">public </span>DirectoryNode(<span style="color: blue;">string </span>name, TreeNodeKind kind)
         {
             <span style="color: blue;">this</span>._name = name;
-            <span style="color: blue;">this</span>._parent = parent;
-            <span style="color: blue;">this</span>._files = <span style="color: blue;">new </span>List&lt;FileNode&gt;();
+            <span style="color: blue;">this</span>._displayName = name;
+            <span style="color: blue;">this</span>._pages = <span style="color: blue;">new </span>List&lt;PageNode&gt;();
             <span style="color: blue;">this</span>._dirs = <span style="color: blue;">new </span>List&lt;DirectoryNode&gt;();
+            <span style="color: blue;">this</span>._kind = kind;
         }
 
-        <span style="color: blue;">public </span><span style="color: blue;">override </span>TreeNodeKind Kind =&gt; TreeNodeKind.Directory;
+        <span style="color: blue;">public </span><span style="color: blue;">override </span>TreeNodeKind Kind =&gt; <span style="color: blue;">this</span>._kind;
 
         <span style="color: green;">/// &lt;summary&gt;
-        </span><span style="color: green;">/// Adds a specified file node into the collection of child nodes. Also sets its parent node to this one.
+        </span><span style="color: green;">/// Adds a specified page node into the collection of child nodes. Also sets its parent node to this one.
         </span><span style="color: green;">/// &lt;/summary&gt;
-        </span><span style="color: blue;">public </span><span style="color: blue;">void </span>AddFile(FileNode file)
+        </span><span style="color: blue;">public </span><span style="color: blue;">void </span>AddPage(PageNode page)
         {
-            <span style="color: blue;">this</span>._files.Add(file);
-            file.Parent = <span style="color: blue;">this</span>;
+            <span style="color: blue;">this</span>._pages.Add(page);
+            page.Parent = <span style="color: blue;">this</span>;
         }
 
         <span style="color: green;">/// &lt;summary&gt;
@@ -56,11 +58,21 @@
         }
 
         <span style="color: green;">/// &lt;summary&gt;
-        </span><span style="color: green;">/// Gets the collection of file child nodes for this directory
+        </span><span style="color: green;">/// Gets the collection of page child nodes for this directory
         </span><span style="color: green;">/// &lt;/summary&gt;
-        </span><span style="color: blue;">public </span>IEnumerable&lt;FileNode&gt; Files 
+        </span><span style="color: blue;">public </span>IEnumerable&lt;PageNode&gt; Pages 
         {
-            get { <span style="color: blue;">foreach </span>(FileNode node <span style="color: blue;">in </span><span style="color: blue;">this</span>._files) yield <span style="color: blue;">return </span>node; }
+            get { <span style="color: blue;">foreach </span>(PageNode node <span style="color: blue;">in </span><span style="color: blue;">this</span>._pages) yield <span style="color: blue;">return </span>node; }
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">int </span>PagesCount
+        {
+            get { <span style="color: blue;">return </span><span style="color: blue;">this</span>._pages.Count; }
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">int </span>DirectoriesCount
+        {
+            get { <span style="color: blue;">return </span><span style="color: blue;">this</span>._dirs.Count; }
         }
 
         <span style="color: green;">/// &lt;inheritdoc/&gt;
@@ -68,14 +80,58 @@
         {
             <span style="color: blue;">foreach </span>(DirectoryNode node <span style="color: blue;">in </span><span style="color: blue;">this</span>._dirs) yield <span style="color: blue;">return </span>node;
 
-            <span style="color: blue;">foreach </span>(FileNode node <span style="color: blue;">in </span><span style="color: blue;">this</span>._files) yield <span style="color: blue;">return </span>node;
+            <span style="color: blue;">foreach </span>(FileNode node <span style="color: blue;">in </span><span style="color: blue;">this</span>._pages) yield <span style="color: blue;">return </span>node;
         }
 
         <span style="color: green;">/// &lt;inheritdoc/&gt;
         </span><span style="color: blue;">public </span><span style="color: blue;">override </span><span style="color: blue;">void </span>Render(HtmlGenerator generator, CilBrowserOptions options, TextWriter target)
         {
-            <span style="color: green;">//empty by design
-        </span>}
+            <span style="color: green;">//render ToC for this directory
+            </span><span style="color: blue;">int </span>level = <span style="color: blue;">this</span>.GetLevel();
+            HtmlBuilder toc = <span style="color: blue;">new </span>HtmlBuilder(target);
+            HtmlGenerator.WriteTocStart(toc, <span style="color: blue;">this</span>._name);
+
+            <span style="color: green;">//render ToC entries for subdirectories
+            </span><span style="color: blue;">if </span>(<span style="color: blue;">this</span>._dirs.Count &gt; 0)
+            {
+                <span style="color: blue;">if</span>(<span style="color: blue;">this</span>.Kind == TreeNodeKind.Directory) toc.WriteTag(<span style="color: red;">&quot;h2&quot;</span>, <span style="color: red;">&quot;Subdirectories&quot;</span>);
+                <span style="color: blue;">else </span>toc.WriteTag(<span style="color: red;">&quot;h2&quot;</span>, <span style="color: red;">&quot;Sections&quot;</span>);
+            }
+
+            <span style="color: blue;">if </span>(level &gt; 0)
+            {
+                toc.StartParagraph();
+                toc.WriteHyperlink(<span style="color: red;">&quot;../index.html&quot;</span>, <span style="color: red;">&quot;(go to parent directory)&quot;</span>);
+                toc.EndParagraph();
+            }
+            
+            <span style="color: blue;">string </span>dirIconURL = WebsiteGenerator.GetImagesURL(level) + <span style="color: red;">&quot;dir.png&quot;</span>;
+            WebsiteGenerator.RenderDirsList(<span style="color: blue;">this</span>._dirs.ToArray(), dirIconURL, toc);
+            toc.WriteRaw(Environment.NewLine);
+
+            <span style="color: green;">//render ToC entries for files
+            </span><span style="color: blue;">string </span>fileIconURL = WebsiteGenerator.GetImagesURL(level) + <span style="color: red;">&quot;file.png&quot;</span>;
+
+            <span style="color: blue;">if </span>(<span style="color: blue;">this</span>._pages.Count &gt; 0)
+            {
+                <span style="color: blue;">if </span>(<span style="color: blue;">this</span>.Kind == TreeNodeKind.Directory) toc.WriteTag(<span style="color: red;">&quot;h2&quot;</span>, <span style="color: red;">&quot;Files&quot;</span>);
+                <span style="color: blue;">else </span>toc.WriteTag(<span style="color: red;">&quot;h2&quot;</span>, <span style="color: red;">&quot;Pages&quot;</span>);
+            }
+
+            toc.WriteTagStart(<span style="color: red;">&quot;table&quot;</span>, HtmlBuilder.OneAttribute(<span style="color: red;">&quot;cellpadding&quot;</span>, <span style="color: red;">&quot;2px&quot;</span>));
+
+            <span style="color: blue;">for </span>(<span style="color: blue;">int </span>i = 0; i &lt; <span style="color: blue;">this</span>._pages.Count; i++)
+            {
+                <span style="color: blue;">string </span>name = <span style="color: blue;">this</span>._pages[i].Name;
+                <span style="color: blue;">string </span>pageName = FileUtils.FileNameToPageName(name);
+                WebsiteGenerator.RenderTocEntry(<span style="color: blue;">this</span>._pages[i].DisplayName, pageName, fileIconURL, toc);
+            }
+
+            toc.WriteTagEnd(<span style="color: red;">&quot;table&quot;</span>);
+            generator.WriteFooter(toc);
+            toc.EndDocument();
+            target.Flush();
+        }
     }
 }
 </code></pre><a href="https://github.com/MSDN-WhiteKnight/CilBrowser/tree/main/CilBrowser.Core/Structure/DirectoryNode.cs">View in source control</a></td></tr></table><p><a href="index.html">Back to table of contents</a></p><hr/><p>Generated by <a href="https://github.com/MSDN-WhiteKnight/CilBrowser">CIL Browser</a></p>

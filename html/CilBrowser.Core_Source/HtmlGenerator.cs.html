@@ -510,7 +510,12 @@
 
         <span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">string </span>GenerateTypeFileName(Type t)
         {
-            <span style="color: blue;">return </span>((<span style="color: blue;">uint</span>)t.MetadataToken).ToString(<span style="color: red;">&quot;X&quot;</span>, CultureInfo.InvariantCulture) + <span style="color: red;">&quot;.html&quot;</span>;
+            <span style="color: blue;">return </span>GenerateTypeFileNameShort(t) + <span style="color: red;">&quot;.html&quot;</span>;
+        }
+
+        <span style="color: blue;">public </span><span style="color: blue;">static </span><span style="color: blue;">string </span>GenerateTypeFileNameShort(Type t)
+        {
+            <span style="color: blue;">return </span>((<span style="color: blue;">uint</span>)t.MetadataToken).ToString(<span style="color: red;">&quot;X&quot;</span>, CultureInfo.InvariantCulture);
         }
 
         <span style="color: blue;">static </span><span style="color: blue;">string </span>GenerateMethodAnchor(MethodBase mb)
