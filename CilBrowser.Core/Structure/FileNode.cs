@@ -35,24 +35,36 @@ namespace CilBrowser.Core.Structure
         /// <inheritdoc/>
         public override void Render(HtmlGenerator generator, CilBrowserOptions options, TextWriter target)
         {
-            //content
-            string content = File.ReadAllText(this._filepath, options.GetEncoding());
+            string html;
 
-            //navigation panel
-            string navigation = string.Empty;
-            DirectoryNode dir = this._parent as DirectoryNode;
-
-            if (dir != null)
+            try
             {
-                PageNode[] files = dir.Pages.ToArray();
+                //content
+                string content = File.ReadAllText(this._filepath, options.GetEncoding());
 
-                if (files.Length > 1)
+                //navigation panel
+                string navigation = string.Empty;
+                DirectoryNode dir = this._parent as DirectoryNode;
+
+                if (dir != null)
                 {
-                    navigation = WebsiteGenerator.VisualizeNavigationPanel(this.Name, dir.Name, files);
+                    PageNode[] files = dir.Pages.ToArray();
+
+                    if (files.Length > 1)
+                    {
+                        navigation = WebsiteGenerator.VisualizeNavigationPanel(this.Name, dir.Name, files, dir.Kind);
+                    }
                 }
+
+                html = generator.VisualizeSourceFile(content, this._name, navigation, options.SourceControlURL);
+            }
+            catch (IOException ex)
+            {
+                html = HtmlGenerator.VisualizeException(ex);
+                Console.WriteLine("Failed to render HTML for: " + this._name);
+                Console.WriteLine(ex.ToString());
             }
 
-            string html = generator.VisualizeSourceFile(content, this._name, navigation, options.SourceControlURL);
             target.Write(html);
         }
     }

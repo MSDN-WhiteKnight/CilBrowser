@@ -8,8 +8,14 @@ using System.Text;
 
 namespace CilBrowser.Core.Structure
 {
+    /// <summary>
+    /// Indexes source code in file system directories and provides a tree structure that can be used to generate website
+    /// </summary>
     public static class SourceIndexer
     {
+        /// <summary>
+        /// Gets a website structure tree for the specified source directory and all its subdirectories
+        /// </summary>
         public static DirectoryNode SourceDirectoryToTree(string sourcesPath, CilBrowserOptions options)
         {
             return SourceDirectoryToTreeImpl(sourcesPath, options, 0);
@@ -18,7 +24,7 @@ namespace CilBrowser.Core.Structure
         static DirectoryNode SourceDirectoryToTreeImpl(string sourcesPath, CilBrowserOptions options, int level)
         {
             string dirName = Utils.GetDirectoryNameFromPath(sourcesPath);
-            DirectoryNode ret = new DirectoryNode(dirName);
+            DirectoryNode ret = new DirectoryNode(dirName, TreeNodeKind.Directory);
 
             if (level > 50)
             {
@@ -38,6 +44,12 @@ namespace CilBrowser.Core.Structure
                 if (FileUtils.IsDirectoryExcluded(name)) continue;
 
                 DirectoryNode node = SourceDirectoryToTreeImpl(dirs[i], options, level + 1);
+
+                if (node.DirectoriesCount + node.PagesCount == 0)
+                {
+                    continue; //not interested in empty directories
+                }
+
                 ret.AddDirectory(node);
             }
 

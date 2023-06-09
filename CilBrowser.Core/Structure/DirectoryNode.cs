@@ -15,15 +15,17 @@ namespace CilBrowser.Core.Structure
     {
         List<PageNode> _pages;
         List<DirectoryNode> _dirs;
+        TreeNodeKind _kind;
 
-        public DirectoryNode(string name)
+        public DirectoryNode(string name, TreeNodeKind kind)
         {
             this._name = name;
             this._pages = new List<PageNode>();
             this._dirs = new List<DirectoryNode>();
+            this._kind = kind;
         }
 
-        public override TreeNodeKind Kind => TreeNodeKind.Directory;
+        public override TreeNodeKind Kind => this._kind;
 
         /// <summary>
         /// Adds a specified page node into the collection of child nodes. Also sets its parent node to this one.
@@ -86,7 +88,11 @@ namespace CilBrowser.Core.Structure
             HtmlGenerator.WriteTocStart(toc, this._name);
 
             //render ToC entries for subdirectories
-            if (this._dirs.Count > 0) toc.WriteTag("h2", "Subdirectories");
+            if (this._dirs.Count > 0)
+            {
+                if(this.Kind == TreeNodeKind.Directory) toc.WriteTag("h2", "Subdirectories");
+                else toc.WriteTag("h2", "Sections");
+            }
 
             if (level > 0)
             {
@@ -102,7 +108,11 @@ namespace CilBrowser.Core.Structure
             //render ToC entries for files
             string fileIconURL = WebsiteGenerator.GetImagesURL(level) + "file.png";
 
-            if (this._pages.Count > 0) toc.WriteTag("h2", "Files");
+            if (this._pages.Count > 0)
+            {
+                if (this.Kind == TreeNodeKind.Directory) toc.WriteTag("h2", "Files");
+                else toc.WriteTag("h2", "Pages");
+            }
 
             toc.WriteTagStart("table", HtmlBuilder.OneAttribute("cellpadding", "2px"));
 

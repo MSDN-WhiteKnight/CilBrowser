@@ -148,13 +148,15 @@ namespace CilBrowser.Core
             return sb.ToString();
         }
 
-        internal static string VisualizeNavigationPanel(string filename, string dirName, PageNode[] dirFiles)
+        internal static string VisualizeNavigationPanel(string filename, string dirName, PageNode[] dirFiles, TreeNodeKind kind)
         {
             StringBuilder sb = new StringBuilder(1000);
             HtmlBuilder html = new HtmlBuilder(sb);
-            html.WriteParagraph("Files in " + dirName + " directory:");
 
-            //list of files
+            if (kind == TreeNodeKind.Directory) html.WriteParagraph("Files in " + dirName + " directory:");
+            else html.WriteParagraph("Pages in " + dirName + ":");
+
+            //list of pages
             for (int i = 0; i < dirFiles.Length; i++)
             {
                 html.StartParagraph();
@@ -259,116 +261,6 @@ namespace CilBrowser.Core
             toc.WriteTagEnd("tr");
         }
 
-        static void GenerateFromSourcesImpl(string sourcesPath, string outputPath, CilBrowserOptions options, 
-            string customFooter, int level)
-        {
-            if (level > 50)
-            {
-                Console.WriteLine("Error: directory recursion is too deep!");
-                return;
-            }
-
-            HashSet<string> sourceExtensions = options.SourceExtensions;
-            HtmlGenerator generator = new HtmlGenerator();
-            generator.CustomFooter = customFooter;
-            Directory.CreateDirectory(outputPath);
-
-            //create Table of contents builder
-            StringBuilder sb = new StringBuilder(1000);
-            HtmlBuilder toc = new HtmlBuilder(sb);
-            Console.WriteLine("Generating website for source directory: " + sourcesPath);
-            Console.WriteLine("Output path: " + outputPath);
-
-            string dirName = Utils.GetDirectoryNameFromPath(sourcesPath);
-            HtmlGenerator.WriteTocStart(toc, dirName);
-
-            string[] dirs = Directory.GetDirectories(sourcesPath);
-            Array.Sort(dirs);
-
-            if (dirs.Length > 0) toc.WriteTag("h2", "Subdirectories");
-
-            if (level > 0)
-            {
-                toc.StartParagraph();
-                toc.WriteHyperlink("../index.html", "(go to parent directory)");
-                toc.EndParagraph();
-            }
-
-            //render TOC entries for subdirectories
-            string dirIconURL = GetImagesURL(level) + "dir.png";
-            RenderDirsList(dirs, dirIconURL, toc);
-            toc.WriteRaw(Environment.NewLine);
-
-            //write source files
-            string fileIconURL = GetImagesURL(level) + "file.png";
-            string[] files = Directory.GetFiles(sourcesPath);
-            Array.Sort(files);
-
-            if (files.Length > 0) toc.WriteTag("h2", "Files");
-
-            toc.WriteTagStart("table", HtmlBuilder.OneAttribute("cellpadding", "2px"));
-
-            for (int i = 0; i < files.Length; i++)
-            {
-                if (!FileUtils.IsSourceFile(files[i], sourceExtensions)) continue;
-
-                string name = Path.GetFileName(files[i]);
-                string html;
-
-                try
-                {
-                    string content = File.ReadAllText(files[i], options.GetEncoding());
-                    string navigation = VisualizeNavigationPanel(name, dirName, files, sourceExtensions);
-                    html = generator.VisualizeSourceFile(content, name, navigation, options.SourceControlURL);
-                }
-                catch (IOException ex)
-                {
-                    html = HtmlGenerator.VisualizeException(ex);
-                    Console.WriteLine("Failed to generate HTML for " + name);
-                    Console.WriteLine(ex.ToString());
-                }
-
-                if (!string.IsNullOrWhiteSpace(html))
-                {
-                    Console.WriteLine(name);
-
-                    //file content
-                    string pageName = FileUtils.FileNameToPageName(name);
-                    File.WriteAllText(Path.Combine(outputPath, pageName), html, Encoding.UTF8);
-
-                    //TOC entry
-                    RenderTocEntry(name, pageName, fileIconURL, toc);
-                }
-                else
-                {
-                    Console.WriteLine(name + " - empty");
-                }
-            }//end for
-
-            toc.WriteTagEnd("table");
-
-            //subdirectories
-            for (int i = 0; i < dirs.Length; i++)
-            {
-                string name = Utils.GetDirectoryNameFromPath(dirs[i]);
-                string urlNew;
-
-                if (FileUtils.IsDirectoryExcluded(name)) continue;
-
-                if (!string.IsNullOrEmpty(options.SourceControlURL)) urlNew = Utils.UrlAppend(options.SourceControlURL, name);
-                else urlNew = string.Empty;
-
-                CilBrowserOptions optionsNew = options.Copy();
-                optionsNew.SourceControlURL = urlNew;
-                GenerateFromSourcesImpl(dirs[i], Path.Combine(outputPath, name), optionsNew, customFooter, level + 1);
-            }
-
-            //write TOC
-            generator.WriteFooter(toc);
-            toc.EndDocument();
-            File.WriteAllText(Path.Combine(outputPath, "index.html"), sb.ToString(), Encoding.UTF8);
-        }
-
         /// <summary>
         /// Generates a static website for the source code in the specified directory
         /// </summary>
@@ -376,7 +268,8 @@ namespace CilBrowser.Core
             string customFooter)
         {
             //generate HTML files
-            GenerateFromSourcesImpl(sourcesPath, outputPath, options, customFooter, 0);
+            DirectoryNode root = SourceIndexer.SourceDirectoryToTree(sourcesPath, options);
+            GenerateFromTreeImpl(root, outputPath, options, customFooter, 0);
 
             //write icons
             Directory.CreateDirectory(Path.Combine(outputPath, "img"));

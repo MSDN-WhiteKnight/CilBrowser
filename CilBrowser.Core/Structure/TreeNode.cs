@@ -76,6 +76,6 @@ namespace CilBrowser.Core.Structure
 
     public enum TreeNodeKind
     {
-        Unknown = 0, File, Directory
+        Unknown = 0, File, Directory, Namespace, Assembly
     }
 }
