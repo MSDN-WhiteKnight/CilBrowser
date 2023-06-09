@@ -507,7 +507,12 @@ namespace CilBrowser.Core
 
         public static string GenerateTypeFileName(Type t)
         {
-            return ((uint)t.MetadataToken).ToString("X", CultureInfo.InvariantCulture) + ".html";
+            return GenerateTypeFileNameShort(t) + ".html";
+        }
+
+        public static string GenerateTypeFileNameShort(Type t)
+        {
+            return ((uint)t.MetadataToken).ToString("X", CultureInfo.InvariantCulture);
         }
 
         static string GenerateMethodAnchor(MethodBase mb)

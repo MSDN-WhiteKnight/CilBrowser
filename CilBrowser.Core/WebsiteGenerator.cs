@@ -148,7 +148,7 @@ namespace CilBrowser.Core
             return sb.ToString();
         }
 
-        internal static string VisualizeNavigationPanel(string filename, string dirName, PageNode[] dirFiles, TreeNodeKind kind)
+        internal static string VisualizeNavigationPanel(PageNode fileNode, string dirName, PageNode[] dirFiles, TreeNodeKind kind)
         {
             StringBuilder sb = new StringBuilder(1000);
             HtmlBuilder html = new HtmlBuilder(sb);
@@ -162,14 +162,14 @@ namespace CilBrowser.Core
                 html.StartParagraph();
                 string currFileName = dirFiles[i].Name;
 
-                if (Utils.StrEquals(currFileName, filename))
+                if (Utils.StrEquals(currFileName, fileNode.Name))
                 {
-                    html.WriteTag("b", filename);
+                    html.WriteTag("b", fileNode.DisplayName);
                 }
                 else
                 {
                     string pageName = FileUtils.FileNameToPageName(currFileName);
-                    html.WriteHyperlink(WebUtility.UrlEncode(pageName), currFileName);
+                    html.WriteHyperlink(WebUtility.UrlEncode(pageName), dirFiles[i].DisplayName);
                 }
 
                 html.EndParagraph();
@@ -249,14 +249,14 @@ namespace CilBrowser.Core
             toc.WriteTagEnd("table");
         }
 
-        internal static void RenderTocEntry(string name, string pageName, string fileIconURL, HtmlBuilder toc)
+        internal static void RenderTocEntry(string displayName, string pageName, string fileIconURL, HtmlBuilder toc)
         {
             toc.WriteTagStart("tr");
             toc.WriteTagStart("td");
             toc.WriteTag("img", string.Empty, HtmlBuilder.OneAttribute("src", fileIconURL));
             toc.WriteTagEnd("td");
             toc.WriteTagStart("td");
-            toc.WriteHyperlink(WebUtility.UrlEncode(pageName), name);
+            toc.WriteHyperlink(WebUtility.UrlEncode(pageName), displayName);
             toc.WriteTagEnd("td");
             toc.WriteTagEnd("tr");
         }

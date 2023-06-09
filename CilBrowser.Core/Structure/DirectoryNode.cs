@@ -20,6 +20,7 @@ namespace CilBrowser.Core.Structure
         public DirectoryNode(string name, TreeNodeKind kind)
         {
             this._name = name;
+            this._displayName = name;
             this._pages = new List<PageNode>();
             this._dirs = new List<DirectoryNode>();
             this._kind = kind;
@@ -120,7 +121,7 @@ namespace CilBrowser.Core.Structure
             {
                 string name = this._pages[i].Name;
                 string pageName = FileUtils.FileNameToPageName(name);
-                WebsiteGenerator.RenderTocEntry(name, pageName, fileIconURL, toc);
+                WebsiteGenerator.RenderTocEntry(this._pages[i].DisplayName, pageName, fileIconURL, toc);
             }
 
             toc.WriteTagEnd("table");

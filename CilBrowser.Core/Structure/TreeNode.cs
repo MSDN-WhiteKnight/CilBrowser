@@ -15,6 +15,7 @@ namespace CilBrowser.Core.Structure
     public abstract class TreeNode
     {
         protected string _name;
+        protected string _displayName;
         protected TreeNode _parent;
 
         internal static readonly TreeNode[] EmptyArray = new TreeNode[0];
@@ -22,12 +23,21 @@ namespace CilBrowser.Core.Structure
         protected TreeNode(){}
 
         /// <summary>
-        /// Gets or sets a ToC display name of this node
+        /// Gets or sets URL name part of this node
         /// </summary>
         public string Name
         {
             get { return this._name; }
             set { this._name = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a ToC display name of this node
+        /// </summary>
+        public string DisplayName
+        {
+            get { return this._displayName; }
+            set { this._displayName = value; }
         }
 
         /// <summary>

@@ -20,6 +20,7 @@ namespace CilBrowser.Core.Structure
         {
             this._filepath = filePath;
             this._name = Path.GetFileName(filePath);
+            this._displayName = this._name;
         }
 
         /// <summary>
@@ -52,7 +53,7 @@ namespace CilBrowser.Core.Structure
 
                     if (files.Length > 1)
                     {
-                        navigation = WebsiteGenerator.VisualizeNavigationPanel(this.Name, dir.Name, files, dir.Kind);
+                        navigation = WebsiteGenerator.VisualizeNavigationPanel(this, dir.Name, files, dir.Kind);
                     }
                 }
 
