@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using CilBrowser.Core.Structure;
 
 namespace CilBrowser.Core
 {
@@ -116,7 +117,8 @@ namespace CilBrowser.Core
             File.WriteAllText(Path.Combine(outputPath, "index.html"), sb.ToString(), Encoding.UTF8);
         }
 
-        static string VisualizeNavigationPanel(string filename, string dirName, string[] dirFiles, HashSet<string> sourceExtensions)
+        internal static string VisualizeNavigationPanel(string filename, string dirName, string[] dirFiles, 
+            HashSet<string> sourceExtensions)
         {
             StringBuilder sb = new StringBuilder(1000);
             HtmlBuilder html = new HtmlBuilder(sb);
@@ -328,6 +330,54 @@ namespace CilBrowser.Core
             File.WriteAllBytes(Path.Combine(outputPath, "img/dir.png"), imgContent);
             imgContent = FileUtils.ReadFromResource(ass, "CilBrowser.Core.Images", "file.png");
             File.WriteAllBytes(Path.Combine(outputPath, "img/file.png"), imgContent);
+        }
+
+        static void GenerateFromTreeImpl(DirectoryNode currentNode, string outputPath, CilBrowserOptions options,
+            string customFooter, int level)
+        {
+            if (level > 50)
+            {
+                Console.WriteLine("Error: Website structure tree is too deep!");
+                return;
+            }
+
+            if (currentNode.FilesCount + currentNode.DirectoriesCount == 0)
+            {
+                return; //this directory does not have anything interesting
+            }
+
+            Console.WriteLine("Generating website from source directory tree: " + currentNode.Path);
+            Console.WriteLine("Output path: " + outputPath);
+            HtmlGenerator generator = new HtmlGenerator();
+            generator.CustomFooter = customFooter;
+            Directory.CreateDirectory(outputPath);
+
+            //files
+            foreach (FileNode fileNode in currentNode.Files)
+            {
+                Console.WriteLine(fileNode.Name);
+                string pageName = FileUtils.FileNameToPageName(fileNode.Name);
+                string html = fileNode.RenderToString(generator, options);
+                File.WriteAllText(Path.Combine(outputPath, pageName), html, Encoding.UTF8);
+            }
+
+            //subdirectories
+            foreach(DirectoryNode dir in currentNode.Directories)
+            {
+                string name = dir.Name;
+                string urlNew;
+
+                if (!string.IsNullOrEmpty(options.SourceControlURL)) urlNew = Utils.UrlAppend(options.SourceControlURL, name);
+                else urlNew = string.Empty;
+
+                CilBrowserOptions optionsNew = options.Copy();
+                optionsNew.SourceControlURL = urlNew;
+                GenerateFromTreeImpl(dir, Path.Combine(outputPath, name), optionsNew, customFooter, level + 1);
+            }
+
+            //TOC for current directory
+            string tocHTML = currentNode.RenderToString(generator, options);
+            File.WriteAllText(Path.Combine(outputPath, "index.html"), tocHTML, Encoding.UTF8);
         }
     }
 }

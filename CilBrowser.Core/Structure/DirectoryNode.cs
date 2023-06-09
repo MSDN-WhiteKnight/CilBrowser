@@ -66,6 +66,16 @@ namespace CilBrowser.Core.Structure
             get { foreach (FileNode node in this._files) yield return node; }
         }
 
+        public int FilesCount
+        {
+            get { return this._files.Count; }
+        }
+
+        public int DirectoriesCount
+        {
+            get { return this._dirs.Count; }
+        }
+
         /// <inheritdoc/>
         public override IEnumerable<TreeNode> EnumChildNodes()
         {
@@ -76,11 +86,28 @@ namespace CilBrowser.Core.Structure
 
         string[] GetDirsAsStrings()
         {
-            string[] ret = new string[this._dirs.Count];
+            List<string> ret = new List<string>(this._dirs.Count);
+
+            for (int i = 0; i < this._dirs.Count; i++)
+            {
+                if (this._dirs[i].FilesCount + this._dirs[i].DirectoriesCount == 0)
+                {
+                    continue; //not interested in empty directories
+                }
+
+                ret.Add(this._dirs[i].Path);
+            }
+
+            return ret.ToArray();
+        }
+
+        internal string[] GetFilesAsStrings()
+        {
+            string[] ret = new string[this._files.Count];
 
             for (int i = 0; i < ret.Length; i++)
             {
-                ret[i] = this._dirs[i].Path;
+                ret[i] = this._files[i].FilePath;
             }
 
             return ret;

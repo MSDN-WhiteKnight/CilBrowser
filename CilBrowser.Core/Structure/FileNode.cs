@@ -40,10 +40,24 @@ namespace CilBrowser.Core.Structure
         /// <inheritdoc/>
         public override void Render(HtmlGenerator generator, CilBrowserOptions options, TextWriter target)
         {
+            //content
             string content = File.ReadAllText(this._filepath, options.GetEncoding());
 
-            // DRAFT: Add navigation panel
-            string html = generator.VisualizeSourceFile(content, this._name, string.Empty, options.SourceControlURL);
+            //navigation panel
+            string navigation = string.Empty;
+            DirectoryNode dir = this._parent as DirectoryNode;
+
+            if (dir != null)
+            {
+                string[] files = dir.GetFilesAsStrings();
+
+                if (files.Length > 1)
+                {
+                    navigation = WebsiteGenerator.VisualizeNavigationPanel(this.Name, dir.Name, files, options.SourceExtensions);
+                }
+            }
+
+            string html = generator.VisualizeSourceFile(content, this._name, navigation, options.SourceControlURL);
             target.Write(html);
         }
     }
