@@ -13,7 +13,7 @@ namespace CilBrowser.Core.Structure
     /// </summary>
     public sealed class DirectoryNode : TreeNode
     {
-        List<FileNode> _files;
+        List<PageNode> _pages;
         List<DirectoryNode> _dirs;
         string _path;
 
@@ -21,7 +21,7 @@ namespace CilBrowser.Core.Structure
         {
             this._name = name;
             this._path = path;
-            this._files = new List<FileNode>();
+            this._pages = new List<PageNode>();
             this._dirs = new List<DirectoryNode>();
         }
 
@@ -33,12 +33,12 @@ namespace CilBrowser.Core.Structure
         }
 
         /// <summary>
-        /// Adds a specified file node into the collection of child nodes. Also sets its parent node to this one.
+        /// Adds a specified page node into the collection of child nodes. Also sets its parent node to this one.
         /// </summary>
-        public void AddFile(FileNode file)
+        public void AddPage(PageNode page)
         {
-            this._files.Add(file);
-            file.Parent = this;
+            this._pages.Add(page);
+            page.Parent = this;
         }
 
         /// <summary>
@@ -59,16 +59,16 @@ namespace CilBrowser.Core.Structure
         }
 
         /// <summary>
-        /// Gets the collection of file child nodes for this directory
+        /// Gets the collection of page child nodes for this directory
         /// </summary>
-        public IEnumerable<FileNode> Files 
+        public IEnumerable<PageNode> Pages 
         {
-            get { foreach (FileNode node in this._files) yield return node; }
+            get { foreach (PageNode node in this._pages) yield return node; }
         }
 
-        public int FilesCount
+        public int PagesCount
         {
-            get { return this._files.Count; }
+            get { return this._pages.Count; }
         }
 
         public int DirectoriesCount
@@ -81,7 +81,7 @@ namespace CilBrowser.Core.Structure
         {
             foreach (DirectoryNode node in this._dirs) yield return node;
 
-            foreach (FileNode node in this._files) yield return node;
+            foreach (FileNode node in this._pages) yield return node;
         }
 
         string[] GetDirsAsStrings()
@@ -90,7 +90,7 @@ namespace CilBrowser.Core.Structure
 
             for (int i = 0; i < this._dirs.Count; i++)
             {
-                if (this._dirs[i].FilesCount + this._dirs[i].DirectoriesCount == 0)
+                if (this._dirs[i].PagesCount + this._dirs[i].DirectoriesCount == 0)
                 {
                     continue; //not interested in empty directories
                 }
@@ -99,18 +99,6 @@ namespace CilBrowser.Core.Structure
             }
 
             return ret.ToArray();
-        }
-
-        internal string[] GetFilesAsStrings()
-        {
-            string[] ret = new string[this._files.Count];
-
-            for (int i = 0; i < ret.Length; i++)
-            {
-                ret[i] = this._files[i].FilePath;
-            }
-
-            return ret;
         }
 
         /// <inheritdoc/>
@@ -138,13 +126,13 @@ namespace CilBrowser.Core.Structure
             //render ToC entries for files
             string fileIconURL = WebsiteGenerator.GetImagesURL(level) + "file.png";
 
-            if (this._files.Count > 0) toc.WriteTag("h2", "Files");
+            if (this._pages.Count > 0) toc.WriteTag("h2", "Files");
 
             toc.WriteTagStart("table", HtmlBuilder.OneAttribute("cellpadding", "2px"));
 
-            for (int i = 0; i < this._files.Count; i++)
+            for (int i = 0; i < this._pages.Count; i++)
             {
-                string name = this._files[i].Name;
+                string name = this._pages[i].Name;
                 string pageName = FileUtils.FileNameToPageName(name);
                 WebsiteGenerator.RenderTocEntry(name, pageName, fileIconURL, toc);
             }

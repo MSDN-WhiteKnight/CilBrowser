@@ -40,16 +40,16 @@ namespace CilBrowser.Tests.Structure
                 Assert.AreEqual("subdir1", dirs[0].Name);
                 Assert.AreEqual("subdir2", dirs[1].Name);
 
-                FileNode[] files = tree.Files.ToArray();
+                PageNode[] files = tree.Pages.ToArray();
                 Assert.AreEqual(1, files.Length);
                 Assert.AreEqual("frobby", files[0].Name);
 
-                files = dirs[0].Files.ToArray();
+                files = dirs[0].Pages.ToArray();
                 Assert.AreEqual(2, files.Length);
                 Assert.AreEqual("bar.txt", files[0].Name);
                 Assert.AreEqual("foo.txt", files[1].Name);
 
-                files = dirs[1].Files.ToArray();
+                files = dirs[1].Pages.ToArray();
                 Assert.AreEqual(2, files.Length);
                 Assert.AreEqual("alice.txt", files[0].Name);
                 Assert.AreEqual("bob.txt", files[1].Name);

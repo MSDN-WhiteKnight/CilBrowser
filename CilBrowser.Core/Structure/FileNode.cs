@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace CilBrowser.Core.Structure
@@ -11,7 +12,7 @@ namespace CilBrowser.Core.Structure
     /// <summary>
     /// Represents a file in website structure
     /// </summary>
-    public sealed class FileNode : TreeNode
+    public sealed class FileNode : PageNode
     {
         string _filepath;
 
@@ -32,12 +33,6 @@ namespace CilBrowser.Core.Structure
         public override TreeNodeKind Kind => TreeNodeKind.File;
 
         /// <inheritdoc/>
-        public override IEnumerable<TreeNode> EnumChildNodes()
-        {
-            return TreeNode.EmptyArray;
-        }
-
-        /// <inheritdoc/>
         public override void Render(HtmlGenerator generator, CilBrowserOptions options, TextWriter target)
         {
             //content
@@ -49,11 +44,11 @@ namespace CilBrowser.Core.Structure
 
             if (dir != null)
             {
-                string[] files = dir.GetFilesAsStrings();
+                PageNode[] files = dir.Pages.ToArray();
 
                 if (files.Length > 1)
                 {
-                    navigation = WebsiteGenerator.VisualizeNavigationPanel(this.Name, dir.Name, files, options.SourceExtensions);
+                    navigation = WebsiteGenerator.VisualizeNavigationPanel(this.Name, dir.Name, files);
                 }
             }
 

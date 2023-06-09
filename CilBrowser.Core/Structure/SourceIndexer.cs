@@ -49,7 +49,7 @@ namespace CilBrowser.Core.Structure
                 if (!FileUtils.IsSourceFile(files[i], sourceExtensions)) continue;
 
                 FileNode node = new FileNode(files[i]);
-                ret.AddFile(node);
+                ret.AddPage(node);
             }
 
             return ret;

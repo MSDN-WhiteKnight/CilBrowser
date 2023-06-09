@@ -25,13 +25,13 @@ namespace CilBrowser.Tests.Structure
             //render top-level ToC
             DirectoryNode tree = new DirectoryNode("test", "c:\\test");
             DirectoryNode subdir1 = new DirectoryNode("apples", "c:\\test\\apples");
-            subdir1.AddFile(new FileNode("dummy"));
+            subdir1.AddPage(new FileNode("dummy"));
             tree.AddDirectory(subdir1);
             DirectoryNode subdir2 = new DirectoryNode("oranges", "c:\\test\\oranges");
-            subdir2.AddFile(new FileNode("dummy"));
+            subdir2.AddPage(new FileNode("dummy"));
             tree.AddDirectory(subdir2);
-            tree.AddFile(new FileNode("c:\\test\\bar.txt"));
-            tree.AddFile(new FileNode("c:\\test\\foo.txt"));
+            tree.AddPage(new FileNode("c:\\test\\bar.txt"));
+            tree.AddPage(new FileNode("c:\\test\\foo.txt"));
             string html = tree.RenderToString(new HtmlGenerator(), new CilBrowserOptions());
 
             //normalize line endings

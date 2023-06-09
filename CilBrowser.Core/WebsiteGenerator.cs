@@ -147,7 +147,35 @@ namespace CilBrowser.Core
 
             return sb.ToString();
         }
-        
+
+        internal static string VisualizeNavigationPanel(string filename, string dirName, PageNode[] dirFiles)
+        {
+            StringBuilder sb = new StringBuilder(1000);
+            HtmlBuilder html = new HtmlBuilder(sb);
+            html.WriteParagraph("Files in " + dirName + " directory:");
+
+            //list of files
+            for (int i = 0; i < dirFiles.Length; i++)
+            {
+                html.StartParagraph();
+                string currFileName = dirFiles[i].Name;
+
+                if (Utils.StrEquals(currFileName, filename))
+                {
+                    html.WriteTag("b", filename);
+                }
+                else
+                {
+                    string pageName = FileUtils.FileNameToPageName(currFileName);
+                    html.WriteHyperlink(WebUtility.UrlEncode(pageName), currFileName);
+                }
+
+                html.EndParagraph();
+            }
+
+            return sb.ToString();
+        }
+
         internal static string RenderNavigationPanel(string filepath, string filename, HashSet<string> sourceExtensions)
         {
             string dirpath = Path.GetDirectoryName(filepath);
@@ -341,7 +369,7 @@ namespace CilBrowser.Core
                 return;
             }
 
-            if (currentNode.FilesCount + currentNode.DirectoriesCount == 0)
+            if (currentNode.PagesCount + currentNode.DirectoriesCount == 0)
             {
                 return; //this directory does not have anything interesting
             }
@@ -353,7 +381,7 @@ namespace CilBrowser.Core
             Directory.CreateDirectory(outputPath);
 
             //files
-            foreach (FileNode fileNode in currentNode.Files)
+            foreach (FileNode fileNode in currentNode.Pages)
             {
                 Console.WriteLine(fileNode.Name);
                 string pageName = FileUtils.FileNameToPageName(fileNode.Name);
