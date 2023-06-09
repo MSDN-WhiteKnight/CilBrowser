@@ -30,8 +30,8 @@ namespace CilBrowser.Tests.Structure
             DirectoryNode subdir2 = new DirectoryNode("oranges", TreeNodeKind.Directory);
             subdir2.AddPage(new FileNode("dummy"));
             tree.AddDirectory(subdir2);
-            tree.AddPage(new FileNode("c:\\test\\bar.txt"));
-            tree.AddPage(new FileNode("c:\\test\\foo.txt"));
+            tree.AddPage(new FileNode("c:/test/bar.txt"));
+            tree.AddPage(new FileNode("c:/test/foo.txt"));
             string html = tree.RenderToString(new HtmlGenerator(), new CilBrowserOptions());
 
             //normalize line endings
