@@ -1,12 +1,12 @@
 <Project>
  <PropertyGroup>
-   <Version>0.2.0</Version>
-   <FileVersion>0.2.0.0</FileVersion>
-   <Authors>MSDN-WhiteKnight</Authors>
-   <Company>CIL Tools</Company>
+   <Version>0.3.0</Version>
+   <FileVersion>0.3.0.0</FileVersion>
+   <Authors>SmallSoft</Authors>
+   <Company>SmallSoft</Company>
    <Product>CIL Browser</Product>
    <Copyright>Copyright (c) 2023, MSDN.WhiteKnight</Copyright>
-   <PackageProjectUrl>https://github.com/MSDN-WhiteKnight/CilBrowser</PackageProjectUrl>
-   <RepositoryUrl>https://github.com/MSDN-WhiteKnight/CilBrowser</RepositoryUrl>
+   <PackageProjectUrl>https://gitflic.ru/project/smallsoft/cilbrowser</PackageProjectUrl>
+   <RepositoryUrl>https://gitflic.ru/project/smallsoft/cilbrowser</RepositoryUrl>
  </PropertyGroup>
 </Project>
