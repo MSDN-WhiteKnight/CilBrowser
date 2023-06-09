@@ -15,22 +15,15 @@ namespace CilBrowser.Core.Structure
     {
         List<PageNode> _pages;
         List<DirectoryNode> _dirs;
-        string _path;
 
-        public DirectoryNode(string name, string path)
+        public DirectoryNode(string name)
         {
             this._name = name;
-            this._path = path;
             this._pages = new List<PageNode>();
             this._dirs = new List<DirectoryNode>();
         }
 
         public override TreeNodeKind Kind => TreeNodeKind.Directory;
-
-        public string Path
-        {
-            get { return this._path; }
-        }
 
         /// <summary>
         /// Adds a specified page node into the collection of child nodes. Also sets its parent node to this one.
@@ -84,23 +77,6 @@ namespace CilBrowser.Core.Structure
             foreach (FileNode node in this._pages) yield return node;
         }
 
-        string[] GetDirsAsStrings()
-        {
-            List<string> ret = new List<string>(this._dirs.Count);
-
-            for (int i = 0; i < this._dirs.Count; i++)
-            {
-                if (this._dirs[i].PagesCount + this._dirs[i].DirectoriesCount == 0)
-                {
-                    continue; //not interested in empty directories
-                }
-
-                ret.Add(this._dirs[i].Path);
-            }
-
-            return ret.ToArray();
-        }
-
         /// <inheritdoc/>
         public override void Render(HtmlGenerator generator, CilBrowserOptions options, TextWriter target)
         {
@@ -120,7 +96,7 @@ namespace CilBrowser.Core.Structure
             }
             
             string dirIconURL = WebsiteGenerator.GetImagesURL(level) + "dir.png";
-            WebsiteGenerator.RenderDirsList(this.GetDirsAsStrings(), dirIconURL, toc);
+            WebsiteGenerator.RenderDirsList(this._dirs.ToArray(), dirIconURL, toc);
             toc.WriteRaw(Environment.NewLine);
 
             //render ToC entries for files

@@ -220,6 +220,33 @@ namespace CilBrowser.Core
             toc.WriteTagEnd("table");
         }
 
+        internal static void RenderDirsList(DirectoryNode[] dirs, string dirIconURL, HtmlBuilder toc)
+        {
+            toc.WriteTagStart("table", HtmlBuilder.OneAttribute("cellpadding", "2px"));
+
+            for (int i = 0; i < dirs.Length; i++)
+            {
+                if (dirs[i].PagesCount + dirs[i].DirectoriesCount == 0)
+                {
+                    continue; //not interested in empty directories
+                }
+
+                string name = dirs[i].Name;
+                
+                //TOC entry
+                toc.WriteTagStart("tr");
+                toc.WriteTagStart("td");
+                toc.WriteTag("img", string.Empty, HtmlBuilder.OneAttribute("src", dirIconURL));
+                toc.WriteTagEnd("td");
+                toc.WriteTagStart("td");
+                toc.WriteHyperlink("./" + WebUtility.UrlEncode(name) + "/index.html", name);
+                toc.WriteTagEnd("td");
+                toc.WriteTagEnd("tr");
+            }
+
+            toc.WriteTagEnd("table");
+        }
+
         internal static void RenderTocEntry(string name, string pageName, string fileIconURL, HtmlBuilder toc)
         {
             toc.WriteTagStart("tr");
@@ -374,7 +401,7 @@ namespace CilBrowser.Core
                 return; //this directory does not have anything interesting
             }
 
-            Console.WriteLine("Generating website from source directory tree: " + currentNode.Path);
+            Console.WriteLine("Generating website from source directory tree: " + currentNode.Name);
             Console.WriteLine("Output path: " + outputPath);
             HtmlGenerator generator = new HtmlGenerator();
             generator.CustomFooter = customFooter;

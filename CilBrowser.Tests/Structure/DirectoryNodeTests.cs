@@ -23,11 +23,11 @@ namespace CilBrowser.Tests.Structure
 </body></html>";
 
             //render top-level ToC
-            DirectoryNode tree = new DirectoryNode("test", "c:\\test");
-            DirectoryNode subdir1 = new DirectoryNode("apples", "c:\\test\\apples");
+            DirectoryNode tree = new DirectoryNode("test");
+            DirectoryNode subdir1 = new DirectoryNode("apples");
             subdir1.AddPage(new FileNode("dummy"));
             tree.AddDirectory(subdir1);
-            DirectoryNode subdir2 = new DirectoryNode("oranges", "c:\\test\\oranges");
+            DirectoryNode subdir2 = new DirectoryNode("oranges");
             subdir2.AddPage(new FileNode("dummy"));
             tree.AddDirectory(subdir2);
             tree.AddPage(new FileNode("c:\\test\\bar.txt"));
