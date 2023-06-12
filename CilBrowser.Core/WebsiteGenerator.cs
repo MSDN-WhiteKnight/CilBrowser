@@ -232,6 +232,8 @@ namespace CilBrowser.Core
 
         internal static void RenderDirsList(SectionNode[] dirs, string dirIconURL, HtmlBuilder toc)
         {
+            if (dirs.Length == 0) return;
+
             toc.WriteTagStart("table", HtmlBuilder.OneAttribute("cellpadding", "2px"));
 
             for (int i = 0; i < dirs.Length; i++)
