@@ -26,10 +26,10 @@ namespace CilBrowser.Tests.Structure
             DirectoryNode tree = new DirectoryNode("test", TreeNodeKind.Directory);
             DirectoryNode subdir1 = new DirectoryNode("apples", TreeNodeKind.Directory);
             subdir1.AddPage(new FileNode("dummy"));
-            tree.AddDirectory(subdir1);
+            tree.AddSection(subdir1);
             DirectoryNode subdir2 = new DirectoryNode("oranges", TreeNodeKind.Directory);
             subdir2.AddPage(new FileNode("dummy"));
-            tree.AddDirectory(subdir2);
+            tree.AddSection(subdir2);
             tree.AddPage(new FileNode("c:/test/bar.txt"));
             tree.AddPage(new FileNode("c:/test/foo.txt"));
             string html = tree.RenderToString(new HtmlGenerator(), new CilBrowserOptions());

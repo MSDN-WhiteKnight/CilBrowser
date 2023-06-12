@@ -230,13 +230,13 @@ namespace CilBrowser.Core
             toc.WriteTagEnd("table");
         }
 
-        internal static void RenderDirsList(DirectoryNode[] dirs, string dirIconURL, HtmlBuilder toc)
+        internal static void RenderDirsList(SectionNode[] dirs, string dirIconURL, HtmlBuilder toc)
         {
             toc.WriteTagStart("table", HtmlBuilder.OneAttribute("cellpadding", "2px"));
 
             for (int i = 0; i < dirs.Length; i++)
             {
-                if (dirs[i].PagesCount + dirs[i].DirectoriesCount == 0)
+                if (dirs[i].PagesCount + dirs[i].SectionsCount == 0)
                 {
                     continue; //not interested in empty directories
                 }
@@ -286,6 +286,9 @@ namespace CilBrowser.Core
         public static void GenerateFromSources(string sourcesPath, string outputPath, CilBrowserOptions options,
             string customFooter)
         {
+            Console.WriteLine("Generating website for source directory: " + sourcesPath);
+            Console.WriteLine("Output path: " + outputPath);
+
             //generate HTML files
             HtmlGenerator generator = new HtmlGenerator();
             generator.CustomFooter = customFooter;
@@ -310,7 +313,7 @@ namespace CilBrowser.Core
                 return;
             }
 
-            if (currentNode.PagesCount + currentNode.DirectoriesCount == 0)
+            if (currentNode.PagesCount + currentNode.SectionsCount == 0)
             {
                 return; //this directory does not have anything interesting
             }
@@ -326,7 +329,7 @@ namespace CilBrowser.Core
             }
 
             //subdirectories
-            foreach(DirectoryNode dir in currentNode.Directories)
+            foreach(DirectoryNode dir in currentNode.Sections)
             {
                 string name = dir.Name;
                 string urlNew;

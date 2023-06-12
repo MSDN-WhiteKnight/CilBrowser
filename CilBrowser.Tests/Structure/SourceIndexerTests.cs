@@ -35,7 +35,7 @@ namespace CilBrowser.Tests.Structure
                 DirectoryNode tree = SourceIndexer.SourceDirectoryToTree(dir, new CilBrowserOptions());
 
                 // Validate results
-                DirectoryNode[] dirs = tree.Directories.ToArray();
+                SectionNode[] dirs = tree.Sections.ToArray();
                 Assert.AreEqual(2, dirs.Length);
                 Assert.AreEqual("subdir1", dirs[0].Name);
                 Assert.AreEqual("subdir2", dirs[1].Name);

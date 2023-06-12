@@ -73,7 +73,7 @@ namespace CilBrowser.Core.Structure
                     nsNode.AddPage(typeNode);
                 }
 
-                ret.AddDirectory(nsNode);
+                ret.AddSection(nsNode);
             }
 
             return ret;

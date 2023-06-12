@@ -45,12 +45,12 @@ namespace CilBrowser.Core.Structure
 
                 DirectoryNode node = SourceDirectoryToTreeImpl(dirs[i], options, level + 1);
 
-                if (node.DirectoriesCount + node.PagesCount == 0)
+                if (node.SectionsCount + node.PagesCount == 0)
                 {
                     continue; //not interested in empty directories
                 }
 
-                ret.AddDirectory(node);
+                ret.AddSection(node);
             }
 
             string[] files = Directory.GetFiles(sourcesPath);
