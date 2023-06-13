@@ -29,7 +29,7 @@ namespace CilBrowser.Core.Structure
         public override void Render(HtmlGenerator generator, CilBrowserOptions options, TextWriter target)
         {
             HtmlBuilder toc = new HtmlBuilder(target);
-            HtmlGenerator.WriteTocStart(toc, this._ass);
+            HtmlGenerator.WriteAssemblyTocStart(toc, this._ass);
 
             //render ToC entries for pages
             toc.WriteTagStart("table", HtmlBuilder.OneAttribute("cellpadding", "2px"));

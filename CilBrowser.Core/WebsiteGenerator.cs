@@ -119,9 +119,15 @@ namespace CilBrowser.Core
 
         public static void GenerateFromAssembly_Structure(Assembly ass, string nsFilter, string outputPath, string customFooter)
         {
+            AssemblyName an = ass.GetName();
+            Console.WriteLine("Generating website for " + an.Name);
+
+            if (!string.IsNullOrEmpty(nsFilter)) Console.WriteLine("Namespace filter: " + nsFilter);
+
+            Console.WriteLine("Output path: " + outputPath);
             HtmlGenerator generator = new HtmlGenerator(ass, nsFilter, customFooter);
             generator.EnableStructure = true;
-            DirectoryNode root = AssemblyIndexer.AssemblyToTree(ass, nsFilter);
+            SectionNode root = AssemblyIndexer.AssemblyToTree(ass, nsFilter);
             GenerateFromTreeImpl(root, outputPath, new CilBrowserOptions(), generator, 0);
         }
 
@@ -306,7 +312,7 @@ namespace CilBrowser.Core
             File.WriteAllBytes(Path.Combine(outputPath, "img/file.png"), imgContent);
         }
 
-        static void GenerateFromTreeImpl(DirectoryNode currentNode, string outputPath, CilBrowserOptions options,
+        static void GenerateFromTreeImpl(SectionNode currentNode, string outputPath, CilBrowserOptions options,
             HtmlGenerator generator, int level)
         {
             if (level > 50)
@@ -331,7 +337,7 @@ namespace CilBrowser.Core
             }
 
             //subdirectories
-            foreach(DirectoryNode dir in currentNode.Sections)
+            foreach(SectionNode dir in currentNode.Sections)
             {
                 string name = dir.Name;
                 string urlNew;

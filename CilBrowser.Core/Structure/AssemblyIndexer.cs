@@ -3,7 +3,6 @@
  * License: BSD 3-Clause */
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -18,12 +17,10 @@ namespace CilBrowser.Core.Structure
         /// <summary>
         /// Gets a website structure tree for the disassembled code of the specified assembly
         /// </summary>
-        public static DirectoryNode AssemblyToTree(Assembly ass, string nsFilter)
+        public static SectionNode AssemblyToTree(Assembly ass, string nsFilter)
         {
-            string name = ass.GetName().Name;
-            DirectoryNode ret = new DirectoryNode(Utils.StrToIdentifier(name), TreeNodeKind.Assembly);
-            ret.DisplayName = name;
-
+            AssemblySectionNode ret = new AssemblySectionNode(ass);
+            
             // Assembly manifest
             AssemblyManifestNode am = new AssemblyManifestNode(ass);
             ret.AddPage(am);
@@ -64,8 +61,7 @@ namespace CilBrowser.Core.Structure
 
                 if (string.IsNullOrEmpty(nsid)) nsid = "no-namespace";
 
-                DirectoryNode nsNode = new DirectoryNode(nsid, TreeNodeKind.Namespace);
-                nsNode.DisplayName = nsText;
+                NamespaceNode nsNode = new NamespaceNode(nsid, nsText);
 
                 for (int j = 0; j < nsTypes.Count; j++)
                 {

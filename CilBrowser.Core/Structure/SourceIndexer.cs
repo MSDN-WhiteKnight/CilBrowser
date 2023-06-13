@@ -24,7 +24,7 @@ namespace CilBrowser.Core.Structure
         static DirectoryNode SourceDirectoryToTreeImpl(string sourcesPath, CilBrowserOptions options, int level)
         {
             string dirName = Utils.GetDirectoryNameFromPath(sourcesPath);
-            DirectoryNode ret = new DirectoryNode(dirName, TreeNodeKind.Directory);
+            DirectoryNode ret = new DirectoryNode(dirName);
 
             if (level > 50)
             {

@@ -13,16 +13,13 @@ namespace CilBrowser.Core.Structure
     /// </summary>
     public sealed class DirectoryNode : SectionNode
     {
-        TreeNodeKind _kind;
-
-        public DirectoryNode(string name, TreeNodeKind kind)
+        public DirectoryNode(string name)
         {
             this._name = name;
             this._displayName = name;
-            this._kind = kind;
         }
 
-        public override TreeNodeKind Kind => this._kind;
+        public override TreeNodeKind Kind => TreeNodeKind.Directory;
         
         /// <inheritdoc/>
         public override void Render(HtmlGenerator generator, CilBrowserOptions options, TextWriter target)
@@ -30,26 +27,12 @@ namespace CilBrowser.Core.Structure
             //render ToC for this directory
             int level = this.GetLevel();
             HtmlBuilder toc = new HtmlBuilder(target);
-
-            if (this._kind == TreeNodeKind.Directory)
-            {
-                HtmlGenerator.WriteTocStart(toc, this._name);
-            }
-            else if (this._kind == TreeNodeKind.Assembly)
-            {
-                HtmlGenerator.WriteTocStart(toc, this._displayName, "Assembly: " + this._displayName);
-            }
-            else
-            {
-                HtmlGenerator.WriteTocStart(toc, this._displayName, this._displayName);
-            }
+            HtmlGenerator.WriteTocStart(toc, this._name);
 
             //render ToC entries for subdirectories
             if (this._sections.Count > 0)
             {
-                if (this.Kind == TreeNodeKind.Directory) toc.WriteTag("h2", "Subdirectories");
-                else if (this.Kind == TreeNodeKind.Assembly) toc.WriteTag("h2", "Namespaces");
-                else toc.WriteTag("h2", "Sections");
+                toc.WriteTag("h2", "Subdirectories");
             }
 
             if (level > 0)
@@ -68,9 +51,7 @@ namespace CilBrowser.Core.Structure
 
             if (this._pages.Count > 0)
             {
-                if (this.Kind == TreeNodeKind.Directory) toc.WriteTag("h2", "Files");
-                else if(this.Kind == TreeNodeKind.Namespace) toc.WriteTag("h2", "Types");
-                else toc.WriteTag("h2", "Pages");
+                toc.WriteTag("h2", "Files");
             }
 
             toc.WriteTagStart("table", HtmlBuilder.OneAttribute("cellpadding", "2px"));
