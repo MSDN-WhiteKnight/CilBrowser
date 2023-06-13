@@ -365,7 +365,9 @@ namespace CilBrowser.Core
             if (ns == null) ns = string.Empty;
 
             if (typeMap.ContainsKey(ns)) types = typeMap[ns];
-            else types = new List<Type>();
+            else return string.Empty;
+
+            if (types.Count <= 1) return string.Empty;
 
             if (ns.Length > 0)
             {
@@ -379,6 +381,8 @@ namespace CilBrowser.Core
             //list of types
             for (int i = 0; i < types.Count; i++)
             {
+                if (Utils.IsEmptyModuleType(types[i])) continue;
+
                 html.StartParagraph();
 
                 if (Utils.StrEquals(types[i].FullName, t.FullName))
@@ -541,6 +545,8 @@ namespace CilBrowser.Core
         /// </summary>
         string GenerateTypeURL(Type t)
         {
+            if (string.IsNullOrEmpty(t.Namespace)) return GenerateTypeFileName(t);
+
             if (this._structure) return "../" + Utils.StrToIdentifier(t.Namespace) + "/" + GenerateTypeFileName(t);
             else return GenerateTypeFileName(t);
         }

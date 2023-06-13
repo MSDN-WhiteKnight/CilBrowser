@@ -96,6 +96,15 @@ namespace CilBrowser.Core
             return string.Equals(name1, name2, StringComparison.InvariantCultureIgnoreCase);
         }
 
+        public static bool IsEmptyModuleType(Type t)
+        {
+            BindingFlags all = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public |
+                        BindingFlags.NonPublic;
+
+            return Utils.StrEquals(t.FullName, "<Module>") &&
+                        t.GetFields(all).Length == 0 && t.GetMethods(all).Length == 0;
+        }
+
         /// <summary>
         /// Creates unique temp directory under the current assembly location directory and returns its path
         /// </summary>

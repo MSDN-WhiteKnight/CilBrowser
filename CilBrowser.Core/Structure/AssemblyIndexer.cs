@@ -47,11 +47,7 @@ namespace CilBrowser.Core.Structure
 
                 if (nsTypes.Count == 1)
                 {
-                    BindingFlags all = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public |
-                        BindingFlags.NonPublic;
-
-                    if (Utils.StrEquals(nsTypes[0].FullName, "<Module>") &&
-                        nsTypes[0].GetFields(all).Length == 0 && nsTypes[0].GetMethods(all).Length == 0)
+                    if (Utils.IsEmptyModuleType(nsTypes[0]))
                     {
                         continue; //ignore namespace consisting only from empty <Module> type
                     }
@@ -65,6 +61,8 @@ namespace CilBrowser.Core.Structure
 
                 for (int j = 0; j < nsTypes.Count; j++)
                 {
+                    if (Utils.IsEmptyModuleType(nsTypes[j])) continue;
+
                     TypeNode typeNode = new TypeNode(nsTypes[j], typeMap);
                     nsNode.AddPage(typeNode);
                 }

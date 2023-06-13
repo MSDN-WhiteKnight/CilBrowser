@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
@@ -18,106 +17,7 @@ namespace CilBrowser.Core
     /// </summary>
     public static class WebsiteGenerator
     {
-        /// <summary>
-        /// Generates a static website that contains disassembled CIL for the specified assembly
-        /// </summary>
         public static void GenerateFromAssembly(Assembly ass, string nsFilter, string outputPath, string customFooter)
-        {
-            HtmlGenerator generator = new HtmlGenerator(ass, nsFilter, customFooter);
-            Directory.CreateDirectory(outputPath);
-
-            //write assembly manifest
-            string html = generator.VisualizeAssemblyManifest(ass);
-            File.WriteAllText(Path.Combine(outputPath, "assembly.html"), html, Encoding.UTF8);
-
-            //create Table of contents builder
-            StringBuilder sb = new StringBuilder(1000);
-            HtmlBuilder toc = new HtmlBuilder(sb);
-            AssemblyName an = ass.GetName();
-            Console.WriteLine("Generating website for " + an.Name);
-
-            if (!string.IsNullOrEmpty(nsFilter)) Console.WriteLine("Namespace filter: " + nsFilter);
-
-            Console.WriteLine("Output path: " + outputPath);
-            HtmlGenerator.WriteTocStart(toc, ass);
-
-            //write types
-            Type[] types = ass.GetTypes();
-            Dictionary<string, List<Type>> typeMap = Utils.GroupByNamespace(types);
-            string[] namespaces = typeMap.Keys.ToArray();
-            Array.Sort(namespaces);
-
-            for (int i = 0; i < namespaces.Length; i++)
-            {
-                string nsText = namespaces[i];
-
-                if (!string.IsNullOrEmpty(nsFilter))
-                {
-                    if (!Utils.StrEquals(nsText, nsFilter)) continue;
-                }
-
-                List<Type> nsTypes = typeMap[namespaces[i]];
-
-                if (nsTypes.Count == 0) continue;
-
-                if (nsTypes.Count == 1)
-                {
-                    BindingFlags all = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public |
-                        BindingFlags.NonPublic;
-
-                    if (Utils.StrEquals(nsTypes[0].FullName, "<Module>") &&
-                        nsTypes[0].GetFields(all).Length == 0 && nsTypes[0].GetMethods(all).Length == 0)
-                    {
-                        continue; //ignore namespace consisting only from empty <Module> type
-                    }
-                }
-
-                if (string.IsNullOrEmpty(nsText)) nsText = "(No namespace)";
-                else nsText = nsText + " namespace";
-
-                toc.WriteTag("h2", nsText);
-
-                for (int j = 0; j < nsTypes.Count; j++)
-                {
-                    //file content
-                    try
-                    {
-                        html = generator.VisualizeType(nsTypes[j], typeMap);
-                    }
-                    catch (NotSupportedException ex)
-                    {
-                        html = HtmlGenerator.VisualizeException(ex);
-                        Console.WriteLine("Failed to generate HTML for " + nsTypes[j].FullName);
-                        Console.WriteLine(ex.ToString());
-                    }
-
-                    string fname = HtmlGenerator.GenerateTypeFileName(nsTypes[j]);
-
-                    if (!string.IsNullOrWhiteSpace(html))
-                    {
-                        Console.WriteLine(nsTypes[j].FullName);
-
-                        //TOC entry
-                        toc.StartParagraph();
-                        toc.WriteHyperlink(fname, nsTypes[j].FullName);
-                        toc.EndParagraph();
-                    }
-                    else
-                    {
-                        Console.WriteLine(nsTypes[j].FullName + " - empty");
-                    }
-
-                    File.WriteAllText(Path.Combine(outputPath, fname), html, Encoding.UTF8);
-                }
-            }
-
-            //write TOC
-            generator.WriteFooter(toc);
-            toc.EndDocument();
-            File.WriteAllText(Path.Combine(outputPath, "index.html"), sb.ToString(), Encoding.UTF8);
-        }
-
-        public static void GenerateFromAssembly_Structure(Assembly ass, string nsFilter, string outputPath, string customFooter)
         {
             AssemblyName an = ass.GetName();
             Console.WriteLine("Generating website for " + an.Name);
@@ -262,7 +162,7 @@ namespace CilBrowser.Core
                 }
                 
                 toc.WriteTagStart("td");
-                toc.WriteHyperlink("./" + WebUtility.UrlEncode(name) + "/index.html", name);
+                toc.WriteHyperlink("./" + WebUtility.UrlEncode(name) + "/index.html", dirs[i].DisplayName);
                 toc.WriteTagEnd("td");
                 toc.WriteTagEnd("tr");
             }
