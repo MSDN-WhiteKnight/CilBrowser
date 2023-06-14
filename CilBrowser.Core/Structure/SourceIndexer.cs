@@ -18,10 +18,23 @@ namespace CilBrowser.Core.Structure
         /// </summary>
         public static DirectoryNode SourceDirectoryToTree(string sourcesPath, CilBrowserOptions options)
         {
-            return SourceDirectoryToTreeImpl(sourcesPath, options, 0);
+            return SourceDirectoryToTreeImpl(sourcesPath, options, recursive: true, 0);
         }
 
-        static DirectoryNode SourceDirectoryToTreeImpl(string sourcesPath, CilBrowserOptions options, int level)
+        /// <summary>
+        /// Gets a website structure node for the specified source directory
+        /// </summary>
+        public static DirectoryNode CreateDirectoryNode(string sourcesPath, CilBrowserOptions options, bool topLevel)
+        {
+            DirectoryNode ret =  SourceDirectoryToTreeImpl(sourcesPath, options, recursive: false, 0);
+
+            //add dummy parent node, so the directory won't be treated as top-level
+            if (!topLevel) ret.Parent = new DirectoryNode("root");
+
+            return ret;
+        }
+
+        static DirectoryNode SourceDirectoryToTreeImpl(string sourcesPath, CilBrowserOptions options, bool recursive, int level)
         {
             string dirName = Utils.GetDirectoryNameFromPath(sourcesPath);
             DirectoryNode ret = new DirectoryNode(dirName);
@@ -43,7 +56,19 @@ namespace CilBrowser.Core.Structure
 
                 if (FileUtils.IsDirectoryExcluded(name)) continue;
 
-                DirectoryNode node = SourceDirectoryToTreeImpl(dirs[i], options, level + 1);
+                DirectoryNode node;
+
+                if (recursive)
+                {
+                    node = SourceDirectoryToTreeImpl(dirs[i], options, recursive, level + 1);
+                }
+                else
+                {
+                    node = new DirectoryNode(name);
+
+                    //add dummy subnode so directory won't be skipped as empty
+                    node.AddPage(new FileNode("empty"));
+                }
 
                 if (node.SectionsCount + node.PagesCount == 0)
                 {

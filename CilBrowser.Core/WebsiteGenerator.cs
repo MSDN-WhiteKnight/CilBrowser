@@ -111,31 +111,7 @@ namespace CilBrowser.Core
             sb.Append("img/");
             return sb.ToString();
         }
-
-        internal static void RenderDirsList(string[] dirs, string dirIconURL, HtmlBuilder toc)
-        {
-            toc.WriteTagStart("table", HtmlBuilder.OneAttribute("cellpadding", "2px"));
-
-            for (int i = 0; i < dirs.Length; i++)
-            {
-                string name = Utils.GetDirectoryNameFromPath(dirs[i]);
-
-                if (FileUtils.IsDirectoryExcluded(name)) continue;
-
-                //TOC entry
-                toc.WriteTagStart("tr");
-                toc.WriteTagStart("td");
-                toc.WriteTag("img", string.Empty, HtmlBuilder.OneAttribute("src", dirIconURL));
-                toc.WriteTagEnd("td");
-                toc.WriteTagStart("td");
-                toc.WriteHyperlink("./" + WebUtility.UrlEncode(name) + "/index.html", name);
-                toc.WriteTagEnd("td");
-                toc.WriteTagEnd("tr");
-            }
-
-            toc.WriteTagEnd("table");
-        }
-
+        
         internal static void RenderDirsList(SectionNode[] dirs, string dirIconURL, HtmlBuilder toc)
         {
             if (dirs.Length == 0) return;

@@ -51,53 +51,17 @@ namespace CilBrowser.Core
                 SendErrorResponse(response, 404, "Not found");
                 return;
             }
-            
+
+            // Index directory
+            DirectoryNode dirNode = SourceIndexer.CreateDirectoryNode(dir, this._options, topLevel);
+
             // Render table of contents
             response.ContentType = "text/html; charset=utf-8";
             StreamWriter wr = new StreamWriter(response.OutputStream);
-            HtmlBuilder toc = new HtmlBuilder(wr);
-
+            
             using (wr)
             {
-                string dirName = Utils.GetDirectoryNameFromPath(dir);
-                HtmlGenerator.WriteTocStart(toc, dirName);
-
-                // Index subdirectories
-                string[] dirs = Directory.GetDirectories(dir);
-                Array.Sort(dirs);
-
-                if (dirs.Length > 0) toc.WriteTag("h2", "Subdirectories");
-
-                if (!topLevel)
-                {
-                    toc.StartParagraph();
-                    toc.WriteHyperlink("../index.html", "(go to parent directory)");
-                    toc.EndParagraph();
-                }
-
-                WebsiteGenerator.RenderDirsList(dirs, "dir.png", toc);
-
-                // Index files in directory
-                string[] files = Directory.GetFiles(dir);
-                Array.Sort(files);
-
-                if (files.Length > 0) toc.WriteTag("h2", "Files");
-
-                toc.WriteTagStart("table", HtmlBuilder.OneAttribute("cellpadding", "2px"));
-
-                for (int i = 0; i < files.Length; i++)
-                {
-                    if (!FileUtils.IsSourceFile(files[i], this._sourceExtensions)) continue;
-
-                    string name = Path.GetFileName(files[i]);
-                    string pageName = FileUtils.FileNameToPageName(name);
-                    WebsiteGenerator.RenderTocEntry(name, pageName, "file.png", TreeNodeKind.File, toc);
-                }
-
-                toc.WriteTagEnd("table");
-
-                this._gen.WriteFooter(toc);
-                toc.EndDocument();
+                dirNode.Render(this._gen, this._options, wr);
             }
         }
 
