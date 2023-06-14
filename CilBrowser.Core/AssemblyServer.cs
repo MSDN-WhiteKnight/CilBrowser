@@ -5,10 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Globalization;
-using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using CilBrowser.Core.Structure;
 using CilTools.Reflection;
 
 namespace CilBrowser.Core
@@ -19,22 +19,28 @@ namespace CilBrowser.Core
     public sealed class AssemblyServer : ServerBase
     {
         Assembly _ass;        
-        HtmlGenerator _gen;        
-        Dictionary<string, List<Type>> _typeMap;
+        HtmlGenerator _gen;
+        AssemblySectionNode _tree;
         
         public AssemblyServer(Assembly ass, string urlHost, string urlPrefix) : base(urlHost, urlPrefix)
         {
             this._ass = ass;
             this._gen = new HtmlGenerator(ass);
-
-            Type[] types = ass.GetTypes();
-            this._typeMap = Utils.GroupByNamespace(types);
+            this._tree = AssemblyIndexer.AssemblyToTree(ass, string.Empty);
         }
         
         int ResolveTokenFromUrl(string url)
         {
             string urlPart = StripURL(url);
 
+            int index = urlPart.LastIndexOf('/');
+
+            //If there're slashes, take the part after last slash
+            if (index >= 0 && index < urlPart.Length - 1)
+            {
+                urlPart = urlPart.Substring(index + 1, urlPart.Length - (index + 1)).Trim();
+            }
+            
             //Parse hexadecimal metadata token from URL
             int ret;
 
@@ -68,50 +74,41 @@ namespace CilBrowser.Core
 
         protected override void RenderFrontPage(HttpListenerResponse response)
         {
-            // Table of contents
+            // Assembly ToC
             response.ContentType = "text/html; charset=utf-8";
-            string[] namespaces = this._typeMap.Keys.ToArray();
-            Array.Sort(namespaces);
-
-            // Write the response to output stream.
             StreamWriter wr = new StreamWriter(response.OutputStream);
-            HtmlBuilder toc = new HtmlBuilder(wr);
-
+            
             using (wr)
             {
-                HtmlGenerator.WriteTocStart(toc, this._ass);
+                this._tree.Render(this._gen, new CilBrowserOptions(), wr);
+            }
+        }
 
-                for (int i = 0; i < namespaces.Length; i++)
-                {
-                    string nsText = namespaces[i];
-                    List<Type> nsTypes = this._typeMap[namespaces[i]];
+        string RenderNamespaceToc(string ns)
+        {
+            SectionNode node = this._tree.FindSection(ns);
 
-                    if (nsTypes.Count == 0) continue;
+            if (node == null) return string.Empty;
+            
+            return node.RenderToString(this._gen, new CilBrowserOptions());
+        }
 
-                    if (string.IsNullOrEmpty(nsText)) nsText = "(No namespace)";
-                    else nsText = nsText + " namespace";
+        void SendContent(string url, string content, HttpListenerResponse response)
+        {
+            if (string.IsNullOrEmpty(content))
+            {
+                SendErrorResponse(response, 404, "Not found");
+                return;
+            }
 
-                    toc.WriteTag("h2", nsText);
-
-                    for (int j = 0; j < nsTypes.Count; j++)
-                    {
-                        string fname = HtmlGenerator.GenerateTypeFileName(nsTypes[j]);
-
-                        //TOC entry
-                        toc.StartParagraph();
-                        toc.WriteHyperlink(fname, nsTypes[j].FullName);
-                        toc.EndParagraph();
-                    }
-                }//end for
-
-                this._gen.WriteFooter(toc);
-                toc.EndDocument();
-            }//end using
+            SendHtmlResponse(response, content);
+            this.AddToCache(url, content);
         }
 
         protected override void RenderPage(string url, HttpListenerResponse response)
         {
             string content;
+            string relativePath;
 
             if (Utils.StrEquals(url, this._urlPrefix + "assembly.html"))
             {
@@ -119,6 +116,38 @@ namespace CilBrowser.Core
                 content = this._gen.VisualizeAssemblyManifest(this._ass);
                 SendHtmlResponse(response, content);
                 this.AddToCache(url, content);
+                return;
+            }
+            else if (url.EndsWith("index.html", StringComparison.OrdinalIgnoreCase))
+            {
+                // Namespace ToC
+                relativePath = StripURL(url);
+
+                if (relativePath.Length < 6)
+                {
+                    SendErrorResponse(response, 404, "Not found");
+                    return;
+                }
+
+                string ns = relativePath.Substring(0, relativePath.Length - 6);
+                content = RenderNamespaceToc(ns);
+                this.SendContent(url, content, response);
+                return;
+            }
+            else if (url.Length > 0 && url[url.Length - 1] == '/')
+            {
+                // Namespace ToC
+                relativePath = StripPrefix(url);
+                
+                if (relativePath.Length < 1)
+                {
+                    SendErrorResponse(response, 404, "Not found");
+                    return;
+                }
+                
+                string ns = relativePath.Substring(0, relativePath.Length - 1);
+                content = RenderNamespaceToc(ns);
+                this.SendContent(url, content, response);
                 return;
             }
 
@@ -141,7 +170,7 @@ namespace CilBrowser.Core
                 return;
             }
 
-            content = this._gen.VisualizeType(t, this._typeMap);
+            content = this._gen.VisualizeType(t, this._tree.TypeMap);
             SendHtmlResponse(response, content);
             this.AddToCache(url, content);
         }

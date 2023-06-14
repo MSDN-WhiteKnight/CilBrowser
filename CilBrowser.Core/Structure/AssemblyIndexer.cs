@@ -17,17 +17,17 @@ namespace CilBrowser.Core.Structure
         /// <summary>
         /// Gets a website structure tree for the disassembled code of the specified assembly
         /// </summary>
-        public static SectionNode AssemblyToTree(Assembly ass, string nsFilter)
+        public static AssemblySectionNode AssemblyToTree(Assembly ass, string nsFilter)
         {
-            AssemblySectionNode ret = new AssemblySectionNode(ass);
+            Type[] types = ass.GetTypes();
+            Dictionary<string, List<Type>> typeMap = Utils.GroupByNamespace(types);
+            AssemblySectionNode ret = new AssemblySectionNode(ass, typeMap);
             
             // Assembly manifest
             AssemblyManifestNode am = new AssemblyManifestNode(ass);
             ret.AddPage(am);
 
             // Namespaces
-            Type[] types = ass.GetTypes();
-            Dictionary<string, List<Type>> typeMap = Utils.GroupByNamespace(types);
             string[] namespaces = typeMap.Keys.ToArray();
             Array.Sort(namespaces);
 

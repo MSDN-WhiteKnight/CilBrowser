@@ -671,19 +671,9 @@ namespace CilBrowser.Core
             
             if (!string.IsNullOrEmpty(fvi.LegalCopyright)) target.WriteParagraph(fvi.LegalCopyright);
         }
-
-        public static void WriteTocStart(HtmlBuilder toc, Assembly ass)
-        {
-            WriteAssemblyTocStart(toc, ass);
-            toc.StartParagraph();
-            toc.WriteHyperlink("assembly.html", "(Assembly manifest)");
-            toc.EndParagraph();
-            toc.WriteParagraph("Types in assembly: ");
-        }
-
+        
         public static void WriteAssemblyTocStart(HtmlBuilder toc, Assembly ass)
         {
-            //short version for generating from structure tree
             AssemblyName an = ass.GetName();
             toc.StartDocument(".NET CIL Browser - " + an.Name, GlobalStyles);
             toc.WriteParagraph(".NET CIL Browser");

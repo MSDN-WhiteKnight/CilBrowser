@@ -66,5 +66,15 @@ namespace CilBrowser.Core.Structure
 
             foreach (FileNode node in this._pages) yield return node;
         }
+
+        public SectionNode FindSection(string name)
+        {
+            for (int i = 0; i < this._sections.Count; i++)
+            {
+                if (Utils.StrEquals(this._sections[i].Name, name)) return this._sections[i];
+            }
+
+            return null;
+        }
     }
 }

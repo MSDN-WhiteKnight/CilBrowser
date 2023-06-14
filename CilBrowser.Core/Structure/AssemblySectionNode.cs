@@ -15,17 +15,24 @@ namespace CilBrowser.Core.Structure
     public sealed class AssemblySectionNode : SectionNode
     {
         Assembly _ass;
+        Dictionary<string, List<Type>> _typeMap;
 
-        public AssemblySectionNode(Assembly ass)
+        public AssemblySectionNode(Assembly ass, Dictionary<string, List<Type>> typeMap)
         {
             this._ass = ass;
             string assName = ass.GetName().Name;
             this._name = Utils.StrToIdentifier(assName);
             this._displayName = assName;
+            this._typeMap = typeMap;
         }
 
         public override TreeNodeKind Kind => TreeNodeKind.Assembly;
-        
+
+        public Dictionary<string, List<Type>> TypeMap
+        {
+            get { return this._typeMap; }
+        }
+
         public override void Render(HtmlGenerator generator, CilBrowserOptions options, TextWriter target)
         {
             HtmlBuilder toc = new HtmlBuilder(target);
