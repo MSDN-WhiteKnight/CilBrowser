@@ -286,10 +286,40 @@ namespace CilBrowser.Core
             target.WriteRaw(Environment.NewLine);
         }
 
-        void WriteLayoutStart(HtmlBuilder target, string title, string navigation)
+        void WriteHeaderHTML(string parentNamespace, HtmlBuilder target)
+        {
+            //used for type pages
+            target.StartParagraph();
+            target.WriteRaw(".NET CIL Browser - ");
+
+            if (this._ass != null)
+            {
+                if (this._structure) target.WriteHyperlink("../index.html", this._ass.GetName().Name);
+                else target.WriteEscaped(this._ass.GetName().Name);
+
+                target.WriteRaw(" - ");
+            }
+
+            if (!string.IsNullOrEmpty(parentNamespace))
+            {
+                target.WriteHyperlink("index.html", parentNamespace);
+            }
+            else
+            {
+                target.WriteHyperlink("index.html", "Back to table of contents");
+            }
+
+            target.EndParagraph();
+            target.WriteRaw(Environment.NewLine);
+        }
+
+        void WriteLayoutStart(HtmlBuilder target, string title, string navigation, string parentNamespace)
         {
             target.StartDocument(title, GlobalStyles);
-            this.WriteHeaderHTML(target);
+
+            if (parentNamespace != null) this.WriteHeaderHTML(parentNamespace, target);
+            else this.WriteHeaderHTML(target);
+
             target.WriteTag("h2", title);
 
             target.WriteTagStart("table", new HtmlAttribute[] {
@@ -358,7 +388,7 @@ namespace CilBrowser.Core
             StringBuilder sb = new StringBuilder(5000);
             HtmlBuilder builder = new HtmlBuilder(sb);
 
-            generator.WriteLayoutStart(builder, "Method: " + mb.Name, string.Empty);
+            generator.WriteLayoutStart(builder, "Method: " + mb.Name, string.Empty, null);
             generator.VisualizeSyntaxNodes(nodes, 1, builder);
             generator.WriteLayoutEnd(builder);
 
@@ -393,7 +423,15 @@ namespace CilBrowser.Core
             {
                 if (Utils.IsEmptyModuleType(types[i])) continue;
 
+                if (i >= 100)
+                {
+                    html.WriteParagraph("(only first 100 types of " + types.Count.ToString() + " are shown)");
+                    break;
+                }
+
                 html.StartParagraph();
+
+                if (types[i].IsNested) html.WriteRaw("- ");
 
                 if (Utils.StrEquals(types[i].FullName, t.FullName))
                 {
@@ -425,7 +463,7 @@ namespace CilBrowser.Core
             HtmlBuilder html = new HtmlBuilder(sb);
 
             string navigation = VisualizeNavigationPanel(t, typeMap);
-            this.WriteLayoutStart(html, "Type: " + t.FullName, navigation);
+            this.WriteLayoutStart(html, "Type: " + t.FullName, navigation, t.Namespace);
             this.VisualizeSyntaxNodes(nodes, 1, html);
             WriteLayoutEnd(html);
 
@@ -438,7 +476,7 @@ namespace CilBrowser.Core
             StringBuilder sb = new StringBuilder(5000);
             HtmlBuilder html = new HtmlBuilder(sb);
 
-            this.WriteLayoutStart(html, "Assembly: " + ass.GetName().Name, string.Empty);
+            this.WriteLayoutStart(html, "Assembly: " + ass.GetName().Name, string.Empty, null);
             this.VisualizeSyntaxNodes(nodes, 0, html);
             WriteLayoutEnd(html);
 
@@ -460,7 +498,7 @@ namespace CilBrowser.Core
             StringBuilder sb = new StringBuilder(5000);
             HtmlBuilder html = new HtmlBuilder(sb);
             
-            this.WriteLayoutStart(html, "Source file: " + filename, navigation);
+            this.WriteLayoutStart(html, "Source file: " + filename, navigation, null);
             this.VisualizeSourceTextImpl(content, ext, html);
 
             if (!string.IsNullOrEmpty(sourceControlUrl))
