@@ -116,21 +116,21 @@ namespace CilBrowser.Tests
         {
             HtmlGenerator gen = new HtmlGenerator(typeof(SampleType).Assembly);
             AssemblyReader reader = new AssemblyReader();
-            string fname;
+            string url;
             string str;
 
             using (reader)
             {
                 Assembly ass = reader.LoadFrom(typeof(SampleType).Assembly.Location);
                 Type t = ass.GetType(typeof(SampleType).FullName);
-                fname = HtmlGenerator.GenerateTypeFileName(t);
+                url = gen.GenerateTypeURL(t, 1);
                 str = gen.VisualizeType(t, new Dictionary<string, List<Type>>());
             }
 
             Assert.IsTrue(str.Contains("<span style=\"color: magenta;\">.class </span>" +
                 "<span style=\"color: blue;\">public </span><span style=\"color: blue;\">auto </span>" +
                 "<span style=\"color: blue;\">ansi </span><span style=\"color: blue;\">beforefieldinit </span>" +
-                "<a href=\""+ fname + "\" class=\"memberid\">CilBrowser.Tests.SampleType</a>"));
+                "<a href=\""+ url + "\" class=\"memberid\">CilBrowser.Tests.SampleType</a>"));
 
             Assert.IsTrue(str.Contains("<span style=\"color: magenta;\"> .field </span>" +
                 "<span style=\"color: blue;\">public </span><span style=\"color: blue;\">float32</span>" +

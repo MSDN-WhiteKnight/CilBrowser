@@ -36,7 +36,7 @@ namespace CilBrowser.Core
             this._ass = null;
             this._nsFilter = string.Empty;
             this._customFooter = string.Empty;
-            this._structure = false;
+            this._structure = true;
         }
 
         public HtmlGenerator(Assembly ass)
@@ -44,7 +44,7 @@ namespace CilBrowser.Core
             this._ass = ass;
             this._nsFilter = string.Empty;
             this._customFooter = string.Empty;
-            this._structure = false;
+            this._structure = true;
         }
 
         public HtmlGenerator(Assembly ass, string ns, string footer)
@@ -55,7 +55,7 @@ namespace CilBrowser.Core
             this._ass = ass;
             this._nsFilter = ns;
             this._customFooter = footer;
-            this._structure = false;
+            this._structure = true;
         }
 
         public string CustomFooter
@@ -537,7 +537,7 @@ namespace CilBrowser.Core
         /// <summary>
         /// Gets the URL name for the specifed type, with extension
         /// </summary>
-        public static string GenerateTypeFileName(Type t)
+        static string GenerateTypeFileName(Type t)
         {
             return GenerateTypeFileNameShort(t) + ".html";
         }
@@ -553,7 +553,7 @@ namespace CilBrowser.Core
         /// <summary>
         /// Gets the specified type's URL relative to other types
         /// </summary>
-        string GenerateTypeURL(Type t, int level)
+        public string GenerateTypeURL(Type t, int level)
         {
             if (string.IsNullOrEmpty(t.Namespace)) return GenerateTypeFileName(t);
 

@@ -26,7 +26,6 @@ namespace CilBrowser.Core
 
             Console.WriteLine("Output path: " + outputPath);
             HtmlGenerator generator = new HtmlGenerator(ass, nsFilter, customFooter);
-            generator.EnableStructure = true;
             SectionNode root = AssemblyIndexer.AssemblyToTree(ass, nsFilter);
             GenerateFromTreeImpl(root, outputPath, new CilBrowserOptions(), generator, 0);
         }
