@@ -22,7 +22,7 @@ namespace CilBrowser.Tests
             StringBuilder sb = new StringBuilder(1000);
             HtmlBuilder html = new HtmlBuilder(sb);
             HtmlGenerator generator = new HtmlGenerator();
-            generator.VisualizeSyntaxNodes(nodes, html);
+            generator.VisualizeSyntaxNodes(nodes, 0, html);
             return sb.ToString();
         }
 

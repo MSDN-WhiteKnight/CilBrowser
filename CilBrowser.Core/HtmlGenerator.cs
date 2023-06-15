@@ -92,7 +92,7 @@ namespace CilBrowser.Core
             else return tok.Kind == TokenKind.Name;
         }
 
-        void VisualizeNode(SyntaxNode node, HtmlBuilder target)
+        void VisualizeNode(SyntaxNode node, HtmlBuilder target, int level)
         {
             SyntaxNode[] children = node.GetChildNodes();
             HtmlAttribute[] attrs;
@@ -122,19 +122,19 @@ namespace CilBrowser.Core
                             else
                             {
                                 //rest of the content
-                                VisualizeNode(tokens[i], target);
+                                VisualizeNode(tokens[i], target, level);
                             }
                         }
                     }
                     else
                     {
-                        foreach (SyntaxNode child in children) VisualizeNode(child, target);
+                        foreach (SyntaxNode child in children) VisualizeNode(child, target, level);
                     }
                 }
                 else
                 {
                     //other syntax nodes
-                    foreach (SyntaxNode child in children) VisualizeNode(child, target);
+                    foreach (SyntaxNode child in children) VisualizeNode(child, target, level);
                 }
             }
             else if (node is KeywordSyntax)
@@ -172,7 +172,7 @@ namespace CilBrowser.Core
                         {
                             //hyperlink for types in the same assembly
                             tagName = "a";
-                            attrList.Add(new HtmlAttribute("href", GenerateTypeURL(targetType)));
+                            attrList.Add(new HtmlAttribute("href", GenerateTypeURL(targetType, level)));
                         }
                         else
                         {
@@ -190,14 +190,14 @@ namespace CilBrowser.Core
                             //anchor when in method signature
                             tagName = "a";
                             attrList.Add(new HtmlAttribute("name", GenerateMethodAnchor(mb)));
-                            attrList.Add(new HtmlAttribute("href", GenerateMethodURL(mb)));
+                            attrList.Add(new HtmlAttribute("href", GenerateMethodURL(mb, level)));
                         }
                         else if (IsMethodInAssembly(mb, this._ass) &&
                             Utils.IsMatchingNamespaceFilter(mb.DeclaringType, this._nsFilter))
                         {
                             //hyperlink for methods in the same assembly
                             tagName = "a";
-                            attrList.Add(new HtmlAttribute("href", GenerateMethodURL(mb)));
+                            attrList.Add(new HtmlAttribute("href", GenerateMethodURL(mb, level)));
                         }
                         else
                         {
@@ -327,14 +327,24 @@ namespace CilBrowser.Core
             WriteFooter(target);
             target.EndDocument();
         }
-        
-        public void VisualizeSyntaxNodes(IEnumerable<SyntaxNode> nodes, HtmlBuilder target)
+
+        /// <summary>
+        /// Visualizes the specified collection of syntax nodes as HTML and writes result into HtmlBuilder
+        /// </summary>
+        /// <param name="nodes">Collection of nodes to visualize</param>
+        /// <param name="level">Level in website structure, when structure mode is used</param>
+        /// <param name="target">HtmlBuilder to write resulting HTML</param>
+        /// <remarks>
+        /// Level is 1 for types, 0 for assembly manifest. When structure mode is not used, or when visualizing 
+        /// source texts, the level is ignored.
+        /// </remarks>
+        public void VisualizeSyntaxNodes(IEnumerable<SyntaxNode> nodes, int level, HtmlBuilder target)
         {
             target.WriteTagStart("pre", HtmlBuilder.OneAttribute("style", "white-space: pre-wrap;"));
             target.WriteTagStart("code");
 
             //content
-            foreach (SyntaxNode node in nodes) this.VisualizeNode(node, target);
+            foreach (SyntaxNode node in nodes) this.VisualizeNode(node, target, level);
 
             target.WriteTagEnd("code");
             target.WriteTagEnd("pre");
@@ -349,7 +359,7 @@ namespace CilBrowser.Core
             HtmlBuilder builder = new HtmlBuilder(sb);
 
             generator.WriteLayoutStart(builder, "Method: " + mb.Name, string.Empty);
-            generator.VisualizeSyntaxNodes(nodes, builder);
+            generator.VisualizeSyntaxNodes(nodes, 1, builder);
             generator.WriteLayoutEnd(builder);
 
             return sb.ToString();
@@ -416,7 +426,7 @@ namespace CilBrowser.Core
 
             string navigation = VisualizeNavigationPanel(t, typeMap);
             this.WriteLayoutStart(html, "Type: " + t.FullName, navigation);
-            this.VisualizeSyntaxNodes(nodes, html);
+            this.VisualizeSyntaxNodes(nodes, 1, html);
             WriteLayoutEnd(html);
 
             return sb.ToString();
@@ -429,7 +439,7 @@ namespace CilBrowser.Core
             HtmlBuilder html = new HtmlBuilder(sb);
 
             this.WriteLayoutStart(html, "Assembly: " + ass.GetName().Name, string.Empty);
-            this.VisualizeSyntaxNodes(nodes, html);
+            this.VisualizeSyntaxNodes(nodes, 0, html);
             WriteLayoutEnd(html);
 
             return sb.ToString();
@@ -441,7 +451,7 @@ namespace CilBrowser.Core
             SyntaxNode[] nodes = SourceParser.Parse(content, ext);
 
             //convert tokens to HTML
-            this.VisualizeSyntaxNodes(nodes, html);
+            this.VisualizeSyntaxNodes(nodes, 0, html);
         }
 
         public string VisualizeSourceFile(string content, string filename, string navigation, string sourceControlUrl)
@@ -543,12 +553,20 @@ namespace CilBrowser.Core
         /// <summary>
         /// Gets the specified type's URL relative to other types
         /// </summary>
-        string GenerateTypeURL(Type t)
+        string GenerateTypeURL(Type t, int level)
         {
             if (string.IsNullOrEmpty(t.Namespace)) return GenerateTypeFileName(t);
 
-            if (this._structure) return "../" + Utils.StrToIdentifier(t.Namespace) + "/" + GenerateTypeFileName(t);
-            else return GenerateTypeFileName(t);
+            if (!this._structure) return GenerateTypeFileName(t);
+
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < level; i++) sb.Append("../");
+
+            sb.Append(Utils.StrToIdentifier(t.Namespace));
+            sb.Append('/');
+            sb.Append(GenerateTypeFileName(t));
+            return sb.ToString();
         }
 
         static string GenerateMethodAnchor(MethodBase mb)
@@ -556,7 +574,7 @@ namespace CilBrowser.Core
             return "M"+((uint)mb.MetadataToken).ToString("X", CultureInfo.InvariantCulture);
         }
 
-        string GenerateMethodURL(MethodBase mb)
+        string GenerateMethodURL(MethodBase mb, int level)
         {
             if (mb.DeclaringType == null) return string.Empty;
 
@@ -570,7 +588,7 @@ namespace CilBrowser.Core
                 if (cm.GetDefinition() != null) targetMethod = cm.GetDefinition();
             }
 
-            return this.GenerateTypeURL(mb.DeclaringType) + "#" + GenerateMethodAnchor(targetMethod);
+            return this.GenerateTypeURL(mb.DeclaringType, level) + "#" + GenerateMethodAnchor(targetMethod);
         }
         
         public void WriteFooter(HtmlBuilder target)
