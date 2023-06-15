@@ -6,11 +6,21 @@
 
 [![Nuget](https://img.shields.io/nuget/v/CilBrowser)](https://www.nuget.org/packages/CilBrowser/)
 
-Command line tool that generates a static website to browse disassembled Common Intermediate Language (CIL) code of a .NET assembly. The generated website contains CIL for the assembly manifest and types defined in the assembly. Supports syntax highlighting and navigation to types and methods by clicking on references. Also can generate static website for a source code directory (with syntax highlighting, but without code navigation). CIL Browser is cross-platform and runs on any operating system that supports .NET Core or .NET 5+.
+Command line tool to visualize disassembled Common Intermediate Language (CIL) code or source code as HTML. CIL Browser can generate its output as a static website or render it dynamically as HTTP server. Supported features:
+
+- Visualize disassembled CIL code for [.NET assembly](https://learn.microsoft.com/en-us/dotnet/standard/assembly/) (assembly manifest and types)
+- Visualize source code from directory
+- Syntax highlighting for visualized code
+- Navigation to types and methods by clicking on references (only for disassembled CIL)
+- Cross-platform, runs on any operating system that supports [.NET](https://dotnet.microsoft.com/en-us/)
 
 The project idea is based on [SourceBrowser](https://github.com/KirillOsenkov/SourceBrowser). CIL Browser uses [CIL Tools](https://github.com/MSDN-WhiteKnight/CilTools) as a disassembler engine.
 
 [Demo website](https://msdn-whiteknight.github.io/CilBrowser/html/) shows CIL and source code of CIL Browser itself.
+
+Example screenshot of the output page:
+
+![Example](https://raw.githubusercontent.com/MSDN-WhiteKnight/CilBrowser/main/html/images/example.png)
 
 ## Installation
 
