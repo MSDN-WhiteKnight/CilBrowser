@@ -141,6 +141,23 @@ namespace CilBrowser
             return 0;
         }
 
+        static int GenerateFromSourceFile(string filePath, string outputDir, string footerContent)
+        {
+            Console.WriteLine("Generating webpage for a single source file " + filePath);
+            string content = File.ReadAllText(filePath);
+            string fileName = Path.GetFileName(filePath);
+            string outputPath = Path.Combine(outputDir, fileName + ".html");
+            Console.WriteLine("Output path: " + outputPath);
+
+            HtmlGenerator generator = new HtmlGenerator();
+            generator.CustomFooter = footerContent;
+            string html = generator.VisualizeSourceFile(content, fileName, string.Empty, string.Empty);
+            Directory.CreateDirectory(outputDir);
+            File.WriteAllText(outputPath, html, Encoding.UTF8);
+            Console.WriteLine("Generated!");
+            return 0;
+        }
+
         static int GenerateFromGitRepository(string url, string outputPath, string footerContent)
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
@@ -339,10 +356,15 @@ namespace CilBrowser
                 {
                     return GenerateFromGitRepository(inputPath, outputPath, footerContent);
                 }
+                else if (File.Exists(inputPath))
+                {
+                    //single source file
+                    return GenerateFromSourceFile(inputPath, outputPath, footerContent);
+                }
                 else //source directory
                 {
                     Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-                    
+
                     if (server)
                     {
                         //read config

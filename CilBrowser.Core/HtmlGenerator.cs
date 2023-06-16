@@ -589,7 +589,7 @@ namespace CilBrowser.Core
         }
 
         /// <summary>
-        /// Gets the specified type's URL relative to other types
+        /// Gets the specified type's URL relative to the specified level of website structure
         /// </summary>
         public string GenerateTypeURL(Type t, int level)
         {
