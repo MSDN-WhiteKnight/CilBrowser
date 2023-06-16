@@ -34,6 +34,10 @@ namespace CilBrowser.Core.SyntaxModel.JavaScript
                 if (keywords.Contains(token)) return TokenKind.Keyword;
                 else return TokenKind.Name;
             }
+            else if (token[0] == '`')
+            {
+                return TokenKind.SpecialTextLiteral; //template literal
+            }
             else
             {
                 return SourceParser.GetKindCommon(token);

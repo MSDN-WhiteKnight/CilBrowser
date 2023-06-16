@@ -157,5 +157,17 @@ namespace CilBrowser.Core.SyntaxModel
                 return TokenKind.Unknown;
             }
         }
+
+        internal static bool IsEscaped(string str, int i)
+        {
+            if (i <= 0) return false;
+
+            char c1 = str[i - 1];
+
+            if (c1 != '\\') return false;
+
+            //check if the slash itself is not escaped
+            return !IsEscaped(str, i - 1);
+        }
     }
 }

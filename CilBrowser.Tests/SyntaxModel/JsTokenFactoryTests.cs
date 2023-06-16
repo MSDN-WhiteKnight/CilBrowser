@@ -21,6 +21,7 @@ namespace CilBrowser.Tests.SyntaxModel
         [DataRow("'Hello world'", TokenKind.SingleQuotLiteral)]
         [DataRow("\"String\"", TokenKind.DoubleQuotLiteral)]
         [DataRow("123", TokenKind.NumericLiteral)]
+        [DataRow("`Template literal`", TokenKind.SpecialTextLiteral)]
         [DataTestMethod]
         public void Test_CreateNode(string token, TokenKind expected)
         {

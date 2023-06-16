@@ -13,7 +13,7 @@ namespace CilBrowser.Core.SyntaxModel.JavaScript
     class JsSyntaxProvider : SyntaxProvider
     {
         static readonly SyntaxTokenDefinition[] s_jsDefinitions = new SyntaxTokenDefinition[] {
-            new CommonNameToken(), new JsRegexLiteralToken(), new PunctuationToken(), new WhitespaceToken(),
+            new CommonNameToken(), new JsRegexLiteralToken(), new JsTemplateLiteralToken(), new PunctuationToken(), new WhitespaceToken(),
             new NumericLiteralToken(), new DoubleQuotLiteralToken(), new SingleQuotLiteralToken(), new CommentToken(),
             new MultilineCommentToken()
         };

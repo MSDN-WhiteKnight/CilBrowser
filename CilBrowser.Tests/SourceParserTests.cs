@@ -99,6 +99,26 @@ namespace CilBrowser.Tests
         }
 
         [TestMethod]
+        public void Test_Js_TemplateLiteral()
+        {
+            string src = "const html = `<div>\n\\`Hello, world!\\`</div>`;";
+            SyntaxNode[] nodes = SourceParser.Parse(src, ".js");
+
+            TestUtils.AssertSourceTokens(new SourceToken[] {
+                new SourceToken("const", TokenKind.Keyword, leadingWhitespace: string.Empty,
+                    trailingWhitespace: " "),
+                new SourceToken("html", TokenKind.Name, leadingWhitespace: string.Empty,
+                    trailingWhitespace: " "),
+                new SourceToken("=", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                    trailingWhitespace: " "),
+                new SourceToken("`<div>\n\\`Hello, world!\\`</div>`", TokenKind.SpecialTextLiteral, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+                new SourceToken(";", TokenKind.Punctuation, leadingWhitespace: string.Empty,
+                    trailingWhitespace: string.Empty),
+            }, nodes);
+        }
+
+        [TestMethod]
         public void Test_Java_Class()
         {
             string src = "class MyWindowAdapter extends WindowAdapter implements ActionListener {";

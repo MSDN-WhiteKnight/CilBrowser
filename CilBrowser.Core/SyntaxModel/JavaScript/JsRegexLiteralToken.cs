@@ -10,18 +10,6 @@ namespace CilBrowser.Core.SyntaxModel.JavaScript
 {
     class JsRegexLiteralToken : SyntaxTokenDefinition
     {
-        static bool IsEscaped(string str, int i)
-        {
-            if (i <= 0) return false;
-
-            char c1 = str[i - 1];
-
-            if (c1 != '\\') return false;
-
-            //check if the slash itself is not escaped
-            return !IsEscaped(str, i - 1);
-        }
-
         public override bool HasContinuation(string prevPart, TokenReader reader)
         {
             if (prevPart.Length <= 1) return true;
@@ -30,7 +18,7 @@ namespace CilBrowser.Core.SyntaxModel.JavaScript
 
             if (c == '/')
             {
-                if (IsEscaped(prevPart, prevPart.Length - 1)) return true;
+                if (SourceParser.IsEscaped(prevPart, prevPart.Length - 1)) return true;
                 else return false;
             }
             else return true;
