@@ -36,37 +36,66 @@ namespace CilBrowser.Core.Structure
         /// <inheritdoc/>
         public override void Render(HtmlGenerator generator, CilBrowserOptions options, TextWriter target)
         {
-            string html;
+            HtmlBuilder builder = new HtmlBuilder(target);
+            HtmlGenerator.StartDocument(builder, "Source file: " + this._displayName);
+
+            //navigation panel
+            string navigation = string.Empty;
+            DirectoryNode dir = this._parent as DirectoryNode;
+
+            if (dir != null)
+            {
+                PageNode[] files = dir.Pages.ToArray();
+
+                if (files.Length > 1)
+                {
+                    navigation = WebsiteGenerator.VisualizeNavigationPanel(this, dir.Name, files, dir.Kind);
+                }
+            }
+
+            //location bar
+            generator.WriteHeaderHTML(builder);
+            TreeNode[] path = this.GetPathFromRoot();
+            builder.StartParagraph();
+
+            for (int i = 0; i < path.Length; i++)
+            {
+                int level = path.Length - 1 - i;
+                builder.WriteRaw("<a href=\"");
+
+                for (int j = 0; j < level; j++) builder.WriteRaw("../");
+
+                builder.WriteRaw("index.html\">");
+                builder.WriteEscaped(path[i].DisplayName);
+                builder.WriteTagEnd("a");
+                builder.WriteRaw(" / ");
+            }
+
+            builder.EndParagraph();
+            builder.WriteTag("h2", "Source file: " + this._displayName);
+            HtmlGenerator.StartContentSection(builder, navigation);
 
             try
             {
                 //content
                 string content = File.ReadAllText(this._filepath, options.GetEncoding());
-
-                //navigation panel
-                string navigation = string.Empty;
-                DirectoryNode dir = this._parent as DirectoryNode;
-
-                if (dir != null)
+                HtmlGenerator.RenderSourceText(content, Path.GetExtension(this._name), target);
+                
+                if (!string.IsNullOrEmpty(options.SourceControlURL))
                 {
-                    PageNode[] files = dir.Pages.ToArray();
-
-                    if (files.Length > 1)
-                    {
-                        navigation = WebsiteGenerator.VisualizeNavigationPanel(this, dir.Name, files, dir.Kind);
-                    }
+                    string url = Utils.UrlAppend(options.SourceControlURL, this._name);
+                    builder.WriteHyperlink(url, "View in source control");
                 }
-
-                html = generator.VisualizeSourceFile(content, this._name, navigation, options.SourceControlURL);
             }
             catch (IOException ex)
             {
-                html = HtmlGenerator.VisualizeException(ex);
+                string html = HtmlGenerator.VisualizeException(ex);
                 Console.WriteLine("Failed to render HTML for: " + this._name);
                 Console.WriteLine(ex.ToString());
+                target.Write(html);
             }
 
-            target.Write(html);
+            generator.EndDocument(builder);
         }
     }
 }

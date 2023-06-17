@@ -82,6 +82,25 @@ namespace CilBrowser.Core.Structure
                 level++;
             }
         }
+
+        internal TreeNode[] GetPathFromRoot()
+        {
+            if (this.Parent == null) return new TreeNode[0];
+
+            List<TreeNode> ret = new List<TreeNode>();
+            TreeNode curr = this.Parent;
+
+            while (true)
+            {
+                if (curr == null) break;
+                if (ret.Count > 50) break;
+
+                ret.Insert(0, curr);
+                curr = curr.Parent;
+            }
+
+            return ret.ToArray();
+        }
     }
 
     public enum TreeNodeKind

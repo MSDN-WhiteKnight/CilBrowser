@@ -267,7 +267,7 @@ namespace CilBrowser.Core
             }
         }
 
-        void WriteHeaderHTML(HtmlBuilder target)
+        public void WriteHeaderHTML(HtmlBuilder target)
         {
             target.StartParagraph();
             target.WriteEscaped(".NET CIL Browser");
@@ -313,15 +313,21 @@ namespace CilBrowser.Core
             target.WriteRaw(Environment.NewLine);
         }
 
-        void WriteLayoutStart(HtmlBuilder target, string title, string navigation, string parentNamespace)
+        /// <summary>
+        /// Writes the starting markup for HTML document, including a <c>head</c> element and opening tag for the 
+        /// <c>body</c> element, into the specified HtmlBuilder.
+        /// </summary>
+        public static void StartDocument(HtmlBuilder target, string title)
         {
             target.StartDocument(title, GlobalStyles);
+        }
 
-            if (parentNamespace != null) this.WriteHeaderHTML(parentNamespace, target);
-            else this.WriteHeaderHTML(target);
-
-            target.WriteTag("h2", title);
-
+        /// <summary>
+        /// Writes starting markup for an element that hosts page content into the specified HtmlBuilder. 
+        /// Call <see cref="EndDocument(HtmlBuilder)"/> method to end content section.
+        /// </summary>
+        public static void StartContentSection(HtmlBuilder target, string navigation)
+        {
             target.WriteTagStart("table", new HtmlAttribute[] {
                 new HtmlAttribute("width", "100%"), new HtmlAttribute("cellpadding", "5"),
                 new HtmlAttribute("cellspacing", "5")
@@ -344,6 +350,17 @@ namespace CilBrowser.Core
             target.WriteTagStart("td", HtmlBuilder.OneAttribute("valign", "top"));
         }
 
+        void WriteLayoutStart(HtmlBuilder target, string title, string navigation, string parentNamespace)
+        {
+            target.StartDocument(title, GlobalStyles);
+
+            if (parentNamespace != null) this.WriteHeaderHTML(parentNamespace, target);
+            else this.WriteHeaderHTML(target);
+
+            target.WriteTag("h2", title);
+            StartContentSection(target, navigation);
+        }
+
         void WriteLayoutEnd(HtmlBuilder target)
         {
             target.WriteTagEnd("td");
@@ -356,6 +373,15 @@ namespace CilBrowser.Core
 
             WriteFooter(target);
             target.EndDocument();
+        }
+
+        /// <summary>
+        /// Writes markup that ends content section and document (including a closing <c>body</c> and <c>html</c> tags) 
+        /// into the specified HtmlBuilder.
+        /// </summary>
+        public void EndDocument(HtmlBuilder target)
+        {
+            this.WriteLayoutEnd(target);
         }
 
         /// <summary>
