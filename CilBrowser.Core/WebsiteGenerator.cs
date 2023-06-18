@@ -163,6 +163,28 @@ namespace CilBrowser.Core
             toc.WriteTagEnd("tr");
         }
 
+        internal static void RenderNodePath(TreeNode[] path, int baseLevel, HtmlBuilder target)
+        {
+            if (path.Length == 0) return;
+
+            target.StartParagraph();
+
+            for (int i = 0; i < path.Length; i++)
+            {
+                int level = path.Length - baseLevel - i; //first node is on highest level
+                target.WriteRaw("<a href=\"");
+
+                for (int j = 0; j < level; j++) target.WriteRaw("../");
+
+                target.WriteRaw("index.html\">");
+                target.WriteEscaped(path[i].DisplayName);
+                target.WriteTagEnd("a");
+                target.WriteRaw(" / ");
+            }
+
+            target.EndParagraph();
+        }
+
         /// <summary>
         /// Generates a static website for the source code in the specified directory
         /// </summary>

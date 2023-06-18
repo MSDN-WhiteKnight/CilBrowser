@@ -37,7 +37,7 @@ namespace CilBrowser.Core.Structure
         public override void Render(HtmlGenerator generator, CilBrowserOptions options, TextWriter target)
         {
             HtmlBuilder builder = new HtmlBuilder(target);
-            HtmlGenerator.StartDocument(builder, "Source file: " + this._displayName);
+            HtmlGenerator.StartDocument(builder, HtmlGenerator.AppName + " - " + this._displayName);
 
             //navigation panel
             string navigation = string.Empty;
@@ -56,22 +56,7 @@ namespace CilBrowser.Core.Structure
             //location bar
             generator.WriteHeaderHTML(builder);
             TreeNode[] path = this.GetPathFromRoot();
-            builder.StartParagraph();
-
-            for (int i = 0; i < path.Length; i++)
-            {
-                int level = path.Length - 1 - i;
-                builder.WriteRaw("<a href=\"");
-
-                for (int j = 0; j < level; j++) builder.WriteRaw("../");
-
-                builder.WriteRaw("index.html\">");
-                builder.WriteEscaped(path[i].DisplayName);
-                builder.WriteTagEnd("a");
-                builder.WriteRaw(" / ");
-            }
-
-            builder.EndParagraph();
+            WebsiteGenerator.RenderNodePath(path, 1, builder);
             builder.WriteTag("h2", "Source file: " + this._displayName);
             HtmlGenerator.StartContentSection(builder, navigation);
 

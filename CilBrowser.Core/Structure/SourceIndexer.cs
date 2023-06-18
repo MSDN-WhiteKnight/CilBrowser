@@ -29,7 +29,14 @@ namespace CilBrowser.Core.Structure
             DirectoryNode ret =  SourceDirectoryToTreeImpl(sourcesPath, options, recursive: false, 0);
 
             //add dummy parent node, so the directory won't be treated as top-level
-            if (!topLevel) ret.Parent = new DirectoryNode("root");
+            if (!topLevel)
+            {
+                string parentName = Utils.GetParentDirectoryFromPath(sourcesPath);
+
+                if (string.IsNullOrEmpty(parentName)) parentName = "root";
+
+                ret.Parent = new DirectoryNode(parentName);
+            }
 
             return ret;
         }

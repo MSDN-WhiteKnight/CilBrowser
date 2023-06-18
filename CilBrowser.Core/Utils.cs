@@ -11,6 +11,8 @@ namespace CilBrowser.Core
 {
     public static class Utils
     {
+        static readonly char[] s_separators = new char[] { '\\', '/' };
+
         public static bool StrEquals(string left, string right)
         {
             return string.Equals(left, right, StringComparison.Ordinal);
@@ -26,6 +28,17 @@ namespace CilBrowser.Core
             {
                 return Path.GetFileName(path);
             }
+        }
+
+        public static string GetParentDirectoryFromPath(string path)
+        {
+            string[] parts = path.Split(s_separators, StringSplitOptions.RemoveEmptyEntries);
+            Console.WriteLine(path);
+
+            if (parts.Length < 2) return string.Empty;
+
+            Console.WriteLine(parts[parts.Length - 2]);
+            return parts[parts.Length - 2];
         }
 
         public static string UrlAppend(string url, string str)

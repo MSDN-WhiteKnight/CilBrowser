@@ -27,7 +27,14 @@ namespace CilBrowser.Core.Structure
             //render ToC for this directory
             int level = this.GetLevel();
             HtmlBuilder toc = new HtmlBuilder(target);
-            HtmlGenerator.WriteTocStart(toc, this._name);
+            HtmlGenerator.StartDocument(toc, HtmlGenerator.AppName + " - " + this._displayName);
+            toc.WriteParagraph(HtmlGenerator.AppName);
+
+            //location bar
+            TreeNode[] path = this.GetPathFromRoot();
+            WebsiteGenerator.RenderNodePath(path, 0, toc);
+            toc.WriteTag("h1", "Source directory: " + this._displayName);
+            toc.WriteRaw(Environment.NewLine);
 
             //render ToC entries for subdirectories
             if (this._sections.Count > 0)
