@@ -193,15 +193,29 @@ namespace CilBrowser.Core
         {
             while (true)
             {
-                ConsoleKeyInfo key = Console.ReadKey();
-
-                if (key.Key == ConsoleKey.E)
+                if (Console.IsInputRedirected)
                 {
-                    this.Stop();
-                    this.Dispose();
-                    break;
+                    int c = Console.Read();
+
+                    if (c == 'E' || c == 'e')
+                    {
+                        this.Stop();
+                        this.Dispose();
+                        break;
+                    }
                 }
-            }
+                else
+                {
+                    ConsoleKeyInfo key = Console.ReadKey();
+
+                    if (key.Key == ConsoleKey.E)
+                    {
+                        this.Stop();
+                        this.Dispose();
+                        break;
+                    }
+                }//end if
+            }//end while
         }
     }
 }
