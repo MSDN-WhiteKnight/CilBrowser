@@ -30,14 +30,17 @@ namespace CilBrowser.Core
             }
         }
 
+        public static string[] SplitPath(string path)
+        {
+            return path.Split(s_separators, StringSplitOptions.RemoveEmptyEntries);
+        }
+
         public static string GetParentDirectoryFromPath(string path)
         {
-            string[] parts = path.Split(s_separators, StringSplitOptions.RemoveEmptyEntries);
-            Console.WriteLine(path);
+            string[] parts = SplitPath(path);
 
             if (parts.Length < 2) return string.Empty;
-
-            Console.WriteLine(parts[parts.Length - 2]);
+            
             return parts[parts.Length - 2];
         }
 

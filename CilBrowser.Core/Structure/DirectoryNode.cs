@@ -75,5 +75,31 @@ namespace CilBrowser.Core.Structure
             toc.EndDocument();
             target.Flush();
         }
+
+        /// <summary>
+        /// Creates a chain of nodes representing the directory of the specified path
+        /// </summary>
+        internal static DirectoryNode[] CreateDirectoryPath(string path)
+        {
+            string[] parts = Utils.SplitPath(path);
+
+            if (parts.Length <= 1) return new DirectoryNode[0];
+
+            //last part is discarded, because it represents the current file/directory itself
+            DirectoryNode[] ret = new DirectoryNode[parts.Length - 1];
+
+            for (int i = 0; i < parts.Length - 1; i++)
+            {
+                string name = parts[i];
+
+                if (string.IsNullOrWhiteSpace(name)) name = "(unknown)";
+
+                ret[i] = new DirectoryNode(name);
+
+                if (i > 0) ret[i-1].AddSection(ret[i]);
+            }
+
+            return ret;
+        }
     }
 }

@@ -24,18 +24,29 @@ namespace CilBrowser.Core.Structure
         /// <summary>
         /// Gets a website structure node for the specified source directory
         /// </summary>
-        public static DirectoryNode CreateDirectoryNode(string sourcesPath, CilBrowserOptions options, bool topLevel)
+        public static DirectoryNode CreateDirectoryNode(string sourcesPath, CilBrowserOptions options, 
+            bool topLevel, string relativePath)
         {
-            DirectoryNode ret =  SourceDirectoryToTreeImpl(sourcesPath, options, recursive: false, 0);
+            DirectoryNode ret = SourceDirectoryToTreeImpl(sourcesPath, options, recursive: false, 0);
 
-            //add dummy parent node, so the directory won't be treated as top-level
             if (!topLevel)
             {
-                string parentName = Utils.GetParentDirectoryFromPath(sourcesPath);
+                DirectoryNode[] nodes = DirectoryNode.CreateDirectoryPath(relativePath);
 
-                if (string.IsNullOrEmpty(parentName)) parentName = "root";
+                if (nodes.Length > 0)
+                {
+                    //connect node with the chain of parent nodes, to enable location bar rendering
+                    nodes[nodes.Length - 1].AddSection(ret);
+                }
+                else
+                {
+                    //add dummy parent node, so the directory won't be treated as top-level
+                    string parentName = Utils.GetParentDirectoryFromPath(sourcesPath);
 
-                ret.Parent = new DirectoryNode(parentName);
+                    if (string.IsNullOrWhiteSpace(parentName)) parentName = "(root)";
+
+                    ret.Parent = new DirectoryNode(parentName);
+                }
             }
 
             return ret;

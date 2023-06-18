@@ -44,7 +44,7 @@ namespace CilBrowser.Core
             Console.WriteLine("Base source directory: " + this._baseDirectory);
         }
 
-        void RenderToc(string dir, bool topLevel, HttpListenerResponse response)
+        void RenderToc(string dir, bool topLevel, string relativePath, HttpListenerResponse response)
         {
             if (!Directory.Exists(dir))
             {
@@ -53,7 +53,7 @@ namespace CilBrowser.Core
             }
 
             // Index directory
-            DirectoryNode dirNode = SourceIndexer.CreateDirectoryNode(dir, this._options, topLevel);
+            DirectoryNode dirNode = SourceIndexer.CreateDirectoryNode(dir, this._options, topLevel, relativePath);
 
             // Render table of contents
             response.ContentType = "text/html; charset=utf-8";
@@ -69,7 +69,7 @@ namespace CilBrowser.Core
         {
             try
             {
-                this.RenderToc(this._baseDirectory, true, response);
+                this.RenderToc(this._baseDirectory, true, string.Empty, response);
             }
             catch (Exception ex)
             {
@@ -117,12 +117,13 @@ namespace CilBrowser.Core
                     }
 
                     string dir = relativePath.Substring(0, relativePath.Length - 5);
-                    this.RenderToc(Path.Combine(this._baseDirectory, dir), false, response);
+                    this.RenderToc(Path.Combine(this._baseDirectory, dir), false, dir, response);
                 }
                 else if (url.Length > 0 && url[url.Length - 1] == '/')
                 {
                     //directory table of contents
-                    this.RenderToc(Path.Combine(this._baseDirectory, StripPrefix(url)), false, response);
+                    string dir = StripPrefix(url);
+                    this.RenderToc(Path.Combine(this._baseDirectory, dir), false, dir, response);
                 }
                 else if (url.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
                 {
