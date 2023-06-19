@@ -98,7 +98,6 @@ namespace CilBrowser.Core
         {
             try
             {
-                url = WebUtility.UrlDecode(url);
                 string relativePath = StripURL(url);
 
                 if (IsUrlInvalid(relativePath))

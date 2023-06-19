@@ -144,6 +144,7 @@ namespace CilBrowser.Core
                     continue;
                 }
 
+                url = WebUtility.UrlDecode(url);
                 response.Headers.Add("Expires: Tue, 01 Jul 2000 06:00:00 GMT");
                 response.Headers.Add("Cache-Control: max-age=0, no-cache, must-revalidate");
 
