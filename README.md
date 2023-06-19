@@ -42,7 +42,7 @@ To install as a global dotnet tool, use the following command:
     
     --output <OutputPath>
 
-Path to the directory where to write generated website files. When not specified, runs HTTP server that dynamically renders web pages instead of generating static website. The server mode is only supported when input path points to an assembly file.
+Path to the directory where to write generated website files. When not specified, runs HTTP server that dynamically renders web pages instead of generating static website.
 
     --namespace <Namespace> 
     
@@ -73,6 +73,8 @@ URL prefix part for server mode. Should start from a slash character. The defaul
 CIL Browser supports rendering web pages dynamically on local HTTP endpoint instead of generating a static website; this functionality is referred to as *server mode*. To run app in server mode, do not specify `--output` option. When invoked in server mode, CIL Browser listens on HTTP endpoint and renders webpages so you can open them in your web browser. To stop web server, press E in console window. By default, server listens on `http://localhost:8080/CilBrowser/` URL. To customize the URL, use `--host` and `--prefix` options.
 
 **NOTE:** On Windows, if you choose actual external IP interface instead of localhost, you must have appropriate permissions to listen on it. For more information, see [Configuring namespace reservations](https://learn.microsoft.com/en-us/dotnet/framework/wcf/feature-details/configuring-http-and-https#configuring-namespace-reservations) in Windows documentation. 
+
+**WARNING!** Server mode is mostly intended for local use. CIL Browser is not a production-ready web server, it is not audited for security. If you decide to run it on external interface, you must ensure that you are not compromising the security of your network.
 
 ## Configuration files
 
